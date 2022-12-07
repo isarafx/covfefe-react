@@ -1,0 +1,37 @@
+.article_container {
+  padding-top: 60px;
+}
+
+.article_column {
+  margin-bottom: 20px;
+}
+
+#a_card {
+  background: #fff3e5;
+  width: 410px;
+  border-width: 2px;
+  border-color: #fdc889;
+  border-radius: 27px;
+  border-top-width: 2px;
+}
+
+.article_picture {
+  margin-bottom: 10px;
+  width: 200px;
+  border-radius: 9px;
+}
+
+.article_title {
+  color: #955c18;
+  font-weight: bold;
+}
+
+.article_description {
+  color: #5f5f5f;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+

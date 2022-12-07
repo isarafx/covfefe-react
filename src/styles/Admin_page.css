@@ -1,0 +1,71 @@
+.table-fixed tbody {
+  height: 500px;
+  overflow-y: auto;
+  width: 100%;
+}
+
+.table-fixed tbody, .table-fixed td, .table-fixed tr {
+  display: block;
+}
+
+.table-fixed tr:nth-child(even) {
+  background-color: #e5e5e5;
+}
+
+.table-fixed tr:nth-child(even) td:nth-child(even) {
+  border-top-width: 1px;
+  border-top-color: #a4a4a4;
+  border-bottom-width: 1px;
+  border-bottom-color: #a4a4a4;
+}
+
+.Contentm_container {
+  padding-top: 60px;
+  padding-right: 0px;
+  padding-left: 0px;
+  width: 90%;
+  max-width: 100%;
+}
+
+.Contentm_column {
+  background: #ffffff;
+  margin-bottom: 15px;
+  border-radius: 10px;
+  padding-right: 9px;
+  margin-right: 2px;
+  width: 45%;
+  margin-left: 2px;
+  min-width: 350px;
+  max-width: 100%;
+  padding-left: 9px;
+  text-align: center;
+}
+
+#Collapse_button1 {
+  border-radius: 10px;
+  background: #505050;
+  margin-right: -9px;
+  margin-left: -9px;
+  border-width: 2px;
+  border-color: #00ff85;
+}
+
+#Collapse_button2 {
+  border-radius: 10px;
+  background: #505050;
+  margin-right: -9px;
+  margin-left: -9px;
+  border-width: 2px;
+  border-color: #eb00ff;
+}
+
+#pen_button {
+  margin-right: 2px;
+  background: #5a5a5a;
+}
+
+#square_add {
+  font-size: 25px;
+  color: #7f502b;
+}
+
