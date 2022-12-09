@@ -7,30 +7,12 @@ import "../styles/Round_switch.css"
 import "../styles/styles.css"
 import "../styles/Ultimate-Sidebar-Menu-BS5.css"
 import "../styles/Features-Clean.css"
+import NavBar from '../components/navbar'
 
-export default function profile() {
+export default function Profile() {
   return (
     <div>
-  <div id="Navbar"><a className="btn btn-primary btn-customized open-menu" role="button" style={{background: 'rgba(243,91,63,0)', fontSize: '16px', paddingLeft: '15px', paddingRight: '10px'}}><i className="fa fa-navicon" style={{fontSize: '22px', color: 'rgba(107,62,30,0.85)'}} />&nbsp;</a>
-    <div className="sidebar">
-      <div className="dismiss"><i className="fa fa-caret-left" /></div>
-      <div className="brand"><a className="navbar-brand">Coffee Cup</a></div>
-      <nav className="navbar navbar-dark navbar-expand">
-        <div className="container-fluid">
-          <ul className="navbar-nav flex-column me-auto">
-            <li className="nav-item"><a className="nav-link" href="Article_main.html" style={{fontSize: '19px', marginBottom: '5px'}}><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" style={{color: 'rgba(255,255,255,0.55)', fontSize: '24px'}}>
-                  <path d="M12 6.25278V19.2528M12 6.25278C10.8321 5.47686 9.24649 5 7.5 5C5.75351 5 4.16789 5.47686 3 6.25278V19.2528C4.16789 18.4769 5.75351 18 7.5 18C9.24649 18 10.8321 18.4769 12 19.2528M12 6.25278C13.1679 5.47686 14.7535 5 16.5 5C18.2465 5 19.8321 5.47686 21 6.25278V19.2528C19.8321 18.4769 18.2465 18 16.5 18C14.7535 18 13.1679 18.4769 12 19.2528" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
-                </svg>&nbsp;Coffee Article</a></li>
-            <li className="nav-item"><a className="nav-link" href="Brewing_Main.html" style={{fontSize: '19px', marginBottom: '5px'}}><i className="fas fa-coffee" />&nbsp;Brewing Guide</a></li>
-            <li className="nav-item"><a className="nav-link" href="Community_main.html" style={{fontSize: '19px', marginBottom: '5px'}}><i className="fas fa-globe" />&nbsp; Community</a></li>
-            <li className="nav-item"><a className="nav-link" style={{fontSize: '19px', marginBottom: '5px'}} href="Profile.html"><i className="fas fa-user-cog" />&nbsp;Profile</a></li>
-            <li className="nav-item"><a className="nav-link" href="Admin_site.html" style={{fontSize: '19px', marginBottom: '5px'}}><i className="fas fa-user-tie" />&nbsp; Admin</a></li>
-          </ul>
-        </div>
-      </nav>
-    </div>
-    <div className="overlay" />
-  </div>
+  <NavBar />
   <div id="main_template">
     <div className="container profile_container">
       <div className="row profile_card">
@@ -42,7 +24,7 @@ export default function profile() {
               </div>
               <div className="row">
                 <div className="col">
-                  <p id="avatar_name" style={{fontSize: '17px'}}>Username<a href="Profile_edit.html"><i className="fa fa-edit" style={{color: '#515151', paddingLeft: '10px'}} /></a></p>
+                  <p id="avatar_name" style={{fontSize: '17px'}}>Username<a href=""><i className="fa fa-edit" style={{color: '#515151', paddingLeft: '10px'}} /></a></p>
                 </div>
               </div>
             </div>

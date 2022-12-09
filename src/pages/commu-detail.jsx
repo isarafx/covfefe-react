@@ -1,6 +1,7 @@
 import React from 'react'
+import { useState } from 'react'
 // import '../styles/Admin_page.css'
-
+import BackButton from '../components/backbutton'
 
 
 
@@ -16,56 +17,67 @@ import "../styles/Features-Clean.css"
 
 
 export default function CommuDetail() {
+  const [name, setName] = useState("recipe")
+  const [note, setNote] = useState("")
+  const [score, setScore] = useState(1)
+  const [coffee, setCoffee] = useState(16)
+  const [water, setWater] = useState(160)
+  const [ratio, setRatio] = useState(10)
+  const [refine, setRefine] = useState('Medium')
+  const [heat, setHeat] = useState(80)
+  const [roast, setRoast] = useState('Medium')
+  const [cup, setCup] = useState(1)
+  const [comment, setComment] = useState()
+
+
+  const [processList, setProcessList] = useState([
+    {name:"process 1", detail:"test ", comment:"test", time:20},
+    {name:"process 2", detail:"test ", comment:"test ", time:20},
+    {name:"process 3", detail:"test ", comment:"test ", time:20},
+  ])
+  const [equipmentList, setEquipmentList] = useState(['aeropress', 'equipment2'])
+
+
+  function setTotalCup(newcup){
+    setWater(parseInt(water/cup*newcup))
+    setCoffee(parseInt(coffee/cup*newcup))
+    setCup(newcup)
+  }
+
   return (
     <div>
-  <div className="div_back"><a href="Community_main.html"><i className="icon ion-android-arrow-back" id="Back_icon" /></a></div>
+  <BackButton />
   <div className="d-flex div_a" style={{width: '80%', marginLeft: '20%'}}><a href="#"><i className="fa fa-heart-o" id="Interaction_d_icon" /></a></div>
   <div id="main_template">
     <div className="container" id="recipelist_container">
-      <h1 id="guide_head">Recipe name</h1>
+      <h1 id="guide_head">{name}</h1>
       <div className="row row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-2 row-cols-xl-2 row-cols-xxl-2" style={{height: '385px'}}>
         <div className="col" style={{height: '425px'}}>
           <div id="guide_container1">
             <p id="guide_con_title">อุปกรณ์เเละรายละเอียด</p>
             <div className="d-inline-flex" id="guide_tool_bar">
-              <div className="d-flex align-items-center guide_toolbox">
-                <div className="row g-0 row-cols-3 d-flex guide_toolr">
-                  <div className="col d-flex align-items-center guide_toolc1">
-                    <div className="guide_tool_border"><img id="guide_tool_icon" src="assets/img/Tools_5.png" /></div>
-                  </div>
-                  <div className="col guide_toolc2">
-                    <p className="fw-normal" id="gtext">Aeropress</p>
-                  </div>
-                </div>
-              </div>
-              <div className="d-flex align-items-center guide_toolbox">
-                <div className="row g-0 row-cols-3 d-flex guide_toolr">
-                  <div className="col d-flex align-items-center guide_toolc1">
-                    <div className="guide_tool_border"><img id="guide_tool_icon" src="assets/img/Tools_5.png" /></div>
-                  </div>
-                  <div className="col guide_toolc2">
-                    <p className="fw-normal" id="gtext">Aeropress</p>
-                  </div>
-                </div>
-              </div>
+
             </div>
             <div className="row row-cols-3" id="guide_row">
               <div className="col d-flex justify-content-center" style={{paddingLeft: '5px', paddingRight: '5px'}}>
                 <div id="guide_card"><img id="guide_icon" src="assets/img/guide_ratio_ico.png" />
                   <p id="guide_name">อัตราส่วน</p>
-                  <div className="input-group"><span className="d-flex justify-content-end input-group-text" id="guide_unit2">1&nbsp; :</span><input className="form-control" type="number" id="guide_input2" placeholder={0} defaultValue={0} /></div>
+                  <div className="input-group"><span className="d-flex justify-content-end input-group-text" id="guide_unit2">1&nbsp; :</span>
+                  <input className="form-control" type="number" id="guide_input2" value={ratio} /></div>
                 </div>
               </div>
               <div className="col d-flex justify-content-center" style={{paddingLeft: '5px', paddingRight: '5px'}}>
                 <div id="guide_card"><img id="guide_icon" src="assets/img/guide_pack_ico.png" />
                   <p id="guide_name">กาแฟ</p>
-                  <div className="input-group"><input className="form-control" type="number" id="guide_input" placeholder={0} defaultValue={0} /><span className="input-group-text" id="guide_unit">g</span></div>
+                  <div className="input-group">
+                    <input className="form-control" type="number" id="guide_input" value={coffee} /><span className="input-group-text" id="guide_unit">g</span></div>
                 </div>
               </div>
               <div className="col d-flex justify-content-center" style={{paddingLeft: '5px', paddingRight: '5px'}}>
                 <div id="guide_card"><img id="guide_icon" src="assets/img/guide_water_ico.png" />
                   <p id="guide_name">น้ำ</p>
-                  <div className="input-group"><input className="form-control" type="number" id="guide_input" placeholder={0} defaultValue={0} /><span className="input-group-text" id="guide_unit">ml</span></div>
+                  <div className="input-group">
+                    <input className="form-control" type="number" id="guide_input" value={water} /><span className="input-group-text" id="guide_unit">ml</span></div>
                 </div>
               </div>
             </div>
@@ -74,27 +86,28 @@ export default function CommuDetail() {
               <div className="col d-flex justify-content-center" style={{paddingLeft: '5px', paddingRight: '5px'}}>
                 <div id="guide_card"><img id="guide_icon" src="assets/img/guide_grind_ico.png" />
                   <p id="guide_name">ความละเอียด</p><select id="guide_option" disabled>
-                    <option value={14}>Extra Fine</option>
+                    {/* <option value={14}>Extra Fine</option>
                     <option value={13}>Fine</option>
-                    <option value>Medium Fine</option>
-                    <option value={12} selected>Medium</option>
-                    <option value>Medium Coarse</option>
-                    <option value={15}>Coarse</option>
+                    <option value>Medium Fine</option> */}
+                    <option value={12} selected>{refine}</option>
+                    {/* <option value>Medium Coarse</option>
+                    <option value={15}>Coarse</option> */}
                   </select>
                 </div>
               </div>
               <div className="col d-flex justify-content-center" style={{paddingLeft: '5px', paddingRight: '5px'}}>
                 <div id="guide_card"><img id="guide_icon" src="assets/img/guide_heat_ico.png" />
                   <p id="guide_name">ความร้อน</p>
-                  <div className="input-group d-sm-flex justify-content-center justify-content-xxl-center" style={{width: '100%'}}><input className="form-control" type="text" id="guide_readonly" placeholder defaultValue={80} disabled /><span className="input-group-text" id="guide_unit">°C</span></div>
+                  <div className="input-group d-sm-flex justify-content-center justify-content-xxl-center" style={{width: '100%'}}>
+                    <input className="form-control" type="text" id="guide_readonly" placeholder value={heat} disabled /><span className="input-group-text" id="guide_unit">°C</span></div>
                 </div>
               </div>
               <div className="col d-flex justify-content-center" style={{paddingLeft: '5px', paddingRight: '5px'}}>
                 <div id="guide_card" style={{maxWidth: '150px', minWidth: '95px'}}><img id="guide_icon" src="assets/img/guide_bean_ico.png" />
                   <p id="guide_name">การคั่ว</p><select id="guide_option" disabled>
-                    <option value={14}>Light</option>
-                    <option value={13}>Medium</option>
-                    <option value={12} selected>Dark</option>
+                    {/* <option value={14}>Light</option>
+                    <option value={13}>Medium</option> */}
+                    <option value={12} selected>{roast}</option>
                   </select>
                 </div>
               </div>
@@ -102,7 +115,8 @@ export default function CommuDetail() {
             <div className="row row-cols-3 d-flex justify-content-center align-items-center" style={{marginRight: '0px', marginLeft: '0px', width: '100%'}}>
               <div className="col" style={{width: '100%'}}>
                 <div className="d-inline-flex" style={{width: '100%'}}>
-                  <div id="cup_number_div"><img id="cup_number_icon" src="assets/img/Cup%20Icon.png" /></div><input className="form-range" type="range" id="myRange" min={1} max={10} step={1} defaultValue={0} /><span id="demo" style={{marginTop: '18px', paddingLeft: '10px'}} />
+                  <div id="cup_number_div"><img id="cup_number_icon" src="assets/img/Cup%20Icon.png" /></div>
+                  <input className="form-range" type="range" id="myRange" min={1} max={10} step={1} value={cup} onChange={(e)=>{setTotalCup(e.target.value)}} />{cup}<span id="demo" style={{marginTop: '18px', paddingLeft: '10px'}} />
                 </div>
               </div>
             </div>
@@ -116,45 +130,23 @@ export default function CommuDetail() {
               <p style={{textAlign: 'center', minWidth: '10%', paddingTop: '5px'}}>00:00</p>
             </div>
             <div id="process_container">
-              <div id="process_card">
+
+              {processList.map((item)=>{
+                return(<div id="process_card">
                 <div className="d-inline-flex" style={{minWidth: '100%'}}>
                   <div style={{minWidth: '15%'}}><img id="process_pic" src="assets/img/Process_Dummy_icon.png" /></div>
-                  <p id="process_title">Process</p>
-                  <p className="text-end" style={{minWidth: '15%'}}>00:00</p>
+                  <p id="process_title">{item.name}</p>
+                  <p className="text-end" style={{minWidth: '15%'}}>{item.time}</p>
                 </div>
                 <div>
-                  <p id="process_des">Pour xx ml water slow</p>
+                  <p id="process_des">{item.detail}</p>
                 </div>
                 <div>
-                  <p id="process_comment">Comment</p>
+                  <p id="process_comment">{item.comment}</p>
                 </div>
-              </div>
-              <div id="process_card">
-                <div className="d-inline-flex" style={{minWidth: '100%'}}>
-                  <div style={{minWidth: '15%'}}><img id="process_pic" src="assets/img/Process_Dummy_icon.png" /></div>
-                  <p id="process_title">Process</p>
-                  <p className="text-end" style={{minWidth: '15%'}}>00:00</p>
-                </div>
-                <div>
-                  <p id="process_des">Pour xx ml water slow</p>
-                </div>
-                <div>
-                  <p id="process_comment">Comment</p>
-                </div>
-              </div>
-              <div id="process_card">
-                <div className="d-inline-flex" style={{minWidth: '100%'}}>
-                  <div style={{minWidth: '15%'}}><img id="process_pic" src="assets/img/Process_Dummy_icon.png" /></div>
-                  <p id="process_title">Process</p>
-                  <p className="text-end" style={{minWidth: '15%'}}>00:00</p>
-                </div>
-                <div>
-                  <p id="process_des">Pour xx ml water slow</p>
-                </div>
-                <div>
-                  <p id="process_comment">Comment</p>
-                </div>
-              </div>
+              </div>)
+              })}
+
             </div>
             <div style={{textAlign: 'center'}}><a className="btn btn-primary" role="button" id="process_timer_start" href="Brewing_Timer.html">เริ่มชงกาแฟ</a></div>
           </div>

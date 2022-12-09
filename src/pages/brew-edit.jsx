@@ -1,4 +1,7 @@
 import React from 'react'
+import { useState } from 'react'
+import BackButton from '../components/backbutton'
+
 import "../styles/Multiple-Input-Select-Pills.css"
 import "../styles/Round_switch.css"
 import "../styles/styles.css"
@@ -10,12 +13,37 @@ import "../styles/Brewing_Guide4.css"
 import "../styles/Features-Clean.css"
 
 export default function BrewEdit() {
+  const [name, setName] = useState("")
+  const [note, setNote] = useState("")
+  const [score, setScore] = useState(1)
+  const [coffee, setCoffee] = useState(16)
+  const [water, setWater] = useState(160)
+  const [ratio, setRatio] = useState(10)
+  const [refine, setRefine] = useState('Medium')
+  const [heat, setHeat] = useState(80)
+  const [roast, setRoast] = useState('Medium')
+
+  function changeRatio(type, value){
+    if(type==="ratio"){
+      console.log('test')
+      setRatio(value)
+      setWater(value*coffee)
+    }else if(type==="coffee"){
+      setCoffee(value)
+      setWater(value*ratio)
+    }else if(type==="water"){
+      setCoffee(value/ratio)
+      setWater(value)
+    }
+  }
   return (
     <div>
-  <div className="div_back"><a href="javascript:history.back()"><i className="icon ion-android-arrow-back" id="Back_icon" /></a></div>
+  <BackButton />
   <div className="d-flex div_a" style={{width: '80%', marginLeft: '20%'}}><button className="btn" id="brew_save_btn" type="button"><i className="fas fa-save Add_icon" style={{fontSize: '25px'}} /></button></div>
   <div id="main_template">
-    <div className="container" id="recipelist_container"><input type="text" id="recipe_name_edit" placeholder="Enter Recipe Name Here" defaultValue="Recipe name" /><i className="fa fa-pencil" style={{color: '#7f502b'}} />
+    <div className="container" id="recipelist_container">
+      <input type="text" id="recipe_name_edit" placeholder="Enter Recipe Name Here" value={name} onChange={(e)=>{setName(e.target.value)}} />
+    <i className="fa fa-pencil" style={{color: '#7f502b'}} />
       <div className="row row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-2 row-cols-xl-2 row-cols-xxl-2" style={{height: '385px'}}>
         <div className="col" style={{height: '425px'}}>
           <div id="guide_container1">
@@ -49,19 +77,21 @@ export default function BrewEdit() {
               <div className="col d-flex justify-content-center" style={{paddingLeft: '5px', paddingRight: '5px'}}>
                 <div id="guide_card"><img id="guide_icon" src="assets/img/guide_ratio_ico.png" />
                   <p id="guide_name">อัตราส่วน</p>
-                  <div className="input-group"><span className="d-flex justify-content-end input-group-text" id="guide_unit2">1&nbsp; :</span><input className="form-control" type="number" id="guide_input2" placeholder={0} defaultValue={0} /></div>
+                  <div className="input-group"><span className="d-flex justify-content-end input-group-text" id="guide_unit2">1&nbsp; :</span>
+                  <input className="form-control" type="number" id="guide_input2" value={ratio} onChange={(e)=>{changeRatio("ratio", e.target.value)}} /></div>
                 </div>
               </div>
               <div className="col d-flex justify-content-center" style={{paddingLeft: '5px', paddingRight: '5px'}}>
                 <div id="guide_card"><img id="guide_icon" src="assets/img/guide_pack_ico.png" />
                   <p id="guide_name">กาแฟ</p>
-                  <div className="input-group"><input className="form-control" type="number" id="guide_input" placeholder={0} defaultValue={0} /><span className="input-group-text" id="guide_unit">g</span></div>
+                  <div className="input-group">
+                    <input className="form-control" type="number" id="guide_input" value={coffee} onChange={(e)=>{changeRatio("coffee", e.target.value)}} /><span className="input-group-text" id="guide_unit">g</span></div>
                 </div>
               </div>
               <div className="col d-flex justify-content-center" style={{paddingLeft: '5px', paddingRight: '5px'}}>
                 <div id="guide_card"><img id="guide_icon" src="assets/img/guide_water_ico.png" />
                   <p id="guide_name">น้ำ</p>
-                  <div className="input-group"><input className="form-control" type="number" id="guide_input" placeholder={0} defaultValue={0} /><span className="input-group-text" id="guide_unit">ml</span></div>
+                  <div className="input-group"><input className="form-control" type="number" id="guide_input" value={water} onChange={(e)=>{}} /><span className="input-group-text" id="guide_unit">ml</span></div>
                 </div>
               </div>
             </div>
@@ -159,9 +189,12 @@ export default function BrewEdit() {
         </div>
         <div className="col" style={{height: '415px'}}>
           <div id="guide_container1" style={{height: '407px'}}>
-            <p id="guide_con_title">บันทึกเพิ่มเติม</p><textarea id="comment_guide_box" rows={9} defaultValue={""} />
+            <p id="guide_con_title">บันทึกเพิ่มเติม</p><textarea id="comment_guide_box" rows={9} value={note} onChange={(e)=>{setNote(e.target.value)}} />
             <p id="guide_con_title">คะเเนนรวม</p>
-            <div className="d-inline-flex" style={{minWidth: '100%'}}><i className="fa fa-star" id="comment_rating" style={{width: '10%', fontSize: '30px', color: 'rgb(255,184,0)', marginLeft: '10px', marginTop: '-5px'}} /><input className="form-range" type="range" id="ratingbar" min={1} max={10} step={1} defaultValue={0} style={{width: '70%'}} /><span id="score" style={{paddingLeft: '10px'}} /><span>/10</span></div>
+            <div className="d-inline-flex" style={{minWidth: '100%'}}>
+              <i className="fa fa-star" id="comment_rating" style={{width: '10%', fontSize: '30px', color: 'rgb(255,184,0)', marginLeft: '10px', marginTop: '-5px'}} />
+              <input className="form-range" type="range" id="ratingbar" min={1} max={10} step={1} value={score} onChange={(e)=>{setScore(e.target.value)}} style={{width: '70%'}} />
+            <span id="score" style={{paddingLeft: '10px'}} /><span>/10</span></div>
           </div>
           <div style={{height: '60px', bottom: 0}} />
         </div>
@@ -200,7 +233,8 @@ export default function BrewEdit() {
                   <div className="tools_card">
                     <div className="d-inline-flex" style={{width: '100%', marginTop: '5px'}}><img className="ae_legend" src="assets/img/legend_name.png" />
                       <p id="Etitle"><strong>ชื่อหรือรายละเอียดอุปกรณ์</strong><br /></p>
-                    </div><input className="form-control ae_input" type="text" required placeholder="name, details, settings" />
+                    </div>
+                    <input className="form-control ae_input" type="text" required placeholder="name, details, settings" />
                   </div>
                 </div>
               </div>

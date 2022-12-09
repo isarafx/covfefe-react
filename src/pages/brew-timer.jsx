@@ -10,33 +10,100 @@ import "../styles/Brewing_Guide2.css"
 import "../styles/Brewing_Guide3.css"
 import "../styles/Brewing_Guide4.css"
 import "../styles/Features-Clean.css"
+import { useState } from 'react'
+import BackButton from '../components/backbutton'
+import { useEffect } from 'react'
+import { mmss } from '../method/mmss'
 
 export default function BrewTimer() {
+  const processList = [
+    {name:"process1", description:"do 500ml", comment:"comment_dummy", time:5},
+    {name:"process2", description:"do 500ml", comment:"comment_dummy", time:6},
+    {name:"process3", description:"do 500ml", comment:"comment_dummy", time:7},
+    {name:"process4", description:"do 500ml", comment:"comment_dummy", time:8},
+  ]
+  const [overallTime, setOverallTime] = useState(0)   //overall = total time - total = total time but decrease when timer on
+  const [runTime, setRunTime] = useState(0)           //total time since timer start
+  const [totaltime, setTotalTime] = useState(0)
+  const [processTime, setProcessTime] = useState(0)
+  const [state, setState] = useState(0) // if true> clock start
+  const [index, setIndex] = useState(1)
+  function startCondition(){
+    let time = 0
+    processList.map((item)=>{
+      time += item.time
+    })
+    setTotalTime(time)
+    setOverallTime(time)
+    setProcessTime(processList[0].time)
+  }
+  
+  function skipMethod(){
+    setProcessTime(processList[index].time)
+    setIndex(index+1)
+    let time = 0
+    processList.map((item, i)=>{
+      if(i>= index){
+      time += item.time}
+    })
+    setTotalTime(time)
+  }
+  function test(){
+    startCondition()
+    setState(true)
+  }
+
+  useEffect( ()=>{
+    if(state){
+      const interval = setInterval(() => {
+        if(processTime<=0 && totaltime<=0){ //finish case
+          setState(false)
+          alert('finish')
+          startCondition()
+        }
+        else if(processTime==0 && totaltime>0){ //finish current process move to next process
+          console.log('next')
+          setProcessTime(processList[index].time)
+          setIndex(index+1)
+          
+          
+
+        }else if(processTime>0 && totaltime>0){ //run this case every 1000ms
+          console.log('1s')
+          setProcessTime(processTime-1)
+          setTotalTime(totaltime-1)
+          setRunTime(runTime+1)
+        }
+      },1000);
+      return () => clearInterval(interval);
+    }
+  }, [processTime, state])
   return (
     <div>
-  <div className="div_back"><a href="javascript:history.back()"><i className="icon ion-android-arrow-back" id="Back_icon" /></a></div>
+  <BackButton />
   <div id="main_template">
     <div className="container" id="recipelist_container2" style={{position: 'relative'}}>
-      <div className="d-flex justify-content-center" id="Timer_container1"><button className="btn btn-primary" id="Timer_PP_button" type="button" />
+      <div className="d-flex justify-content-center" id="Timer_container1"><button onClick={()=> {test()}} className="btn btn-primary" id="Timer_PP_button" type="button" />
         <div className="Main_timer" />
         <p className="Main_timer_text">เวลาที่เหลือในขั้นตอนปัจจุบัน</p>
-        <p className="Main_timer_num">00:00</p><img className="timer_control_icon" src="assets/img/Timer_play_ico.png" />
-        <div className="d-inline-flex Sub_timer"><img className="Sub_timer_icon" src="assets/img/guide_timer_ico.png" />
-          <p style={{fontSize: '14px'}}>00:00</p>
-        </div><button className="btn btn-primary d-flex justify-content-center align-items-center" id="Timer_Skip_button" type="button"><img className="timer_skip_icon" src="assets/img/Timer_skip_ico.png" /></button>
+        {/* <button onClick={(e)=>{test()}}>test</button> */}
+        <p className="Main_timer_num">{mmss(processTime)}</p><img className="timer_control_icon" src="../assets/img/Timer_play_ico.png" />
+        <div className="d-inline-flex Sub_timer"><img className="Sub_timer_icon" src="../assets/img/guide_timer_ico.png" />
+          <p style={{fontSize: '14px'}}>{mmss(totaltime)}</p>
+        </div><button onClick={()=>{skipMethod()}} className="btn btn-primary d-flex justify-content-center align-items-center" id="Timer_Skip_button" type="button"><img className="timer_skip_icon" src="../assets/img/Timer_skip_ico.png" /></button>
       </div>
       <div id="Timer_container2">
         <div id="Current_method_box">
           <div id="process_card2">
             <div className="d-inline-flex" style={{minWidth: '100%'}}>
-              <div style={{minWidth: '15%'}}><img id="process_pic" src="assets/img/Process_Dummy_icon.png" /></div>
-              <p id="process_title" style={{color: '#dc6c62'}}>Process</p>
+              <div style={{minWidth: '15%'}}><img id="process_pic" src="../assets/img/Process_Dummy_icon.png" /></div>
+              <p id="process_title" style={{color: '#dc6c62'}}>{processList[index-1].name}</p>
             </div>
             <div>
-              <p id="process_des">Pour xx ml water slow</p>
+              <p id="process_des">{processList[index-1].description}</p>
             </div>
             <div>
-              <p id="process_comment">Comment<br /></p>
+              <p id="process_comment">{processList[index-1].comment}<br /></p>
             </div>
           </div>
         </div>
@@ -47,45 +114,23 @@ export default function BrewTimer() {
           <p className="Nextstep_text">ขั้นตอนถัดไป</p>
         </div>
         <div className="Nextstep_box">
-          <div id="process_card3">
-            <div className="d-inline-flex" style={{minWidth: '100%'}}>
-              <div style={{minWidth: '15%'}}><img id="process_pic" src="assets/img/Process_Dummy_icon.png" /></div>
-              <p id="process_title" style={{color: 'rgb(80,80,80)'}}>Process</p>
-              <p className="text-end" style={{minWidth: '15%'}}>00:00</p>
-            </div>
-            <div>
-              <p id="process_des">Pour xx ml water slow</p>
-            </div>
-            <div>
-              <p id="process_comment">Comment</p>
-            </div>
-          </div>
-          <div id="process_card3">
-            <div className="d-inline-flex" style={{minWidth: '100%'}}>
-              <div style={{minWidth: '15%'}}><img id="process_pic" src="assets/img/Process_Dummy_icon.png" /></div>
-              <p id="process_title" style={{color: 'rgb(80,80,80)'}}>Process</p>
-              <p className="text-end" style={{minWidth: '15%'}}>00:00</p>
-            </div>
-            <div>
-              <p id="process_des">Pour xx ml water slow</p>
-            </div>
-            <div>
-              <p id="process_comment">Comment</p>
-            </div>
-          </div>
-          <div id="process_card3">
-            <div className="d-inline-flex" style={{minWidth: '100%'}}>
-              <div style={{minWidth: '15%'}}><img id="process_pic" src="assets/img/Process_Dummy_icon.png" /></div>
-              <p id="process_title" style={{color: 'rgb(80,80,80)'}}>Process</p>
-              <p className="text-end" style={{minWidth: '15%'}}>00:00</p>
-            </div>
-            <div>
-              <p id="process_des">Pour xx ml water slow</p>
-            </div>
-            <div>
-              <p id="process_comment">Comment</p>
-            </div>
-          </div>
+          {processList.map((item, itemIndex)=>{
+            if(itemIndex+1 > index){
+              return(<div id="process_card3">
+              <div className="d-inline-flex" style={{minWidth: '100%'}}>
+                <div style={{minWidth: '15%'}}><img id="process_pic" src="../assets/img/Process_Dummy_icon.png" /></div>
+                <p id="process_title" style={{color: 'rgb(80,80,80)'}}>{item.name}</p>
+                <p className="text-end" style={{minWidth: '15%'}}>{mmss(item.time)}</p>
+              </div>
+              <div>
+                <p id="process_des">{item.description}</p>
+              </div>
+              <div>
+                <p id="process_comment">{item.comment}</p>
+              </div>
+            </div>)
+            }
+          })}
         </div>
       </div>
     </div>

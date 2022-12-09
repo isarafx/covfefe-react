@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 // page
 import Admin from './pages/admin';
-import ArticleMain from './pages/article-main';
+import ArticleMain from './pages/article';
 import ArticleRead from './pages/article-read';
 import BrewFav from './pages/brew-fav';
 import BrewGuide from './pages/brew-guide';
@@ -19,7 +19,8 @@ import Offline from './pages/offline';
 import Login from './pages/login';
 import Register from './pages/register';
 import BrewEdit from './pages/brew-edit';
-
+import Profile from './pages/profile';
+import ArticleNew from './pages/article-new';
 import './i18n';
 // css
 
@@ -28,6 +29,7 @@ import {
   createBrowserRouter,
   RouterProvider,
   Route,
+  Routes,
 } from "react-router-dom";
 const router = createBrowserRouter([
   {
@@ -39,11 +41,15 @@ const router = createBrowserRouter([
     element: <Admin />,
   },
   {
-    path: "/article-main",
+    path: "/article",
     element: <ArticleMain />,
   },
   {
-    path: "/article-read",
+    path: "/article-new",
+    element: <ArticleNew />,
+  },
+  {
+    path: "/article/:id",
     element: <ArticleRead />,
   },
   {
@@ -58,12 +64,16 @@ const router = createBrowserRouter([
     path: "/brew-new",
     element: <BrewNew />,
   },
+  // {
+  //   path: "/brew-recipe",
+  //   element: <BrewRecipe />,
+  // },
   {
-    path: "/brew-recipe",
+    path: "/brew-recipe/:id",
     element: <BrewRecipe />,
   },
   {
-    path: "/brew-timer",
+    path: "/brew-timer/:id",
     element: <BrewTimer />,
   },
   {
@@ -101,6 +111,18 @@ const router = createBrowserRouter([
   {
     path: "/register",
     element: <Register />,
+  },
+  {
+    path: "/profile",
+    element: <Profile />,
+  },
+  {
+    path: "offline",
+    element: <Offline />,
+  },
+  {
+    path: "*",
+    element: <Error />,
   },
 ]);
 
