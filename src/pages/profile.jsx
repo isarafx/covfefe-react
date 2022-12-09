@@ -9,7 +9,6 @@ import "../styles/Ultimate-Sidebar-Menu-BS5.css"
 import "../styles/Features-Clean.css"
 import NavBar from '../components/navbar'
 import { useTranslation } from 'react-i18next';
-import { useEffect } from 'react'
 export default function Profile() {
   const { t, i18n } = useTranslation()
   function changeLanguage(){

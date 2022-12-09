@@ -42,21 +42,24 @@ export default function BrewNew() {
   const [processDuration, setProcessDuration] = useState("")
   const [processNote, setProcessNote] = useState("")
 
-  const toolList = ["Hario", "Moka Pot", "French Press", "Aeropress", "Chemex"] //do not change order!
-
   const submitTool = (tool) => {
-    if(tool === toolList[0]){
+    if(tool === "Hario"){
       setProcessMethod(["Pour Water", "Add Coffee", "Stir", "Bloom", "Wait", "Swirl", "Rinse Filter", "Custom"])
-    }else if(tool === toolList[1]){
+    }else if(tool === "Chemex"){
       setProcessMethod(["Pour Water", "Add Coffee", "Brew", "Custom"])
-    }else if(tool === toolList[2]){
+    }else if(tool === "Moka"){
       setProcessMethod(["Pour Water", "Add Coffee", "Stir", "Bloom", "Wait", "Swirl", "Press", "Place Plunger", "Remove Plunger", "Custom"])
-    }else if(tool === toolList[3]){
+    }else if(tool === "Frenchpress"){
       setProcessMethod(["Pour Water", "Add Coffee", "Stir", "Bloom", "Wait", "Swirl", "Rinse Filter", "Press", "Place Plunger", "Remove Plunger", "Invert", "Put the Lid on", "Custom"])
-    }else if(tool === toolList[4]){
+    }else if(tool === "Aeropress"){
       setProcessMethod(["Pour Water", "Add Coffee", "Stir", "Bloom", "Wait", "Swirl", "Rinse Filter", "Custom"])
     }
   }
+  // Hario" selected>Hario V60</option>
+  // <option value="Chemex">Chemex</option>
+  // <option value="Moka">Moka Pot</option>
+  // <option value="Frenchpress">French Press</option>
+  // <option value="Aeropress">Aero Press</option>
 
   const handleProcess = (item) => {                         //set show or hide input when add process
     if(item === "Pour Water" || item === "Bloom"){
@@ -87,7 +90,6 @@ export default function BrewNew() {
       data.note = processNote
     }
     clearProcessModal()
-    alert(data)
     setProcessList([...processList, data])
   }
 
@@ -243,7 +245,7 @@ export default function BrewNew() {
         <div className="d-inline-flex" style={{minWidth: '100%'}}>
           <p className="newbrew_title" style={{width: '80%'}}>4.เพิ่มขั้นตอน</p>
           <div style={{minWidth: '10%'}}><img src="assets/img/guide_timer_ico.png" style={{width: '30px', height: '30px'}} /></div>
-          <p style={{textAlign: 'center', minWidth: '10%', paddingTop: '5px'}}>00:00</p>
+          <p style={{textAlign: 'center', minWidth: '10%', paddingTop: '5px'}}>{ processList.length ?  mmss(processList.reduce((total, item)=>{return total + parseInt(item.duration)},0)): "00:00"}</p>
         </div>
         <div id="process_container">
           {processList.map((item, index)=>{
@@ -253,7 +255,7 @@ export default function BrewNew() {
             <div className="process_card2">
               <div className="d-inline-flex" style={{minWidth: '100%'}}>
                 <div style={{minWidth: '15%'}}><img id="process_pic" src="assets/img/Process_Dummy_icon.png" /></div>
-                <p id="process_title">{item.processName && item.processStep}</p>
+                <p id="process_title">{item.processName ? item.processName:item.processStep}</p>
                 <p className="text-end" style={{minWidth: '15%'}}>{mmss(item.duration)}</p>
               </div>
               <div>
