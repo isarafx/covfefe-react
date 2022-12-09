@@ -99,10 +99,6 @@
     "Menu02": "Brewing Guide",
     "Menu03": "Community",
     "Menu04": "Profile",
-<<<<<<< Updated upstream:src/locales/en.json
-    "Menu05": "Admin"
-}}
-=======
     "Menu05": "Admin",
     "User99": "Username",
     "Pass99": "Password",
@@ -115,4 +111,4 @@
     "Error07": "No results found",
     "Error08": "Please try again"
 }
->>>>>>> Stashed changes:locales/en/common.json
+}

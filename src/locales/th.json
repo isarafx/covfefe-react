@@ -99,10 +99,6 @@
     "Menu02": "แนะนำการชงกาแฟ",
     "Menu03": "ชุมชน",
     "Menu04": "โปรไฟล์",
-<<<<<<< Updated upstream:src/locales/th.json
-    "Menu05": "แอดมิน"
-}}
-=======
     "Menu05": "แอดมิน",
     "User99": "ชื่อผู้ใช้งาน",
     "Pass99": "รหัสผ่าน",
@@ -115,4 +111,4 @@
     "Error07": "ไม่พบผลการค้นหา",
     "Error08": "กรุณาลองใหม่อีกครั้ง"
 }
->>>>>>> Stashed changes:locales/th/common.json
+}

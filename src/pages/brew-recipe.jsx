@@ -13,9 +13,10 @@ import "../styles/Brewing_Guide3.css"
 import "../styles/Brewing_Guide4.css"
 import "../styles/Features-Clean.css"
 import BackButton from '../components/backbutton'
-
+import { useTranslation } from 'react-i18next'
 export default function BrewRecipe() {
   const { id } = useParams();
+  const {t} = useTranslation();
   const [recipeList, setRecipeList] = useState([{name:"Recipe 1", favorite:1, shared:1, link:"/"},
     {name:"Recipe 2", favorite:0, shared:1, link:"/"},
     {name:"Recipe 3", favorite:1, shared:0, link:"/"},
@@ -36,7 +37,7 @@ export default function BrewRecipe() {
     </div>
   </div>
   <div className="d-flex" id="Header">
-    <p id="header_paragraph">{header_name}{t("Btext05")}</p>
+    <p id="header_paragraph">{t("Btext05")}</p>
   </div>
   <div className="d-flex" id="Footer" />
 </div>

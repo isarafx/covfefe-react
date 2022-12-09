@@ -107,7 +107,6 @@ export default function Profile() {
           </div>
         </div>
       </div>
-<<<<<<< Updated upstream
       <div className="row srow">
         <div className="col setting_card">
           <div>
@@ -143,22 +142,12 @@ export default function Profile() {
             </div>
           </div>
         </div>
-=======
       <div className="d-flex" id="Header">
         <p id="header_paragraph">{t("Ptext01")}</p>
->>>>>>> Stashed changes
       </div>
       <div className="d-flex" id="Footer" />
     </div>
-<<<<<<< Updated upstream
   </div>
-  <div className="d-flex" id="Header">
-    <p id="header_paragraph">{t('Ptext01')}</p>
-  </div>
-  <div className="d-flex" id="Footer" />
-</div>
-=======
->>>>>>> Stashed changes
 
 
   )

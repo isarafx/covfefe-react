@@ -13,6 +13,7 @@ import BackButton from '../components/backbutton'
 import NewBrewProcessCard from '../components/newbrewprocesscard'
 import NewBrewEQCard from '../components/newbreweqcard'
 import { mmss } from '../method/mmss'
+import { useTranslation } from 'react-i18next'
 export default function BrewNew() {
 
   const [mainEquipment, setMainEquipment] = useState("Hario")
@@ -41,6 +42,8 @@ export default function BrewNew() {
   const [processCoffee, setProcessCoffee] = useState("")
   const [processDuration, setProcessDuration] = useState("")
   const [processNote, setProcessNote] = useState("")
+
+  const {t} = useTranslation();
 
   const submitTool = (tool) => {
     if(tool === "Hario"){
@@ -349,24 +352,7 @@ export default function BrewNew() {
                         <p id="Etitle">{t("Modaltext09")}</p>
                       </div>
                       <select className="form-select tools_switch" style={{marginLeft: '0px', marginTop: '0px'}} onChange={(e)=>{handleProcess(e.target.value)}}>
-<<<<<<< Updated upstream
                         {processMethod.map((item, index)=>(<option key={item} value={item}>{item}</option>))}
-=======
-                        <option value="Pour Water" selected>{t("Modaltext14")}</option>
-                        <option value="Add Coffee">{t("Modaltext15")}</option>
-                        <option value="Stir">{t("Modaltext16")}</option>
-                        <option value="Bloom">{t("Modaltext17")}</option>
-                        <option value="Wait">{t("Modaltext18")}</option>
-                        <option value="Swirl">Swirl</option>
-                        <option value="Rinse Filter">Rinse Filter</option>
-                        <option value="Brew">Brew</option>
-                        <option value="Press">Press</option>
-                        <option value="Place Plunger">Place Plunger</option>
-                        <option value="Remove Plunger">Remove Plunger</option>
-                        <option value="Invert">Invert</option>
-                        <option value="Put the Lid on">Put the Lid on</option>
-                        <option value="Custom">Custom</option>
->>>>>>> Stashed changes
                       </select>
                     </div>
                   </div>

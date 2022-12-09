@@ -11,7 +11,7 @@ import "../styles/Brewing_Guide2.css"
 import "../styles/Brewing_Guide3.css"
 import "../styles/Brewing_Guide4.css"
 import "../styles/Features-Clean.css"
-
+import { useTranslation } from 'react-i18next'
 export default function BrewEdit() {
   const [name, setName] = useState("")
   const [note, setNote] = useState("")
@@ -22,6 +22,7 @@ export default function BrewEdit() {
   const [refine, setRefine] = useState('Medium')
   const [heat, setHeat] = useState(80)
   const [roast, setRoast] = useState('Medium')
+  const { t, i18} = useTranslation()
 
   function changeRatio(type, value){
     if(type==="ratio"){
