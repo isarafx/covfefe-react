@@ -1,5 +1,5 @@
 import React from 'react'
-
+import { useState } from 'react'
 import "../styles/Profile_page.css"
 import "../styles/Multiple-Input-Select-Pills.css"
 import "../styles/Profile_page.css"
@@ -8,8 +8,22 @@ import "../styles/styles.css"
 import "../styles/Ultimate-Sidebar-Menu-BS5.css"
 import "../styles/Features-Clean.css"
 import NavBar from '../components/navbar'
-
+import { useTranslation } from 'react-i18next';
+import { useEffect } from 'react'
 export default function Profile() {
+  const { t, i18n } = useTranslation()
+  function changeLanguage(){
+    if(i18n.language==="en"){
+      i18n.changeLanguage('th')
+      localStorage.setItem('i18nextLng','th')
+    }else{
+      i18n.changeLanguage('en')
+      localStorage.setItem('i18nextLng','en')
+    }
+  }
+  const lang = localStorage.getItem('i18nextLng')
+  const [checked, setChecked] = useState( lang==='en' ? true: false);
+
   return (
     <div>
   <NavBar />
@@ -91,7 +105,7 @@ export default function Profile() {
               <p className="setting_label2">ไทย</p>
             </div>
             <div className="col" style={{maxWidth: '100%', width: '70px', textAlign: 'center', minWidth: '60px'}}><label className="switch">
-                <input type="checkbox" />
+                <input type="checkbox" defaultChecked={checked} onChange={() => {setChecked(!checked); changeLanguage()}} />
                 <span className="slider round" />
               </label></div>
             <div className="col" style={{width: '40.4px', maxWidth: '100%', textAlign: 'center'}}>
@@ -103,7 +117,7 @@ export default function Profile() {
     </div>
   </div>
   <div className="d-flex" id="Header">
-    <p id="header_paragraph">โปรไฟล์เเละการตั้งค่า</p>
+    <p id="header_paragraph">{t('Ptext01')}</p>
   </div>
   <div className="d-flex" id="Footer" />
 </div>

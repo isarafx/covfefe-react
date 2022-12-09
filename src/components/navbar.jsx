@@ -1,10 +1,23 @@
 import React from 'react'
 import { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+
 export default function NavBar() {
+  const { t, i18n } = useTranslation()
+
   const [sidebarActive, setSidebarActive] = useState(false)
   const [overlayActive, setOverlayActive] = useState(false)
 
+  function changeLanguage(){
+    if(i18n.language==="en"){
+      i18n.changeLanguage('th')
+      localStorage.setItem('i18nextLng','th')
+    }else{
+      i18n.changeLanguage('en')
+      localStorage.setItem('i18nextLng','en')
+    }
+  }
   return (<>
     <div id="Navbar" >
         <a onClick={() => {setOverlayActive(true);setSidebarActive(true)}} className="btn btn-primary btn-customized open-menu" role="button" style={{background: 'rgba(243,91,63,0)', fontSize: '16px', paddingLeft: '15px', paddingRight: '10px'}}>
@@ -21,6 +34,7 @@ export default function NavBar() {
               <Link to="/commu-main"><li className="nav-item"><a onClick={()=>{setSidebarActive(false); setOverlayActive(false)}} className="nav-link" style={{fontSize: '19px', marginBottom: '5px'}}><i className="fas fa-globe" />&nbsp; Community</a></li></Link>
               <Link to="/profile"><li className="nav-item"><a onClick={()=>{setSidebarActive(false); setOverlayActive(false)}} className="nav-link" href="" style={{fontSize: '19px', marginBottom: '5px'}}><i className="fas fa-user-tie" />&nbsp; Profile</a></li></Link>
               <Link to="/admin"><li className="nav-item"><a onClick={()=>{setSidebarActive(false); setOverlayActive(false)}} className="nav-link" style={{fontSize: '19px', marginBottom: '5px'}}><i className="fas fa-user-cog" />&nbsp; Admin</a></li></Link>
+              <li className="nav-item"><a onClick={()=>{setSidebarActive(false); setOverlayActive(false); changeLanguage()}} className="nav-link" style={{fontSize: '19px', marginBottom: '5px'}}><i className="fas fa-globe fa-solid" />&nbsp; Lang</a></li>
               
 
                 </ul>

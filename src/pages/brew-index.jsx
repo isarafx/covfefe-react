@@ -12,9 +12,14 @@ import "../styles/Brewing_Guide2.css"
 import "../styles/Brewing_Guide3.css"
 import "../styles/Brewing_Guide4.css"
 import "../styles/Features-Clean.css"
-
+import { useTranslation } from 'react-i18next'
 export default function BrewIndex() {
-  
+  const { t, i18n } = useTranslation();
+
+  const changeLanguageHandler = (lang) =>
+     {
+       i18n.changeLanguage("th")
+     }
   return (
     <div>
       <NavBar />
@@ -26,7 +31,7 @@ export default function BrewIndex() {
           <div className="d-flex justify-content-center align-items-center Method_box"><Link to="/brew-recipe/hario-v60"><a href="">
               <div className="card d-flex mcard" data-bss-hover-animate="pulse">
                 <div className="card-body" style={{textAlign: 'center'}}><img className="Method_icon" src="assets/img/Hario%20V60.png" />
-                  <h4 className="card-title Method_name">Hario V60</h4>
+                  <h4 className="card-title Method_name">{t('Ltext01')}</h4>
                 </div>
               </div>
             </a></Link></div>

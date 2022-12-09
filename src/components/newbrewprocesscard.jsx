@@ -1,6 +1,6 @@
 import React from 'react'
 import { mmss } from '../method/mmss'
-export default function NewBrewProcessCard({name="process_dummy", description="desc", comment="comment", time=0}) {
+export default function NewBrewProcessCard({name="process_dummy", description="desc", comment="comment", time=0, func={}, param="id"}) {
   return (
     <div className="d-inline-flex" id="Process_edit_card" style={{width: '100%'}}>
             <div className="process_card2">
@@ -16,7 +16,8 @@ export default function NewBrewProcessCard({name="process_dummy", description="d
                 <p id="process_comment">{comment}</p>
               </div>
             </div>
-            <div className="d-flex justify-content-center align-items-center process_delete_box"><button className="btn btn-primary" id="process_timer_delete" type="button"><i className="fa fa-minus-square-o" style={{fontSize: '20px'}} /></button></div>
+            <div className="d-flex justify-content-center align-items-center process_delete_box">
+              <button onClick={()=>{func(param)}} className="btn btn-primary" id="process_timer_delete" type="button"><i className="fa fa-minus-square-o" style={{fontSize: '20px'}} /></button></div>
           </div>
   )
 }
