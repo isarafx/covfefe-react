@@ -15,8 +15,12 @@ import "../styles/styles.css"
 import "../styles/Ultimate-Sidebar-Menu-BS5.css"
 import "../styles/Features-Clean.css"
 
+import { useTranslation } from 'react-i18next';
+
 
 export default function CommuDetail() {
+  const { t, i18n } = useTranslation();
+
   const [name, setName] = useState("recipe")
   const [note, setNote] = useState("")
   const [score, setScore] = useState(1)
@@ -54,28 +58,28 @@ export default function CommuDetail() {
       <div className="row row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-2 row-cols-xl-2 row-cols-xxl-2" style={{height: '385px'}}>
         <div className="col" style={{height: '425px'}}>
           <div id="guide_container1">
-            <p id="guide_con_title">อุปกรณ์เเละรายละเอียด</p>
+            <p id="guide_con_title">{t("Btext07")}</p>
             <div className="d-inline-flex" id="guide_tool_bar">
 
             </div>
             <div className="row row-cols-3" id="guide_row">
               <div className="col d-flex justify-content-center" style={{paddingLeft: '5px', paddingRight: '5px'}}>
                 <div id="guide_card"><img id="guide_icon" src="assets/img/guide_ratio_ico.png" />
-                  <p id="guide_name">อัตราส่วน</p>
+                  <p id="guide_name">{t("Modaltext31")}</p>
                   <div className="input-group"><span className="d-flex justify-content-end input-group-text" id="guide_unit2">1&nbsp; :</span>
                   <input className="form-control" type="number" id="guide_input2" value={ratio} /></div>
                 </div>
               </div>
               <div className="col d-flex justify-content-center" style={{paddingLeft: '5px', paddingRight: '5px'}}>
                 <div id="guide_card"><img id="guide_icon" src="assets/img/guide_pack_ico.png" />
-                  <p id="guide_name">กาแฟ</p>
+                  <p id="guide_name">{t("Modaltext29")}</p>
                   <div className="input-group">
                     <input className="form-control" type="number" id="guide_input" value={coffee} /><span className="input-group-text" id="guide_unit">g</span></div>
                 </div>
               </div>
               <div className="col d-flex justify-content-center" style={{paddingLeft: '5px', paddingRight: '5px'}}>
                 <div id="guide_card"><img id="guide_icon" src="assets/img/guide_water_ico.png" />
-                  <p id="guide_name">น้ำ</p>
+                  <p id="guide_name">{t("Modaltext30")}</p>
                   <div className="input-group">
                     <input className="form-control" type="number" id="guide_input" value={water} /><span className="input-group-text" id="guide_unit">ml</span></div>
                 </div>
@@ -85,7 +89,7 @@ export default function CommuDetail() {
             <div className="row row-cols-3" style={{marginRight: '0px', marginLeft: '0px'}}>
               <div className="col d-flex justify-content-center" style={{paddingLeft: '5px', paddingRight: '5px'}}>
                 <div id="guide_card"><img id="guide_icon" src="assets/img/guide_grind_ico.png" />
-                  <p id="guide_name">ความละเอียด</p><select id="guide_option" disabled>
+                  <p id="guide_name">{t("Modaltext32")}</p><select id="guide_option" disabled>
                     {/* <option value={14}>Extra Fine</option>
                     <option value={13}>Fine</option>
                     <option value>Medium Fine</option> */}
@@ -97,14 +101,14 @@ export default function CommuDetail() {
               </div>
               <div className="col d-flex justify-content-center" style={{paddingLeft: '5px', paddingRight: '5px'}}>
                 <div id="guide_card"><img id="guide_icon" src="assets/img/guide_heat_ico.png" />
-                  <p id="guide_name">ความร้อน</p>
+                  <p id="guide_name">{t("Modaltext33")}</p>
                   <div className="input-group d-sm-flex justify-content-center justify-content-xxl-center" style={{width: '100%'}}>
                     <input className="form-control" type="text" id="guide_readonly" placeholder value={heat} disabled /><span className="input-group-text" id="guide_unit">°C</span></div>
                 </div>
               </div>
               <div className="col d-flex justify-content-center" style={{paddingLeft: '5px', paddingRight: '5px'}}>
                 <div id="guide_card" style={{maxWidth: '150px', minWidth: '95px'}}><img id="guide_icon" src="assets/img/guide_bean_ico.png" />
-                  <p id="guide_name">การคั่ว</p><select id="guide_option" disabled>
+                  <p id="guide_name">{t("Modaltext34")}</p><select id="guide_option" disabled>
                     {/* <option value={14}>Light</option>
                     <option value={13}>Medium</option> */}
                     <option value={12} selected>{roast}</option>
@@ -125,7 +129,7 @@ export default function CommuDetail() {
         <div className="col" style={{height: '425px'}}>
           <div id="guide_container1">
             <div className="d-inline-flex" style={{minWidth: '100%'}}>
-              <p id="guide_con_title" style={{width: '80%'}}>ขั้นตอนการชง</p>
+              <p id="guide_con_title" style={{width: '80%'}}>{t("Modaltext35")}</p>
               <div style={{minWidth: '10%'}}><img src="assets/img/guide_timer_ico.png" style={{width: '30px', height: '30px'}} /></div>
               <p style={{textAlign: 'center', minWidth: '10%', paddingTop: '5px'}}>00:00</p>
             </div>
@@ -148,7 +152,7 @@ export default function CommuDetail() {
               })}
 
             </div>
-            <div style={{textAlign: 'center'}}><a className="btn btn-primary" role="button" id="process_timer_start" href="Brewing_Timer.html">เริ่มชงกาแฟ</a></div>
+            <div style={{textAlign: 'center'}}><a className="btn btn-primary" role="button" id="process_timer_start" href="Brewing_Timer.html">{t("Modaltext36")}</a></div>
           </div>
         </div>
         <div className="col" style={{width: '100%', overflow: 'auto'}}>
@@ -210,9 +214,9 @@ export default function CommuDetail() {
                 <hr style={{marginTop: '-10px'}} />
               </div>
             </div>
-            <p style={{color: '#cb0c00', marginBottom: '10px', marginTop: '5px'}}>แสดงความคิดเห็นของคุณได้ที่นี่!</p>
+            <p style={{color: '#cb0c00', marginBottom: '10px', marginTop: '5px'}}>{t("Ctext10")}</p>
             <form><textarea id="Post_comment_box" rows={1} oninput="auto_grow(this)" required defaultValue={""} />
-              <div className="d-flex justify-content-end"><button className="btn btn-primary d-xxl-flex" id="post_comment_btn" type="submit">Post Review</button></div>
+              <div className="d-flex justify-content-end"><button className="btn btn-primary d-xxl-flex" id="post_comment_btn" type="submit">{t("Ctext11")}</button></div>
             </form>
           </div>
           <div style={{height: '60px', bottom: 0}} />
@@ -221,7 +225,7 @@ export default function CommuDetail() {
     </div>
   </div>
   <div className="d-flex" id="Header">
-    <p id="header_paragraph">รายละเอียดสูตรการชง</p>
+    <p id="header_paragraph">{t("Btext06")}</p>
   </div>
   <div className="d-flex" id="Footer" />
 </div>

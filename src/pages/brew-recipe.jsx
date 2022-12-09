@@ -36,7 +36,7 @@ export default function BrewRecipe() {
     </div>
   </div>
   <div className="d-flex" id="Header">
-    <p id="header_paragraph">{header_name}</p>
+    <p id="header_paragraph">{header_name}{t("Btext05")}</p>
   </div>
   <div className="d-flex" id="Footer" />
 </div>

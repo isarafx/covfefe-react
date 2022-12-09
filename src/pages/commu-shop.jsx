@@ -10,7 +10,11 @@ import "../styles/Features-Clean.css"
 import NavBar from '../components/navbar'
 import { Link } from 'react-router-dom'
 import CommuShopCard from '../components/commushopcard'
+
+import { useTranslation } from 'react-i18next';
+
 export default function CommuShop() {
+  const { t, i18n } = useTranslation();
   return (
     <div>
   <NavBar />
@@ -18,7 +22,7 @@ export default function CommuShop() {
     <div className="container" id="search_contrainer">
       <div className="input-group"><span className="input-group-text" id="search_filter2">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span><input className="form-control" type="search" id="search_input2" /><button className="btn btn-primary" data-bss-hover-animate="pulse" id="search_button2" type="button"><i className="fas fa-search" id="Tool_icon" style={{color: '#ffffff'}} /></button></div>
       <div className="d-flex justify-content-center Page_Head" style={{marginBottom: '20px'}}>
-        <p id="Page_Head_text">ค้นหาผลิตภัณฑ์กาแฟ</p>
+        <p id="Page_Head_text">{t("Ctext09")}</p>
       </div>
     </div>
     <div className="container" id="shop_container">
@@ -28,7 +32,7 @@ export default function CommuShop() {
     </div>
   </div>
   <div className="d-flex" id="Header">
-    <p id="header_paragraph">ชุมชน</p>
+    <p id="header_paragraph">{t("Ctext04")}</p>
   </div>
   <div className="d-flex" id="Footer">
     <Link to="/commu-main"><a className="btn btn-primary" role="button" data-bss-hover-animate="pulse" id="findex_button" href="">

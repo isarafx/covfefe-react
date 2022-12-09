@@ -15,7 +15,10 @@ import BackButton from '../components/backbutton'
 import { useEffect } from 'react'
 import { mmss } from '../method/mmss'
 
+import { useTranslation } from 'react-i18next';
+
 export default function BrewTimer() {
+  const { t, i18n } = useTranslation();
   const processList = [
     {name:"process1", description:"do 500ml", comment:"comment_dummy", time:5},
     {name:"process2", description:"do 500ml", comment:"comment_dummy", time:6},
@@ -85,7 +88,7 @@ export default function BrewTimer() {
     <div className="container" id="recipelist_container2" style={{position: 'relative'}}>
       <div className="d-flex justify-content-center" id="Timer_container1"><button onClick={()=> {test()}} className="btn btn-primary" id="Timer_PP_button" type="button" />
         <div className="Main_timer" />
-        <p className="Main_timer_text">เวลาที่เหลือในขั้นตอนปัจจุบัน</p>
+        <p className="Main_timer_text">{t("Btext10")}</p>
         {/* <button onClick={(e)=>{test()}}>test</button> */}
         <p className="Main_timer_num">{mmss(processTime)}</p><img className="timer_control_icon" src="../assets/img/Timer_play_ico.png" />
         <div className="d-inline-flex Sub_timer"><img className="Sub_timer_icon" src="../assets/img/guide_timer_ico.png" />
@@ -111,7 +114,7 @@ export default function BrewTimer() {
       </div>
       <div id="Timer_container3">
         <div className="d-flex d-sm-flex justify-content-center justify-content-sm-center" style={{height: '14px', background: '#ffffff', marginTop: '-7px'}}>
-          <p className="Nextstep_text">ขั้นตอนถัดไป</p>
+          <p className="Nextstep_text">{t("Btext11")}</p>
         </div>
         <div className="Nextstep_box">
           {processList.map((item, itemIndex)=>{
