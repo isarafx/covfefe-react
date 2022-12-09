@@ -1,12 +1,14 @@
 {"translation":{
     "Ltext01": "Login",
     "Ltext02": "Register",
-    "User99": "Username",
-    "Pass99": "Password",
     "Ltext03": "Or continue with",
     "Ltext04": "Skip for now",
     "Ltext05": "E-mail",
     "Ltext06": "Confirm password",
+    "Ltext07": "Register",
+    "Ltext08": "Not Login",
+    "Ltext09": "Sign In",
+    "Ltext10": "Sign Out",
     "Ptext01": "Profile And Setting",
     "Ptext02": "My brew count",
     "Ptext03": "My brew recipe",
@@ -19,7 +21,7 @@
     "Ptext10": "English",
     "PEtext01": "Change your profile picture",
     "PEtext02": "Change your nickname",
-    "PEtext03": "Nickname",
+    "PEtext03": "nickname",
     "Cancel99": "Cancel",
     "Confirm99": "Confirm",
     "Atext01": "Coffee Article",
@@ -44,12 +46,12 @@
     "Btext19": "Brew Rating",
     "Modaltext01": "Select equipment",
     "Modaltext02": "Coffee Bean",
-    "Modaltext03": "Kattle",
+    "Modaltext03": "Kettle",
     "Modaltext04": "Scale",
     "Modaltext05": "Grinder",
     "Modaltext06": "Filter",
     "Modaltext07": "Other",
-    "Modaltext08": "Name, details, settings",
+    "Modaltext08": "Equipment name or detail",
     "Modaltext09": "Select Process Step",
     "Modaltext10": "Enter Step Name",
     "Modaltext11": "Enter Water Amount",
@@ -97,5 +99,20 @@
     "Menu02": "Brewing Guide",
     "Menu03": "Community",
     "Menu04": "Profile",
+<<<<<<< Updated upstream:src/locales/en.json
     "Menu05": "Admin"
 }}
+=======
+    "Menu05": "Admin",
+    "User99": "Username",
+    "Pass99": "Password",
+    "Error01": "No internet connection",
+    "Error02": "Check your internet connection and try again",
+    "Error03": "Retry",
+    "Error04": "Sorry!",
+    "Error05": "We did not find the page you are requesting",
+    "Error06": "Back to Main Page",
+    "Error07": "No results found",
+    "Error08": "Please try again"
+}
+>>>>>>> Stashed changes:locales/en/common.json

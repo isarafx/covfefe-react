@@ -149,7 +149,7 @@ export default function BrewNew() {
   <div id="main_template">
     <div className="container profile_container">
       <div id="guide_container3" style={{marginBottom: '10px'}}>
-        <p className="newbrew_title">1.เลือกวิธีการชงกาแฟที่ท่านต้องการ</p>
+        <p className="newbrew_title">1.{t("Btext13")}</p>
         <div className="text-center d-flex justify-content-center align-items-center">
           <div className="newbrew_preview_border">
             <img id="brew_preview" className="newbrew_preview" src={`assets/img/${mainEquipment}_ICO.png`} /></div>
@@ -161,7 +161,7 @@ export default function BrewNew() {
             <option value="Aeropress">Aero Press</option>
           </select>
         </div>
-        <p className="newbrew_title" style={{marginTop: '5px'}}>2.เพิ่มอุปกรณ์</p>
+        <p className="newbrew_title" style={{marginTop: '5px'}}>2.{t("Btext14")}</p>
         <div className="d-inline-flex" id="guide_tool_bar">
           <div className="d-flex justify-content-center tool_add_box">
             <button className="btn btn-primary d-flex justify-content-center align-items-center" id="tool_add_btn" type="button" style={{background: '#bc000000'}} data-bs-target="#Modal_tool" data-bs-toggle="modal"><i className="fas fa-plus tool_add_icon" /></button></div>
@@ -183,25 +183,25 @@ export default function BrewNew() {
             )
           })}
         </div>
-        <p className="newbrew_title" style={{marginBottom: '20px'}}>3.เพิ่มรายละเอียด</p>
+        <p className="newbrew_title" style={{marginBottom: '20px'}}>3.{t("Btext15")}</p>
         <div className="row row-cols-3" id="guide_row">
           <div className="col d-flex justify-content-center" style={{paddingLeft: '5px', paddingRight: '5px'}}>
             <div id="guide_card"><img id="guide_icon" src="assets/img/guide_ratio_ico.png" />
-              <p id="guide_name">อัตราส่วน</p>
+              <p id="guide_name">{t("Modaltext31")}</p>
               <div className="input-group"><span className="d-flex justify-content-end input-group-text" id="guide_unit2">1&nbsp; :</span>
                 <input className="form-control" type="number" id="guide_input2" value={ratio} onChange={(e)=>{changeRatio("ratio", e.target.value)}} /></div>
             </div>
           </div>
           <div className="col d-flex justify-content-center" style={{paddingLeft: '5px', paddingRight: '5px'}}>
             <div id="guide_card"><img id="guide_icon" src="assets/img/guide_pack_ico.png" />
-              <p id="guide_name">กาแฟ</p>
+              <p id="guide_name">{t("Modaltext29")}</p>
               <div className="input-group">
                 <input className="form-control" type="number" id="guide_input" value={coffee} onChange={(e)=>{changeRatio("coffee", e.target.value)}} /><span className="input-group-text" id="guide_unit">g</span></div>
             </div>
           </div>
           <div className="col d-flex justify-content-center" style={{paddingLeft: '5px', paddingRight: '5px'}}>
             <div id="guide_card"><img id="guide_icon" src="assets/img/guide_water_ico.png" />
-              <p id="guide_name">น้ำ</p>
+              <p id="guide_name">{t("Modaltext30")}</p>
               <div className="input-group">
                 <input className="form-control" type="number" id="guide_input" value={water} onChange={(e)=>{changeRatio("water", e.target.value)}} /><span className="input-group-text" id="guide_unit">ml</span></div>
             </div>
@@ -211,7 +211,7 @@ export default function BrewNew() {
         <div className="row row-cols-3" style={{marginRight: '0px', marginLeft: '0px', marginBottom: '15px'}}>
           <div className="col d-flex justify-content-center" style={{paddingLeft: '5px', paddingRight: '5px'}}>
             <div id="guide_card"><img id="guide_icon" src="assets/img/guide_grind_ico.png" />
-              <p id="guide_name">ความละเอียด</p>
+              <p id="guide_name">{t("Modaltext32")}</p>
               <select id="guide_option" onChange={(e)=>{setRefine(e.target.value)}}>
                 <option value="Extra Fine">Extra Fine</option>
                 <option value="Fine">Fine</option>
@@ -224,14 +224,14 @@ export default function BrewNew() {
           </div>
           <div className="col d-flex justify-content-center" style={{paddingLeft: '5px', paddingRight: '5px'}}>
             <div id="guide_card"><img id="guide_icon" src="assets/img/guide_heat_ico.png" />
-              <p id="guide_name">ความร้อน</p>
+              <p id="guide_name">{t("Modaltext33")}</p>
               <div className="input-group d-sm-flex justify-content-center justify-content-xxl-center" style={{width: '100%'}}>
                 <input className="form-control" type="text" id="guide_readonly" value={heat} onChange={(e)=>{setHeat(e.target.value)}} /><span className="input-group-text" id="guide_unit">°C</span></div>
             </div>
           </div>
           <div className="col d-flex justify-content-center" style={{paddingLeft: '5px', paddingRight: '5px'}}>
             <div id="guide_card" style={{maxWidth: '150px', minWidth: '95px'}}><img id="guide_icon" src="assets/img/guide_bean_ico.png" />
-              <p id="guide_name">การคั่ว</p>
+              <p id="guide_name">{t("Modaltext34")}</p>
               <select id="guide_option" onChange={(e)=>{setRoast(e.target.value)}}>
                 <option value="Light">Light</option>
                 <option value="Medium">Medium</option>
@@ -241,7 +241,7 @@ export default function BrewNew() {
           </div>
         </div>
         <div className="d-inline-flex" style={{minWidth: '100%'}}>
-          <p className="newbrew_title" style={{width: '80%'}}>4.เพิ่มขั้นตอน</p>
+          <p className="newbrew_title" style={{width: '80%'}}>4.{t("Btext16")}</p>
           <div style={{minWidth: '10%'}}><img src="assets/img/guide_timer_ico.png" style={{width: '30px', height: '30px'}} /></div>
           <p style={{textAlign: 'center', minWidth: '10%', paddingTop: '5px'}}>00:00</p>
         </div>
@@ -276,12 +276,12 @@ export default function BrewNew() {
             <i className="fas fa-plus" />&nbsp;เพิ่มขั้นตอนใหม่</button></div>
       </div>
       <div id="guide_container1" style={{height: '450px'}}>
-        <p className="newbrew_title">5.ชื่อสูตรชงกาแฟ</p>
+        <p className="newbrew_title">5.{t("Btext17")}</p>
         <div style={{width: '100%'}}>
           <input type="text" className="ae_input" value={name} onChange={(e)=>{setName(e.target.value)}} placeholder="recipe name" style={{width: '100%', height: '35px', marginBottom: '10px', paddingLeft: '10px'}} /></div>
-        <p className="newbrew_title">6.บันทึกเพิ่มเติม</p>
+        <p className="newbrew_title">6.{t("Btext18")}</p>
         <textarea id="comment_guide_box" rows={9} value={note} onChange={(e)=>{setNote(e.target.value)}} />
-        <p id="guide_con_title">คะเเนนรวม</p>
+        <p id="guide_con_title">{t("Btext19")}</p>
         <div className="d-inline-flex" style={{minWidth: '100%'}}>
           <i className="fa fa-star" id="comment_rating" style={{width: '10%', fontSize: '30px', color: 'rgb(255,184,0)', marginLeft: '10px', marginTop: '-5px'}} />
           <input className="form-range" type="range" id="ratingbar" min={1} max={10} step={1} value={score} onChange={(e)=>{setScore(e.target.value)}} style={{width: '70%'}} />
@@ -298,22 +298,22 @@ export default function BrewNew() {
                   <div className="col">
                     <div className="tools_card">
                       <div className="d-inline-flex" style={{width: '100%', marginTop: '5px'}}><img className="ae_legend" src="assets/img/legend_tool.png" />
-                        <p id="Etitle">รูปแบบอุปกรณ์</p>
+                        <p id="Etitle">{t("Modaltext01")}</p>
                       </div>
                       <div className="d-inline-flex" style={{width: '100%'}}>
                         <img id="t_preview" className="tools_image" src={`assets/img/${equipmentPic[modalEquipment]}.png`} />
                         <select className="form-select tools_switch" onChange={(e)=>{setModalEquipment(e.target.value)}}>
-                          <option value="Coffee" selected>Coffee</option>
+                          <option value="Coffee" selected>{t("Modaltext02")}</option>
                           <option value="Hario V60">Hario V60</option>
                           <option value="Chemex">Chemex</option>
                           <option value="Moka Pot">Moka Pot</option>
                           <option value="Aeropress">Aeropress</option>
                           <option value="French Press">French Press</option>
-                          <option value="Kattle">Kattle</option>
-                          <option value="Scale">Scale</option>
-                          <option value="Grinder">Grinder</option>
-                          <option value="Filter">Filter</option>
-                          <option value="Other">Other</option>
+                          <option value="Kattle">{t("Modaltext03")}</option>
+                          <option value="Scale">{t("Modaltext04")}</option>
+                          <option value="Grinder">{t("Modaltext05")}</option>
+                          <option value="Filter">{t("Modaltext06")}</option>
+                          <option value="Other">{t("Modaltext07")}</option>
                         </select></div>
                     </div>
                   </div>
@@ -322,15 +322,15 @@ export default function BrewNew() {
                   <div className="col">
                     <div className="tools_card">
                       <div className="d-inline-flex" style={{width: '100%', marginTop: '5px'}}><img className="ae_legend" src="assets/img/legend_name.png" />
-                        <p id="Etitle"><strong>ชื่อหรือรายละเอียดอุปกรณ์</strong><br /></p>
+                        <p id="Etitle"><strong>{t("Modaltext08")}</strong><br /></p>
                       </div>
-                      <input className="form-control ae_input" type="text" required placeholder="name, details, settings" value={modalDetail} onChange={(e)=>{setModalDetail(e.target.value)}} />
+                      <input className="form-control ae_input" type="text" required placeholder="eg. Moka pot 6-Cup, Timemore grinder" value={modalDetail} onChange={(e)=>{setModalDetail(e.target.value)}} />
                     </div>
                   </div>
                 </div>
               </div>
               <div className="modal-footer d-flex justify-content-center modal_footer">
-                <button onClick={()=>{submitEquipment(modalEquipment, modalDetail)}} className="btn btn-primary modal_summit" data-bs-dismiss="modal" id="Modal_summit" type="submit">ยืนยัน</button></div>
+                <button onClick={()=>{submitEquipment(modalEquipment, modalDetail)}} className="btn btn-primary modal_summit" data-bs-dismiss="modal" id="Modal_summit" type="submit">{t("Confirm99")}</button></div>
             </form>
           </div>
         </div>
@@ -344,10 +344,27 @@ export default function BrewNew() {
                   <div className="col">
                     <div className="tools_card">
                       <div className="d-inline-flex" style={{width: '100%', marginTop: '5px'}}><img className="ae_legend" src="assets/img/legend_process.png" />
-                        <p id="Etitle">Select Process Step</p>
+                        <p id="Etitle">{t("Modaltext09")}</p>
                       </div>
                       <select className="form-select tools_switch" style={{marginLeft: '0px', marginTop: '0px'}} onChange={(e)=>{handleProcess(e.target.value)}}>
+<<<<<<< Updated upstream
                         {processMethod.map((item, index)=>(<option key={item} value={item}>{item}</option>))}
+=======
+                        <option value="Pour Water" selected>{t("Modaltext14")}</option>
+                        <option value="Add Coffee">{t("Modaltext15")}</option>
+                        <option value="Stir">{t("Modaltext16")}</option>
+                        <option value="Bloom">{t("Modaltext17")}</option>
+                        <option value="Wait">{t("Modaltext18")}</option>
+                        <option value="Swirl">Swirl</option>
+                        <option value="Rinse Filter">Rinse Filter</option>
+                        <option value="Brew">Brew</option>
+                        <option value="Press">Press</option>
+                        <option value="Place Plunger">Place Plunger</option>
+                        <option value="Remove Plunger">Remove Plunger</option>
+                        <option value="Invert">Invert</option>
+                        <option value="Put the Lid on">Put the Lid on</option>
+                        <option value="Custom">Custom</option>
+>>>>>>> Stashed changes
                       </select>
                     </div>
                   </div>
@@ -407,7 +424,7 @@ export default function BrewNew() {
     </div>
   </div>
   <div className="d-flex" id="Header">
-    <p id="header_paragraph">สร้างสูตรการชงกาแฟใหม่</p>
+    <p id="header_paragraph">{t("Btext12")}</p>
   </div>
   <div className="d-flex" id="Footer" />
 </div>

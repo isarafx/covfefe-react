@@ -79,7 +79,7 @@ export default function BrewIndex() {
     </div>
   </div>
   <div className="d-flex" id="Header">
-    <p id="header_paragraph">วิธีการชงกาแฟเเนะนำ</p>
+    <p id="header_paragraph">{t("Btext01")}</p>
   </div>
   <div className="d-flex" id="Footer">
     <button className="btn btn-primary disabled" data-bss-hover-animate="pulse" id="brew_button" type="button" disabled>

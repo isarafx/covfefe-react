@@ -7,7 +7,10 @@ import "../styles/styles.css"
 import "../styles/Ultimate-Sidebar-Menu-BS5.css"
 import "../styles/Features-Clean.css"
 
+import { useTranslation } from 'react-i18next';
+
 export default function Error() {
+  const { t, i18n } = useTranslation();
   return (
     <div>
   <div id="main_template">
@@ -16,8 +19,8 @@ export default function Error() {
         <div className="d-flex justify-content-center">
           <div className="Error_div"><img className="img-fluid" src="assets/img/Error1.png" /></div>
         </div>
-        <p className="Errormain">Sorry!</p>
-        <p className="Errorsub">We did not find the page you are requesting</p><a className="btn btn-primary" role="button" id="back_main_btn" href="Brewing_Main.html">Back to Main Page</a>
+        <p className="Errormain">{t("Error04")}</p>
+        <p className="Errorsub">{t("Error05")}</p><a className="btn btn-primary" role="button" id="back_main_btn" href="Brewing_Main.html">{t("Error06")}</a>
       </div>
     </div>
   </div>

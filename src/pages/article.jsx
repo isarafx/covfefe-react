@@ -8,7 +8,11 @@ import "../styles/styles.css"
 import "../styles/Ultimate-Sidebar-Menu-BS5.css"
 import "../styles/Features-Clean.css"
 import CardArticle from '../components/cardarticle'
+
+import { useTranslation } from 'react-i18next';
+
 export default function ArticleMain() {
+  const { t, i18n } = useTranslation();
   const article = {
     
   }
@@ -25,7 +29,7 @@ export default function ArticleMain() {
     </div>
   </div>
   <div className="d-flex" id="Header">
-    <p id="header_paragraph">นานาสาระเรื่องกาแฟ</p>
+    <p id="header_paragraph">{t("Atext01")}</p>
   </div>
   <div className="d-flex" id="Footer" />
 </div>

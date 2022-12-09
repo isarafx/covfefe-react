@@ -12,7 +12,10 @@ import "../styles/Brewing_Guide4.css"
 import "../styles/Features-Clean.css"
 import NavBar from '../components/navbar'
 
+import { useTranslation } from 'react-i18next';
+
 export default function BrewFav() {
+  const { t, i18n } = useTranslation();
   return (
     <div>
   <NavBar />
@@ -108,7 +111,7 @@ export default function BrewFav() {
     </div>
   </div>
   <div className="d-flex" id="Header">
-    <p id="header_paragraph">สูตรที่ฉันชื่นชอบ</p>
+    <p id="header_paragraph">{t("Btext02")}</p>
   </div>
   <div className="d-flex" id="Footer">
     <Link to="/"><a className="btn btn-primary" role="button" data-bss-hover-animate="pulse" id="fbrew_button" href="">

@@ -8,7 +8,10 @@ import "../styles/styles.css"
 import "../styles/Ultimate-Sidebar-Menu-BS5.css"
 import "../styles/Features-Clean.css"
 
+import { useTranslation } from 'react-i18next';
+
 export default function CommuShare() {
+  const { t, i18n } = useTranslation();
   return (
     <div>
   <div className="div_back"><a href="javascript:history.back()"><i className="icon ion-android-arrow-back" id="Back_icon" /></a></div>
@@ -24,7 +27,7 @@ export default function CommuShare() {
           <div className="col">
             <div className="Ecard" style={{height: '92px'}}>
               <div className="d-inline-flex" style={{width: '100%', marginTop: '5px'}}><img className="ae_legend" src="assets/img/legend_name.png" />
-                <p id="Etitle">รายชื่อสูตรที่ต้องการเเชร์</p>
+                <p id="Etitle">{t("Ctext02")}</p>
               </div><input className="form-control-plaintext" type="text" id="Shared_title" defaultValue="Recipe name here" readOnly />
             </div>
           </div>
@@ -33,19 +36,19 @@ export default function CommuShare() {
           <div className="col">
             <div className="Ecard" style={{height: '214px'}}>
               <div className="d-inline-flex" style={{width: '100%', marginTop: '5px'}}><img className="ae_legend" src="assets/img/legend_note.png" />
-                <p id="Etitle">คำอธิบายสูตร</p>
+                <p id="Etitle">{t("Ctext03")}</p>
               </div><textarea className="form-control" id="Shared_com_field" rows={6} defaultValue={""} />
             </div>
           </div>
         </div>
         <div className="row">
-          <div className="col" style={{textAlign: 'center'}}><a className="btn btn-primary" role="button" id="Ecancel" href="javascript:history.back()">ยกเลิก</a><button className="btn btn-primary" id="Esubmit" type="submit">ยืนยัน</button></div>
+          <div className="col" style={{textAlign: 'center'}}><a className="btn btn-primary" role="button" id="Ecancel" href="javascript:history.back()">{t("Cancel99")}</a><button className="btn btn-primary" id="Esubmit" type="submit">{t("Confirm99")}</button></div>
         </div>
       </form>
     </div>
   </div>
   <div className="d-flex" id="Header">
-    <p id="header_paragraph">เเชร์สูตรของคุณ</p>
+    <p id="header_paragraph">{t("Ctext01")}</p>
   </div>
   <div className="d-flex" id="Footer" />
 </div>

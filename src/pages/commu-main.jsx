@@ -10,7 +10,11 @@ import "../styles/Ultimate-Sidebar-Menu-BS5.css"
 import "../styles/Features-Clean.css"
 import { Link } from 'react-router-dom'
 import { useState } from 'react'
+
+import { useTranslation } from 'react-i18next';
+
 export default function CommuMain() {
+  const { t, i18n } = useTranslation();
   const data = [
     {recipe_name:"recipe 1", note:"", fav:0, star:0, comment:0},
   ]
@@ -24,12 +28,12 @@ export default function CommuMain() {
       <div className="input-group">
         <div className="dropdown"><button className="rounded-0 rounded-start btn btn-primary dropdown-toggle" aria-expanded="false" data-bs-toggle="dropdown" data-bss-hover-animate="pulse" id="search_filter2" type="button"><i className="fas fa-filter" style={{fontSize: '20px', fontWeight: 'bold'}} /></button>
           <div className="dropdown-menu">
-          <a onClick={()=>{setSort(0)}} className="dropdown-item" href="#">เรียงโดย-ตามนิยมมากสุด</a>
-          <a onClick={()=>{setSort(1)}} className="dropdown-item" href="#">เรียงโดย-ใหม่ล่าสุด</a></div>
+          <a onClick={()=>{setSort(0)}} className="dropdown-item" href="#">{t("Ctext06")}</a>
+          <a onClick={()=>{setSort(1)}} className="dropdown-item" href="#">{t("Ctext07")}</a></div>
         </div><input className="form-control" type="search" id="search_input2" /><button className="btn btn-primary" data-bss-hover-animate="pulse" id="search_button2" type="button"><i className="fas fa-search" id="Tool_icon" style={{color: '#ffffff'}} /></button>
       </div>
       <div className="d-flex d-sm-flex d-md-flex d-lg-flex d-xl-flex d-xxl-flex justify-content-center justify-content-sm-center justify-content-md-center justify-content-lg-center justify-content-xl-center justify-content-xxl-center Page_Head">
-        <p id="Page_Head_text">ค้นหาไอเดียใหม่ๆจากชุมชน {sort}</p>
+        <p id="Page_Head_text">{t("Ctext08")} {sort}</p>
       </div>
     </div>
     <div className="container d-flex justify-content-start align-items-center justify-content-sm-center" id="method_bar">
@@ -66,7 +70,7 @@ export default function CommuMain() {
     </div>
   </div>
   <div className="d-flex" id="Header">
-    <p id="header_paragraph">ชุมชน</p>
+    <p id="header_paragraph">{t("Ctext04")}</p>
   </div>
   <div className="d-flex" id="Footer"><button className="btn btn-primary disabled" data-bss-hover-animate="pulse" id="index_button" type="button" disabled>
     <img src="assets/img/Mug%20icon.png" style={{width: '35px', marginTop: '-8px'}} /></button>

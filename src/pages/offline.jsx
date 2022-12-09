@@ -7,7 +7,10 @@ import "../styles/styles.css"
 import "../styles/Ultimate-Sidebar-Menu-BS5.css"
 import "../styles/Features-Clean.css"
 
+import { useTranslation } from 'react-i18next';
+
 export default function Offline() {
+  const { t, i18n } = useTranslation();
   return (
     <div>
   <div id="main_template">
@@ -16,8 +19,8 @@ export default function Offline() {
         <div className="d-flex justify-content-center">
           <div className="Error_div"><img className="img-fluid" src="assets/img/Error2.png" /></div>
         </div>
-        <p className="Errormain">No internet connection</p>
-        <p className="Errorsub">Check your internet connection and try again</p><button className="btn btn-primary" id="back_main_btn2" type="button">Retry</button>
+        <p className="Errormain">{t("Error01")}</p>
+        <p className="Errorsub">{t("Error02")}</p><button className="btn btn-primary" id="back_main_btn2" type="button">{t("Error03")}</button>
       </div>
     </div>
   </div>
