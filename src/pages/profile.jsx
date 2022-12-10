@@ -11,17 +11,17 @@ import NavBar from '../components/navbar'
 import { useTranslation } from 'react-i18next';
 export default function Profile() {
   const { t, i18n } = useTranslation()
-  function changeLanguage(){
-    if(i18n.language==="en"){
+  function changeLanguage() {
+    if (i18n.language === "en") {
       i18n.changeLanguage('th')
-      localStorage.setItem('i18nextLng','th')
-    }else{
+      localStorage.setItem('i18nextLng', 'th')
+    } else {
       i18n.changeLanguage('en')
-      localStorage.setItem('i18nextLng','en')
+      localStorage.setItem('i18nextLng', 'en')
     }
   }
   const lang = localStorage.getItem('i18nextLng')
-  const [checked, setChecked] = useState( lang==='en' ? true: false);
+  const [checked, setChecked] = useState(lang === 'en' ? true : false);
 
   return (
     <div>
@@ -107,47 +107,12 @@ export default function Profile() {
           </div>
         </div>
       </div>
-      <div className="row srow">
-        <div className="col setting_card">
-          <div>
-            <p className="d-flex justify-content-center setting_title">เสียงเตือน</p>
-          </div>
-          <div className="d-flex justify-content-center">
-            <div className="col" style={{width: '40.4px', maxWidth: '100%', textAlign: 'center'}}>
-              <p className="setting_label">เปิด</p>
-            </div>
-            <div className="col" style={{maxWidth: '100%', width: '70px', textAlign: 'center', minWidth: '60px'}}><label className="switch">
-                <input type="checkbox" />
-                <span className="slider round" />
-              </label></div>
-            <div className="col" style={{width: '40.4px', maxWidth: '100%', textAlign: 'center'}}>
-              <p className="setting_label">&nbsp;ปิด</p>
-            </div>
-          </div>
-        </div>
-        <div className="col setting_card">
-          <div>
-            <p className="d-flex justify-content-center setting_title">ภาษาที่ใช้</p>
-          </div>
-          <div className="d-flex justify-content-center">
-            <div className="col" style={{width: '40.4px', maxWidth: '100%', textAlign: 'center'}}>
-              <p className="setting_label2">ไทย</p>
-            </div>
-            <div className="col" style={{maxWidth: '100%', width: '70px', textAlign: 'center', minWidth: '60px'}}><label className="switch">
-                <input type="checkbox" defaultChecked={checked} onChange={() => {setChecked(!checked); changeLanguage()}} />
-                <span className="slider round" />
-              </label></div>
-            <div className="col" style={{width: '40.4px', maxWidth: '100%', textAlign: 'center'}}>
-              <p className="setting_label2">&nbsp;อังกฤษ</p>
-            </div>
-          </div>
-        </div>
       <div className="d-flex" id="Header">
         <p id="header_paragraph">{t("Ptext01")}</p>
       </div>
       <div className="d-flex" id="Footer" />
     </div>
-  </div>
+
 
 
   )

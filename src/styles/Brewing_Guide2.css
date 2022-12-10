@@ -107,7 +107,7 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
   color: #955c18;
 }
 
-input[type="range"]::-webkit-slider-thumb {
+#myRange::-webkit-slider-thumb {
   -webkit-appearance: none;
   background-color: #a74900;
   opacity: 0.8;

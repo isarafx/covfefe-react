@@ -1,0 +1,24 @@
+#Water_Slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  background-color: #ffffff;
+  border: solid;
+  border-radius: 2px;
+  border-color: #3b3b3b;
+}
+
+#Water_Slider::-webkit-slider-runnable-track {
+  background-color: #2bd9ff;
+}
+
+#Coffee_Slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  background-color: #ffffff;
+  border: solid;
+  border-radius: 2px;
+  border-color: #3b3b3b;
+}
+
+#Coffee_Slider::-webkit-slider-runnable-track {
+  background-color: #b67426;
+}
+
