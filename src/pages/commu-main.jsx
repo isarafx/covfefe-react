@@ -17,6 +17,10 @@ export default function CommuMain() {
   const { t, i18n } = useTranslation();
   const data = [
     {recipe_name:"recipe 1", note:"", fav:0, star:0, comment:0},
+    {recipe_name:"recipe 1", note:"", fav:0, star:0, comment:0},
+    {recipe_name:"recipe 1", note:"", fav:0, star:0, comment:0},
+    {recipe_name:"recipe 1", note:"", fav:0, star:0, comment:0},
+    {recipe_name:"recipe 1", note:"", fav:0, star:0, comment:0},
   ]
   const [type, setType] = useState(0)
   const [sort, setSort] = useState(0)
@@ -33,39 +37,41 @@ export default function CommuMain() {
         </div><input className="form-control" type="search" id="search_input2" /><button className="btn btn-primary" data-bss-hover-animate="pulse" id="search_button2" type="button"><i className="fas fa-search" id="Tool_icon" style={{color: '#ffffff'}} /></button>
       </div>
       <div className="d-flex d-sm-flex d-md-flex d-lg-flex d-xl-flex d-xxl-flex justify-content-center justify-content-sm-center justify-content-md-center justify-content-lg-center justify-content-xl-center justify-content-xxl-center Page_Head">
-        <p id="Page_Head_text">{t("Ctext08")} {sort}</p>
+        <p id="Page_Head_text">{t("Ctext08")} {type}</p>
       </div>
     </div>
     <div className="container d-flex justify-content-start align-items-center justify-content-sm-center" id="method_bar">
       <div className="d-flex justify-content-center align-items-center" id="Method_selectorbox">
         <div className="form-check d-flex align-items-center method_box">
-          <input onClick={(e)=>{setType(0)}} className="form-check-input" type="radio" id="Radio_button" name="coffee" /><label className="form-check-label" htmlFor="Radio_button"><img className="Method_pic" src="assets/img/ALL_ICO.png" /></label></div>
+          <button onClick={(e)=>{setType(0)}} className="form-check-input" type="radio" id="Radio_button" name="coffee" /><label className="form-check-label" htmlFor="Radio_button"><img className="Method_pic" src="assets/img/ALL_ICO.png" /></label></div>
       </div>
       <div className="d-flex justify-content-center align-items-center" id="Method_selectorbox">
         <div className="form-check d-flex align-items-center method_box">
-          <input onClick={(e)=>{setType(1)}} className="form-check-input" type="radio" id="Radio_button" name="coffee" /><label className="form-check-label" htmlFor="Radio_button"><img className="Method_pic" src="assets/img/Hario_ICO.png" /></label></div>
+          <button onClick={(e)=>{setType(1)}} className="form-check-input" type="radio" id="Radio_button" name="coffee" /><label className="form-check-label" htmlFor="Radio_button"><img className="Method_pic" src="assets/img/Hario_ICO.png" /></label></div>
       </div>
       <div className="d-flex justify-content-center align-items-center" id="Method_selectorbox">
         <div className="form-check d-flex align-items-center method_box">
-          <input onClick={(e)=>{setType(2)}} className="form-check-input" type="radio" id="Radio_button" name="coffee" /><label className="form-check-label" htmlFor="Radio_button"><img className="Method_pic" src="assets/img/Aeropress_ICO.png" /></label></div>
+          <button onClick={(e)=>{setType(2)}} className="form-check-input" type="radio" id="Radio_button" name="coffee" /><label className="form-check-label" htmlFor="Radio_button"><img className="Method_pic" src="assets/img/Aeropress_ICO.png" /></label></div>
       </div>
       <div className="d-flex justify-content-center align-items-center" id="Method_selectorbox">
         <div className="form-check d-flex align-items-center method_box">
-          <input onClick={(e)=>{setType(3)}} className="form-check-input" type="radio" id="Radio_button" name="coffee" /><label className="form-check-label" htmlFor="Radio_button"><img className="Method_pic" src="assets/img/Moka_ICO.png" /></label></div>
+          <button onClick={(e)=>{setType(3)}} className="form-check-input" type="radio" id="Radio_button" name="coffee" /><label className="form-check-label" htmlFor="Radio_button"><img className="Method_pic" src="assets/img/Moka_ICO.png" /></label></div>
       </div>
       <div className="d-flex justify-content-center align-items-center" id="Method_selectorbox">
         <div className="form-check d-flex align-items-center method_box">
-          <input onClick={(e)=>{setType(4)}} className="form-check-input" type="radio" id="Radio_button" name="coffee" /><label className="form-check-label" htmlFor="Radio_button"><img className="Method_pic" src="assets/img/Frenchpress_ICO.png" /></label></div>
+          <button onClick={(e)=>{setType(4)}} className="form-check-input" type="radio" id="Radio_button" name="coffee" /><label className="form-check-label" htmlFor="Radio_button"><img className="Method_pic" src="assets/img/Frenchpress_ICO.png" /></label></div>
       </div>
       <div className="d-flex justify-content-center align-items-center" id="Method_selectorbox">
         <div className="form-check d-flex align-items-center method_box">
-          <input onClick={(e)=>{setType(5)}} className="form-check-input" type="radio" id="Radio_button" name="coffee" /><label className="form-check-label" htmlFor="Radio_button"><img className="Method_pic" src="assets/img/Chemex_ICO.png" /></label></div>
+          <button onClick={(e)=>{setType(5)}} className="form-check-input" type="radio" id="Radio_button" name="coffee" /><label className="form-check-label" htmlFor="Radio_button"><img className="Method_pic" src="assets/img/Chemex_ICO.png" /></label></div>
       </div>
     </div>
     <div className="container" id="results_container">
       <div className="row row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-2 row-cols-xl-2 row-cols-xxl-2" style={{marginBottom: '10px'}}>
         
-        <CommuCard />
+        {data.map((e)=>{
+          
+        })}
       </div>
     </div>
   </div>

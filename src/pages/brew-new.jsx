@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useState } from 'react'
 import "../styles/Multiple-Input-Select-Pills.css"
 import "../styles/Round_switch.css"
@@ -15,7 +15,15 @@ import NewBrewProcessCard from '../components/newbrewprocesscard'
 import NewBrewEQCard from '../components/newbreweqcard'
 import { mmss } from '../method/mmss'
 import { useTranslation } from 'react-i18next'
+import {Routes, Route, useNavigate} from 'react-router-dom';
+
 export default function BrewNew() {
+
+  const getInitialState = () => {
+    const value = "Pour Water";
+    return value;
+  };
+  
 
   const [mainEquipment, setMainEquipment] = useState("Hario")
 
@@ -29,23 +37,32 @@ export default function BrewNew() {
   const [heat, setHeat] = useState(80)
   const [roast, setRoast] = useState('Medium')
 
+  //slider
+  const [coffeeSlider, setCoffeeSlider] = useState(1)
+  const [waterSlider, setWaterSlider] = useState(1)
+  const [remainWater, setRemainWater] = useState(water)
+  const [remainCoffee, setRemainCoffee] = useState(coffee)
+
+
   const [equipmentList, setEquipmentList] = useState([])
   const [modalEquipment, setModalEquipment] = useState('Coffee')
   const [modalDetail, setModalDetail] = useState('')
 
   const [processMethod, setProcessMethod] = useState(["Pour Water", "Add Coffee", "Stir", "Bloom", "Wait", "Swirl", "Rinse Filter", "Custom"])
+  // const [processMethod, setProcessMethod] = useState([])
   // const [processModal, setProcessModal] = useState([1,1,1,1,1])
-  const [processModal, setProcessModal] = useState([0, 0, 0, 0, 0])
+  
+  const [processModal, setProcessModal] = useState([0, 1, 0, 1, 1])
   const [processList, setProcessList] = useState([])
-  const [processStep, setProcessStep] = useState("")
+  const [processStep, setProcessStep] = useState(getInitialState())
   const [processName, setProcessName] = useState("")
-  const [processWater, setProcessWater] = useState("")
-  const [processCoffee, setProcessCoffee] = useState("")
   const [processDuration, setProcessDuration] = useState("")
   const [processNote, setProcessNote] = useState("")
 
-  const { t } = useTranslation();
+  const [remainTime, setRemainTime] = useState(0)
 
+  const { t } = useTranslation();
+  const navigate = useNavigate();
   const submitTool = (tool) => {
     if (tool === "Hario") {
       setProcessMethod(["Pour Water", "Add Coffee", "Stir", "Bloom", "Wait", "Swirl", "Rinse Filter", "Custom"])
@@ -59,11 +76,6 @@ export default function BrewNew() {
       setProcessMethod(["Pour Water", "Add Coffee", "Stir", "Bloom", "Wait", "Swirl", "Rinse Filter", "Custom"])
     }
   }
-  // Hario" selected>Hario V60</option>
-  // <option value="Chemex">Chemex</option>
-  // <option value="Moka">Moka Pot</option>
-  // <option value="Frenchpress">French Press</option>
-  // <option value="Aeropress">Aero Press</option>
 
   const handleProcess = (item) => {                         //set show or hide input when add process
     if (item === "Pour Water" || item === "Bloom") {
@@ -76,27 +88,44 @@ export default function BrewNew() {
       setProcessModal([0, 0, 0, 1, 1])
     }
     setProcessStep(item)
+    
     clearProcessModal()
   }
 
   const submitProcess = () => {
-    let data = {}
-    data.processStep = processStep
-    if (processModal[0]) {
-      data.name = processName
-    } if (processModal[1]) {
-      data.water = processWater
-    } if (processModal[2]) {
-      data.coffee = processCoffee
-    } if (processModal[3]) {
+      let data = {}
+      if(processStep === "Add Coffee"){
+        data.coffee = coffeeSlider
+        data.detail = `Add ${coffeeSlider} g of coffee`
+        setRemainCoffee(remainCoffee-coffeeSlider)
+      }else if((processStep === "Bloom")||(processStep === "Pour Water")){
+        data.water = waterSlider
+        data.detail = `Pour ${waterSlider} ml water`
+        setRemainWater(remainWater-waterSlider)
+      }else if((processStep === "Custom")){
+        data.name = processName
+      }
+      if((remainCoffee - coffeeSlider == 0) && (remainWater - waterSlider == 0)){
+        setProcessMethod(processMethod.filter(item=>((item!="Pour Water") && (item!="Bloom")&& (item!="Add Coffee"))))
+      }
+      else if(remainCoffee - coffeeSlider == 0){
+        setProcessMethod(processMethod.filter(item=>((item!="Add Coffee") )))
+      }
+      else if(remainWater - waterSlider == 0){
+        setProcessMethod(processMethod.filter(item=>((item!="Pour Water") && (item!="Bloom"))))
+      }
+    
+      data.id = `${processStep}-${processList.length+1}`
+      data.stepname = processStep
       data.duration = processDuration
-    } if (processModal[4]) {
-      data.note = processNote
-    }
-    clearProcessModal()
-    setProcessList([...processList, data])
-  }
+      data.comment = processNote
+      setProcessList([...processList, data])
+      setRemainTime(remainTime+parseInt(data.duration))
+      
+      clearProcessModal()
+      handleProcess(processStep)
 
+  }
   const equipmentPic = {
     "Coffee": "Tools_1",
     "Hario V60": "Tools_2",
@@ -112,26 +141,46 @@ export default function BrewNew() {
   }
   function clearProcessModal() {
     setProcessName("")
-    setProcessWater("")
-    setProcessCoffee("")
     setProcessDuration("")
     setProcessNote("")
-
+    setWaterSlider(1)
+    setCoffeeSlider(1)
   }
-  function changeRatio(type, value) {
-    if (type === "ratio") {
-      console.log('test')
-      setRatio(value)
-      setWater(value * coffee)
-    } else if (type === "coffee") {
-      setCoffee(value)
-      setWater(value * ratio)
-    } else if (type === "water") {
-      setCoffee(value / ratio)
-      setWater(value)
+
+  function convertNum(num){
+    if(Number.isInteger(num)){
+      return parseInt(num)
+    }else{
+      return num.toFixed(1)
     }
   }
 
+  function changeProcessRatio(num){
+      const array1 = [1, 4, 9, 16];
+      const map1 = array1.map(x => x * 2);
+  }
+
+  function changeRatio(type, value) {
+      if (type === "ratio") {
+        if(value>25){value=25}
+        if(value<=1){value=1}
+        
+        setRatio(value)
+        setWater(value * coffee)
+      } else if (type === "coffee") {
+        if(value>200){value=200}
+        if(value<=1){value=1}
+
+        setCoffee(value)
+        setWater(value * ratio)
+      } else if (type === "water") {
+        if(value>5000){value=5000}
+        if(value<=1){value=1}
+
+        setCoffee(value / ratio)
+        setWater(value)
+      }
+    }
   function submitEquipment(type, comment) {
     //update list
     setEquipmentList([...equipmentList, { id: `${equipmentPic[modalEquipment]}${modalDetail}`, "pic": `${equipmentPic[modalEquipment]}.png`, "detail": modalDetail }])
@@ -142,19 +191,55 @@ export default function BrewNew() {
       return item.id != id
     }))
   }
-  function deleteProcess(id) {
+  function deleteProcess(process) {
     setProcessList(processList.filter((item) => {
-      return item.id != id
+      return item.id != process.id
     }))
+    setRemainTime(remainTime-parseInt(process.duration))
+    if((process.stepname == "Pour Water") || (process.stepname == "Bloom")){
+      setRemainWater(remainWater+process.water)
+      if (!processMethod.includes("Pour Water")){
+        setProcessMethod([...processMethod, "Pour Water", "Bloom"])
+      }
+    }else if(process.stepname == "Add Coffee"){
+      setRemainCoffee(remainCoffee+process.coffee)
+      if (!processMethod.includes("Add Coffee")){
+        setProcessMethod([...processMethod, "Add Coffee"])
+      }
+    }
+    
+  }
+
+  const saving = () =>{
+    // need function to check condition too
+    let recipe = {
+      "brewer":mainEquipment,
+      "name":name,
+      "description":note,
+      "star":score,
+      "coffee_weight":coffee,
+      "water":water,
+      "ratio":ratio,
+      "grind_size":refine,
+      "temp":heat,
+      "roast_level":roast,
+      "equipment":equipmentList,
+      "process":processList,
+    }
+    navigate('/');
   }
 
   return (
     <div>
       <BackButton />
-      <div className="d-flex div_a" style={{ width: '80%', marginLeft: '20%' }}><button className="btn" id="brew_save_btn" type="button"><i className="fas fa-save Add_icon" style={{ fontSize: '25px' }} /></button></div>
+      <div className="d-flex div_a" style={{ width: '80%', marginLeft: '20%' }}>
+        <button className="btn" id="brew_save_btn" type="button" onClick={()=>{saving()}}>
+        <i className="fas fa-save Add_icon" style={{ fontSize: '25px' }} /></button></div>
       <div id="main_template">
         <div className="container profile_container">
           <div id="guide_container3" style={{ marginBottom: '10px' }}>
+            <h1>{remainTime}</h1>
+
             <p className="newbrew_title">1.{t("Btext13")}</p>
             <div className="text-center d-flex justify-content-center align-items-center">
               <div className="newbrew_preview_border">
@@ -195,21 +280,21 @@ export default function BrewNew() {
                 <div id="guide_card"><img id="guide_icon" src="assets/img/guide_ratio_ico.png" />
                   <p id="guide_name">{t("Modaltext31")}</p>
                   <div className="input-group"><span className="d-flex justify-content-end input-group-text" id="guide_unit2">1&nbsp; :</span>
-                    <input className="form-control" type="number" id="guide_input2" value={ratio} onChange={(e) => { changeRatio("ratio", e.target.value) }} /></div>
+                    <input className="form-control" type="number" min={1} max={25} step={0.1} id="guide_input2" value={ratio} onChange={(e) => { changeRatio("ratio", e.target.value) }} /></div>
                 </div>
               </div>
               <div className="col d-flex justify-content-center" style={{ paddingLeft: '5px', paddingRight: '5px' }}>
                 <div id="guide_card"><img id="guide_icon" src="assets/img/guide_pack_ico.png" />
                   <p id="guide_name">{t("Modaltext29")}</p>
                   <div className="input-group">
-                    <input className="form-control" type="number" id="guide_input" value={coffee} onChange={(e) => { changeRatio("coffee", e.target.value) }} /><span className="input-group-text" id="guide_unit">g</span></div>
+                    <input className="form-control" type="number" id="guide_input" min={1} max={200} step={0.1} value={coffee} onChange={(e) => { changeRatio("coffee", e.target.value) }} /><span className="input-group-text" id="guide_unit">g</span></div>
                 </div>
               </div>
               <div className="col d-flex justify-content-center" style={{ paddingLeft: '5px', paddingRight: '5px' }}>
                 <div id="guide_card"><img id="guide_icon" src="assets/img/guide_water_ico.png" />
                   <p id="guide_name">{t("Modaltext30")}</p>
                   <div className="input-group">
-                    <input className="form-control" type="number" id="guide_input" value={water} onChange={(e) => { changeRatio("water", e.target.value) }} /><span className="input-group-text" id="guide_unit">ml</span></div>
+                    <input className="form-control" type="number" id="guide_input" value={water} min={1} max={5000} step={0.1} onKeyPress={(e) => !/[0-9]/.test(e.key) && e.preventDefault()} onChange={(e) => { changeRatio("water", e.target.value) }} /><span className="input-group-text" id="guide_unit">ml</span></div>
                 </div>
               </div>
             </div>
@@ -249,28 +334,27 @@ export default function BrewNew() {
             <div className="d-inline-flex" style={{ minWidth: '100%' }}>
               <p className="newbrew_title" style={{ width: '80%' }}>4.{t("Btext16")}</p>
               <div style={{ minWidth: '10%' }}><img src="assets/img/guide_timer_ico.png" style={{ width: '30px', height: '30px' }} /></div>
-              <p style={{ textAlign: 'center', minWidth: '10%', paddingTop: '5px' }}>{processList.length ? mmss(processList.reduce((total, item) => { return total + parseInt(item.duration) }, 0)) : "00:00"}</p>
+              <p style={{ textAlign: 'center', minWidth: '10%', paddingTop: '5px' }}>{mmss(remainTime)}</p>
             </div>
             <div id="process_container">
               {processList.map((item, index) => {
                 return (
-                  // <NewBrewProcessCard key={`${item.processStep}${index}`} name={item.processStep} comment={item.processNote} time={item.processDuration} func={deleteProcess} param={item.id} />
-                  <div className="d-inline-flex" id="Process_edit_card" style={{ width: '100%' }}>
+                  <div className="d-inline-flex" id="Process_edit_card" style={{ width: '100%' }} key={item.id}>
                     <div className="process_card2">
                       <div className="d-inline-flex" style={{ minWidth: '100%' }}>
                         <div style={{ minWidth: '15%' }}><img id="process_pic" src="assets/img/Process_Dummy_icon.png" /></div>
-                        <p id="process_title">{item.processName ? item.processName : item.processStep}</p>
+                        <p id="process_title">{item.name ? item.name : item.stepname}</p>
                         <p className="text-end" style={{ minWidth: '15%' }}>{mmss(item.duration)}</p>
                       </div>
                       <div>
-                        <p id="process_des">{item.note}</p>
+                        <p id="process_des">{item.detail}</p>
                       </div>
                       <div>
                         <p id="process_comment">{item.comment}</p>
                       </div>
                     </div>
                     <div className="d-flex justify-content-center align-items-center process_delete_box">
-                      <button onClick={() => { deleteProcess(item.id) }} className="btn btn-primary" id="process_timer_delete" type="button"><i className="fa fa-minus-square-o" style={{ fontSize: '20px' }} /></button></div>
+                      <button onClick={() => { deleteProcess(item) }} className="btn btn-primary" id="process_timer_delete" type="button"><i className="fa fa-minus-square-o" style={{ fontSize: '20px' }} /></button></div>
                   </div>
                 )
               })}
@@ -278,7 +362,7 @@ export default function BrewNew() {
 
             </div>
             <div style={{ textAlign: 'center' }}>
-              <button className="btn btn-primary" id="process_timer_add" type="button" data-bs-target="#Modal_step" data-bs-toggle="modal">
+              <button onClick={()=>{handleProcess(processStep)}} className="btn btn-primary" id="process_timer_add" type="button" data-bs-target="#Modal_step" data-bs-toggle="modal">
                 <i className="fas fa-plus" />&nbsp;เพิ่มขั้นตอนใหม่</button></div>
           </div>
           <div id="guide_container1" style={{ height: '450px' }}>
@@ -352,7 +436,7 @@ export default function BrewNew() {
                         <div className="d-inline-flex" style={{ width: '100%', marginTop: '5px' }}><img className="ae_legend" src="assets/img/legend_process.png" />
                           <p id="Etitle">{t("Modaltext09")}</p>
                         </div>
-                        <select className="form-select tools_switch" style={{ marginLeft: '0px', marginTop: '0px' }} onChange={(e) => { handleProcess(e.target.value) }}>
+                        <select value={processStep} className="form-select tools_switch" style={{ marginLeft: '0px', marginTop: '0px' }} onChange={(e) => { handleProcess(e.target.value) }}>
                           {processMethod.map((item, index) => (<option key={item} value={item}>{item}</option>))}
                         </select>
                       </div>
@@ -374,9 +458,10 @@ export default function BrewNew() {
                           <p id="Etitle">{t("Modaltext11")}</p>
                         </div>
                         <div className="row" style={{ minWidth: '100%' }}>
-                          <div className="col" style={{ minWidth: '80%' }}><input className="form-range form-control" type="range" id="Water_Slider" /></div>
+                          <div className="col" style={{ minWidth: '80%' }}>
+                            <input className="form-range form-control" type="range" id="Water_Slider" min={1} max={remainWater} step={1} value={waterSlider} onChange={(e)=>{setWaterSlider(e.target.value)}} /></div>
                           <div className="col" style={{ textAlign: 'center', minWidth: '10%' }}>
-                            <p>0</p>
+                            <p>{waterSlider}</p>
                           </div>
                           <div className="col" style={{ textAlign: 'center', minWidth: '10%' }}>
                             <p>ml</p>
@@ -392,9 +477,10 @@ export default function BrewNew() {
                           <p id="Etitle">{t("Modaltext12")}</p>
                         </div>
                         <div className="row" style={{ minWidth: '100%' }}>
-                          <div className="col" style={{ minWidth: '80%' }}><input className="form-range form-control" type="range" id="Coffee_Slider" /></div>
+                          <div className="col" style={{ minWidth: '80%' }}>
+                            <input className="form-range form-control" type="range" id="Coffee_Slider" min={1} max={remainCoffee} step={1} value={coffeeSlider} onChange={(e)=>{setCoffeeSlider(e.target.value)}} /></div>
                           <div className="col" style={{ textAlign: 'center', minWidth: '10%' }}>
-                            <p>0</p>
+                            <p>{coffeeSlider}</p>
                           </div>
                           <div className="col" style={{ textAlign: 'center', minWidth: '10%' }}>
                             <p>g</p>
@@ -408,7 +494,7 @@ export default function BrewNew() {
                       <div className="tools_card">
                         <div className="d-inline-flex" style={{ width: '100%', marginTop: '5px' }}><img className="ae_legend" src="assets/img/legend_time.png" />
                           <p id="Etitle">{t("Modaltext13")}&nbsp;</p>
-                        </div><input className="form-control ae_input" type="text" placeholder="seconds" value={processDuration} onChange={(e) => { setProcessDuration(e.target.value) }} />
+                        </div><input className="form-control ae_input" type="text" placeholder="seconds" value={processDuration} onKeyPress={(e) => !/[0-9]/.test(e.key) && e.preventDefault()} onChange={(e) => { setProcessDuration(e.target.value) }} />
                       </div>
                     </div>
                   </div>}
