@@ -20,9 +20,9 @@ import { useTranslation } from 'react-i18next';
 export default function BrewTimer() {
   const { t, i18n } = useTranslation();
   const processList = [
-    {name:"process1", description:"do 500ml", comment:"comment_dummy", time:5},
-    {name:"process2", description:"do 500ml", comment:"comment_dummy", time:6},
-    {name:"process3", description:"do 500ml", comment:"comment_dummy", time:7},
+    {name:"process1", description:"do 500ml", comment:"comment_dummy", time:9},
+    {name:"process2", description:"do 500ml", comment:"comment_dummy", time:7},
+    {name:"process3", description:"do 500ml", comment:"comment_dummy", time:8},
     {name:"process4", description:"do 500ml", comment:"comment_dummy", time:8},
   ]
   const [overallTime, setOverallTime] = useState(0)   //overall = total time - total = total time but decrease when timer on
@@ -50,11 +50,23 @@ export default function BrewTimer() {
       time += item.time}
     })
     setTotalTime(time)
+    stop()
   }
   function test(){
     startCondition()
     setState(true)
   }
+
+  function play(){
+    var audio = document.getElementById('a1');
+    audio.play()
+  }
+  function stop(){
+    var audio = document.getElementById('a1');
+    audio.pause()
+    audio.currentTime = 0;
+  }
+
 
   useEffect( ()=>{
     if(state){
@@ -72,6 +84,7 @@ export default function BrewTimer() {
           
 
         }else if(processTime>0 && totaltime>0){ //run this case every 1000ms
+          if(processTime == 7){play()}
           console.log('1s')
           setProcessTime(processTime-1)
           setTotalTime(totaltime-1)
@@ -89,6 +102,7 @@ export default function BrewTimer() {
       <div className="d-flex justify-content-center" id="Timer_container1"><button onClick={()=> {test()}} className="btn btn-primary" id="Timer_PP_button" type="button" />
         <div className="Main_timer" />
         <p className="Main_timer_text">{t("Btext10")}</p>
+        <audio id='a1'><source src='/sound/5sec.mp3' type='audio/mpeg' /></audio>
         {/* <button onClick={(e)=>{test()}}>test</button> */}
         <p className="Main_timer_num">{mmss(processTime)}</p><img className="timer_control_icon" src="../assets/img/Timer_play_ico.png" />
         <div className="d-inline-flex Sub_timer"><img className="Sub_timer_icon" src="../assets/img/guide_timer_ico.png" />
@@ -147,3 +161,5 @@ export default function BrewTimer() {
 
   )
 }
+
+

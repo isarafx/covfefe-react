@@ -9,28 +9,36 @@ import "../styles/Ultimate-Sidebar-Menu-BS5.css"
 import "../styles/Features-Clean.css"
 
 import { useTranslation } from 'react-i18next';
-
+import { useState } from 'react'
+import { Link } from 'react-router-dom'
 export default function Login() {
   const { t, i18n } = useTranslation();
+  const [username, setUsername] = useState("")
+  const [password, setPassword] = useState("")
   return (
     <body className='LoginBG'>
       <div className="d-flex align-items-center logdiv">
   <div className="container" id="Login_container">
     <div className="card LoginCard">
       <div className="card-body">
-        <div className="d-flex Div1"><button className="btn btn-primary" id="Toplogin_buttonL" type="button">{t("Ltext01")}</button><img className="pic1" src="assets/img/Picture1.png" /><a className="btn btn-primary" role="button" data-bss-hover-animate="pulse" id="Topregister_buttonL" href="Register.html">{t("Ltext02")}</a></div>
+        <div className="d-flex Div1"><button className="btn btn-primary" id="Toplogin_buttonL" type="button">{t("Ltext01")}</button>
+        <img className="pic1" src="assets/img/Picture1.png" />
+        <Link to="/register"><a className="btn btn-primary" role="button" data-bss-hover-animate="pulse" id="Topregister_buttonL" href="">{t("Ltext02")}</a></Link></div>
         <form>
           <div>
             <p style={{marginBottom: '5px', marginLeft: '10px'}}>{t("User99")}</p>
           </div>
-          <div className="d-flex InputDiv1"><i className="fa fa-user icon" /><input className="form-control Inputform" type="text" required /></div>
+          <div className="d-flex InputDiv1"><i className="fa fa-user icon" />
+          <input className="form-control Inputform" type="text" value={username} onChange={(e)=>{setUsername(e.target.value)}} required /></div>
           <div>
             <p style={{marginBottom: '5px', marginLeft: '10px'}}>{t("Pass99")}</p>
           </div>
-          <div className="d-flex InputDiv2"><i className="fa fa-lock icon" /><input className="form-control Inputform" type="password" required /></div>
+          <div className="d-flex InputDiv2"><i className="fa fa-lock icon" />
+          <input className="form-control Inputform" type="password" value={password} onChange={(e)=>{setPassword(e.target.value)}} required /></div>
           <p style={{fontSize: '13px', textAlign: 'center', marginBottom: '8px'}}>{t("Ltext03")}</p>
           <div style={{textAlign: 'center'}}><a href="https://www.google.com"><img className="pic2" src="assets/img/Picture3.png" /></a></div>
-          <div className="d-flex SkipDiv"><button className="btn btn-primary d-flex" data-bss-hover-animate="pulse" id="Confirm_Button" type="submit">{t("Ltext01")}</button><a className="skiplog" href="Brewing_Main.html">{t("Ltext04")}</a></div>
+          <div className="d-flex SkipDiv"><button className="btn btn-primary d-flex" data-bss-hover-animate="pulse" id="Confirm_Button" type="submit">{t("Ltext01")}</button>
+          <Link to="/"><a className="skiplog" href="">{t("Ltext04")}</a></Link></div>
         </form>
         <div style={{textAlign: 'center'}}><img className="pic3" src="assets/img/CoffeeCactus.png" /></div>
       </div>

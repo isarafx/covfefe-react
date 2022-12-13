@@ -9,6 +9,7 @@ import "../styles/Ultimate-Sidebar-Menu-BS5.css"
 import "../styles/Features-Clean.css"
 import NavBar from '../components/navbar'
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom'
 export default function Profile() {
   const { t, i18n } = useTranslation()
   function changeLanguage() {
@@ -21,7 +22,7 @@ export default function Profile() {
     }
   }
   const lang = localStorage.getItem('i18nextLng')
-  const [checked, setChecked] = useState(lang === 'en' ? true : false);
+  const [checker, setChecker] = useState(lang === 'en' ? true : false);
 
   return (
     <div>
@@ -43,7 +44,7 @@ export default function Profile() {
                 </div>
               </div>
               <div className="row prow" data-bss-hover-animate="pulse">
-                <div className="col"><a className="btn btn-primary" role="button" style={{ background: '#d35151' }} href="Login.html">{t("Ltext01")}</a></div>
+                <div className="col"><Link to="/login"><a className="btn btn-primary" role="button" style={{ background: '#d35151' }} href="">{t("Ltext01")}</a></Link></div>
               </div>
             </div>
             <div className="col profile_section">
@@ -96,7 +97,9 @@ export default function Profile() {
                   <p className="setting_label2">{t("Ptext09")}</p>
                 </div>
                 <div className="col" style={{ maxWidth: '100%', width: '70px', textAlign: 'center', minWidth: '60px' }}><label className="switch">
-                  <input type="checkbox" />
+                  {checker?
+                  <input type="checkbox" checked onClick={()=>{setChecker(!checker);changeLanguage()}}/>
+                  :<input type="checkbox" onClick={()=>{setChecker(!checker);changeLanguage()}} />}
                   <span className="slider round" />
                 </label></div>
                 <div className="col" style={{ width: '40.4px', maxWidth: '100%', textAlign: 'center' }}>
