@@ -14,26 +14,59 @@ import "../styles/Brewing_Guide4.css"
 import "../styles/Features-Clean.css"
 import BackButton from '../components/backbutton'
 import { useTranslation } from 'react-i18next'
+import { useEffect } from 'react'
+import { Fetching } from '../method/fetchScripts'
 export default function BrewRecipe() {
-  const { id } = useParams();
-  const {t} = useTranslation();
-  const [recipeList, setRecipeList] = useState([{name:"Recipe 1", favorite:1, shared:1, link:"/"},
-    {name:"Recipe 2", favorite:0, shared:1, link:"/"},
-    {name:"Recipe 3", favorite:1, shared:0, link:"/"},
-    {name:"Recipe 4", favorite:0, shared:0, link:"/"},
-  ])
+  const { brewer } = useParams();
+  const { t } = useTranslation();
 
-  // Header 
-  const header_name = id
+  const tool = {
+    "hario":"Hario",
+    "aeropress":"Aero Press",
+    "frenchpress":"FrenchPress",
+    "mokapot":"Moka Pot",
+    "chemex":"Chemex",
+  }
+
+  // let [display, setDisplay] = useState(JSON.parse(localStorage.getItem('brew-recipe'))['items'])
+  let [online, isOnline] = useState(navigator.onLine);
+  let [result, setResult] = useState("");
+  const setOnline = () => {
+    
+    isOnline(true);
+  };
+  const setOffline = () => {
+    console.log('We are offline!');
+    isOnline(false);
+  };
+
+  // Register the event listeners
+  useEffect(() => {
+    window.addEventListener('offline', setOffline);
+    window.addEventListener('online', setOnline);
+    
+    // cleanup if we unmount
+    return () => {
+      window.removeEventListener('offline', setOffline);
+      window.removeEventListener('online', setOnline);
+    }
+  }, []);
+   useEffect(()=>{
+       console.log(Fetching("", "https://q27z6n.deta.dev/brew-recipe", "GET", {},
+       {Accept: "application/json", "X-Token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIn0.xxMLezVa5jtc7hSBVJ8vEPvqesEQNu0CIQNK2pw5sZc"}
+       , online))
+     },[online])
   return (
     <div>
   <BackButton />
   <div id="main_template">
     <div className="container" id="recipelist_container">
       
-      {recipeList.map((item)=>{
-        return (<RecipeCard name={item.name} favorite={item.favorite} shared={item.shared} link={item.link} />)
-      })}
+      {/* {display.map((item)=>{
+        if(item.brewer === tool[brewer] ){
+          return(<RecipeCard name={item.name} favorite={item.favorite} shared={item.shared} link={item.Lid} />)
+        }
+      })} */}
     </div>
   </div>
   <div className="d-flex" id="Header">

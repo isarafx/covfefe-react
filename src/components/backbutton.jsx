@@ -3,6 +3,6 @@ import { Link } from "react-router-dom";
 export default function BackButton(){
     let navigate = useNavigate();
     return(
-        <div className="div_back"><a href="javascript:history.back()"><i className="icon ion-android-arrow-back" id="Back_icon" /></a></div>
+        <div className="div_back"><a href=""><i className="icon ion-android-arrow-back" id="Back_icon" /></a></div>
     )
 }

@@ -12,33 +12,24 @@ import "../styles/Brewing_Guide4.css"
 import "../styles/Features-Clean.css"
 import BrewGuideProcessCard from '../components/brewguideprocesscard'
 import BrewGuideEQCard from '../components/brewguideeqcard'
+import BackButton from '../components/backbutton'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next';
-
+import { Link, useParams } from 'react-router-dom'
+import { useEffect } from 'react'
 export default function BrewGuide() {
-  const recipe = {
-    name:"",
-    note:"",
-    score:8,
-    coffee:20,
-    water:200,
-    ratio:10,
-    refine:"Medium",
-    heat:90,
-    roast:"Medium",
-    eqList:[{pic:"assets/img/Tools_5.png","detail":"something"},{pic:"assets/img/Tools_4.png","detail":"something2"}],
-    processList:[{duration: "30", note: "test1", processStep: "Pour Water", water:"20"},
-    {duration: "50", name: "custom dude", note: "test", name:"custom dude"},
-    {duration: "20", note: "test", processStep: "Stir"}
-    ]  
-}
-const [cup, setCup] = useState(1)
-
-  
+  const { id } = useParams();
+  const [cup, setCup] = useState(1)
   const { t, i18n } = useTranslation();
+
+  const recipe = JSON.parse(localStorage.getItem('recipe'))['item'].filter((item)=>{return item.Lid===id})[0]
+  // useEffect(()=>{
+  //   console.log(recipey)
+  // },[])
   return (
     <div>
-  <div className="d-flex div_a" style={{width: '80%', marginLeft: '20%'}}><a href="Brewing_Edit.html"><i className="fa fa-pencil Add_icon" style={{fontSize: '25px'}} /></a></div>
+      <BackButton />
+  <div className="d-flex div_a" style={{width: '80%', marginLeft: '20%'}}><a href=""><i className="fa fa-pencil Add_icon" style={{fontSize: '25px'}} /></a></div>
   <div id="main_template">
     <div className="container" id="recipelist_container">
       <h1 id="guide_head">{recipe.name}</h1>
@@ -48,27 +39,27 @@ const [cup, setCup] = useState(1)
             <p id="guide_con_title">{t("Btext07")}</p>
             <div className="d-inline-flex" id="guide_tool_bar">
               
-              {recipe.eqList.map((item)=>{
-                return(<BrewGuideEQCard pic={item.pic} detail={item.detail}/>)
+              {recipe.equipment.map((item)=>{
+                return(<BrewGuideEQCard pic={item.pic} detail={item.description}/>)
               })}
             </div>
             <div className="row row-cols-3" id="guide_row">
               <div className="col d-flex justify-content-center" style={{paddingLeft: '5px', paddingRight: '5px'}}>
-                <div id="guide_card"><img id="guide_icon" src="assets/img/guide_ratio_ico.png" />
+                <div id="guide_card"><img id="guide_icon" src="../../assets/img/guide_ratio_ico.png" />
                   <p id="guide_name">{t("Modaltext31")}</p>
                   <div className="input-group"><span className="d-flex justify-content-end input-group-text" id="guide_unit2">1&nbsp; :</span>
                   <input className="form-control" type="number" id="guide_input2" value={recipe.ratio} /></div>
                 </div>
               </div>
               <div className="col d-flex justify-content-center" style={{paddingLeft: '5px', paddingRight: '5px'}}>
-                <div id="guide_card"><img id="guide_icon" src="assets/img/guide_pack_ico.png" />
+                <div id="guide_card"><img id="guide_icon" src="../../assets/img/guide_pack_ico.png" />
                   <p id="guide_name">{t("Modaltext29")}</p>
                   <div className="input-group">
-                    <input className="form-control" type="number" id="guide_input" value={recipe.coffee*cup} /><span className="input-group-text" id="guide_unit">g</span></div>
+                    <input className="form-control" type="number" id="guide_input" value={recipe.coffee_weight*cup} /><span className="input-group-text" id="guide_unit">g</span></div>
                 </div>
               </div>
               <div className="col d-flex justify-content-center" style={{paddingLeft: '5px', paddingRight: '5px'}}>
-                <div id="guide_card"><img id="guide_icon" src="assets/img/guide_water_ico.png" />
+                <div id="guide_card"><img id="guide_icon" src="../../assets/img/guide_water_ico.png" />
                   <p id="guide_name">{t("Modaltext30")}</p>
                   <div className="input-group">
                     <input className="form-control" type="number" id="guide_input" value={recipe.water*cup} /><span className="input-group-text" id="guide_unit">ml</span></div>
@@ -78,9 +69,9 @@ const [cup, setCup] = useState(1)
             <hr className="guide_nline" />
             <div className="row row-cols-3" style={{marginRight: '0px', marginLeft: '0px'}}>
               <div className="col d-flex justify-content-center" style={{paddingLeft: '5px', paddingRight: '5px'}}>
-                <div id="guide_card"><img id="guide_icon" src="assets/img/guide_grind_ico.png" />
+                <div id="guide_card"><img id="guide_icon" src="../../assets/img/guide_grind_ico.png" />
                   <p id="guide_name">{t("Modaltext32")}</p><select id="guide_option" disabled>
-                    <option value={14} selected>{recipe.refine}</option>
+                    <option value={14} selected>{recipe.grind_size}</option>
                     {/* <option value={13}>Fine</option>
                     <option value>Medium Fine</option>
                     <option value={12} selected>Medium</option>
@@ -90,16 +81,16 @@ const [cup, setCup] = useState(1)
                 </div>
               </div>
               <div className="col d-flex justify-content-center" style={{paddingLeft: '5px', paddingRight: '5px'}}>
-                <div id="guide_card"><img id="guide_icon" src="assets/img/guide_heat_ico.png" />
+                <div id="guide_card"><img id="guide_icon" src="../../assets/img/guide_heat_ico.png" />
                   <p id="guide_name">{t("Modaltext33")}</p>
                   <div className="input-group d-sm-flex justify-content-center justify-content-xxl-center" style={{width: '100%'}}>
-                    <input className="form-control" type="text" id="guide_readonly" value={recipe.heat} disabled /><span className="input-group-text" id="guide_unit">°C</span></div>
+                    <input className="form-control" type="text" id="guide_readonly" value={recipe.temp} disabled /><span className="input-group-text" id="guide_unit">°C</span></div>
                 </div>
               </div>
               <div className="col d-flex justify-content-center" style={{paddingLeft: '5px', paddingRight: '5px'}}>
-                <div id="guide_card" style={{maxWidth: '150px', minWidth: '95px'}}><img id="guide_icon" src="assets/img/guide_bean_ico.png" />
+                <div id="guide_card" style={{maxWidth: '150px', minWidth: '95px'}}><img id="guide_icon" src="../../assets/img/guide_bean_ico.png" />
                   <p id="guide_name">{t("Modaltext34")}</p><select id="guide_option" disabled>
-                    <option value={14} selected>{recipe.roast}</option>
+                    <option value={14} selected>{recipe.roast_level}</option>
                     {/* <option value={13}>Medium</option>
                     <option value={12} selected>Dark</option> */}
                   </select>
@@ -109,7 +100,7 @@ const [cup, setCup] = useState(1)
             <div className="row row-cols-3 d-flex justify-content-center align-items-center" style={{marginRight: '0px', marginLeft: '0px', width: '100%'}}>
               <div className="col" style={{width: '100%'}}>
                 <div className="d-inline-flex" style={{width: '100%'}}>
-                  <div id="cup_number_div"><img id="cup_number_icon" src="assets/img/Cup%20Icon.png" /></div>
+                  <div id="cup_number_div"><img id="cup_number_icon" src="../../assets/img/Cup%20Icon.png" /></div>
                   <input className="form-range" type="range" id="myRange" min={1} max={10} step={1} value={cup} onChange={(e)=>{setCup(e.target.value)}} />{cup}<span id="demo" style={{marginTop: '18px', paddingLeft: '10px'}} />
                 </div>
               </div>
@@ -120,16 +111,16 @@ const [cup, setCup] = useState(1)
           <div id="guide_container1">
             <div className="d-inline-flex" style={{minWidth: '100%'}}>
               <p id="guide_con_title" style={{width: '80%'}}>{t("Modaltext35")}</p>
-              <div style={{minWidth: '10%'}}><img src="assets/img/guide_timer_ico.png" style={{width: '30px', height: '30px'}} /></div>
+              <div style={{minWidth: '10%'}}><img src="../../assets/img/guide_timer_ico.png" style={{width: '30px', height: '30px'}} /></div>
               <p style={{textAlign: 'center', minWidth: '10%', paddingTop: '5px'}}>00:00</p>
             </div>
             <div id="process_container">
 
-              {recipe.processList.map((item)=>{
-                return(<BrewGuideProcessCard name={item.processName ? item.processName:item.processStep} description={item.description} comment={item.detail} time={item.duration}/>)
+              {recipe.process.map((item)=>{
+                return(<BrewGuideProcessCard name={item.custom_name ? item.custom_name:item.name} description={item.description} comment={item.detail} time={item.duration}/>)
               })}
             </div>
-            <div style={{textAlign: 'center'}}><a className="btn btn-primary" role="button" id="process_timer_start" href="Brewing_Timer.html">{t("Modaltext36")}</a></div>
+            <div style={{textAlign: 'center'}}><Link to={`/brew-timer/${id}?cup=${cup}`}><a className="btn btn-primary" role="button" id="process_timer_start" href="">{t("Modaltext36")}</a></Link></div>
           </div>
         </div>
         <div className="col" style={{height: '415px'}}>

@@ -3,10 +3,14 @@ import { Link } from 'react-router-dom'
 export default function RecipeCard({name="Recipe Name", link="/", shared=0, favorite=0}) {
     if(shared){shared="Tool_Shared"}else{shared="Tool_icon"}
     if(favorite){favorite="Tool_Faved"}else{favorite="Tool_icon"}
+
+  
+
+
   return (
     <div id="method_result_card">
         <div className="row">
-          <div className="col"><a href="">
+          <div className="col"><Link to={`/brew-guide/${link}`}><a href="">
               <div className="card" style={{height: '65px', background: 'rgba(255,255,255,0)', borderStyle: 'none'}}>
                 <div className="card-body fcard_body">
                   <div className="row">
@@ -19,7 +23,7 @@ export default function RecipeCard({name="Recipe Name", link="/", shared=0, favo
                   </div>
                 </div>
               </div>
-            </a></div>
+            </a></Link></div>
         </div>
 
         <div className="row">
