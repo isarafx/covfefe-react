@@ -16,21 +16,21 @@ import BackButton from '../components/backbutton'
 import { useTranslation } from 'react-i18next'
 import { useEffect } from 'react'
 import { Fetching } from '../method/fetchScripts'
+import axios from 'axios';
 export default function BrewRecipe() {
   const { brewer } = useParams();
   const { t } = useTranslation();
 
   const tool = {
     "hario":"Hario",
-    "aeropress":"Aero Press",
-    "frenchpress":"FrenchPress",
+    "aeropress":"AeroPress",
+    "frenchpress":"French Press",
     "mokapot":"Moka Pot",
     "chemex":"Chemex",
   }
-
   // let [display, setDisplay] = useState(JSON.parse(localStorage.getItem('brew-recipe'))['items'])
   let [online, isOnline] = useState(navigator.onLine);
-  let [result, setResult] = useState("");
+  let [result, setResult] = useState([]);
   const setOnline = () => {
     
     isOnline(true);
@@ -51,22 +51,38 @@ export default function BrewRecipe() {
       window.removeEventListener('online', setOnline);
     }
   }, []);
-   useEffect(()=>{
-       console.log(Fetching("", "https://q27z6n.deta.dev/brew-recipe", "GET", {},
-       {Accept: "application/json", "X-Token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIn0.xxMLezVa5jtc7hSBVJ8vEPvqesEQNu0CIQNK2pw5sZc"}
-       , online))
-     },[online])
+     useEffect(() => {
+      const fetchData  = async () => { 
+        const result = await axios.get('https://q27z6n.deta.dev/recipes/public', {
+          headers: {
+              'accept': 'application/json'
+          }
+      });
+      setResult(result.data['items']);
+      localStorage.setItem('brew-recipe', JSON.stringify(result.data))
+    };
+      if(localStorage.getItem('brew-recipe') != null){
+        setResult(JSON.parse(localStorage.getItem('brew-recipe'))['items'])
+      }
+      if(online){
+      fetchData();
+      }
+    }, []);
   return (
     <div>
   <BackButton />
   <div id="main_template">
     <div className="container" id="recipelist_container">
-      
-      {/* {display.map((item)=>{
+      {/* {JSON.stringify(result)} */}
+      {/* <p>{typeof result}</p>
+      <p>{JSON.stringify(result)}</p> */}
+      {
+        result === [] ? <h1>empty</h1>:result.map((item)=>{
         if(item.brewer === tool[brewer] ){
-          return(<RecipeCard name={item.name} favorite={item.favorite} shared={item.shared} link={item.Lid} />)
+          return(<RecipeCard name={item.name} favorite={item.favorite} shared={item.shared} link={item.key} />)
         }
-      })} */}
+      })
+      }
     </div>
   </div>
   <div className="d-flex" id="Header">

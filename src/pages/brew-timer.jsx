@@ -24,15 +24,9 @@ export default function BrewTimer() {
   const [searchParams] = useSearchParams();
   const [cup, setCup] = useState(1)
 
-  // searchParams.get('cup'); // 'name'
-  // const processList = [
-  //   {name:"process1", description:"do 500ml", comment:"comment_dummy", time:9},
-  //   {name:"process2", description:"do 500ml", comment:"comment_dummy", time:7},
-  //   {name:"process3", description:"do 500ml", comment:"comment_dummy", time:8},
-  //   {name:"process4", description:"do 500ml", comment:"comment_dummy", time:8},
-  // ]
-  const processList = JSON.parse(localStorage.getItem('recipe'))['item'].filter((item)=>{return item.Lid===id})[0]['process']
 
+  // const processList = JSON.parse(localStorage.getItem('recipe'))['item'].filter((item)=>{return item.Lid===id})[0]['process']
+  const processList = JSON.parse(localStorage.getItem('brew-recipe'))['items'].filter((item)=>{return item.key===id})[0]['process']
   const [overallTime, setOverallTime] = useState(0)   //overall = total time - total = total time but decrease when timer on
   const [runTime, setRunTime] = useState(0)           //total time since timer start
   const [totaltime, setTotalTime] = useState(0)

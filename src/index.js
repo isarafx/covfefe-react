@@ -63,7 +63,7 @@ const router = createBrowserRouter([
     element: <BrewFav />,
   },
   {
-    path: "/brew-guide/:brewer/:id",
+    path: "/brew-guide/:id",
     element: <BrewGuide />,
   },
   {

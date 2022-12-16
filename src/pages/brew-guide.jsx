@@ -22,10 +22,8 @@ export default function BrewGuide() {
   const [cup, setCup] = useState(1)
   const { t, i18n } = useTranslation();
 
-  const recipe = JSON.parse(localStorage.getItem('recipe'))['item'].filter((item)=>{return item.Lid===id})[0]
-  // useEffect(()=>{
-  //   console.log(recipey)
-  // },[])
+  const recipe = JSON.parse(localStorage.getItem('brew-recipe'))['items'].filter((item)=>{return item.key===id})[0]
+
   return (
     <div>
       <BackButton />
@@ -128,7 +126,7 @@ export default function BrewGuide() {
             <p id="guide_con_title">{t("Modaltext38")}</p><textarea id="comment_guide_box" rows={9} readOnly value={recipe.note}/>
             <p id="guide_con_title">{t("Btext19")}</p>
             <div className="d-inline-flex" style={{minWidth: '100%'}}><i className="fa fa-star" id="comment_rating" style={{width: '10%', fontSize: '30px', color: 'rgb(255,184,0)', marginLeft: '10px', marginTop: '-5px'}} />
-            <input className="form-range" type="range" id="ratingbar" min={1} max={10} step={1} value={recipe.score} style={{width: '70%'}} disabled /><span id="score" style={{paddingLeft: '10px'}} /><span>{recipe.score}/10</span></div>
+            <input className="form-range" type="range" id="ratingbar" min={1} max={10} step={1} value={recipe.score} style={{width: '70%'}} disabled /><span id="score" style={{paddingLeft: '10px'}} /><span>6/10</span></div>
           </div>
           <div style={{height: '60px', bottom: 0}} />
         </div>

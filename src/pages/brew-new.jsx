@@ -17,6 +17,7 @@ import NewBrewEQCard from '../components/newbreweqcard'
 import { mmss } from '../method/mmss'
 import { useTranslation } from 'react-i18next'
 import {Routes, Route, useNavigate} from 'react-router-dom';
+import axios from 'axios'
 export default function BrewNew() {
 
   
@@ -64,7 +65,6 @@ export default function BrewNew() {
   const [remainTime, setRemainTime] = useState(0)
 
   const { t } = useTranslation();
-  const navigate = useNavigate();
   const [exData, setEXData] = useState();
 
   function record(){
@@ -74,8 +74,8 @@ export default function BrewNew() {
     if(mainEquipment === "Aeropress"){eq = "AeroPress"}
     if(mainEquipment === "Frenchpress"){eq = "FrenchPress"}
     
-    let tempeq = JSON.stringify(equipmentList.map((item)=>({name:PicEQ[item.pic.slice(0,-4)], description:item.detail})))
-    let tempProcess = JSON.stringify(processList.map((item)=> {
+    let tempeq = (equipmentList.map((item)=>({name:PicEQ[item.pic.slice(0,-4)], description:item.detail})))
+    let tempProcess = (processList.map((item)=> {
       let data2 = {name:"", time:item.time, comment:item.comment};
       if(item.custom_name){
         data2.custom_name = item.custom_name
@@ -98,18 +98,12 @@ export default function BrewNew() {
       temp:heat,
       roast_level:roast,
     }
-    setEXData(JSON.stringify(data))
-    let result = fetch("https://q27z6n.deta.dev/recipes", {
-      body: JSON.stringify(data),
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        "X-Token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIn0.xxMLezVa5jtc7hSBVJ8vEPvqesEQNu0CIQNK2pw5sZc"
-      },
-      method: "POST"
-    }).then(res=>console.log(res.json()))
+    setRecordData(data)
+    setTrigger(!trigger)
   }
   
+
+
   let [online, isOnline] = useState(navigator.onLine);
 
   const setOnline = () => {
@@ -289,23 +283,45 @@ export default function BrewNew() {
     }
     
   }
+  const [trigger, setTrigger] = useState(false)
+  const [recordData, setRecordData] = useState(false)
+  const [header, setHeader] = useState({
+    headers: {
+        'accept': 'application/json',
+        'x-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIn0.xxMLezVa5jtc7hSBVJ8vEPvqesEQNu0CIQNK2pw5sZc',
+        'Content-Type': 'application/json'
+    }
+})
+  const navigate = useNavigate();
 
-
-
+  useEffect(() => {
+    const fetchData  = async () => { 
+      try{
+        if(trigger){
+          const result = await axios.post('https://q27z6n.deta.dev/recipes', recordData, header)
+          setTrigger(false)
+          navigate('/')
+        }
+    } catch(error){
+      console.log(error.response.status)
+    }
+  };
+    fetchData()
+    }, [trigger]);
 
 
   return (
     <div>
       <BackButton />
       <div className="d-flex div_a" style={{ width: '80%', marginLeft: '20%' }}>
-      {/* <button onClick={() => {navigator.clipboard.writeText(exData)}}>copy</button> */}
+      <button onClick={() => {navigator.clipboard.writeText(exData)}}>copy</button>
         <button className="btn" id="brew_save_btn" type="button" onClick={()=>{record()}}>
         <i className="fas fa-save Add_icon" style={{ fontSize: '25px' }} /></button></div>
       <div id="main_template">
         <div className="container profile_container">
           <div id="guide_container3" style={{ marginBottom: '10px' }}>
 
-            <p>{exData}</p>
+            <p>{JSON.stringify(exData)}</p>
             {/* <p>{"test"}</p> */}
 
             <p className="newbrew_title">1.{t("Btext13")}</p>
