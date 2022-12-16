@@ -13,16 +13,21 @@ import { useTranslation } from 'react-i18next';
 
 export default function ArticleMain() {
   const { t, i18n } = useTranslation();
-  const article = {
-    
-  }
+  const article = [
+    {link:"/article/1", name:"ปัจจัยที่มีผลต่อรสชาติของกาแฟ ที่คุณควรรู้", detail:"test", pic:"./Article1/Article1_sub1.png"},
+    {link:"/article/2", name:"test", detail:"test", pic:"./Article2/Article2_sub1.jpg"},
+    {link:"/article/3", name:"test", detail:"test", pic:"./Article3/Article3_1.jpeg"},
+    {link:"/article/4", name:"test", detail:"test", pic:"./Article4/Article4_1.png"},
+  ]
   return (
     <div>
   <NavBar />
   <div id="main_template">
     <div className="container article_container">
       <div className="row">
-        <CardArticle />
+        {article.map((item)=>{
+          return (<CardArticle name={item.name} link={item.link} detaill={item.detail} pic={item.pic} />)
+        })}
           
       </div>
       <div style={{height: '50px'}} />

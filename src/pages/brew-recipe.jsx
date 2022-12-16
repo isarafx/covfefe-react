@@ -14,26 +14,75 @@ import "../styles/Brewing_Guide4.css"
 import "../styles/Features-Clean.css"
 import BackButton from '../components/backbutton'
 import { useTranslation } from 'react-i18next'
+import { useEffect } from 'react'
+import { Fetching } from '../method/fetchScripts'
+import axios from 'axios';
 export default function BrewRecipe() {
-  const { id } = useParams();
-  const {t} = useTranslation();
-  const [recipeList, setRecipeList] = useState([{name:"Recipe 1", favorite:1, shared:1, link:"/"},
-    {name:"Recipe 2", favorite:0, shared:1, link:"/"},
-    {name:"Recipe 3", favorite:1, shared:0, link:"/"},
-    {name:"Recipe 4", favorite:0, shared:0, link:"/"},
-  ])
+  const { brewer } = useParams();
+  const { t } = useTranslation();
 
-  // Header 
-  const header_name = id
+  const tool = {
+    "hario":"Hario",
+    "aeropress":"AeroPress",
+    "frenchpress":"French Press",
+    "mokapot":"Moka Pot",
+    "chemex":"Chemex",
+  }
+  // let [display, setDisplay] = useState(JSON.parse(localStorage.getItem('brew-recipe'))['items'])
+  let [online, isOnline] = useState(navigator.onLine);
+  let [result, setResult] = useState([]);
+  const setOnline = () => {
+    
+    isOnline(true);
+  };
+  const setOffline = () => {
+    console.log('We are offline!');
+    isOnline(false);
+  };
+
+  // Register the event listeners
+  useEffect(() => {
+    window.addEventListener('offline', setOffline);
+    window.addEventListener('online', setOnline);
+    
+    // cleanup if we unmount
+    return () => {
+      window.removeEventListener('offline', setOffline);
+      window.removeEventListener('online', setOnline);
+    }
+  }, []);
+     useEffect(() => {
+      const fetchData  = async () => { 
+        const result = await axios.get('https://q27z6n.deta.dev/recipes/public', {
+          headers: {
+              'accept': 'application/json'
+          }
+      });
+      setResult(result.data['items']);
+      localStorage.setItem('brew-recipe', JSON.stringify(result.data))
+    };
+      if(localStorage.getItem('brew-recipe') != null){
+        setResult(JSON.parse(localStorage.getItem('brew-recipe'))['items'])
+      }
+      if(online){
+      fetchData();
+      }
+    }, []);
   return (
     <div>
   <BackButton />
   <div id="main_template">
     <div className="container" id="recipelist_container">
-      
-      {recipeList.map((item)=>{
-        return (<RecipeCard name={item.name} favorite={item.favorite} shared={item.shared} link={item.link} />)
-      })}
+      {/* {JSON.stringify(result)} */}
+      {/* <p>{typeof result}</p>
+      <p>{JSON.stringify(result)}</p> */}
+      {
+        result === [] ? <h1>empty</h1>:result.map((item)=>{
+        if(item.brewer === tool[brewer] ){
+          return(<RecipeCard name={item.name} favorite={item.favorite} shared={item.shared} link={item.key} />)
+        }
+      })
+      }
     </div>
   </div>
   <div className="d-flex" id="Header">

@@ -1,0 +1,874 @@
+
+
+  {
+  "key": "test1",
+  "username": "isarawn",
+  "email": "isarawn@gmail.com",
+  "created_date": "Wed Dec 14 2022 10:35:25 GMT+0700",
+  "image": "dumbpic.jpg",
+  "favorite": [
+    "string"
+  ]
+}
+No links
+422	
+
+[
+    {
+        "brewer": "Hario",
+        "name": "Basic V60",
+        "coffee_weight": "25",
+        "water": 375,
+        "ratio": "15",
+        "equipment": [
+            {
+                "name": "Filter",
+                "description": "Hario"
+            },
+            {
+                "name": "Scale",
+                "description": ""
+            },
+            {
+                "name": "Hario V60",
+                "description": ""
+            },
+            {
+                "name": "Kattle",
+                "description": ""
+            }
+        ],
+        "note": "สูตรการชง V60 เบื้องต้น ถ้ารสชาติที่ได้ไม่ตรงความต้องการหรือระยะเวลาการชงไม่ตรง คุณสามารถปรับขนาดการบดใหม่แล้วลองอีกครั้ง",
+        "public": true,
+        "process": [
+            {
+                "comment": "เพื่อล้างสิ่งสกปรกและอุ่นภาชนะให้ร้อนหลังจากนั้นเทน้ำทิ้ง",
+                "name": "Rinse Filter"
+            },
+            {
+                "comment": "",
+                "name": "Add Coffee"
+            },
+            {
+                "water": "75",
+                "comment": "",
+                "name": "Bloom"
+            },
+            {
+                "water": "300",
+                "comment": "ค่อยๆ เทน้ำร้อนวนให้ทั่วกาแฟอย่างต่อเนื่อง",
+                "name": "Pour Water"
+            },
+            {
+                "comment": "",
+                "name": "Wait"
+            },
+            {
+                "custom_name": "นำดริปเปอร์ออก พร้อมเสริฟ",
+                "comment": "",
+                "name": "Custom"
+            }
+        ],
+        "grind_size": "Medium Fine",
+        "temp": "94",
+        "roast_level": "Light"
+    },
+    {
+        "brewer": "Hario",
+        "name": "Scott Rao V60",
+        "coffee_weight": "22",
+        "water": 352,
+        "ratio": "16",
+        "equipment": [
+            {
+                "name": "Hario V60",
+                "description": ""
+            },
+            {
+                "name": "Scale",
+                "description": ""
+            },
+            {
+                "name": "Kattle",
+                "description": ""
+            },
+            {
+                "name": "Other",
+                "description": "ช้อนคน"
+            }
+        ],
+        "note": "ถ้ารสชาติที่ได้ไม่ตรงความต้องการหรือระยะเวลาการชงไม่ตรง คุณสามารถปรับขนาดการบดใหม่แล้วลองอีกครั้ง",
+        "public": true,
+        "process": [
+            {
+                "water": "66",
+                "comment": "",
+                "name": "Pour Water"
+            },
+            {
+                "comment": "ใช้ช้อนคนกาแฟประมาณ 3 ครั้ง",
+                "name": "Stir"
+            },
+            {
+                "comment": "รอให้กาแฟบลูม",
+                "name": "Wait"
+            },
+            {
+                "water": "286",
+                "comment": "ค่อยๆ เทน้ำร้อนวนให้ทั่วกาแฟอย่างต่อเนื่อง",
+                "name": "Pour Water"
+            },
+            {
+                "comment": "จับดริปเปอร์แกว่งหรือหมุนเบาๆ",
+                "name": "Swirl"
+            },
+            {
+                "comment": "รอให้การชงเสร็จสิ้น",
+                "name": "Wait"
+            },
+            {
+                "custom_name": "นำดริปเปอร์ออก พร้อมเส",
+                "comment": "",
+                "name": "Custom"
+            }
+        ],
+        "grind_size": "Medium Fine",
+        "temp": "94",
+        "roast_level": "Light"
+    },
+    {
+        "brewer": "Hario",
+        "name": "Tetsu Kasuya 4:6",
+        "coffee_weight": "20",
+        "water": 300,
+        "ratio": "15",
+        "equipment": [
+            {
+                "name": "Filter",
+                "description": "Hario"
+            },
+            {
+                "name": "Scale",
+                "description": ""
+            },
+            {
+                "name": "Kattle",
+                "description": ""
+            },
+            {
+                "name": "Hario V60",
+                "description": ""
+            }
+        ],
+        "note": "ถ้ารสชาติที่ได้ไม่ตรงความต้องการหรือระยะเวลาการชงไม่ตรง คุณสามารถปรับขนาดการบดใหม่แล้วลองอีกครั้ง",
+        "public": true,
+        "process": [
+            {
+                "water": "50",
+                "comment": "รอให้กาแฟบลูม",
+                "name": "Bloom"
+            },
+            {
+                "water": "70",
+                "comment": "",
+                "name": "Pour Water"
+            },
+            {
+                "comment": "",
+                "name": "Wait"
+            },
+            {
+                "water": "60",
+                "comment": "",
+                "name": "Pour Water"
+            },
+            {
+                "comment": "",
+                "name": "Wait"
+            },
+            {
+                "water": "60",
+                "comment": "",
+                "name": "Pour Water"
+            },
+            {
+                "comment": "",
+                "name": "Wait"
+            },
+            {
+                "water": "60",
+                "comment": "",
+                "name": "Pour Water"
+            },
+            {
+                "comment": "",
+                "name": "Wait"
+            },
+            {
+                "custom_name": "นำดริปเปอร์ออก พร้อมเสริฟ",
+                "comment": "",
+                "name": "Custom"
+            }
+        ],
+        "grind_size": "Coarse",
+        "temp": "94",
+        "roast_level": "Light"
+    },
+    {
+        "brewer": "Moka",
+        "name": "Basic Moka Pot",
+        "coffee_weight": "30",
+        "water": 240,
+        "ratio": "8",
+        "equipment": [
+            {
+                "name": "Moka Pot",
+                "description": ""
+            }
+        ],
+        "note": "สูตรการชง Moka เบื้องต้น (Moka Pot ขนาด 6 Cup)",
+        "public": true,
+        "process": [
+            {
+                "comment": "นำผงเมล็ดกาแฟที่ได้มาใส่ลงไปในกรวยใส่ผงกาแฟจนเต็ม จากนั้นเกลี่ยให้ผิวหน้าของผงกาแฟเรียบ",
+                "name": "Add Coffee"
+            },
+            {
+                "water": "240",
+                "comment": "เติมน้ำเปล่าลงไปในส่วนล่างล่างสุดของหม้อ โดยเติมน้ำเปล่าให้มีปริมาณไม่เกินตัวเซฟตี้วาล์ว",
+                "name": "Pour Water"
+            },
+            {
+                "comment": "ประกอบตัวหม้อ Moka Pot แล้วนำไปตั้งบนเตาไฟโดยใช้ไฟปานกลางในการต้ม รอจนกว่าน้ำกาแฟก็จะเริ่มไหลออกมาจากท่อส่งกาแฟ",
+                "name": "Brew"
+            },
+            {
+                "custom_name": "Finish",
+                "comment": "",
+                "name": "Custom"
+            }
+        ],
+        "grind_size": "Fine",
+        "temp": "99",
+        "roast_level": "Medium"
+    },
+    {
+        "brewer": "Moka",
+        "name": "Iced latte",
+        "coffee_weight": "30",
+        "water": 240,
+        "ratio": "8",
+        "equipment": [
+            {
+                "name": "Moka Pot",
+                "description": ""
+            },
+            {
+                "name": "Other",
+                "description": "น้ำแข็ง"
+            },
+            {
+                "name": "Other",
+                "description": "นมจืด"
+            }
+        ],
+        "note": "สูตรการทำลาเต้เย็น (Moka Pot ขนาด 6 Cup)",
+        "public": true,
+        "process": [
+            {
+                "comment": "นำผงเมล็ดกาแฟที่ได้มาใส่ลงไปในกรวยใส่ผงกาแฟจนเต็ม จากนั้นเกลี่ยให้ผิวหน้าของผงกาแฟเรียบ",
+                "name": "Add Coffee"
+            },
+            {
+                "water": "240",
+                "comment": "เติมน้ำเปล่าลงไปในส่วนล่างล่างสุดของหม้อ โดยเติมน้ำเปล่าให้มีปริมาณไม่เกินตัวเซฟตี้วาล์ว",
+                "name": "Pour Water"
+            },
+            {
+                "comment": "ประกอบตัวหม้อ Moka Pot แล้วนำไปตั้งบนเตาไฟโดยใช้ไฟปานกลางในการต้ม รอจนกว่าน้ำกาแฟก็จะเริ่มไหลออกมาจากท่อส่งกาแฟ",
+                "name": "Brew"
+            },
+            {
+                "custom_name": "เตรียมนมสด+น้ำแข็งใส่แก้ว",
+                "comment": "",
+                "name": "Custom"
+            },
+            {
+                "custom_name": "เทกาแฟ",
+                "comment": "เทน้ำกาแฟจากหม้อไปที่แก้วกาแฟ",
+                "name": "Custom"
+            },
+            {
+                "custom_name": "เสร็จสิ้น",
+                "comment": "",
+                "name": "Custom"
+            }
+        ],
+        "grind_size": "Fine",
+        "temp": "99",
+        "roast_level": "Medium"
+    },
+    {
+        "brewer": "Aeropress",
+        "name": "Basic AeroPress",
+        "coffee_weight": "15",
+        "water": 240,
+        "ratio": "16",
+        "equipment": [
+            {
+                "name": "Kattle",
+                "description": ""
+            },
+            {
+                "name": "Scale",
+                "description": ""
+            },
+            {
+                "name": "Other",
+                "description": "ถ้วยกาแฟ"
+            }
+        ],
+        "note": "สูตรการชง AeroPress แบบดั่งเดิมเบื้องต้น ถ้ารสชาติที่ได้ไม่ตรงความต้องการหรือระยะเวลาการชงไม่ตรง คุณสามารถปรับขนาดการบดใหม่แล้วลองอีกครั้ง",
+        "public": true,
+        "process": [
+            {
+                "comment": "ใส่แผ่นกรองลงในฝาครอบและประกอบกับ AeroPress",
+                "name": "Put the Lid on"
+            },
+            {
+                "comment": "",
+                "name": "Add Coffee"
+            },
+            {
+                "water": "30",
+                "comment": "",
+                "name": "Pour Water"
+            },
+            {
+                "comment": "คนเพื่อให้แน่ใจว่ากาแฟทั้งหมดแช่อย่างทั่วถึง",
+                "name": "Stir"
+            },
+            {
+                "comment": "รอให้กาแฟบลูม",
+                "name": "Wait"
+            },
+            {
+                "water": "210",
+                "comment": "ค่อยๆ เทน้ำร้อนวนให้ทั่วอย่างต่อเนื่อง",
+                "name": "Pour Water"
+            },
+            {
+                "comment": "ประกอบ Plunger กับตัว Aeropress",
+                "name": "Place Plunger"
+            },
+            {
+                "comment": "รอกาแฟสกัด",
+                "name": "Wait"
+            },
+            {
+                "comment": "ค่อยๆกด Plunger ลงอย่างช้าๆ",
+                "name": "Press"
+            }
+        ],
+        "grind_size": "Fine",
+        "temp": "90",
+        "roast_level": "Light"
+    },
+    {
+        "brewer": "Aeropress",
+        "name": "Basic Inverted AeroPress",
+        "coffee_weight": "15",
+        "water": 240,
+        "ratio": "16",
+        "equipment": [
+            {
+                "name": "Aeropress",
+                "description": "Aeropress"
+            },
+            {
+                "name": "Kattle",
+                "description": ""
+            },
+            {
+                "name": "Scale",
+                "description": ""
+            },
+            {
+                "name": "Other",
+                "description": "ถ้วยกาแฟ"
+            }
+        ],
+        "note": "สูตรการชง AeroPress แบบกลับด้าน (Inverted) เบื้องต้น ถ้ารสชาติที่ได้ไม่ตรงความต้องการหรือระยะเวลาการชงไม่ตรง คุณสามารถปรับขนาดการบดใหม่แล้วลองอีกครั้ง",
+        "public": true,
+        "process": [
+            {
+                "comment": "ใส่ Plunger แล้วหงายกระบอกขึ้นข้างบน",
+                "name": "Place Plunger"
+            },
+            {
+                "comment": "",
+                "name": "Add Coffee"
+            },
+            {
+                "water": "30",
+                "comment": "",
+                "name": "Pour Water"
+            },
+            {
+                "comment": "คนเพื่อให้แน่ใจว่ากาแฟทั้งหมดแช่อย่างทั่วถึง",
+                "name": "Stir"
+            },
+            {
+                "comment": "รอให้กาแฟบลูม",
+                "name": "Wait"
+            },
+            {
+                "water": "210",
+                "comment": "ค่อยๆ เทน้ำร้อนวนให้ทั่วอย่างต่อเนื่อง",
+                "name": "Pour Water"
+            },
+            {
+                "comment": "รอกาแฟสกัด",
+                "name": "Wait"
+            },
+            {
+                "comment": "ใส่แผ่นกรองลงในฝาครอบและประกอบกับ AeroPress",
+                "name": "Place Plunger"
+            },
+            {
+                "comment": "พลิก AeroPress ให้กลับหัวลง",
+                "name": "Invert"
+            },
+            {
+                "comment": "ค่อยๆกด Plunger ลงอย่างช้าๆ",
+                "name": "Press"
+            }
+        ],
+        "grind_size": "Fine",
+        "temp": "90",
+        "roast_level": "Light"
+    },
+    {
+        "brewer": "Aeropress",
+        "name": "2018 Follow Up - Inverted",
+        "coffee_weight": "30",
+        "water": 219,
+        "ratio": "7.3",
+        "equipment": [
+            {
+                "name": "Kattle",
+                "description": ""
+            },
+            {
+                "name": "Scale",
+                "description": ""
+            },
+            {
+                "name": "Aeropress",
+                "description": ""
+            }
+        ],
+        "note": "WAC 2018 Runner-Up โดย Clay Zhang\nถ้ารสชาติที่ได้ไม่ตรงความต้องการหรือระยะเวลาการชงไม่ตรง คุณสามารถปรับขนาดการบดใหม่แล้วลองอีกครั้ง\n\n",
+        "public": true,
+        "process": [
+            {
+                "water": "100",
+                "comment": "",
+                "name": "Pour Water"
+            },
+            {
+                "comment": "",
+                "name": "Stir"
+            },
+            {
+                "water": "70",
+                "comment": "",
+                "name": "Pour Water"
+            },
+            {
+                "comment": "",
+                "name": "Place Plunger"
+            },
+            {
+                "comment": "กลับด้าน AeroPress อย่างรวดเร็ว",
+                "name": "Invert"
+            },
+            {
+                "comment": "",
+                "name": "Press"
+            },
+            {
+                "water": "49",
+                "comment": "เทน้ำเพิ่มในแก้ว",
+                "name": "Pour Water"
+            }
+        ],
+        "grind_size": "Coarse",
+        "temp": 80,
+        "roast_level": "Light"
+    },
+    {
+        "brewer": "Frenchpress",
+        "name": "Basic French Press",
+        "coffee_weight": "30.1",
+        "water": 500,
+        "ratio": "16.6",
+        "equipment": [
+            {
+                "name": "French Press",
+                "description": ""
+            },
+            {
+                "name": "Other",
+                "description": "ช้อน 2 คัน"
+            },
+            {
+                "name": "Other",
+                "description": "ถ้วยเล็ก"
+            },
+            {
+                "name": "Kattle",
+                "description": ""
+            },
+            {
+                "name": "Scale",
+                "description": ""
+            }
+        ],
+        "note": "สูตรการชง French Press เบื้องต้น \n1.ถ้ารสชาติที่ได้ไม่ตรงความต้องการหรือระยะเวลาการชงไม่ตรง คุณสามารถปรับขนาดการบดใหม่แล้วลองอีกครั้ง\n2.ถ้ามีกากกาแฟปนออกมาขณะเสริฟมากเกินไปควรบดให้หยาบขึ้น\n",
+        "public": true,
+        "process": [
+            {
+                "water": "500",
+                "comment": "เทน้ำวนเป็นวงกลมให้ท่วมผงกาแฟ",
+                "name": "Pour Water"
+            },
+            {
+                "comment": "รอกาแฟสกัด",
+                "name": "Wait"
+            },
+            {
+                "comment": "ใส่ Plunger เข้ากับ French Press",
+                "name": "Place Plunger"
+            },
+            {
+                "comment": "กด Plunger",
+                "name": "Press"
+            },
+            {
+                "custom_name": "เสร็จสิ้น",
+                "comment": "",
+                "name": "Custom"
+            }
+        ],
+        "grind_size": "Coarse",
+        "temp": "93",
+        "roast_level": "Medium"
+    },
+    {
+        "brewer": "Frenchpress",
+        "name": "Hoffmann French Press",
+        "coffee_weight": "30",
+        "water": 480,
+        "ratio": "16",
+        "equipment": [
+            {
+                "name": "French Press",
+                "description": ""
+            },
+            {
+                "name": "Other",
+                "description": "ช้อน 2 คัน"
+            },
+            {
+                "name": "Other",
+                "description": "ถ้วยเล็ก"
+            },
+            {
+                "name": "Other",
+                "description": "กาน้ำ"
+            },
+            {
+                "name": "Scale",
+                "description": ""
+            }
+        ],
+        "note": "ถ้ารสชาติที่ได้ไม่ตรงความต้องการหรือระยะเวลาการชงไม่ตรง คุณสามารถปรับขนาดการบดใหม่แล้วลองอีกครั้ง",
+        "public": true,
+        "process": [
+            {
+                "water": "480",
+                "comment": "เทน้ำวนเป็นวงกลมให้ท่วมผงกาแฟ",
+                "name": "Pour Water"
+            },
+            {
+                "comment": "รอกาแฟสกัด",
+                "name": "Wait"
+            },
+            {
+                "comment": "คนเบาๆหน้าผิว 2-3 ครั้ง",
+                "name": "Stir"
+            },
+            {
+                "custom_name": "ตักโฟมที่ลอยที่ผิวออก",
+                "comment": "ใช้ช้อนตักโฟมที่ลอยบนผิวออกให้ได้มากที่สุด",
+                "name": "Custom"
+            },
+            {
+                "comment": "",
+                "name": "Wait"
+            },
+            {
+                "comment": "",
+                "name": "Place Plunger"
+            },
+            {
+                "comment": "กดก้านกรองกากกาแฟจนถึงแค่ผิวน้ำ ไม่ต้องกดจนสุด",
+                "name": "Press"
+            }
+        ],
+        "grind_size": "Medium Coarse",
+        "temp": "99",
+        "roast_level": "Medium"
+    },
+    {
+        "brewer": "Frenchpress",
+        "name": "Crema.co French Press",
+        "coffee_weight": "27",
+        "water": 399,
+        "ratio": "14.8",
+        "equipment": [
+            {
+                "name": "French Press",
+                "description": ""
+            },
+            {
+                "name": "Other",
+                "description": "ช้อน 2 คัน"
+            },
+            {
+                "name": "Other",
+                "description": "ถ้วยเล็ก"
+            },
+            {
+                "name": "Kattle",
+                "description": ""
+            },
+            {
+                "name": "Scale",
+                "description": ""
+            }
+        ],
+        "note": "ถ้ารสชาติที่ได้ไม่ตรงความต้องการหรือระยะเวลาการชงไม่ตรง คุณสามารถปรับขนาดการบดใหม่แล้วลองอีกครั้ง",
+        "public": true,
+        "process": [
+            {
+                "water": "200",
+                "comment": "เทน้ำวนเป็นวงกลมให้ท่วมผงกาแฟ",
+                "name": "Pour Water"
+            },
+            {
+                "comment": "คนกาแฟเบาๆ 5 – 8 ครั้ง",
+                "name": "Stir"
+            },
+            {
+                "water": "199",
+                "comment": "",
+                "name": "Pour Water"
+            },
+            {
+                "comment": "",
+                "name": "Place Plunger"
+            },
+            {
+                "comment": "รอกาแฟสกัด",
+                "name": "Wait"
+            },
+            {
+                "comment": "กดตัวกรองลงช้าๆ",
+                "name": "Press"
+            }
+        ],
+        "grind_size": "Coarse",
+        "temp": "99",
+        "roast_level": "Medium"
+    },
+    {
+        "brewer": "Chemex",
+        "name": "Basic Chemex ",
+        "coffee_weight": "35",
+        "water": 525,
+        "ratio": "15",
+        "equipment": [
+            {
+                "name": "Other",
+                "description": "Chemex 6 cup"
+            },
+            {
+                "name": "Filter",
+                "description": "Chemex Filter"
+            },
+            {
+                "name": "Kattle",
+                "description": ""
+            },
+            {
+                "name": "Scale",
+                "description": ""
+            }
+        ],
+        "note": "สูตรการชง Chemex เบื้องต้น ถ้ารสชาติที่ได้ไม่ตรงความต้องการหรือระยะเวลาการชงไม่ตรง คุณสามารถปรับขนาดการบดใหม่แล้วลองอีกครั้ง",
+        "public": true,
+        "process": [
+            {
+                "comment": "เพื่อล้างสิ่งสกปรกและอุ่นภาชนะให้ร้อนหลังจากนั้นเทน้ำทิ้ง",
+                "name": "Rinse Filter"
+            },
+            {
+                "comment": "",
+                "name": "Add Coffee"
+            },
+            {
+                "water": "60",
+                "comment": "",
+                "name": "Bloom"
+            },
+            {
+                "water": "465",
+                "comment": "ค่อยๆ เทน้ำร้อนวนให้ทั่วกาแฟอย่างต่อเนื่อง",
+                "name": "Pour Water"
+            },
+            {
+                "comment": "รอให้การชงเสร็จสิ้น",
+                "name": "Wait"
+            }
+        ],
+        "grind_size": "Coarse",
+        "temp": "96",
+        "roast_level": "Light"
+    },
+    {
+        "brewer": "Chemex",
+        "name": "Scott Rao Chemex",
+        "coffee_weight": "32",
+        "water": 499,
+        "ratio": "15.6",
+        "equipment": [
+            {
+                "name": "Chemex",
+                "description": "Chemex"
+            },
+            {
+                "name": "Filter",
+                "description": "Chemex Filter"
+            },
+            {
+                "name": "Kattle",
+                "description": ""
+            },
+            {
+                "name": "Scale",
+                "description": ""
+            }
+        ],
+        "note": "ถ้ารสชาติที่ได้ไม่ตรงความต้องการหรือระยะเวลาการชงไม่ตรง คุณสามารถปรับขนาดการบดใหม่แล้วลองอีกครั้ง\n\n",
+        "public": true,
+        "process": [
+            {
+                "water": "60",
+                "comment": "รอให้กาแฟบลูม",
+                "name": "Bloom"
+            },
+            {
+                "comment": "",
+                "name": "Stir"
+            },
+            {
+                "water": "110",
+                "comment": "ค่อยๆ เทน้ำร้อนวนให้ทั่วกาแฟอย่างต่อเนื่อง",
+                "name": "Pour Water"
+            },
+            {
+                "comment": "",
+                "name": "Stir"
+            },
+            {
+                "water": "110",
+                "comment": "ค่อยๆ เทน้ำร้อนวนให้ทั่วกาแฟอย่างต่อเนื่อง",
+                "name": "Pour Water"
+            },
+            {
+                "comment": "",
+                "name": "Stir"
+            },
+            {
+                "water": "110",
+                "comment": "ค่อยๆ เทน้ำร้อนวนให้ทั่วกาแฟอย่างต่อเนื่อง",
+                "name": "Pour Water"
+            }
+        ],
+        "grind_size": "Medium",
+        "temp": "96",
+        "roast_level": "Medium"
+    },
+    {
+        "brewer": "Chemex",
+        "name": "Barefoot Chemex",
+        "coffee_weight": "50",
+        "water": 750,
+        "ratio": "15",
+        "equipment": [
+            {
+                "name": "Chemex",
+                "description": ""
+            },
+            {
+                "name": "Filter",
+                "description": "Chemex Filter"
+            },
+            {
+                "name": "Kattle",
+                "description": ""
+            },
+            {
+                "name": "Scale",
+                "description": ""
+            }
+        ],
+        "note": "ถ้ารสชาติที่ได้ไม่ตรงความต้องการหรือระยะเวลาการชงไม่ตรง คุณสามารถปรับขนาดการบดใหม่แล้วลองอีกครั้ง",
+        "public": true,
+        "process": [
+            {
+                "water": "70",
+                "comment": "รอให้กาแฟบลูม",
+                "name": "Bloom"
+            },
+            {
+                "comment": "หมุนโถ Chemex หรือเขย่าเล็กน้อย",
+                "name": "Swirl"
+            },
+            {
+                "water": "680",
+                "comment": "ค่อยๆ เทน้ำอย่างสม่ำเสมอ",
+                "name": "Pour Water"
+            },
+            {
+                "comment": "",
+                "name": "Stir"
+            },
+            {
+                "comment": "รอจนกว่าการสกัดจะเสร็จสิ้น",
+                "name": "Wait"
+            }
+        ],
+        "grind_size": "Medium",
+        "temp": "96",
+        "roast_level": "Light"
+    }
+]
+let result = fetch("https://q27z6n.deta.dev/recipes/users", {
+      headers: {
+        Accept: "application/json",
+        "X-Token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIn0.xxMLezVa5jtc7hSBVJ8vEPvqesEQNu0CIQNK2pw5sZc"
+      }
+    }).then(res=>setEXData(res.json()))

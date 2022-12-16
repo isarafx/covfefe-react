@@ -6,7 +6,7 @@ import BackButton from '../components/backbutton'
 
 
 import "../styles/Community.css"
-
+import Comment from '../components/comment'
 
 
 import "../styles/Multiple-Input-Select-Pills.css"
@@ -47,6 +47,15 @@ export default function CommuDetail() {
     setCoffee(parseInt(coffee/cup*newcup))
     setCup(newcup)
   }
+
+  const commentList = [
+    {username:"Admin1", message:"This is so Good1!", created_date:"2022-12-13T08:06:38+00:00"},
+    {username:"Admin2", message:"This is so Good2!", created_date:"2022-12-13T08:07:38+00:00"},
+    {username:"Admin3", message:"This is so Good3!", created_date:"2022-12-13T08:08:38+00:00"},
+    {username:"Admin4", message:"This is so Good4!", created_date:"2022-12-13T08:09:38+00:00"},
+    {username:"Admin5", message:"This is so Good5!", created_date:"2022-12-13T08:10:38+00:00"},
+    {username:"Admin2", message:"This is so Good6!", created_date:"2022-12-13T08:11:38+00:00"},
+  ]
 
   return (
     <div>
@@ -163,56 +172,10 @@ export default function CommuDetail() {
             </div>
             <hr style={{marginTop: '0px', background: '#ff9900', height: '2px'}} />
             <div id="Comment_container_div">
-              <div id="Comment_display_box">
-                <div className="row row-cols-2">
-                  <div className="col d-sm-flex justify-content-xxl-start" style={{maxWidth: '65px'}}><img className="creator_avatar_icon" src="assets/img/AvatarIcon.jpg" style={{borderColor: '#955c18'}} /></div>
-                  <div className="col" style={{width: '77%'}}>
-                    <p id="Comment_display_name" style={{fontWeight: 'bold', fontSize: '15px', marginBottom: '7px', color: '#955c18'}}>Phichet wtf.</p>
-                    <p id="Comment_display_comment">thid receip it Goowddddddddddddddddddddddddddddddddddddddddddddddddddd</p>
-                  </div>
-                </div>
-                <hr style={{marginTop: '-10px'}} />
-              </div>
-              <div id="Comment_display_box">
-                <div className="row row-cols-2">
-                  <div className="col d-sm-flex justify-content-xxl-start" style={{maxWidth: '65px'}}><img className="creator_avatar_icon" src="assets/img/AvatarIcon.jpg" style={{borderColor: '#955c18'}} /></div>
-                  <div className="col" style={{width: '77%'}}>
-                    <p id="Comment_display_name" style={{fontWeight: 'bold', fontSize: '15px', marginBottom: '7px', color: '#955c18'}}>Nigga NTRman</p>
-                    <p id="Comment_display_comment">bad one not hot</p>
-                  </div>
-                </div>
-                <hr style={{marginTop: '-10px'}} />
-              </div>
-              <div id="Comment_display_box">
-                <div className="row row-cols-2">
-                  <div className="col d-sm-flex justify-content-xxl-start" style={{maxWidth: '65px'}}><img className="creator_avatar_icon" src="assets/img/AvatarIcon.jpg" style={{borderColor: '#955c18'}} /></div>
-                  <div className="col" style={{width: '77%'}}>
-                    <p id="Comment_display_name" style={{fontWeight: 'bold', fontSize: '15px', marginBottom: '7px', color: '#955c18'}}>GG</p>
-                    <p id="Comment_display_comment">bad one not hot</p>
-                  </div>
-                </div>
-                <hr style={{marginTop: '-10px'}} />
-              </div>
-              <div id="Comment_display_box">
-                <div className="row row-cols-2">
-                  <div className="col d-sm-flex justify-content-xxl-start" style={{maxWidth: '65px'}}><img className="creator_avatar_icon" src="assets/img/AvatarIcon.jpg" style={{borderColor: '#955c18'}} /></div>
-                  <div className="col" style={{width: '77%'}}>
-                    <p id="Comment_display_name" style={{fontWeight: 'bold', fontSize: '15px', marginBottom: '7px', color: '#955c18'}}>sggsgs</p>
-                    <p id="Comment_display_comment">bad one not hot</p>
-                  </div>
-                </div>
-                <hr style={{marginTop: '-10px'}} />
-              </div>
-              <div id="Comment_display_box">
-                <div className="row row-cols-2">
-                  <div className="col d-sm-flex justify-content-xxl-start" style={{maxWidth: '65px'}}><img className="creator_avatar_icon" src="assets/img/AvatarIcon.jpg" style={{borderColor: '#955c18'}} /></div>
-                  <div className="col" style={{width: '77%'}}>
-                    <p id="Comment_display_name" style={{fontWeight: 'bold', fontSize: '15px', marginBottom: '7px', color: '#955c18'}}>uwu</p>
-                    <p id="Comment_display_comment">bad one not hohhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhht</p>
-                  </div>
-                </div>
-                <hr style={{marginTop: '-10px'}} />
-              </div>
+              
+              {commentList.map((item)=>{
+                return(<Comment name={item.username} message={item.message} />)
+              })}
             </div>
             <p style={{color: '#cb0c00', marginBottom: '10px', marginTop: '5px'}}>{t("Ctext10")}</p>
             <form><textarea id="Post_comment_box" rows={1} oninput="auto_grow(this)" required defaultValue={""} />

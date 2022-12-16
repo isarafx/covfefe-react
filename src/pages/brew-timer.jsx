@@ -16,15 +16,17 @@ import { useEffect } from 'react'
 import { mmss } from '../method/mmss'
 
 import { useTranslation } from 'react-i18next';
-
+import { useParams } from 'react-router-dom'
+import { useSearchParams } from 'react-router-dom'
 export default function BrewTimer() {
+  const { id } = useParams();
   const { t, i18n } = useTranslation();
-  const processList = [
-    {name:"process1", description:"do 500ml", comment:"comment_dummy", time:9},
-    {name:"process2", description:"do 500ml", comment:"comment_dummy", time:7},
-    {name:"process3", description:"do 500ml", comment:"comment_dummy", time:8},
-    {name:"process4", description:"do 500ml", comment:"comment_dummy", time:8},
-  ]
+  const [searchParams] = useSearchParams();
+  const [cup, setCup] = useState(1)
+
+
+  // const processList = JSON.parse(localStorage.getItem('recipe'))['item'].filter((item)=>{return item.Lid===id})[0]['process']
+  const processList = JSON.parse(localStorage.getItem('brew-recipe'))['items'].filter((item)=>{return item.key===id})[0]['process']
   const [overallTime, setOverallTime] = useState(0)   //overall = total time - total = total time but decrease when timer on
   const [runTime, setRunTime] = useState(0)           //total time since timer start
   const [totaltime, setTotalTime] = useState(0)
@@ -34,27 +36,30 @@ export default function BrewTimer() {
   function startCondition(){
     let time = 0
     processList.map((item)=>{
-      time += item.time
+      time += parseInt(item.time)
     })
     setTotalTime(time)
     setOverallTime(time)
-    setProcessTime(processList[0].time)
+    setProcessTime(parseInt(processList[0].time))
   }
   
   function skipMethod(){
-    setProcessTime(processList[index].time)
+    setProcessTime(parseInt(processList[index].time))
     setIndex(index+1)
     let time = 0
     processList.map((item, i)=>{
       if(i>= index){
-      time += item.time}
+      time += parseInt(item.time)}
     })
     setTotalTime(time)
     stop()
   }
   function test(){
-    startCondition()
-    setState(true)
+    if(state==false){
+      setState(true)
+    }else if(state==true){
+      setState(false)
+    }
   }
 
   function play(){
@@ -78,7 +83,7 @@ export default function BrewTimer() {
         }
         else if(processTime==0 && totaltime>0){ //finish current process move to next process
           console.log('next')
-          setProcessTime(processList[index].time)
+          setProcessTime(parseInt(processList[index].time))
           setIndex(index+1)
           
           
@@ -94,6 +99,10 @@ export default function BrewTimer() {
       return () => clearInterval(interval);
     }
   }, [processTime, state])
+  useEffect(()=>{
+    startCondition()
+    setCup(parseInt(searchParams.get('cup')))
+  },[])
   return (
     <div>
   <BackButton />
@@ -104,7 +113,7 @@ export default function BrewTimer() {
         <p className="Main_timer_text">{t("Btext10")}</p>
         <audio id='a1'><source src='/sound/5sec.mp3' type='audio/mpeg' /></audio>
         {/* <button onClick={(e)=>{test()}}>test</button> */}
-        <p className="Main_timer_num">{mmss(processTime)}</p><img className="timer_control_icon" src="../assets/img/Timer_play_ico.png" />
+        <p className="Main_timer_num">{mmss(processTime)}</p><img className="timer_control_icon" src={state ? "../assets/img/Timer_pause_ico.png":"../assets/img/Timer_play_ico.png"} />
         <div className="d-inline-flex Sub_timer"><img className="Sub_timer_icon" src="../assets/img/guide_timer_ico.png" />
           <p style={{fontSize: '14px'}}>{mmss(totaltime)}</p>
         </div><button onClick={()=>{skipMethod()}} className="btn btn-primary d-flex justify-content-center align-items-center" id="Timer_Skip_button" type="button"><img className="timer_skip_icon" src="../assets/img/Timer_skip_ico.png" /></button>
@@ -137,7 +146,7 @@ export default function BrewTimer() {
               <div className="d-inline-flex" style={{minWidth: '100%'}}>
                 <div style={{minWidth: '15%'}}><img id="process_pic" src="../assets/img/Process_Dummy_icon.png" /></div>
                 <p id="process_title" style={{color: 'rgb(80,80,80)'}}>{item.name}</p>
-                <p className="text-end" style={{minWidth: '15%'}}>{mmss(item.time)}</p>
+                <p className="text-end" style={{minWidth: '15%'}}>{mmss(parseInt(item.time))}</p>
               </div>
               <div>
                 <p id="process_des">{item.description}</p>

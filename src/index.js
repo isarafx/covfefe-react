@@ -1,9 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+
 // page
 import Admin from './pages/admin';
 import ArticleMain from './pages/article';
-import ArticleRead from './pages/article-read';
+import ArticleRead from './pages/article-read-1';
 import BrewFav from './pages/brew-fav';
 import BrewGuide from './pages/brew-guide';
 import BrewIndex from './pages/brew-index';
@@ -31,7 +32,12 @@ import {
   Route,
   Routes,
 } from "react-router-dom";
+import Test from './pages/test';
 const router = createBrowserRouter([
+  {
+    path:"/test",
+    element: <Test />,
+  },
   {
     path: "/",
     element: <BrewIndex />,
@@ -49,27 +55,27 @@ const router = createBrowserRouter([
     element: <ArticleNew />,
   },
   {
-    path: "/article/:id",
+    path: "/article/1",
     element: <ArticleRead />,
   },
   {
-    path: "/brew-fav",
+    path: "/favorite",
     element: <BrewFav />,
   },
   {
-    path: "/brew-guide",
+    path: "/brew-guide/:id",
     element: <BrewGuide />,
   },
   {
-    path: "/brew-new",
+    path: "/brew-recipe/new",
     element: <BrewNew />,
   },
-  // {
-  //   path: "/brew-recipe",
-  //   element: <BrewRecipe />,
-  // },
   {
-    path: "/brew-recipe/:id",
+    path: "/brew-recipe",
+    element: <BrewRecipe />,
+  },
+  {
+    path: "/brew-recipe/:brewer",
     element: <BrewRecipe />,
   },
   {
@@ -77,7 +83,7 @@ const router = createBrowserRouter([
     element: <BrewTimer />,
   },
   {
-    path: "/brew-edit",
+    path: "/brew-recipe/:brewer/edit/:key",
     element: <BrewEdit />,
   },
   {
