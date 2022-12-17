@@ -59,7 +59,7 @@ export default function BrewRecipe() {
       const fetchData  = async () => { 
           try{
           let url = "";
-          if(token === null){ // public
+          if(!Boolean(token)){ // public
             // alert('here anon')
             const result = await axios.get("https://q27z6n.deta.dev/recipes/public", {
               headers: {
@@ -87,9 +87,9 @@ export default function BrewRecipe() {
           console.log(error)
         }
     };
-      if(localStorage.getItem('brew-recipe') !== ""){
+      if(Boolean(localStorage.getItem('brew-recipe'))){
           
-          if(JSON.parse(localStorage.getItem('brew-recipe'))['items'] !== []){
+          if(Boolean(JSON.parse(localStorage.getItem('brew-recipe'))['items'])){
               setResult(JSON.parse(localStorage.getItem('brew-recipe'))['items'])
         }
       }else{
