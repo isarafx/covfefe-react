@@ -1,7 +1,8 @@
 import React from 'react'
-
+import SunEditor from 'suneditor-react';
+import 'suneditor/dist/css/suneditor.min.css';
 import { useState } from 'react';
-import Editor from '../components/Editor';
+import BackButton from '../components/backbutton';
 
 export default function ArticleNew() {
   const [data, setData] = useState("")
@@ -10,11 +11,14 @@ export default function ArticleNew() {
   }
   return (
     <div>
-  <div className="div_back"><a href="{javascript:history.back()}"><i className="icon ion-android-arrow-back" id="Back_icon" /></a></div>
+  <BackButton />
+  <div className="d-flex div_a" style={{ width: '80%', marginLeft: '20%' }}><button className="btn" id="brew_save_btn" type="button"><i className="fas fa-save Add_icon" style={{ fontSize: '25px' }} /></button></div>
   <div id="main_template">
     <div className="container article_container">
-    <button onClick={() => {navigator.clipboard.writeText(data)}}>copy</button>
-        <Editor />
+    {/* <button onClick={() => {navigator.clipboard.writeText(data)}}>copy</button> */}
+        <h3>title :</h3><input width="100%"/>
+        
+        <SunEditor />
         <p>{data}</p>
     </div>
   </div>

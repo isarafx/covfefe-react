@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState } from 'react'
 import RecipeCard from '../components/recipecard'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import "../styles/Multiple-Input-Select-Pills.css"
 import "../styles/Profile_page.css"
 import "../styles/Round_switch.css"
@@ -20,7 +20,8 @@ import axios from 'axios';
 export default function BrewRecipe() {
   const { brewer } = useParams();
   const { t } = useTranslation();
-
+  const token = localStorage.getItem('token')
+  const [recipe, setRecipe] = useState([])
   const tool = {
     "hario":"Hario",
     "aeropress":"AeroPress",
@@ -31,6 +32,7 @@ export default function BrewRecipe() {
   // let [display, setDisplay] = useState(JSON.parse(localStorage.getItem('brew-recipe'))['items'])
   let [online, isOnline] = useState(navigator.onLine);
   let [result, setResult] = useState([]);
+  const navigate = useNavigate()
   const setOnline = () => {
     
     isOnline(true);
@@ -51,22 +53,54 @@ export default function BrewRecipe() {
       window.removeEventListener('online', setOnline);
     }
   }, []);
+
      useEffect(() => {
+      
       const fetchData  = async () => { 
-        const result = await axios.get('https://q27z6n.deta.dev/recipes/public', {
-          headers: {
-              'accept': 'application/json'
+          try{
+          let url = "";
+          if(token === null){ // public
+            // alert('here anon')
+            const result = await axios.get("https://q27z6n.deta.dev/recipes/public", {
+              headers: {
+                  'accept': 'application/json'
+              }
+              
+          });
+              setResult(result.data['items']);
+              console.log(result)
+              localStorage.setItem('brew-recipe', JSON.stringify(result.data))
+          }else{
+            const result = await axios.get("https://q27z6n.deta.dev/recipes/users", {
+              headers: {
+                  'accept': 'application/json',
+                  'x-token':token
+              }
+          });
+              
+              setResult(result.data['items']);
+              console.log(result)
+              localStorage.setItem('brew-recipe', JSON.stringify(result.data))
           }
-      });
-      setResult(result.data['items']);
-      localStorage.setItem('brew-recipe', JSON.stringify(result.data))
+          
+        }catch(error){
+          console.log(error)
+        }
     };
-      if(localStorage.getItem('brew-recipe') != null){
-        setResult(JSON.parse(localStorage.getItem('brew-recipe'))['items'])
+      if(localStorage.getItem('brew-recipe') !== ""){
+          
+          if(JSON.parse(localStorage.getItem('brew-recipe'))['items'] !== []){
+              setResult(JSON.parse(localStorage.getItem('brew-recipe'))['items'])
+        }
+      }else{
+        if(!online){
+            navigate('/offline')
+        }
       }
       if(online){
       fetchData();
       }
+      // console.log('i fire once');
     }, []);
   return (
     <div>
@@ -74,15 +108,19 @@ export default function BrewRecipe() {
   <div id="main_template">
     <div className="container" id="recipelist_container">
       {/* {JSON.stringify(result)} */}
-      {/* <p>{typeof result}</p>
-      <p>{JSON.stringify(result)}</p> */}
+      {/* {/* <p>{typeof result}</p> */}
+      {/* <p>{JSON.stringify(result)}</p> */} 
       {
-        result === [] ? <h1>empty</h1>:result.map((item)=>{
-        if(item.brewer === tool[brewer] ){
-          return(<RecipeCard name={item.name} favorite={item.favorite} shared={item.shared} link={item.key} />)
+        result === [] ? <h3>empty</h3>:result.map((item)=>{
+          let admin = false
+        if(item.owner === "admin"){admin=true}
+        if(item.brewer === tool[brewer]){
+          return(<RecipeCard name={item.name} favorite={item.favorite} shared={item.shared} link={item.key} disabled={admin}/>)
+          
         }
       })
       }
+      <div style={{height: '50px'}}></div>
     </div>
   </div>
   <div className="d-flex" id="Header">

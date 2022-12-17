@@ -7,29 +7,50 @@ import "../styles/Round_switch.css"
 import "../styles/styles.css"
 import "../styles/Ultimate-Sidebar-Menu-BS5.css"
 import "../styles/Features-Clean.css"
+import axios from 'axios'
 
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react'
 import { Link, redirect } from 'react-router-dom'
 import { Fetching } from '../method/fetchScripts'
 import { useEffect } from 'react'
-
+import { useNavigate } from 'react-router-dom'
+import { useAuth } from '..'
 
 
 export default function Login() {
   const [test, setTest] = useState("t")
-  function login(e){
-    e.preventDefault()
-    let code = 'Basic ' + btoa(`${username}:${password}`)
-    console.log(code)
-    // e.preventdefault()
-    Fetching("/token", "https://q27z6n.deta.dev/token", "POST", {}, {accept: 'application/json', authentication:code}, true)
-    
-  }
-
   const { t, i18n } = useTranslation();
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
+  const [header, setHeader] = useState("")
+  const [isLogged, setIsLogged] = useState(Boolean(localStorage.getItem('token')))
+  const [trigger, setTrigger] = useState(false)
+  const navigate = useNavigate();
+  useEffect(() => {
+    const fetchData  = async () => { 
+      try{
+        if(trigger){
+          let header = btoa(`${username}:${password}`)
+          setHeader(`Basic ${header}`)
+          header = {
+            headers: {
+                'Authorization': `Basic ${header}`
+              }
+          }
+          
+          const result = await axios.post('https://q27z6n.deta.dev/token', {}, header)
+          setTrigger(false)
+          localStorage.setItem('token', result.data)
+          navigate('/')
+        }
+    } catch(error){
+      console.log(error.response.status)
+    }
+  };
+    fetchData()
+    }, [trigger]);
+
   return (
     <body className='LoginBG'>
       <div className="d-flex align-items-center logdiv">
@@ -50,11 +71,14 @@ export default function Login() {
           </div>
           <div className="d-flex InputDiv2"><i className="fa fa-lock icon" />
           <input className="form-control Inputform" type="password" value={password} onChange={(e)=>{setPassword(e.target.value)}} required /></div>
-          <p style={{fontSize: '13px', textAlign: 'center', marginBottom: '8px'}}>{t("Ltext03")}</p>
-          <div style={{textAlign: 'center'}}><a href="https://www.google.com"><img className="pic2" src="assets/img/Picture3.png" /></a></div>
+          {/* <p style={{fontSize: '13px', textAlign: 'center', marginBottom: '8px'}}>{t("Ltext03")}</p> */}
+          {/* <div style={{textAlign: 'center'}}><a href="https://www.google.com"><img className="pic2" src="assets/img/Picture3.png" /></a></div> */}
           <div className="d-flex SkipDiv">
-            <button onClick={(e)=>{login(e)}} className="btn btn-primary d-flex" data-bss-hover-animate="pulse" id="Confirm_Button" type="submit">{t("Ltext01")}</button>
-          <Link to="/"><a className="skiplog" href="">{t("Ltext04")}</a></Link></div>
+            
+            <button onClick={(e)=>{e.preventDefault();setTrigger(!trigger);}} className="btn btn-primary d-flex" data-bss-hover-animate="pulse" id="Confirm_Button" type="submit">{t("Ltext01")}</button>
+
+            <Link className="skiplog" to="/">{t("Ltext04")}</Link>
+          </div>
         </form>
         <div style={{textAlign: 'center'}}><img className="pic3" src="assets/img/CoffeeCactus.png" /></div>
       </div>

@@ -12,6 +12,7 @@ import { useTranslation } from 'react-i18next';
 
 export default function ProfileEdit() {
   const { t, i18n } = useTranslation();
+  const token = localStorage.getItem('token')
   return (
     <div>
   <div className="div_back"><a href="javascript:history.back()"><i className="icon ion-android-arrow-back" id="Back_icon" /></a></div>
@@ -28,7 +29,13 @@ export default function ProfileEdit() {
             <div className="Ecard" style={{height: '92px'}}>
               <div className="d-inline-flex" style={{width: '100%', marginTop: '5px'}}><img className="ae_legend" src="assets/img/legend_picture.png" />
                 <p id="Etitle">{t("PEtext01")}</p>
-              </div><input className="form-control pAvarta_input" type="file" id="pAvarta_input" accept="image/*" />
+              </div>
+              {/* <input className="form-control pAvarta_input" type="file" id="pAvarta_input" accept="image/*" /> */}
+              <form id="image_upload" method="post" action="https://q27z6n.deta.dev/users/images" enctype="multipart/form-data">
+                  <input type="hidden" name="token" value={token} />
+                  <input className="form-control pAvarta_input" type="file" name="file" accept="image/png, image/jpeg" />
+                  <input type="submit" />
+              </form>
             </div>
           </div>
         </div>

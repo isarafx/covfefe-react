@@ -9,11 +9,13 @@ import "../styles/styles.css"
 import "../styles/Ultimate-Sidebar-Menu-BS5.css"
 import "../styles/Features-Clean.css"
 import "../styles/Login_Register.css"
-
+import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
+import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Fetching } from '../method/fetchScripts'
+
 export default function Register() {
   const { t, i18n } = useTranslation();
 
@@ -22,20 +24,38 @@ export default function Register() {
   const [ password, setPassword ] = useState();
   const [ confirmPassword, setConfirmPassword ] = useState();
 
-  function register(e){
-    e.preventDefault()
-    if(password != confirmPassword){
-      alert('password not match')
+
+  const [trigger, setTrigger] = useState(false)
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchData  = async () => { 
+      try{
+        if(trigger){
+          let body = {
+            'username':username,
+            'email':email,
+            'password':password
+          }
+          let header = {
+            headers: {
+                'Content-Type': 'application/json',
+              }
+          }
+
+          const result = await axios.post('https://q27z6n.deta.dev/users', body, header)
+          setTrigger(false)
+          // console.log(JSON.stringify(result.data))
+          alert('register success')
+          navigate('/')
+        }
+    } catch(error){
+      // alert(error.response.status)
+      alert("register failed")
     }
-    else{
-    let data = {
-      "username": username,
-      "email": email,
-      "password": password
-    }
-    console.log(JSON.stringify(data))
-    console.log(Fetching("/token", "https://q27z6n.deta.dev/users", "POST", JSON.stringify(data), {accept: "application/json", "Content-Type": "application/json"}, true))
-    }}
+  };
+    fetchData()
+    }, [trigger]);
 
   return (<body className="LoginBG">
     <div className="d-flex align-items-center logdiv">
@@ -68,8 +88,8 @@ export default function Register() {
           <div className="d-flex InputDiv2"><i className="fa fa-lock icon" />
           <input className="form-control Inputform" value={confirmPassword} onChange={(e)=>{setConfirmPassword(e.target.value)}} type="password" required /></div>
           <div className="d-flex SkipDiv2">
-            <button className="btn btn-primary d-flex" data-bss-hover-animate="pulse" id="Confirm_Button" onClick={(e)=>{register(e)}} type="submit">{t("Ltext07")}</button>
-          <Link to="/"><a className="skiplog" href="">{t("Ltext04")}</a></Link></div>
+            <button className="btn btn-primary d-flex" data-bss-hover-animate="pulse" id="Confirm_Button" onClick={(e)=>{e.preventDefault();setTrigger(!trigger)}} type="submit">{t("Ltext07")}</button>
+          <Link className="skiplog" to="/">{t("Ltext04")}</Link></div>
         </form>
         <div style={{textAlign: 'center'}}><img className="pic3" src="assets/img/CoffeeCactus.png" /></div>
       </div>
