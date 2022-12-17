@@ -115,7 +115,7 @@ export default function BrewRecipe() {
           let admin = false
         if(item.owner === "admin"){admin=true}
         if(item.brewer === tool[brewer]){
-          return(<RecipeCard name={item.name} favorite={item.favorite} shared={item.shared} link={item.key} disabled={admin}/>)
+          return(<RecipeCard name={item.name} favorite={item.favorite} shared={item.shared} link={item.key} disabled={0} />)
           
         }
       })

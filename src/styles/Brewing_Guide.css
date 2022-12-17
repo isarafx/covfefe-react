@@ -200,6 +200,11 @@
   max-width: 100%;
 }
 
+#Fav_Tool_color {
+  background: #bc000000;
+  max-width: 120px;
+}
+
 #Tool_color {
   background: #bc000000;
 }
