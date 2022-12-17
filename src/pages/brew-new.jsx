@@ -100,7 +100,7 @@ export default function BrewNew() {
     }
     setRecordData(data)
     setTrigger(!trigger)
-    setEXData(data)
+    // setEXData(data)
   }
   
 
@@ -127,6 +127,18 @@ export default function BrewNew() {
       window.removeEventListener('online', setOnline);
     }
   }, []);
+
+  useEffect(() => {
+    window.addEventListener('offline', setOffline);
+    window.addEventListener('online', setOnline);
+
+    // cleanup if we unmount
+    return () => {
+      window.removeEventListener('offline', setOffline);
+      window.removeEventListener('online', setOnline);
+    }
+  }, []);
+
   const submitTool = (tool) => {
     if (tool === "Hario") {
       setProcessMethod(["Pour Water", "Add Coffee", "Stir", "Bloom", "Wait", "Swirl", "Rinse Filter", "Custom"])
