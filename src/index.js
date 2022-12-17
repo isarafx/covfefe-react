@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { createContext } from 'react';
 import ReactDOM from 'react-dom/client';
 
 // page
@@ -23,16 +23,66 @@ import BrewEdit from './pages/brew-edit';
 import Profile from './pages/profile';
 import ArticleNew from './pages/article-new';
 import './i18n';
+import { useContext } from 'react';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 // css
-
-
 import {
   createBrowserRouter,
   RouterProvider,
   Route,
   Routes,
+  Link,
+  Navigate
 } from "react-router-dom";
 import Test from './pages/test';
+import ArticleReadTwo from './pages/article-read-2';
+import ArticleReadThree from './pages/article-read-3';
+import ArticleReadFour from './pages/article-read-4';
+import ProfileEdit from './pages/profile-edit';
+
+const AuthContext = createContext(null)
+ const ProtectedRoute = ({ children }) => {
+    const token = localStorage.getItem('token')
+  
+    if (!token) {
+      return <Navigate to="/login" replace />;
+    }
+  
+    return children;
+  };
+  
+ export const useAuth = () => {
+    return useContext(AuthContext);
+  };
+const fakeAuth = () => new Promise((resolve) => {
+    setTimeout(() => resolve('2342f2f1d131rf12'), 250);
+  });
+const AuthProvider = ({ children }) => {
+    const [token, setToken] = useState(null);
+    const handleLogin = async () => {
+      const token = await fakeAuth()
+      setToken(token);
+      alert(token)
+    };
+  
+    const handleLogout = () => {
+      setToken(null);
+    };
+  
+    const value = {
+      token,
+      onLogin: handleLogin,
+      onLogout: handleLogout,
+    };
+  
+    return (
+      <AuthContext.Provider value={value}>
+        {children}
+      </AuthContext.Provider>
+    );
+  };
+
 const router = createBrowserRouter([
   {
     path:"/test",
@@ -57,6 +107,18 @@ const router = createBrowserRouter([
   {
     path: "/article/1",
     element: <ArticleRead />,
+  },
+  {
+    path: "/article/2",
+    element: <ArticleReadTwo />,
+  },
+  {
+    path: "/article/3",
+    element: <ArticleReadThree />,
+  },
+  {
+    path: "/article/4",
+    element: <ArticleReadFour />,
   },
   {
     path: "/favorite",
@@ -88,19 +150,15 @@ const router = createBrowserRouter([
   },
   {
     path: "/commu-detail",
-    element: <CommuDetail />,
+    element: <ProtectedRoute><CommuDetail /></ProtectedRoute>,
   },
   {
     path: "/commu-main",
-    element: <CommuMain />,
+    element: <ProtectedRoute><CommuMain /></ProtectedRoute>,
   },
   {
     path: "/commu-share",
     element: <CommuShare />,
-  },
-  {
-    path: "/commu-shop",
-    element: <CommuShop />,
   },
   {
     path: "/error",
@@ -123,6 +181,10 @@ const router = createBrowserRouter([
     element: <Profile />,
   },
   {
+    path: "/profile-edit",
+    element: <ProtectedRoute><ProfileEdit /></ProtectedRoute>,
+  },
+  {
     path: "offline",
     element: <Offline />,
   },
@@ -135,7 +197,9 @@ const router = createBrowserRouter([
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
   </React.StrictMode>
 );
 

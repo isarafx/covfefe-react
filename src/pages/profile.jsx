@@ -10,8 +10,11 @@ import "../styles/Features-Clean.css"
 import NavBar from '../components/navbar'
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom'
+import { useAuth } from '..'
 export default function Profile() {
   const { t, i18n } = useTranslation()
+  const [isLogged, setIslogged] = useState(Boolean(localStorage.getItem('token')))
+  
   function changeLanguage() {
     if (i18n.language === "en") {
       i18n.changeLanguage('th')
@@ -23,6 +26,8 @@ export default function Profile() {
   }
   const lang = localStorage.getItem('i18nextLng')
   const [checker, setChecker] = useState(lang === 'en' ? true : false);
+  const token = localStorage.getItem('token')
+  // const { value } = useAuth()
 
   return (
     <div>
@@ -38,13 +43,17 @@ export default function Profile() {
                   </div>
                   <div className="row">
                     <div className="col">
-                      <p id="avatar_name" style={{ fontSize: '17px' }}>{t("User99")}<a href=""><i className="fa fa-edit" style={{ color: '#515151', paddingLeft: '10px' }} /></a></p>
+                      <p id="avatar_name" style={{ fontSize: '17px' }}>{ isLogged ? JSON.parse(atob(token.split('.')[1]))['username']:'username'}<Link to="/profile-edit"><a href=""><i className="fa fa-edit" style={{ color: '#515151', paddingLeft: '10px' }} /></a></Link></p>
                     </div>
                   </div>
                 </div>
               </div>
               <div className="row prow" data-bss-hover-animate="pulse">
-                <div className="col"><Link to="/login"><a className="btn btn-primary" role="button" style={{ background: '#d35151' }} href="">{t("Ltext01")}</a></Link></div>
+                {isLogged ? 
+                <div className="col"><a onClick={()=>{localStorage.setItem('token','')}} className="btn btn-primary" role="button" style={{ background: '#d35151' }} href="">{t("Ltext10")}</a></div>
+                :
+                <div className="col"><Link to="/login"><a className="btn btn-primary" role="button" style={{ background: '#d35151' }} href="">{t("Ltext01")}</a></Link></div>}
+                
               </div>
             </div>
             <div className="col profile_section">

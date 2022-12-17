@@ -128,10 +128,11 @@ export default function CommuMain() {
   <div className="d-flex" id="Header">
     <p id="header_paragraph">{t("Ctext04")}</p>
   </div>
-  <div className="d-flex" id="Footer"><button className="btn btn-primary disabled" data-bss-hover-animate="pulse" id="index_button" type="button" disabled>
-    <img src="assets/img/Mug%20icon.png" style={{width: '35px', marginTop: '-8px'}} /></button>
-    <Link to="/commu-shop"><a className="btn btn-primary d-flex justify-content-center align-items-center" role="button" data-bss-hover-animate="pulse" id="shop_button" href="">
-      <img src="assets/img/Shop%20Icon.png" style={{width: '34px'}} /></a></Link></div>
+  <div className="d-flex" id="Footer">
+    <button className="btn btn-primary disabled" data-bss-hover-animate="pulse" id="index_button" type="button" disabled>
+    <img src="assets/img/Mug%20icon.png" style={{width: '35px', marginTop: '-8px'}} />
+    </button>
+    </div>
 </div>
 
 

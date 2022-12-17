@@ -100,6 +100,7 @@ export default function BrewNew() {
     }
     setRecordData(data)
     setTrigger(!trigger)
+    setEXData(data)
   }
   
 
@@ -285,13 +286,14 @@ export default function BrewNew() {
   }
   const [trigger, setTrigger] = useState(false)
   const [recordData, setRecordData] = useState(false)
-  const [header, setHeader] = useState({
+  let token = localStorage.getItem('token')
+  const header = {
     headers: {
         'accept': 'application/json',
-        'x-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIn0.xxMLezVa5jtc7hSBVJ8vEPvqesEQNu0CIQNK2pw5sZc',
+        'x-token': token,
         'Content-Type': 'application/json'
     }
-})
+}
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -303,7 +305,7 @@ export default function BrewNew() {
           navigate('/')
         }
     } catch(error){
-      console.log(error.response.status)
+      console.log(error.response)
     }
   };
     fetchData()

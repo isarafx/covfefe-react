@@ -86,7 +86,7 @@ export default function BrewIndex() {
   <div className="d-flex" id="Footer">
     <button className="btn btn-primary disabled" data-bss-hover-animate="pulse" id="brew_button" type="button" disabled>
       <img src="assets/img/Cup%20Icon.png" style={{width: '50px', marginTop: '-17px'}} /></button>
-      <Link to="/brew-fav"><a className="btn btn-primary d-flex" role="button" data-bss-hover-animate="pulse" id="fav_button" href="">
+      <Link to="/favorite"><a className="btn btn-primary d-flex" role="button" data-bss-hover-animate="pulse" id="fav_button" href="">
         <img src="assets/img/Favorite%20Icon.png" style={{width: '42px'}} /></a></Link></div>
 </div>
   )

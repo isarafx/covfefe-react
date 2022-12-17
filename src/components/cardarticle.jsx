@@ -6,7 +6,8 @@ export default function CardArticle({link="/", name="article.exe", detail="==เ
             <div className="d-flex justify-content-center align-items-center">
               <div className="card" id="a_card">
                 <div className="card-body" data-bss-hover-animate="pulse">
-                  <div className="d-flex justify-content-center"><img className="d-flex article_picture" src={pic} /></div>
+                  <div className="d-flex justify-content-center">
+                    <img height="125" width="200" className="d-flex article_picture" src={pic} /></div>
                   <h4 className="card-title article_title">{name}</h4>
                   <p className="card-text article_description">{detail}<br /></p>
                 </div>
