@@ -29,3 +29,6 @@
   color: #ffffff;
 }
 
+#Tool_color .btn-primary.disabled, .btn-primary:disabled {
+  border: none;
+}
