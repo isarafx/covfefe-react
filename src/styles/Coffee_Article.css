@@ -35,3 +35,20 @@
   -webkit-box-orient: vertical;
 }
 
+#article_admin_edit {
+  margin-right: 10px;
+  background: #ffffff;
+  border-radius: 10%;
+  border-width: 2px;
+  border-color: #f1b875;
+  margin-left: 10px;
+}
+
+#article_admin_del {
+  margin-left: 10px;
+  background: #ffffff;
+  border-radius: 10%;
+  margin-right: 10px;
+  border-width: 2px;
+  border-color: #ff7e7e;
+}
