@@ -22,8 +22,6 @@ export default function BrewFav() {
   let [online, isOnline] = useState(navigator.onLine);
   let [result, setResult] = useState([]);
   const token = localStorage.getItem('token')
-  const recipe = localStorage.getItem('brew-recipe')
-  const commu_recipe = localStorage.getItem('community')
   const navigate = useNavigate();
 
   const setOnline = () => {
@@ -55,6 +53,7 @@ export default function BrewFav() {
             console.log(result)
             localStorage.setItem('favorite', JSON.stringify(result.data))
             setResult(result.data['items'])
+            setDisplayList(result.data['items'])
         }catch(error){
           if(error.response.status == 404){
             localStorage.setItem('favorite', JSON.stringify({items:[]}))
@@ -69,29 +68,46 @@ export default function BrewFav() {
     // console.log('i fire once');
   }, [refresh]);
 
-  const [trigger, setTrigger] = useState(false)
-  const [id,setID] = useState('')
+  const [id2, setID2] = useState()
+  const [trigger2, setTrigger2] = useState(false)
   useEffect(() => {
-    const unFav  = async () => { 
-      try{
-          console.log(id)
-          const result = await axios.delete(`https://q27z6n.deta.dev/users/favorite/${id}`, {
-            headers: { 'accept': 'application/json', 'x-token':token } })
-          // setTrigger(!trigger)
-          setRefresh(!refresh)
-    } catch(error){
-      console.log(error.response)
-    }
-  };
-    unFav()
-    }, [trigger]);
+      const unFav  = async () => { 
+        try{
+            console.log(`https://q27z6n.deta.dev/users/favorite/${id2}`)
+            const result = await axios.delete(`https://q27z6n.deta.dev/users/favorite/${id2}`, { headers: {'x-token':token}})
+            console.log('data here')
+            console.log(result.data)
+            // setRefresh(!refresh)
+            // setTrigger(!trigger)
+      } catch(error){
+        console.log(error.response)
+      }
+    };
+      unFav()
+      }, [trigger2]);
 
-    function unfavorite(key){
-        console.log('click', key)
-        setID(key)
-        setTrigger(!trigger)
-        
-    }
+      function unfavorite(key){
+          console.log('unfav')
+          console.log(key)
+          setID2(key)
+          setTrigger2(!trigger2)
+          setResult(result.filter((item) => {
+            return item.key != key
+          }))
+          // setRefresh(!refresh)
+      }
+      const [searchText, setSearchText] = useState("")
+      const [displayList, setDisplayList] = useState(result);
+      useEffect(()=>{
+        let temp = []
+        for (let i = 0; i < result.length; i++) {
+          if (result[i]['name'].toLowerCase().includes(searchText.toLowerCase())) {
+              // result.push(data[i]);
+              temp.push(result[i]);
+          }
+        }
+        setDisplayList(temp)
+      }, [searchText]);
 
   return (
     <div>
@@ -102,13 +118,16 @@ export default function BrewFav() {
       </svg></a></Link></div>
       <div id="main_template">
         <div className="container" id="search_contrainer">
-          <div className="input-group"><input className="form-control" type="search" id="search_input" /><button className="btn btn-primary" data-bss-hover-animate="pulse" id="search_button" type="button"><i className="fa fa-search" id="Tool_icon" style={{ color: '#ffffff' }} /></button></div>
+          <div className="input-group">
+            <input className="form-control" type="search" id="search_input" value={searchText} onChange={(e)=>{setSearchText(e.target.value)}}/>
+          <button className="btn btn-primary" data-bss-hover-animate="pulse" id="search_button" type="button">
+            <i className="fa fa-search" id="Tool_icon" style={{ color: '#ffffff' }} /></button></div>
         </div>
         <div className="container" id="recipelist_container" style={{ marginTop: '-70px' }}>
         
           {
-              result.map((item)=>{
-              return (<FavCard key={`fav${item.key}`} name="test" commu={item.commu} brewer={item.brewer} id={item.key} func={unfavorite}></FavCard>)
+              displayList.map((item)=>{
+              return (<FavCard key={`fav${item.key}`} link={item.key} name={item.name} brewer={item.brewer} func={unfavorite}></FavCard>)
             })
           }
           {/* {JSON.stringify(result)} */}

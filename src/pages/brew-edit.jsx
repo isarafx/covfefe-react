@@ -191,54 +191,6 @@ export default function BrewEdit() {
 
   // const navigate = useNavigate()
 
-  useEffect(() => {
-    const updateRecipe  = async () => { 
-      
-      try{
-          let brewEQ = brewer
-          if(brewEQ === "hario"){brewEQ = "Hario"}
-          else if(brewEQ === "mokapot"){brewEQ = "Moka Pot"}
-          else if(brewEQ === "aeropress"){brewEQ = "AeroPress"}
-          else if(brewEQ === "frenchpress"){brewEQ = "French Press"}
-          else if(brewEQ === "chemex"){brewEQ = "Chemex"}
-          let tempeq = (equipment.map((item)=>({name:item.name, description:item.description})))
-          let tempProcess = ([...process].map((item)=> {
-            let data2 = {name:item.name, time:item.time, comment:item.comment};
-            if(item.custom_name){
-              data2.custom_name = item.custom_name
-            }if(item.water){
-              data2.water = item.water
-            }
-            return data2
-            }))
-            let data ={
-              name:name,
-              coffee_weight:coffee,
-              water:water,
-              ratio:ratio,
-              equipment: tempeq,
-              note: note,
-              process:tempProcess,
-              grind_size:refine,
-              temp:heat,
-              roast_level:roast,
-            }
-          console.log(id)
-          const result = await axios.patch(`https://q27z6n.deta.dev/recipes/${id}`, data, { headers: {'x-token':token, 'Content-Type': 'application/json'}})
-          console.log(result)
-
-    } catch(error){
-      console.log(id)
-      console.log(error.response)
-    }
-  };
-    console.log('pressed')
-    updateRecipe()
-    // console.log(data)
-    }, [trigger]);
-
-    
-
   return (
     <div>
       <BackButton />

@@ -2,7 +2,7 @@ import React from 'react'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 
-export default function FavCard({name="lorem ipsum", brewer = 'hario' , commu = 0, id='', func }) {
+export default function FavCard({name="lorem ipsum", link, brewer = 'hario' , id='', func }) {
 
   const tool = {
     "Hario":"Hario",
@@ -11,17 +11,12 @@ export default function FavCard({name="lorem ipsum", brewer = 'hario' , commu = 
     "Moka Pot":"Moka",
     "Chemex":"Chemex",
   }
-  let url = "/"
-  if(!commu){
-      url="/commu-detail/${key}"
-  }else{
-      url="/brew-recipe/${key}"
-    }
+  let url = `/brew-recipe/${brewer}/${link}`
 
 
     
   return (
-    <div id="method_result_card" onClick={()=>{func(id)}}>
+    <div id="method_result_card">
       <div className="row">
         <div className="col"><Link to={url}><a href="">
           <div className="card" style={{ height: '65px', background: 'rgba(255,255,255,0)', borderStyle: 'none' }}>
@@ -40,7 +35,8 @@ export default function FavCard({name="lorem ipsum", brewer = 'hario' , commu = 
       </div>
       <div className="row">
         <div className="col">
-          <div className="btn-group d-flex justify-content-end" role="group" style={{ width: '100%' }}><button className="btn btn-primary" data-bss-hover-animate="jello" id="Fav_Tool_color" type="button"><i className="fas fa-heart-broken" id="Tool_Faved" /></button></div>
+          <div className="btn-group d-flex justify-content-end" role="group" style={{ width: '100%' }}>
+            <button onClick={()=>{func(link)}} className="btn btn-primary" data-bss-hover-animate="jello" id="Fav_Tool_color" type="button"><i className="fas fa-heart-broken" id="Tool_Faved" /></button></div>
         </div>
       </div>
     </div>
