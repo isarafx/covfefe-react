@@ -16,13 +16,17 @@ import axios from 'axios'
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react'
 import FavCard from '../components/favCard'
-
+import { useNavigate } from 'react-router-dom'
 export default function BrewFav() {
   const { t, i18n } = useTranslation();
   let [online, isOnline] = useState(navigator.onLine);
   let [result, setResult] = useState([]);
+  const token = localStorage.getItem('token')
+  const recipe = localStorage.getItem('brew-recipe')
+  const commu_recipe = localStorage.getItem('community')
+  const navigate = useNavigate();
+
   const setOnline = () => {
-    
     isOnline(true);
   };
   const setOffline = () => {
@@ -31,33 +35,63 @@ export default function BrewFav() {
   };
 
   // Register the event listeners
-  // useEffect(() => {
-  //   window.addEventListener('offline', setOffline);
-  //   window.addEventListener('online', setOnline);
+  useEffect(() => {
+    window.addEventListener('offline', setOffline);
+    window.addEventListener('online', setOnline);
     
-  //   // cleanup if we unmount
-  //   return () => {
-  //     window.removeEventListener('offline', setOffline);
-  //     window.removeEventListener('online', setOnline);
-  //   }
-  // }, []);
-  //    useEffect(() => {
-  //     const fetchData  = async () => { 
-  //       const result = await axios.get('https://q27z6n.deta.dev/recipes/public', {
-  //         headers: {
-  //             'accept': 'application/json'
-  //         }
-  //     });
-  //     setResult(result.data['items']);
-  //     localStorage.setItem('brew-recipe', JSON.stringify(result.data))
-  //   };
-  //     if(localStorage.getItem('brew-recipe') != null){
-  //       setResult(JSON.parse(localStorage.getItem('brew-recipe'))['items'])
-  //     }
-  //     if(online){
-  //     fetchData();
-  //     }
-  //   }, []);
+    // cleanup if we unmount
+    return () => {
+      window.removeEventListener('offline', setOffline);
+      window.removeEventListener('online', setOnline);
+    }
+  }, []);
+  const [refresh, setRefresh] = useState(false)
+  useEffect(() => {
+      
+    const fetchData  = async () => { 
+        try{
+            const result = await axios.get("https://q27z6n.deta.dev/favorite", { headers: { 'accept': 'application/json', 'x-token':token } });
+            // setResult(result.data['items']);
+            console.log(result)
+            localStorage.setItem('favorite', JSON.stringify(result.data))
+            setResult(result.data['items'])
+        }catch(error){
+          if(error.response.status == 404){
+            localStorage.setItem('favorite', JSON.stringify({items:[]}))
+            setResult([])
+          }
+            console.log(error)
+        }
+  };
+    if(online){
+    fetchData();
+    }
+    // console.log('i fire once');
+  }, [refresh]);
+
+  const [trigger, setTrigger] = useState(false)
+  const [id,setID] = useState('')
+  useEffect(() => {
+    const unFav  = async () => { 
+      try{
+          console.log(id)
+          const result = await axios.delete(`https://q27z6n.deta.dev/users/favorite/${id}`, {
+            headers: { 'accept': 'application/json', 'x-token':token } })
+          // setTrigger(!trigger)
+          setRefresh(!refresh)
+    } catch(error){
+      console.log(error.response)
+    }
+  };
+    unFav()
+    }, [trigger]);
+
+    function unfavorite(key){
+        console.log('click', key)
+        setID(key)
+        setTrigger(!trigger)
+        
+    }
 
   return (
     <div>
@@ -71,18 +105,14 @@ export default function BrewFav() {
           <div className="input-group"><input className="form-control" type="search" id="search_input" /><button className="btn btn-primary" data-bss-hover-animate="pulse" id="search_button" type="button"><i className="fa fa-search" id="Tool_icon" style={{ color: '#ffffff' }} /></button></div>
         </div>
         <div className="container" id="recipelist_container" style={{ marginTop: '-70px' }}>
-        <FavCard key={''} brewer={''} name={''} commu={''} fav={''} />
-        <FavCard key={''} brewer={''} name={''} commu={''} fav={''} />
-        <FavCard key={''} brewer={''} name={''} commu={''} fav={''} />
-        <FavCard key={''} brewer={''} name={''} commu={''} fav={''} />
-        <FavCard key={''} brewer={''} name={''} commu={''} fav={''} />
-        <FavCard key={''} brewer={''} name={''} commu={''} fav={''} />
-        <FavCard key={''} brewer={''} name={''} commu={''} fav={''} />
-        <FavCard key={''} brewer={''} name={''} commu={''} fav={''} />
-        <FavCard key={''} brewer={''} name={''} commu={''} fav={''} />
-        <FavCard key={''} brewer={''} name={''} commu={''} fav={''} />
-        <FavCard key={''} brewer={''} name={''} commu={''} fav={''} />
-          
+        
+          {
+              result.map((item)=>{
+              return (<FavCard key={`fav${item.key}`} name="test" commu={item.commu} brewer={item.brewer} id={item.key} func={unfavorite}></FavCard>)
+            })
+          }
+          {/* {JSON.stringify(result)} */}
+
         <div style={{height: '50px'}}></div>
         </div>
 

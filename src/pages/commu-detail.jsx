@@ -8,7 +8,8 @@ import BackButton from '../components/backbutton'
 import "../styles/Community.css"
 import Comment from '../components/comment'
 
-
+import axios from 'axios'
+import { Navigate } from 'react-router-dom'
 import "../styles/Multiple-Input-Select-Pills.css"
 import "../styles/Round_switch.css"
 import "../styles/styles.css"
@@ -16,31 +17,28 @@ import "../styles/Ultimate-Sidebar-Menu-BS5.css"
 import "../styles/Features-Clean.css"
 
 import { useTranslation } from 'react-i18next';
-
-
+import { useNavigate, useParams } from 'react-router-dom'
+import { useEffect } from 'react'
+import { mmss } from '../method/mmss'
 export default function CommuDetail() {
   const { t, i18n } = useTranslation();
+  const { id } = useParams();
+  // const {}
+  const recipe = JSON.parse(localStorage.getItem('community')).filter((item)=>item.key===id)[0]
 
-  const [name, setName] = useState("recipe")
-  const [note, setNote] = useState("")
-  const [score, setScore] = useState(1)
-  const [coffee, setCoffee] = useState(16)
-  const [water, setWater] = useState(160)
-  const [ratio, setRatio] = useState(10)
-  const [refine, setRefine] = useState('Medium')
-  const [heat, setHeat] = useState(80)
-  const [roast, setRoast] = useState('Medium')
+  const [coffee, setCoffee] = useState(parseInt(recipe.coffee_weight))
+  const [water, setWater] = useState(parseInt(recipe.water))
   const [cup, setCup] = useState(1)
   const [comment, setComment] = useState()
 
 
-  const [processList, setProcessList] = useState([
-    {name:"process 1", detail:"test ", comment:"test", time:20},
-    {name:"process 2", detail:"test ", comment:"test ", time:20},
-    {name:"process 3", detail:"test ", comment:"test ", time:20},
-  ])
-  const [equipmentList, setEquipmentList] = useState(['aeropress', 'equipment2'])
-
+  const [processList, setProcessList] = useState(recipe.process
+  //   [
+  //   {name:"process 1", detail:"test ", comment:"test", time:20},
+  //   {name:"process 2", detail:"test ", comment:"test ", time:20},
+  //   {name:"process 3", detail:"test ", comment:"test ", time:20},
+  // ]
+  )
 
   function setTotalCup(newcup){
     setWater(parseInt(water/cup*newcup))
@@ -48,7 +46,8 @@ export default function CommuDetail() {
     setCup(newcup)
   }
 
-  const commentList = [
+  const commentList = 
+  [
     {username:"Admin1", message:"This is so Good1!", created_date:"2022-12-13T08:06:38+00:00"},
     {username:"Admin2", message:"This is so Good2!", created_date:"2022-12-13T08:07:38+00:00"},
     {username:"Admin3", message:"This is so Good3!", created_date:"2022-12-13T08:08:38+00:00"},
@@ -56,14 +55,43 @@ export default function CommuDetail() {
     {username:"Admin5", message:"This is so Good5!", created_date:"2022-12-13T08:10:38+00:00"},
     {username:"Admin2", message:"This is so Good6!", created_date:"2022-12-13T08:11:38+00:00"},
   ]
+  // useEffect(() => {
+      
+  //   const fetchData  = async () => { 
+  //       try{
+  //         const result = await axios.get("https://q27z6n.deta.dev/recipes/community", { headers: { 'accept': 'application/json', 'x-token': token } })
+  //           // storageAppendList('community', result.data['items'])
+  //         // alert('here')
+  //           localStorage.setItem('community', JSON.stringify(result.data['items']))
+  //         console.log(result.data)
+  //         setData(result.data['items'])
 
+  //     }catch(error){
+  //       console.log(error)
+  //     }
+  //   };
+  //   if(Boolean(localStorage.getItem('community'))){
+          
+  //     if(Boolean(JSON.parse(localStorage.getItem('community'))['items'])){
+  //         setData(JSON.parse(localStorage.getItem('community'))['items'])
+  //   }
+  // }else{
+  //   if(!online){
+  //       navigate('/offline')
+  //   }
+  // }
+  // if(online){
+  // fetchData();
+  // }
+  //   // console.log('i fire once');
+  // }, []);
   return (
     <div>
   <BackButton />
   <div className="d-flex div_a" style={{width: '80%', marginLeft: '20%'}}><a href="#"><i className="fa fa-heart-o" id="Interaction_d_icon" /></a></div>
   <div id="main_template">
     <div className="container" id="recipelist_container">
-      <h1 id="guide_head">{name}</h1>
+      <h1 id="guide_head">{recipe.name}</h1>
       <div className="row row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-2 row-cols-xl-2 row-cols-xxl-2" style={{height: '385px'}}>
         <div className="col" style={{height: '425px'}}>
           <div id="guide_container1">
@@ -76,7 +104,7 @@ export default function CommuDetail() {
                 <div id="guide_card"><img id="guide_icon" src="assets/img/guide_ratio_ico.png" />
                   <p id="guide_name">{t("Modaltext31")}</p>
                   <div className="input-group"><span className="d-flex justify-content-end input-group-text" id="guide_unit2">1&nbsp; :</span>
-                  <input className="form-control" type="number" id="guide_input2" value={ratio} /></div>
+                  <input className="form-control" type="number" id="guide_input2" value={recipe.ratio} /></div>
                 </div>
               </div>
               <div className="col d-flex justify-content-center" style={{paddingLeft: '5px', paddingRight: '5px'}}>
@@ -102,7 +130,7 @@ export default function CommuDetail() {
                     {/* <option value={14}>Extra Fine</option>
                     <option value={13}>Fine</option>
                     <option value>Medium Fine</option> */}
-                    <option value={12} selected>{refine}</option>
+                    <option value={12} selected>{recipe.grind_size}</option>
                     {/* <option value>Medium Coarse</option>
                     <option value={15}>Coarse</option> */}
                   </select>
@@ -112,7 +140,7 @@ export default function CommuDetail() {
                 <div id="guide_card"><img id="guide_icon" src="assets/img/guide_heat_ico.png" />
                   <p id="guide_name">{t("Modaltext33")}</p>
                   <div className="input-group d-sm-flex justify-content-center justify-content-xxl-center" style={{width: '100%'}}>
-                    <input className="form-control" type="text" id="guide_readonly" placeholder value={heat} disabled /><span className="input-group-text" id="guide_unit">°C</span></div>
+                    <input className="form-control" type="text" id="guide_readonly" placeholder value={recipe.temp} disabled /><span className="input-group-text" id="guide_unit">°C</span></div>
                 </div>
               </div>
               <div className="col d-flex justify-content-center" style={{paddingLeft: '5px', paddingRight: '5px'}}>
@@ -120,7 +148,7 @@ export default function CommuDetail() {
                   <p id="guide_name">{t("Modaltext34")}</p><select id="guide_option" disabled>
                     {/* <option value={14}>Light</option>
                     <option value={13}>Medium</option> */}
-                    <option value={12} selected>{roast}</option>
+                    <option value={12} selected>{recipe.roast_level}</option>
                   </select>
                 </div>
               </div>
@@ -140,7 +168,7 @@ export default function CommuDetail() {
             <div className="d-inline-flex" style={{minWidth: '100%'}}>
               <p id="guide_con_title" style={{width: '80%'}}>{t("Modaltext35")}</p>
               <div style={{minWidth: '10%'}}><img src="assets/img/guide_timer_ico.png" style={{width: '30px', height: '30px'}} /></div>
-              <p style={{textAlign: 'center', minWidth: '10%', paddingTop: '5px'}}>00:00</p>
+              <p style={{textAlign: 'center', minWidth: '10%', paddingTop: '5px'}}>{mmss(0)}</p>
             </div>
             <div id="process_container">
 
@@ -166,9 +194,9 @@ export default function CommuDetail() {
         </div>
         <div className="col" style={{width: '100%', overflow: 'auto'}}>
           <div id="guide_container2">
-            <p id="guide_con_title" /><textarea id="comment_guide_box" rows={9} readOnly defaultValue={""} />
+            <p id="guide_con_title" /><textarea id="comment_guide_box" rows={9} readOnly value={recipe.description} />
             <div className="d-inline-flex justify-content-end" style={{minWidth: '100%', height: '50px'}}><img className="creator_avatar_icon" src="assets/img/AvatarIcon.jpg" />
-              <p className="creator_avatar_name">Isara12345</p>
+              <p className="creator_avatar_name">{recipe.owner}</p>
             </div>
             <hr style={{marginTop: '0px', background: '#ff9900', height: '2px'}} />
             <div id="Comment_container_div">

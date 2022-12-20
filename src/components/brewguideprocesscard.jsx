@@ -1,6 +1,9 @@
 import React from 'react'
 import { mmss } from '../method/mmss'
 export default function BrewGuideProcessCard({name="process_dummy", description="desc", comment="comment", time=0}) {
+  const picture={
+    
+  }
   return (
     <div id="process_card">
                 <div className="d-inline-flex" style={{minWidth: '100%'}}>

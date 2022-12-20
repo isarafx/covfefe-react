@@ -14,7 +14,6 @@ import BrewNew from './pages/brew-new';
 import CommuDetail from './pages/commu-detail';
 import CommuMain from './pages/commu-main';
 import CommuShare from './pages/commu-share';
-import CommuShop from './pages/commu-shop';
 import Error from './pages/error';
 import Offline from './pages/offline';
 import Login from './pages/login';
@@ -94,7 +93,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/admin",
-    element: <Admin />,
+    element: <ProtectedRoute><Admin /></ ProtectedRoute>,
   },
   {
     path: "/article",
@@ -102,7 +101,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/article-new",
-    element: <ArticleNew />,
+    element: <ProtectedRoute><ArticleNew /></ProtectedRoute>,
   },
   {
     path: "/article/1",
@@ -122,44 +121,44 @@ const router = createBrowserRouter([
   },
   {
     path: "/favorite",
-    element: <BrewFav />,
+    element: <ProtectedRoute><BrewFav /></ProtectedRoute>,
   },
   {
-    path: "/brew-guide/:id",
+    path: "/brew-recipe/:brewer/:id",
     element: <BrewGuide />,
   },
   {
     path: "/brew-recipe/new",
-    element: <BrewNew />,
-  },
-  {
-    path: "/brew-recipe",
-    element: <BrewRecipe />,
+    element: <ProtectedRoute><BrewNew /></ProtectedRoute>,
   },
   {
     path: "/brew-recipe/:brewer",
     element: <BrewRecipe />,
   },
   {
-    path: "/brew-timer/:id",
+    path: "/brew-recipe/:brewer/timer/:id",
     element: <BrewTimer />,
   },
   {
-    path: "/brew-recipe/:brewer/edit/:key",
-    element: <BrewEdit />,
+    path: "/brew-recipe/:brewer/edit/:id",
+    element: <ProtectedRoute><BrewEdit /></ ProtectedRoute>,
   },
   {
-    path: "/commu-detail",
+    path: "/brew-recipe/:brewer/share/:id",
+    element: <ProtectedRoute><CommuShare /></ProtectedRoute>
+  },
+  {
+    path: "/community/:id",
     element: <ProtectedRoute><CommuDetail /></ProtectedRoute>,
   },
   {
     path: "/commu-main",
     element: <ProtectedRoute><CommuMain /></ProtectedRoute>,
   },
-  {
-    path: "/commu-share",
-    element: <CommuShare />,
-  },
+  // {
+  //   path: "/commu-share",
+  //   element: <ProtectedRoute><CommuShare /></ProtectedRoute>
+  // },
   {
     path: "/error",
     element: <Error />,
@@ -196,11 +195,11 @@ const router = createBrowserRouter([
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <AuthProvider>
       <RouterProvider router={router} />
     </AuthProvider>
-  </React.StrictMode>
+  // </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

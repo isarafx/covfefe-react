@@ -11,10 +11,17 @@ import NavBar from '../components/navbar'
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom'
 import { useAuth } from '..'
+import { useEffect } from 'react'
+import axios from 'axios'
 export default function Profile() {
   const { t, i18n } = useTranslation()
+  const token = localStorage.getItem('token')
   const [isLogged, setIslogged] = useState(Boolean(localStorage.getItem('token')))
-  
+  const [sound, setSound] = useState(Boolean(localStorage.getItem('sound')) && localStorage.getItem('sound') !== '0' ? true : false);
+  const [totalRecipe, setTotalRecipe] = useState(0)
+  const [brewCount, setBrewCount] = useState(0)
+
+  let user = JSON.parse(atob(token.split('.')[1]));
   function changeLanguage() {
     if (i18n.language === "en") {
       i18n.changeLanguage('th')
@@ -24,10 +31,67 @@ export default function Profile() {
       localStorage.setItem('i18nextLng', 'en')
     }
   }
+  function changeSound() {
+    if (sound) {
+      localStorage.setItem('sound', '0')
+    }else {
+      localStorage.setItem('sound', '1')
+    }
+  }
   const lang = localStorage.getItem('i18nextLng')
   const [checker, setChecker] = useState(lang === 'en' ? true : false);
-  const token = localStorage.getItem('token')
+  
+
   // const { value } = useAuth()
+
+
+  let [online, isOnline] = useState(navigator.onLine);
+
+  const setOnline = () => {
+    console.log('We are online!');
+    isOnline(true);
+  };
+  const setOffline = () => {
+    console.log('We are offline!');
+    isOnline(false);
+  };
+
+  // Register the event listeners
+  useEffect(() => {
+    window.addEventListener('offline', setOffline);
+    window.addEventListener('online', setOnline);
+
+    // cleanup if we unmount
+    return () => {
+      window.removeEventListener('offline', setOffline);
+      window.removeEventListener('online', setOnline);
+    }
+  }, []);
+
+  useEffect(()=>{
+    const fetchData  = async () => { 
+      try{
+        // console.log(user)
+        // alert(token)
+          const result = await axios.get('https://q27z6n.deta.dev/recipes/users', { headers: {'x-token': token} })
+          let count = result.data['items'].filter((item)=>{return item.owner == user['username']}).length
+          setTotalRecipe(count)
+          localStorage.setItem('totalrecipe', count)
+          // console.log(result.data['items'].filter((item)=>{return item.owner == user['username']}).length)
+
+          //counting in server
+    } catch(error){
+      console.log(error.response)
+      // console.log(exData)
+    }
+  };
+      if(online){
+        fetchData()}
+      else{
+        setTotalRecipe(localStorage.getItem('totalrecipe'))
+        
+      }
+  }, [])
 
   return (
     <div>
@@ -60,7 +124,7 @@ export default function Profile() {
               <div className="row statistics_card">
                 <div className="col">
                   <div>
-                    <p className="statistics_num">0</p>
+                    <p className="statistics_num">{brewCount}</p>
                   </div>
                   <div>
                     <p className="statistics_label">{t("Ptext02")}</p>
@@ -70,7 +134,7 @@ export default function Profile() {
               <div className="row statistics_card">
                 <div className="col">
                   <div>
-                    <p className="statistics_num">0</p>
+                    <p className="statistics_num">{totalRecipe}</p>
                   </div>
                   <div>
                     <p className="statistics_label">{t("Ptext03")}</p>
@@ -86,14 +150,17 @@ export default function Profile() {
               </div>
               <div className="d-flex justify-content-center">
                 <div className="col" style={{ width: '40.4px', maxWidth: '100%', textAlign: 'center' }}>
-                  <p className="setting_label">{t("Ptext07")}</p>
+                  <p className="setting_label">{t("Ptext08")}</p>
                 </div>
                 <div className="col" style={{ maxWidth: '100%', width: '70px', textAlign: 'center', minWidth: '60px' }}><label className="switch">
-                  <input type="checkbox" />
+                  {/* <input type="checkbox" /> */}
+                  {sound?
+                  <input type="checkbox" checked onClick={()=>{setSound(!sound);changeSound()}}/>
+                  :<input type="checkbox" onClick={()=>{setSound(!sound);changeSound()}} />}
                   <span className="slider round" />
                 </label></div>
                 <div className="col" style={{ width: '40.4px', maxWidth: '100%', textAlign: 'center' }}>
-                  <p className="setting_label">&nbsp;{t("Ptext08")}</p>
+                  <p className="setting_label">&nbsp;{t("Ptext07")}</p>
                 </div>
               </div>
             </div>
