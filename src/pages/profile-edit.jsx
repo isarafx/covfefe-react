@@ -9,16 +9,23 @@ import "../styles/Ultimate-Sidebar-Menu-BS5.css"
 import "../styles/Features-Clean.css"
 
 import { useTranslation } from 'react-i18next';
+import BackButton from '../components/backbutton'
 
 export default function ProfileEdit() {
   const { t, i18n } = useTranslation();
   const token = localStorage.getItem('token')
+
+  const handleSubmit = (e) =>{
+      e.preventDefault()
+      console.log(e.target.value)
+  }
+
   return (
     <div>
-      <div className="div_back"><a href="javascript:history.back()"><i className="icon ion-android-arrow-back" id="Back_icon" /></a></div>
+      <BackButton />
       <div id="main_template">
         <div className="container profile_container">
-          <form id="Eprofile_card">
+          <form id="Eprofile_card" method="post" action="https://q27z6n.deta.dev/users/images" enctype="multipart/form-data" onSubmit={handleSubmit}>
             <div className="row" style={{ textAlign: 'center', marginBottom: '20px' }}>
               <div className="col d-flex justify-content-center">
                 <div className="Eavarta_icon_border"><img id="Eavarta_icon" src="assets/img/AvatarIcon.jpg" /></div>
@@ -30,17 +37,13 @@ export default function ProfileEdit() {
                   <div className="d-inline-flex" style={{ width: '100%', marginTop: '5px' }}><img className="ae_legend" src="assets/img/legend_picture.png" />
                     <p id="Etitle">{t("PEtext01")}</p>
                   </div>
-                  {/* <input className="form-control pAvarta_input" type="file" id="pAvarta_input" accept="image/*" /> */}
-                  <form id="image_upload" method="post" action="https://q27z6n.deta.dev/users/images" enctype="multipart/form-data">
                     <input type="hidden" name="token" value={token} />
                     <input className="form-control pAvarta_input" type="file" name="file" accept="image/png, image/jpeg" />
-                    <input type="submit" />
-                  </form>
                 </div>
               </div>
             </div>
             <div className="row">
-              <div className="col" style={{ textAlign: 'center' }}><a className="btn btn-primary" role="button" id="Ecancel" href="Profile.html">{t("Cancel99")}</a><button className="btn btn-primary" id="Esubmit" type="submit">{t("Confirm99")}</button></div>
+              <div className="col" style={{ textAlign: 'center', marginTop: '30px' }}><a className="btn btn-primary" role="button" id="Ecancel" href="">{t("Cancel99")}</a><button className="btn btn-primary" id="Esubmit" type="submit">{t("Confirm99")}</button></div>
             </div>
           </form>
         </div>

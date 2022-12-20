@@ -1,22 +1,35 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { useState } from 'react';
+import { useEffect } from 'react';
+import { Link, useParams } from 'react-router-dom'
 import { UpdateFav } from '../method/updateFav'
-export default function RecipeCard({name="Recipe Name", link="/", disabled=false, shared=0, favorite=0}) {
+export default function RecipeCard({owner, delfunc, favfunc, unfavfunc, name="Recipe Name", link="/", disabled=false, shared=0, favorite=0}) {
+    // disabled=false 
+    const { brewer } = useParams();
+    let tempfav = Boolean(favorite)
     if(shared){shared="Tool_Shared"}else{shared="Tool_icon"}
-    if(favorite){favorite="Tool_Faved"}else{favorite="Tool_icon"}
-  function updatefavorite(){
-    UpdateFav(link)
-  }
+    const token = localStorage.getItem('token')
+    const user = JSON.parse(atob(token.split('.')[1]))
+    const [favid, setFavorite] = useState(favorite?"Tool_Faved":"Tool_icon")
+
+    const tool = {
+      "hario":"Hario",
+      "aeropress":"AeroPress",
+      "frenchpress":"Frenchpress",
+      "mokapot":"Moka",
+      "chemex":"Chemex",
+    }
+
 
   return (
     <div id="method_result_card">
         <div className="row">
-          <div className="col"><Link to={`/brew-guide/${link}`}><a href="">
+          <div className="col"><Link to={`/brew-recipe/${brewer}/${link}`}>
               <div className="card" style={{height: '65px', background: 'rgba(255,255,255,0)', borderStyle: 'none'}}>
                 <div className="card-body fcard_body">
                   <div className="row">
                     <div className="col d-flex justify-content-center method_result_col">
-                      <div className="method_result_ico_border"><img className="method_result_ico" src="../assets/img/Hario_ICO.png" /></div>
+                      <div className="method_result_ico_border"><img className="method_result_ico" src={`../assets/img/${tool[brewer]}_ICO.png`} /></div>
                     </div>
                     <div className="col d-flex align-items-center" style={{maxWidth: '550px', minWidth: '200px'}}>
                       <p className="recipe_title2">{name}&nbsp;</p>
@@ -24,23 +37,53 @@ export default function RecipeCard({name="Recipe Name", link="/", disabled=false
                   </div>
                 </div>
               </div>
-            </a></Link></div>
+            </Link></div>
         </div>
 
         <div className="row">
           <div className="col">
+            
             <div className="btn-group d-flex" role="group" style={{width: '100%'}}>
-            { !disabled &&<><button className="btn btn-primary" data-bss-hover-animate="jello" id="Tool_color" type="button">
-                    <i className="fa fa-pencil" id="Tool_icon" /></button>
-                    <a className="btn btn-primary" role="button" data-bss-hover-animate="jello" id="Tool_color" href="">
-                    <i className="fas fa-share" id={shared} /></a>
+                    { user.username === owner ?
+                    <Link to={`/brew-recipe/${brewer}/edit/${link}`} className="btn btn-primary" role="button" data-bss-hover-animate="jello" id="Tool_color" href="">
+                    <i className="fa fa-pencil" id="Tool_icon"  />
+                    </Link>
+                    :
+                    <Link to={`/brew-recipe/${brewer}/edit/${link}`} className="btn btn-primary disabled"  role="button" data-bss-hover-animate="jello" id="Tool_color" href="">
+                    <i className="fa fa-pencil" id="Tool_icon"  />
+                    </Link>
+                    }
+
+                    { user.username === owner ?
+                    <Link to={`/brew-recipe/${brewer}/share/${link}`} className="btn btn-primary" role="button" data-bss-hover-animate="jello" id="Tool_color" href="">
+                    <i className="fas fa-share" id={shared} />
+                    </Link>
+                    :
+                    <Link to={`/brew-recipe/${brewer}/share/${link}`} className="btn btn-primary disabled" role="button" data-bss-hover-animate="jello" id="Tool_color" href="">
+                    <i className="fas fa-share" id={shared} />
+                    </Link>
+                    }
                     
-                    <button onClick={()=>{UpdateFav(link)}} className="btn btn-primary" data-bss-hover-animate="jello" id="Tool_color" type="button">
-                    <i className="fas fa-heart" id={favorite} /></button>
-                    
-                    <button className="btn btn-primary" data-bss-hover-animate="jello" id="Tool_color" type="button">
-                    <i className="fas fa-trash" id="Tool_icon" /></button></>}
-</div>
+                    { tempfav ?
+                    <button onClick={()=>{setFavorite("Tool_icon");unfavfunc(link)}} className="btn btn-primary" data-bss-hover-animate="jello" id="Tool_color" type="button">
+                    <i className="fas fa-heart" id={favid} />
+                    </button>
+                    :
+                    <button onClick={()=>{setFavorite("Tool_Faved");favfunc(link)}} className="btn btn-primary" data-bss-hover-animate="jello" id="Tool_color" type="button">
+                    <i className="fas fa-heart" id={favid} />
+                    </button>
+                    }
+
+                    { user.username === owner ?
+                    <button onClick={()=>{delfunc(link)}} className="btn btn-primary" data-bss-hover-animate="jello" id="Tool_color" type="button">
+                    <i className="fas fa-trash" id="Tool_icon" />
+                    </button>
+                    :
+                    <button onClick={()=>{delfunc(link)}} className="btn btn-primary disabled" data-bss-hover-animate="jello" id="Tool_color" type="button">
+                    <i className="fas fa-trash" id="Tool_icon" />
+                    </button>
+                    }
+          </div>
           </div>
         </div>
     </div>

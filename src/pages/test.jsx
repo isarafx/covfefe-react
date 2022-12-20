@@ -31,17 +31,48 @@ export default function Test() {
   //     fetchData()
   //     }, [trigger]);
     
-  function test(){
-    console.log(getToken())
-  }
+  const token = localStorage.getItem('token')
+  const [file, setFile] = useState(null);
 
+  const handleChange = (event) => {
+    setFile(event.target.files[0]);
+  }
+  
+  const handleSubmit = (event) => {
+    event.preventDefault();
+  
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('token', token)
+    axios.post('https://q27z6n.deta.dev/users/images', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+    const [axiosTest, setAxiosTest] = useState('test')
+    const fetchData  = async () => { 
+      try{
+          const result = await axios.get('https://q27z6n.deta.dev/recipes/users', { headers: { 'accept': 'application/json', 'x-token': "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImlzYXJhd25AZ21haWwuY29tIiwidXNlcm5hbWUiOiJpc2FyYXduIn0.DBhvxU9uZtRJCHbUItDEVqWIPfxkExzQ9wVsiVskV2E", 'Content-Type': 'application/json' }})
+        }
+         catch(error){
+      console.log(error.response)
+    }
+  };
   return (
     <div>
-      <form id="image_upload" method="post" action="https://q27z6n.deta.dev/users/images" encType="multipart/form-data">
-        <input type="hidden" name="token" value="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIn0.xxMLezVa5jtc7hSBVJ8vEPvqesEQNu0CIQNK2pw5sZc" />
-        <input type="file" name="file" accept="image/png, image/jpeg" />
+      <form id="image_upload" onSubmit={handleSubmit}>
+        <input type="file" name="file" accept="image/png, image/jpeg" onChange={handleChange} />
         <input type="submit" />
       </form>
+      <h1>{JSON.stringify(axiosTest)}</h1>
+      <button onClick={fetchData} >test button</button>
     </div>
   )
 }
