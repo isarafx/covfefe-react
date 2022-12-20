@@ -18,6 +18,7 @@ import { mmss } from '../method/mmss'
 import { useTranslation } from 'react-i18next'
 import {Routes, Route, useNavigate} from 'react-router-dom';
 import axios from 'axios'
+import { descParse } from '../method/mmss'
 export default function BrewNew() {
 
   
@@ -72,11 +73,11 @@ export default function BrewNew() {
     let eq = mainEquipment
     if(mainEquipment === "Moka"){eq = "Moka Pot"}
     if(mainEquipment === "Aeropress"){eq = "AeroPress"}
-    if(mainEquipment === "Frenchpress"){eq = "FrenchPress"}
+    if(mainEquipment === "Frenchpress"){eq = "French Press"}
     
     let tempeq = (equipmentList.map((item)=>({name:PicEQ[item.pic.slice(0,-4)], description:item.detail})))
-    let tempProcess = (processList.map((item)=> {
-      let data2 = {name:"", time:item.time, comment:item.comment};
+    let tempProcess = ([...processList].map((item)=> {
+      let data2 = {name:item.name, time:item.time, comment:item.comment};
       if(item.custom_name){
         data2.custom_name = item.custom_name
       }if(item.water){
@@ -99,6 +100,7 @@ export default function BrewNew() {
       roast_level:roast,
     }
     setRecordData(data)
+    setEXData(data)
     setTrigger(!trigger)
     // setEXData(data)
   }
@@ -128,16 +130,6 @@ export default function BrewNew() {
     }
   }, []);
 
-  useEffect(() => {
-    window.addEventListener('offline', setOffline);
-    window.addEventListener('online', setOnline);
-
-    // cleanup if we unmount
-    return () => {
-      window.removeEventListener('offline', setOffline);
-      window.removeEventListener('online', setOnline);
-    }
-  }, []);
 
   const submitTool = (tool) => {
     if (tool === "Hario") {
@@ -229,7 +221,6 @@ export default function BrewNew() {
     setProcessDuration("")
     setProcessNote("")
     setWaterSlider(1)
-    setCoffeeSlider(1)
   }
 
   function convertNum(num){
@@ -261,6 +252,7 @@ export default function BrewNew() {
       } else if (type === "water") {
         if(value>5000){value=5000}
         if(value<=1){value=1}
+        
 
         setCoffee(parseInt(value / ratio))
         setWater(parseInt(value))
@@ -294,8 +286,8 @@ export default function BrewNew() {
         setProcessMethod([...processMethod, "Pour Water", "Bloom"])
       }
     }
-    
   }
+  
   const [trigger, setTrigger] = useState(false)
   const [recordData, setRecordData] = useState(false)
   let token = localStorage.getItem('token')
@@ -318,6 +310,7 @@ export default function BrewNew() {
         }
     } catch(error){
       console.log(error.response)
+      console.log(exData)
     }
   };
     fetchData()
@@ -445,7 +438,7 @@ export default function BrewNew() {
                         <p className="text-end" style={{ minWidth: '15%' }}>{mmss(item.time)}</p>
                       </div>
                       <div>
-                        <p id="process_des">{item.detail}</p>
+                        <p id="process_des">{descParse(item.name, item.water, )}</p>
                       </div>
                       <div>
                         <p id="process_comment">{item.comment}</p>

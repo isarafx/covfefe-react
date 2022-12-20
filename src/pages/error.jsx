@@ -6,7 +6,7 @@ import "../styles/Round_switch.css"
 import "../styles/styles.css"
 import "../styles/Ultimate-Sidebar-Menu-BS5.css"
 import "../styles/Features-Clean.css"
-
+import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next';
 
 export default function Error() {
@@ -20,7 +20,7 @@ export default function Error() {
           <div className="Error_div"><img className="img-fluid" src="assets/img/Error1.png" /></div>
         </div>
         <p className="Errormain">{t("Error04")}</p>
-        <p className="Errorsub">{t("Error05")}</p><a className="btn btn-primary" role="button" id="back_main_btn" href="Brewing_Main.html">{t("Error06")}</a>
+        <p className="Errorsub">{t("Error05")}</p><Link className="btn btn-primary" role="button" id="back_main_btn" to="/">{t("Error06")}</Link>
       </div>
     </div>
   </div>

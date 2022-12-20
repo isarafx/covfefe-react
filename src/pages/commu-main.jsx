@@ -10,21 +10,20 @@ import "../styles/Ultimate-Sidebar-Menu-BS5.css"
 import "../styles/Features-Clean.css"
 import { Link } from 'react-router-dom'
 import { useState } from 'react'
-
+import axios from 'axios'
 import { useTranslation } from 'react-i18next';
 import { useEffect } from 'react'
-
+import { storageAppendList } from '../method/localStorageMethod'
+import { useNavigate } from 'react-router-dom'
 export default function CommuMain() {
+  
   const { t, i18n } = useTranslation();
-  const [data, setData] = useState([    //don't forget to add display when fetch
-    {recipe_name:"recipe 1", note:"", fav:0, star:20, comment:0, date:10, main_eq:1, display:1},
-    {recipe_name:"recipe 2", note:"", fav:1, star:40, comment:0, date:25, main_eq:1, display:1},
-    {recipe_name:"recipe 3", note:"", fav:0, star:5, comment:0, date:80, main_eq:2, display:1},
-    {recipe_name:"recipe 4", note:"", fav:1, star:300, comment:0, date:46, main_eq:3, display:1},
-    {recipe_name:"recipe 5", note:"", fav:0, star:17, comment:0, date:52, main_eq:3, display:1},
-  ])
   let [online, isOnline] = useState(navigator.onLine);
-
+  const token = localStorage.getItem('token')
+  const [data, setData] = useState([])
+  const [sort, setSort] = useState(0)
+  const [all, setAll] = useState(1)
+  const navigate = useNavigate()
   const setOnline = () => {
     console.log('We are online!');
     isOnline(true);
@@ -46,32 +45,43 @@ export default function CommuMain() {
     }
   }, []);
   
-  const [mockData , setMockData] = useState(data)
+  useEffect(() => {
+      
+    const fetchData  = async () => { 
+        try{
+          const result = await axios.get("https://q27z6n.deta.dev/recipes/community", { headers: { 'content-type': 'application/json', 'x-token': token } })
+            // storageAppendList('community', result.data['items'])
+          // alert('here')
+            localStorage.setItem('community', JSON.stringify(result.data['items']))
+          console.log(result.data)
+          setData(result.data['items'])
 
-  const [type, setType] = useState(0)
-  const [filter, setFilter] = useState(0)
-  const sorting = () => { //by star
-    if(filter === 0){
-      setMockData([...mockData].sort((a,b)=> (a.star > b.star ? 1 : -1)))
-    }else if(filter === 1){ //by date
-      setMockData([...mockData].sort((a,b)=> (a.date > b.date ? 1 : -1)))
+      }catch(error){
+        console.log(error)
+      }
+    };
+    if(Boolean(localStorage.getItem('community'))){
+          
+      if(Boolean(JSON.parse(localStorage.getItem('community'))['items'])){
+          setData(JSON.parse(localStorage.getItem('community'))['items'])
+    }
+  }else{
+    if(!online){
+        navigate('/offline')
     }
   }
+  if(online){
+  fetchData();
+  }
+    // console.log('i fire once');
+  }, []);
 
-  const filtering = (fil) => {
-    if(fil === 0){
-      setMockData([...data].sort((a,b)=> (a.date > b.date ? 1 : -1)))
-    }else if(fil === 1){
-      setMockData([...data].filter((item)=>(item.brewer===1)))
-    }else if(fil === 2){
-      setMockData([...data].filter((item)=>(item.brewer===2)))
-    }else if(fil === 3){
-      setMockData([...data].filter((item)=>(item.brewer===3)))
-    }else if(fil === 4){
-      setMockData([...data].filter((item)=>(item.brewer===4)))
-    }else if(fil === 5){
-      setMockData([...data].filter((item)=>(item.brewer===5)))
-    }
+  function sorting(type){
+      if(type === 0){
+          setData([...data].sort((a,b)=> (a.date > b.date ? 1 : -1)))
+      }else if(type === 1){
+          setData([...data].sort((a,b)=> (a.star > b.star ? 1 : -1)))
+      }
   }
 
   return (
@@ -82,46 +92,51 @@ export default function CommuMain() {
       <div className="input-group">
         <div className="dropdown"><button className="rounded-0 rounded-start btn btn-primary dropdown-toggle" aria-expanded="false" data-bs-toggle="dropdown" data-bss-hover-animate="pulse" id="search_filter2" type="button"><i className="fas fa-filter" style={{fontSize: '20px', fontWeight: 'bold'}} /></button>
           <div className="dropdown-menu">
-          <a onClick={()=>{setFilter(0); sorting()}} className="dropdown-item" href="#">{t("Ctext06")}</a>
-          <a onClick={()=>{setFilter(1); sorting()}} className="dropdown-item" href="#">{t("Ctext07")}</a></div>
+          <Link onClick={()=>{sorting(1)}}  className="dropdown-item">{t("Ctext06")}</Link>
+          <Link onClick={()=>{sorting(0)}} className="dropdown-item" >{t("Ctext07")}</Link></div>
         </div><input className="form-control" type="search" id="search_input2" /><button className="btn btn-primary" data-bss-hover-animate="pulse" id="search_button2" type="button"><i className="fas fa-search" id="Tool_icon" style={{color: '#ffffff'}} /></button>
       </div>
       <div className="d-flex d-sm-flex d-md-flex d-lg-flex d-xl-flex d-xxl-flex justify-content-center justify-content-sm-center justify-content-md-center justify-content-lg-center justify-content-xl-center justify-content-xxl-center Page_Head">
-        <p id="Page_Head_text">{t("Ctext08")} {type}</p>
+        <p id="Page_Head_text">{t("Ctext08")}</p>
       </div>
     </div>
     <div className="container d-flex justify-content-start align-items-center justify-content-sm-center" id="method_bar">
       <div className="d-flex justify-content-center align-items-center" id="Method_selectorbox">
         <div className="form-check d-flex align-items-center method_box">
-          <button onClick={()=>{filtering(0)}} className="form-check-input" type="radio" id="Radio_button" name="coffee" /><label className="form-check-label" htmlFor="Radio_button"><img className="Method_pic" src="assets/img/ALL_ICO.png" /></label></div>
+          <button onClick={()=>{setAll(1)}} className="form-check-input" type="radio" id="Radio_button" name="coffee" /><label className="form-check-label" htmlFor="Radio_button"><img className="Method_pic" src="assets/img/ALL_ICO.png" /></label></div>
       </div>
       <div className="d-flex justify-content-center align-items-center" id="Method_selectorbox">
         <div className="form-check d-flex align-items-center method_box">
-          <button onClick={()=>{filtering(1)}} className="form-check-input" type="radio" id="Radio_button" name="coffee" /><label className="form-check-label" htmlFor="Radio_button"><img className="Method_pic" src="assets/img/Hario_ICO.png" /></label></div>
+          <button onClick={()=>{setAll(0);setSort("Hario")}} className="form-check-input" type="radio" id="Radio_button" name="coffee" /><label className="form-check-label" htmlFor="Radio_button"><img className="Method_pic" src="assets/img/Hario_ICO.png" /></label></div>
       </div>
       <div className="d-flex justify-content-center align-items-center" id="Method_selectorbox">
         <div className="form-check d-flex align-items-center method_box">
-          <button onClick={()=>{filtering(2)}} className="form-check-input" type="radio" id="Radio_button" name="coffee" /><label className="form-check-label" htmlFor="Radio_button"><img className="Method_pic" src="assets/img/Aeropress_ICO.png" /></label></div>
+          <button onClick={()=>{setAll(0);setSort("AeroPress")}} className="form-check-input" type="radio" id="Radio_button" name="coffee" /><label className="form-check-label" htmlFor="Radio_button"><img className="Method_pic" src="assets/img/Aeropress_ICO.png" /></label></div>
       </div>
       <div className="d-flex justify-content-center align-items-center" id="Method_selectorbox">
         <div className="form-check d-flex align-items-center method_box">
-          <button onClick={()=>{filtering(3)}} className="form-check-input" type="radio" id="Radio_button" name="coffee" /><label className="form-check-label" htmlFor="Radio_button"><img className="Method_pic" src="assets/img/Moka_ICO.png" /></label></div>
+          <button onClick={()=>{setAll(0);setSort("Moka Pot")}} className="form-check-input" type="radio" id="Radio_button" name="coffee" /><label className="form-check-label" htmlFor="Radio_button"><img className="Method_pic" src="assets/img/Moka_ICO.png" /></label></div>
       </div>
       <div className="d-flex justify-content-center align-items-center" id="Method_selectorbox">
         <div className="form-check d-flex align-items-center method_box">
-          <button onClick={()=>{filtering(4)}} className="form-check-input" type="radio" id="Radio_button" name="coffee" /><label className="form-check-label" htmlFor="Radio_button"><img className="Method_pic" src="assets/img/Frenchpress_ICO.png" /></label></div>
+          <button onClick={()=>{setAll(0);setSort("French Press")}} className="form-check-input" type="radio" id="Radio_button" name="coffee" /><label className="form-check-label" htmlFor="Radio_button"><img className="Method_pic" src="assets/img/Frenchpress_ICO.png" /></label></div>
       </div>
       <div className="d-flex justify-content-center align-items-center" id="Method_selectorbox">
         <div className="form-check d-flex align-items-center method_box">
-          <button onClick={()=>{filtering(5)}} className="form-check-input" type="radio" id="Radio_button" name="coffee" /><label className="form-check-label" htmlFor="Radio_button"><img className="Method_pic" src="assets/img/Chemex_ICO.png" /></label></div>
+          <button onClick={()=>{setAll(0);setSort("Chemex")}} className="form-check-input" type="radio" id="Radio_button" name="coffee" /><label className="form-check-label" htmlFor="Radio_button"><img className="Method_pic" src="assets/img/Chemex_ICO.png" /></label></div>
       </div>
     </div>
     <div className="container" id="results_container">
       <div className="row row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-2 row-cols-xl-2 row-cols-xxl-2" style={{marginBottom: '10px'}}>
+        {/* {JSON.stringify(data)} */}
+        {
+         all?
+        data.map((data)=>{return <CommuCard name={data.name} main_eq={data.brewer} comment={data.comment} heart={0} star={0} comment_count={0} link={data.key} date={data.created_date}/>})
+         :
+        data.filter((item)=>(item.brewer===sort)).map((data)=>{return <CommuCard name={data.name} main_eq={data.brewer} comment={data.comment} heart={0} star={0} comment_count={0} link={data.key} date={data.created_date}/>})
         
-        {mockData.map((item, index) => {
-            return(item.display==1 && <CommuCard key={`${item.name}-${item.date}`} main_eq={item.main_eq} name={item.name} comment={item.note} heart={item.fav} star={item.star} comment_count={item.comment} date={item.date} />)
-        })}
+        }
+
       </div>
     </div>
   </div>
@@ -129,9 +144,7 @@ export default function CommuMain() {
     <p id="header_paragraph">{t("Ctext04")}</p>
   </div>
   <div className="d-flex" id="Footer">
-    <button className="btn btn-primary disabled" data-bss-hover-animate="pulse" id="index_button" type="button" disabled>
-    <img src="assets/img/Mug%20icon.png" style={{width: '35px', marginTop: '-8px'}} />
-    </button>
+
     </div>
 </div>
 

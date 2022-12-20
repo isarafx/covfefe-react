@@ -18,8 +18,15 @@ import { mmss } from '../method/mmss'
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom'
 import { useSearchParams } from 'react-router-dom'
+import { descParse } from '../method/mmss'
 export default function BrewTimer() {
-  const { id } = useParams();
+  let [online, isOnline] = useState(navigator.onLine);
+  const setOnline = () => { console.log('We are online!'); isOnline(true); };
+  const setOffline = () => { console.log('We are offline!'); isOnline(false); };
+  useEffect(() => { window.addEventListener('offline', setOffline); window.addEventListener('online', setOnline); return () => { window.removeEventListener('offline', setOffline); window.removeEventListener('online', setOnline); } }, []);
+  
+
+  const { brewer, id } = useParams();
   const { t, i18n } = useTranslation();
   const [searchParams] = useSearchParams();
   const [cup, setCup] = useState(1)
@@ -63,8 +70,11 @@ export default function BrewTimer() {
   }
 
   function play(){
-    var audio = document.getElementById('a1');
-    audio.play()
+    if(Boolean(localStorage.getItem('sound')) && localStorage.getItem('sound') !== '0'){
+        var audio = document.getElementById('a1');
+        console.log('here')
+        audio.play()
+    }
   }
   function stop(){
     var audio = document.getElementById('a1');
@@ -80,6 +90,10 @@ export default function BrewTimer() {
           setState(false)
           alert('finish')
           startCondition()
+          localStorage.setItem('brewcount')
+          
+          //post brew total to server
+          //set localstorage to push to server
         }
         else if(processTime==0 && totaltime>0){ //finish current process move to next process
           console.log('next')
@@ -103,6 +117,10 @@ export default function BrewTimer() {
     startCondition()
     setCup(parseInt(searchParams.get('cup')))
   },[])
+
+  // Register the event listeners
+  useEffect(() => { window.addEventListener('offline', setOffline); window.addEventListener('online', setOnline); // cleanup if we unmount return () => { window.removeEventListener('offline', setOffline); window.removeEventListener('online', setOnline); } }, []);
+  
   return (
     <div>
   <BackButton />
@@ -111,18 +129,18 @@ export default function BrewTimer() {
       <div className="d-flex justify-content-center" id="Timer_container1"><button onClick={()=> {test()}} className="btn btn-primary" id="Timer_PP_button" type="button" />
         <div className="Main_timer" />
         <p className="Main_timer_text">{t("Btext10")}</p>
-        <audio id='a1'><source src='/sound/5sec.mp3' type='audio/mpeg' /></audio>
+        <audio id='a1'><source src="%PUBLIC_URL%/../assets/img/5sec.mp3" type='audio/mpeg' /></audio>
         {/* <button onClick={(e)=>{test()}}>test</button> */}
-        <p className="Main_timer_num">{mmss(processTime)}</p><img className="timer_control_icon" src={state ? "../assets/img/Timer_pause_ico.png":"../assets/img/Timer_play_ico.png"} />
-        <div className="d-inline-flex Sub_timer"><img className="Sub_timer_icon" src="../assets/img/guide_timer_ico.png" />
+        <p className="Main_timer_num">{mmss(processTime)}</p><img className="timer_control_icon" src={state ? "../../assets/img/Timer_pause_ico.png":"../../assets/img/Timer_play_ico.png"} />
+        <div className="d-inline-flex Sub_timer"><img className="Sub_timer_icon" src="%PUBLIC_URL%/../assets/img/guide_timer_ico.png" />
           <p style={{fontSize: '14px'}}>{mmss(totaltime)}</p>
-        </div><button onClick={()=>{skipMethod()}} className="btn btn-primary d-flex justify-content-center align-items-center" id="Timer_Skip_button" type="button"><img className="timer_skip_icon" src="../assets/img/Timer_skip_ico.png" /></button>
+        </div><button onClick={()=>{skipMethod()}} className="btn btn-primary d-flex justify-content-center align-items-center" id="Timer_Skip_button" type="button"><img className="timer_skip_icon" src="../../assets/img/Timer_skip_ico.png" /></button>
       </div>
       <div id="Timer_container2">
         <div id="Current_method_box">
           <div id="process_card2">
             <div className="d-inline-flex" style={{minWidth: '100%'}}>
-              <div style={{minWidth: '15%'}}><img id="process_pic" src="../assets/img/Process_Dummy_icon.png" /></div>
+              <div style={{minWidth: '15%'}}><img id="process_pic" src="../../assets/img/Process_Dummy_icon.png" /></div>
               <p id="process_title" style={{color: '#dc6c62'}}>{processList[index-1].name}</p>
             </div>
             <div>
@@ -144,12 +162,12 @@ export default function BrewTimer() {
             if(itemIndex+1 > index){
               return(<div id="process_card3">
               <div className="d-inline-flex" style={{minWidth: '100%'}}>
-                <div style={{minWidth: '15%'}}><img id="process_pic" src="../assets/img/Process_Dummy_icon.png" /></div>
+                <div style={{minWidth: '15%'}}><img id="process_pic" src="../../assets/img/Process_Dummy_icon.png" /></div>
                 <p id="process_title" style={{color: 'rgb(80,80,80)'}}>{item.name}</p>
                 <p className="text-end" style={{minWidth: '15%'}}>{mmss(parseInt(item.time))}</p>
               </div>
               <div>
-                <p id="process_des">{item.description}</p>
+                <p id="process_des">{descParse(item.name, item.water, cup, brewer)}</p>
               </div>
               <div>
                 <p id="process_comment">{item.comment}</p>

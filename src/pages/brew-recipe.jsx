@@ -17,11 +17,18 @@ import { useTranslation } from 'react-i18next'
 import { useEffect } from 'react'
 import { Fetching } from '../method/fetchScripts'
 import axios from 'axios';
+import { storageAppendList } from '../method/localStorageMethod'
+import RecipeAdminCard from '../components/recipecard_admin'
+import Comment from '../components/comment'
 export default function BrewRecipe() {
   const { brewer } = useParams();
   const { t } = useTranslation();
   const token = localStorage.getItem('token')
+  let user = JSON.parse(atob(token.split('.')[1]));
+
+  const [refresh, setRefresh] = useState(false)
   const [recipe, setRecipe] = useState([])
+  
   const tool = {
     "hario":"Hario",
     "aeropress":"AeroPress",
@@ -33,6 +40,15 @@ export default function BrewRecipe() {
   let [online, isOnline] = useState(navigator.onLine);
   let [result, setResult] = useState([]);
   const navigate = useNavigate()
+  const commentList = 
+  [
+    {username:"Admin1", message:"This is so Good1!", created_date:"2022-12-13T08:06:38+00:00"},
+    {username:"Admin2", message:"This is so Good2!", created_date:"2022-12-13T08:07:38+00:00"},
+    {username:"Admin3", message:"This is so Good3!", created_date:"2022-12-13T08:08:38+00:00"},
+    {username:"Admin4", message:"This is so Good4!", created_date:"2022-12-13T08:09:38+00:00"},
+    {username:"Admin5", message:"This is so Good5!", created_date:"2022-12-13T08:10:38+00:00"},
+    {username:"Admin2", message:"This is so Good6!", created_date:"2022-12-13T08:11:38+00:00"},
+  ]
   const setOnline = () => {
     
     isOnline(true);
@@ -54,7 +70,7 @@ export default function BrewRecipe() {
     }
   }, []);
 
-     useEffect(() => {
+    useEffect(() => {
       
       const fetchData  = async () => { 
           try{
@@ -87,21 +103,114 @@ export default function BrewRecipe() {
           console.log(error)
         }
     };
-      if(Boolean(localStorage.getItem('brew-recipe'))){
+      // if(Boolean(localStorage.getItem('brew-recipe'))){
           
-          if(Boolean(JSON.parse(localStorage.getItem('brew-recipe'))['items'])){
-              setResult(JSON.parse(localStorage.getItem('brew-recipe'))['items'])
-        }
-      }else{
-        if(!online){
-            navigate('/offline')
-        }
-      }
+      //     if(Boolean(JSON.parse(localStorage.getItem('brew-recipe'))['items'])){
+      //         setResult(JSON.parse(localStorage.getItem('brew-recipe'))['items'])
+      //   }
+      // }else{
+      //   if(!online){
+      //       navigate('/offline')
+      //   }
+      // }
       if(online){
-      fetchData();
+          fetchData();
       }
       // console.log('i fire once');
-    }, []);
+    }, [refresh]);
+
+    const deleteData = async (key) => { 
+      try{
+            // alert(key)
+            if(token){
+                if(online){
+                  
+                  const result = await axios.delete(`https://q27z6n.deta.dev/recipes/${key}`, {headers: {'accept': '*/*','x-token':token}});
+                  setRefresh(!refresh)
+                }else{
+                  storageAppendList('update_list',{'delete':key})
+                }
+            }
+    }catch(error){
+      console.log(error)
+    }
+};
+    const [id, setID] = useState('')
+    const [trigger, setTrigger] = useState(false)
+
+    useEffect(() => {
+      const Fav  = async () => { 
+        try{
+            // console.log(id)
+            // console.log("fav")
+            const result = await axios.post(`https://q27z6n.deta.dev/users/favorite/${id}`, '', { headers: {'x-token':token}})
+            setRefresh(!refresh)
+            // setTrigger(!trigger)
+      } catch(error){
+        console.log(error.response)
+      }
+    };
+      Fav()
+      }, [trigger]);
+
+      function favorite(key){
+          console.log('fav', key)
+          setID(key)
+          setTrigger(!trigger)
+          
+      }
+    const [id2, setID2] = useState()
+    const [trigger2, setTrigger2] = useState(false)
+    useEffect(() => {
+        const unFav  = async () => { 
+          try{
+              console.log('reach here')
+              const result = await axios.delete(`https://q27z6n.deta.dev/users/favorite/${id2}`, { headers: {'x-token':token}})
+              console.log('data here')
+              console.log(result.data)
+              setRefresh(!refresh)
+              // setTrigger(!trigger)
+        } catch(error){
+          console.log(error.response)
+        }
+      };
+        unFav()
+        }, [trigger2]);
+  
+        function unfavorite(key){
+            console.log('unfav')
+            console.log(key)
+            setID2(key)
+            setTrigger2(!trigger2)
+            
+        }
+    // const Favorite  = async (key) => { 
+    //   try{
+    //         // alert(key)
+    //         if(token){
+    //             if(online){
+    //               const result = await axios.delete(`https://q27z6n.deta.dev/recipes/${key}`, {headers: {'accept': '*/*','x-token':token}});
+    //             }else{
+    //               storageAppendList('update_list',{'delete':key})
+    //             }
+    //         }
+    //     }catch(error){
+    //       console.log(error)
+    //     }
+    // };
+    const commuShare = async (key) => { 
+      try{
+          if(token){
+              if(online){
+                  const result = await axios.delete(`https://q27z6n.deta.dev/recipes/${key}`, {headers: {'accept': '*/*','x-token':token}});
+              }else{
+                  storageAppendList('update_list',{'delete':key})
+                }
+            }
+        }catch(error){
+          console.log(error)
+        }
+    };
   return (
     <div>
   <BackButton />
@@ -112,14 +221,15 @@ export default function BrewRecipe() {
       {/* <p>{JSON.stringify(result)}</p> */} 
       {
         result === [] ? <h3>empty</h3>:result.map((item)=>{
-          let admin = false
-        if(item.owner === "admin"){admin=true}
+
+        let shared = (item.public && item.owner!=="admin")
         if(item.brewer === tool[brewer]){
-          return(<RecipeCard name={item.name} favorite={item.favorite} shared={item.shared} link={item.key} disabled={0} />)
-          
-        }
+          return(<RecipeCard brewer={item.brewer} owner={item.owner} name={item.name} favorite={item.is_favorite} shared={shared} link={item.key} disabled={false} delfunc={deleteData} favfunc={favorite} unfavfunc={unfavorite}/>)}
+          // return(<RecipeAdminCard name={item.name} favorite={item.favorite} shared={item.public} link={item.key} />)
+        
       })
       }
+           
       <div style={{height: '50px'}}></div>
     </div>
   </div>
