@@ -203,9 +203,9 @@ export default function CommuMain() {
         {/* {JSON.stringify(data)} */}
         {
          all?
-        displayList.map((data)=>{return <CommuCard brewer={data.brewer} name={data.name} main_eq={data.brewer} comment={data.comment} heart={0} star={0} comment_count={data?data.comments.length:null} link={data.key} date={data.created_date}/>})
+        displayList.map((data)=>{return <CommuCard heart={Boolean(data.is_favorite)} brewer={data.brewer} name={data.name} main_eq={data.brewer} comment={data.comment} heart={0} star={0} comment_count={data?data.comments.length:null} link={data.key} date={data.created_date}/>})
          :
-        displayList.filter((item)=>(item.brewer===sort)).map((data)=>{return <CommuCard brewer={data.brewer} name={data.name} main_eq={data.brewer} comment={data.comment} heart={0} star={0} comment_count={data?data.comments.length:null} link={data.key} date={data.created_date}/>})
+        displayList.filter((item)=>(item.brewer===sort)).map((data)=>{return <CommuCard heart={Boolean(data.is_favorite)} brewer={data.brewer} name={data.name} main_eq={data.brewer} comment={data.comment} heart={0} star={0} comment_count={data?data.comments.length:null} link={data.key} date={data.created_date}/>})
         
         }
 
