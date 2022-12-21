@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-export default function CommuCard({name="Recipe card", main_eq=1, comment="test", heart=0, star=0, comment_count=0, link="/", date=3}) {
+export default function CommuCard({name="Recipe card", main_eq=1, comment="test", heart=0, star=0, comment_count=0, link="/", date=3, brewer}) {
   const source = {
     1:"Hario",
     2:"Aeropress",
@@ -12,7 +12,7 @@ export default function CommuCard({name="Recipe card", main_eq=1, comment="test"
   }
   return (
     <div className="col">
-          <div className="card Recipe_card"><Link to={`/community/${link}`}>
+          <div className="card Recipe_card"><Link to={`/brew-recipe/${brewer}/${link}`}>
             <div className="card-body">
                 <div className="row" style={{textAlign: 'center'}}>
                   <div className="col"><img id="Result_mpic" src="assets/img/Sample.png" /></div>
