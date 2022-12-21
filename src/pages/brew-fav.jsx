@@ -125,11 +125,11 @@ export default function BrewFav() {
         </div>
         <div className="container" id="recipelist_container" style={{ marginTop: '-70px' }}>
         
-          {
+          {displayList?
               displayList.map((item)=>{
               return (<FavCard key={`fav${item.key}`} link={item.key} name={item.name} brewer={item.brewer} func={unfavorite}></FavCard>)
             })
-          }
+          :null}
           {/* {JSON.stringify(result)} */}
 
         <div style={{height: '50px'}}></div>

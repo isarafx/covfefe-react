@@ -61,16 +61,9 @@ export default function CommuMain() {
         console.log(error)
       }
     };
-    if(Boolean(localStorage.getItem('community'))){
-          
-      if(Boolean(JSON.parse(localStorage.getItem('community'))['items'])){
-          setData(JSON.parse(localStorage.getItem('community'))['items'])
-    }
-  }else{
     if(!online){
         navigate('/offline')
     }
-  }
   if(online){
   fetchData();
   }
@@ -95,8 +88,8 @@ export default function CommuMain() {
             // alert(key)
             if(token){
                 if(online){
-                  
-                  const result = await axios.delete(`https://q27z6n.deta.dev/recipes/${key}`, {headers: {'Content-Type':'application/json','x-token':token}});
+                  const result = await axios.post(`https://q27z6n.deta.dev/favorite/${key}`, {headers: {'Content-Type':'application/json','x-token':token}});
+                  console.log('favorite')
                   // setRefresh(!refresh)
                 }else{
                   storageAppendList('update_list',{'delete':key})
@@ -111,8 +104,8 @@ export default function CommuMain() {
             // alert(key)
             if(token){
                 if(online){
-                  
-                  const result = await axios.delete(`https://q27z6n.deta.dev/recipes/${key}`, {headers: {'Content-Type':'application/json','x-token':token}});
+                  const result = await axios.delete(`https://q27z6n.deta.dev/favorite/${key}`, {headers: {'Content-Type':'application/json','x-token':token}});
+                  console.log('unfav')
                   // setRefresh(!refresh)
                 }else{
                   storageAppendList('update_list',{'delete':key})
@@ -127,8 +120,8 @@ export default function CommuMain() {
             // alert(key)
             if(token){
                 if(online){
-                  
-                  const result = await axios.delete(`https://q27z6n.deta.dev/recipes/${key}`, {headers: {'Content-Type':'application/json','x-token':token}});
+                  const result = await axios.post(`https://q27z6n.deta.dev/recipes/${key}/star`, {headers: {'Content-Type':'application/json','x-token':token}});
+                  console.log('star')
                   // setRefresh(!refresh)
                 }else{
                   storageAppendList('update_list',{'delete':key})
@@ -143,8 +136,8 @@ export default function CommuMain() {
           // alert(key)
           if(token){
               if(online){
-                
-                const result = await axios.delete(`https://q27z6n.deta.dev/recipes/${key}`, {headers: {'Content-Type':'application/json','x-token':token}});
+                const result = await axios.delete(`https://q27z6n.deta.dev/recipes/${key}/star`, {headers: {'Content-Type':'application/json','x-token':token}});
+                console.log('unstar')
                 // setRefresh(!refresh)
               }else{
                 storageAppendList('update_list',{'delete':key})
@@ -200,13 +193,41 @@ export default function CommuMain() {
     </div>
     <div className="container" id="results_container">
       <div className="row row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-2 row-cols-xl-2 row-cols-xxl-2" style={{marginBottom: '10px'}}>
-        {/* {JSON.stringify(data)} */}
         {
-         all?
-        displayList.map((data)=>{return <CommuCard brewer={data.brewer} name={data.name} main_eq={data.brewer} comment={data.comment} heart={0} star={0} comment_count={data?data.comments.length:null} link={data.key} date={data.created_date}/>})
-         :
-        displayList.filter((item)=>(item.brewer===sort)).map((data)=>{return <CommuCard brewer={data.brewer} name={data.name} main_eq={data.brewer} comment={data.comment} heart={0} star={0} comment_count={data?data.comments.length:null} link={data.key} date={data.created_date}/>})
-        
+          displayList?
+          displayList.map((item)=>{
+            return (    <div className="col">
+            <div className="card Recipe_card"><Link to={`/brew-recipe/${item.brewer}/${item.key}`}>
+              <div className="card-body">
+                  <div className="row" style={{textAlign: 'center'}}>
+                    <div className="col"><img id="Result_mpic" src="assets/img/Sample.png" /></div>
+                  </div>
+                  <div className="row" id="Result_main">
+                    <div className="col">
+                      <h4 id="Result_title">{item.name}</h4>
+                      <hr style={{marginTop: '5px', marginBottom: '10px'}} />
+                      <p className="Result_description">comment:{item.comment}, date:{item.created_date.slice(0,17)}, type:{item.brewer}</p>
+                    </div>
+                  </div>
+                <div className="row" id="Result_interaction">
+                  <div className="col" style={{height: '40px'}}>
+                    
+                    <div className="btn-group" role="group">
+                      <button className="btn btn-primary" id="Interaction_button" type="button">
+                        <i className="fa fa-heart" id="Interaction_icon" style={{paddingTop: '2px'}} />
+                        </button><button className="btn btn-primary" id="Interaction_button" type="button">
+                          <small style={{color: 'rgb(255,214,0)', paddingRight: '5px'}}>{item.star}</small>
+                          <i className="fa fa-star" id="Interaction_icon" /></button>
+                        <a className="btn btn-primary" role="button" id="Interaction_button" href="">
+                          <small style={{color: 'rgb(255,214,0)', paddingRight: '5px'}}>{item.comments.length}</small></a>
+                        <i className="fa fa-comment" id="Interaction_icon" /></div>
+                  </div>
+                </div>
+              </div>
+              </Link></div>
+          </div>)
+          })
+          :null
         }
 
       </div>

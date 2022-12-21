@@ -103,9 +103,7 @@ export default function BrewGuide() {
             <p id="guide_con_title">{t("Btext07")}</p>
             <div className="d-inline-flex" id="guide_tool_bar">
               
-              {recipe.equipment.map((item)=>{
-                return(<BrewGuideEQCard pic={item.name} detail={item.description}/>)
-              })}
+              {recipe?recipe.equipment.map((item)=>{return(<BrewGuideEQCard pic={item.name} detail={item.description}/>)}):null}
             </div>
             <div className="row row-cols-3" id="guide_row">
               <div className="col d-flex justify-content-center" style={{paddingLeft: '5px', paddingRight: '5px'}}>
@@ -180,9 +178,9 @@ export default function BrewGuide() {
             </div>
             <div id="process_container">
 
-              {recipe.process.map((item)=>{
+              {recipe?recipe.process.map((item)=>{
                 return(<BrewGuideProcessCard name={item.custom_name ? item.custom_name:item.name} description={item.description} comment={item.comment} time={item.time}/>)
-              })}
+              }):null}
             </div>
             <div style={{textAlign: 'center'}}><Link to={`/brew-recipe/${brewer}/timer/${id}?cup=${cup}`}><a className="btn btn-primary" role="button" id="process_timer_start" href="">{t("Modaltext36")}</a></Link></div>
           </div>
@@ -211,9 +209,9 @@ export default function BrewGuide() {
             <hr style={{marginTop: '0px', background: '#ff9900', height: '2px'}} />
             <div id="Comment_container_div">
               
-              {commentList.map((item)=>{
+              {commentList?commentList.map((item)=>{
                 return(<Comment name={item.username} message={item.message} />)
-              })}
+              }):null}
             </div>
             <p style={{color: '#cb0c00', marginBottom: '10px', marginTop: '5px'}}>{t("Ctext10")}</p>
             <form onSubmit={postComment}>
