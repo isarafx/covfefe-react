@@ -90,6 +90,72 @@ export default function CommuMain() {
     setDisplayList(temp)
   }, [searchText]);
 
+  const Fav = async (key) => { 
+      try{
+            // alert(key)
+            if(token){
+                if(online){
+                  
+                  const result = await axios.delete(`https://q27z6n.deta.dev/recipes/${key}`, {headers: {'Content-Type':'application/json','x-token':token}});
+                  // setRefresh(!refresh)
+                }else{
+                  storageAppendList('update_list',{'delete':key})
+                }
+            }
+    }catch(error){
+      console.log(error)
+    }
+  };
+  const Unfav = async (key) => { 
+      try{
+            // alert(key)
+            if(token){
+                if(online){
+                  
+                  const result = await axios.delete(`https://q27z6n.deta.dev/recipes/${key}`, {headers: {'Content-Type':'application/json','x-token':token}});
+                  // setRefresh(!refresh)
+                }else{
+                  storageAppendList('update_list',{'delete':key})
+                }
+            }
+    }catch(error){
+      console.log(error)
+    }
+  };
+  const Star = async (key) => { 
+      try{
+            // alert(key)
+            if(token){
+                if(online){
+                  
+                  const result = await axios.delete(`https://q27z6n.deta.dev/recipes/${key}`, {headers: {'Content-Type':'application/json','x-token':token}});
+                  // setRefresh(!refresh)
+                }else{
+                  storageAppendList('update_list',{'delete':key})
+                }
+            }
+    }catch(error){
+      console.log(error)
+    }
+  };
+  const UnStar = async (key) => { 
+    try{
+          // alert(key)
+          if(token){
+              if(online){
+                
+                const result = await axios.delete(`https://q27z6n.deta.dev/recipes/${key}`, {headers: {'Content-Type':'application/json','x-token':token}});
+                // setRefresh(!refresh)
+              }else{
+                storageAppendList('update_list',{'delete':key})
+              }
+          }
+  }catch(error){
+    console.log(error)
+  }
+};
+
+
   return (
     <div>
       <NavBar />
@@ -137,9 +203,9 @@ export default function CommuMain() {
         {/* {JSON.stringify(data)} */}
         {
          all?
-        displayList.map((data)=>{return <CommuCard name={data.name} main_eq={data.brewer} comment={data.comment} heart={0} star={0} comment_count={0} link={data.key} date={data.created_date}/>})
+        displayList.map((data)=>{return <CommuCard brewer={data.brewer} name={data.name} main_eq={data.brewer} comment={data.comment} heart={0} star={0} comment_count={data?data.comments.length:null} link={data.key} date={data.created_date}/>})
          :
-        displayList.filter((item)=>(item.brewer===sort)).map((data)=>{return <CommuCard name={data.name} main_eq={data.brewer} comment={data.comment} heart={0} star={0} comment_count={0} link={data.key} date={data.created_date}/>})
+        displayList.filter((item)=>(item.brewer===sort)).map((data)=>{return <CommuCard brewer={data.brewer} name={data.name} main_eq={data.brewer} comment={data.comment} heart={0} star={0} comment_count={data?data.comments.length:null} link={data.key} date={data.created_date}/>})
         
         }
 
