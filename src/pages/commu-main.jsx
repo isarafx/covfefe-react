@@ -64,7 +64,6 @@ export default function CommuMain() {
     if(!online){
         navigate('/offline')
       }
-    }
     if (online) {
       fetchData();
     }
