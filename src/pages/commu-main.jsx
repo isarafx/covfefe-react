@@ -61,19 +61,16 @@ export default function CommuMain() {
         console.log(error)
       }
     };
-    if (Boolean(localStorage.getItem('community'))) {
-
-      if (Boolean(JSON.parse(localStorage.getItem('community'))['items'])) {
-        setData(JSON.parse(localStorage.getItem('community'))['items'])
-      }
-    } else {
-      if (!online) {
+    if(!online){
         navigate('/offline')
       }
     }
     if (online) {
       fetchData();
     }
+  if(online){
+  fetchData();
+  }
     // console.log('i fire once');
   }, []);
 
@@ -90,70 +87,70 @@ export default function CommuMain() {
     setDisplayList(temp)
   }, [searchText]);
 
-  const Fav = async (key) => {
-    try {
-      // alert(key)
-      if (token) {
-        if (online) {
-
-          const result = await axios.delete(`https://q27z6n.deta.dev/recipes/${key}`, { headers: { 'Content-Type': 'application/json', 'x-token': token } });
-          // setRefresh(!refresh)
-        } else {
-          storageAppendList('update_list', { 'delete': key })
-        }
-      }
-    } catch (error) {
+  const Fav = async (key) => { 
+      try{
+            // alert(key)
+            if(token){
+                if(online){
+                  const result = await axios.post(`https://q27z6n.deta.dev/favorite/${key}`, {headers: {'Content-Type':'application/json','x-token':token}});
+                  console.log('favorite')
+                  // setRefresh(!refresh)
+                }else{
+                  storageAppendList('update_list',{'delete':key})
+                }
+            }
+    }catch(error){
       console.log(error)
     }
   };
-  const Unfav = async (key) => {
-    try {
-      // alert(key)
-      if (token) {
-        if (online) {
-
-          const result = await axios.delete(`https://q27z6n.deta.dev/recipes/${key}`, { headers: { 'Content-Type': 'application/json', 'x-token': token } });
-          // setRefresh(!refresh)
-        } else {
-          storageAppendList('update_list', { 'delete': key })
-        }
-      }
-    } catch (error) {
+  const Unfav = async (key) => { 
+      try{
+            // alert(key)
+            if(token){
+                if(online){
+                  const result = await axios.delete(`https://q27z6n.deta.dev/favorite/${key}`, {headers: {'Content-Type':'application/json','x-token':token}});
+                  console.log('unfav')
+                  // setRefresh(!refresh)
+                }else{
+                  storageAppendList('update_list',{'delete':key})
+                }
+            }
+    }catch(error){
       console.log(error)
     }
   };
-  const Star = async (key) => {
-    try {
-      // alert(key)
-      if (token) {
-        if (online) {
-
-          const result = await axios.delete(`https://q27z6n.deta.dev/recipes/${key}`, { headers: { 'Content-Type': 'application/json', 'x-token': token } });
-          // setRefresh(!refresh)
-        } else {
-          storageAppendList('update_list', { 'delete': key })
-        }
-      }
-    } catch (error) {
+  const Star = async (key) => { 
+      try{
+            // alert(key)
+            if(token){
+                if(online){
+                  const result = await axios.post(`https://q27z6n.deta.dev/recipes/${key}/star`, {headers: {'Content-Type':'application/json','x-token':token}});
+                  console.log('star')
+                  // setRefresh(!refresh)
+                }else{
+                  storageAppendList('update_list',{'delete':key})
+                }
+            }
+    }catch(error){
       console.log(error)
     }
   };
-  const UnStar = async (key) => {
-    try {
-      // alert(key)
-      if (token) {
-        if (online) {
-
-          const result = await axios.delete(`https://q27z6n.deta.dev/recipes/${key}`, { headers: { 'Content-Type': 'application/json', 'x-token': token } });
-          // setRefresh(!refresh)
-        } else {
-          storageAppendList('update_list', { 'delete': key })
-        }
-      }
-    } catch (error) {
-      console.log(error)
-    }
-  };
+  const UnStar = async (key) => { 
+    try{
+          // alert(key)
+          if(token){
+              if(online){
+                const result = await axios.delete(`https://q27z6n.deta.dev/recipes/${key}/star`, {headers: {'Content-Type':'application/json','x-token':token}});
+                console.log('unstar')
+                // setRefresh(!refresh)
+              }else{
+                storageAppendList('update_list',{'delete':key})
+              }
+          }
+  }catch(error){
+    console.log(error)
+  }
+};
 
 
   return (
