@@ -28,6 +28,7 @@ export default function BrewGuide() {
     const [comment, setComment] = useState('')
     const user = JSON.parse(atob(localStorage.getItem('token').split('.')[1]))
     let [online, isOnline] = useState(navigator.onLine);
+    const [recipe, setRecipe ] = useState(JSON.parse(localStorage.getItem('brew-recipe'))['items'].filter((item)=>{return item.key===id})[0])
     const setOnline = () => {
       isOnline(true);
     };
@@ -43,16 +44,16 @@ export default function BrewGuide() {
       }
     }, []);
 
-    const commentList = 
-    [
-      {username:"Admin1", message:"This is so Good1!", created_date:"2022-12-13T08:06:38+00:00"},
-      {username:"Admin2", message:"This is so Good2!", created_date:"2022-12-13T08:07:38+00:00"},
-      {username:"Admin3", message:"This is so Good3!", created_date:"2022-12-13T08:08:38+00:00"},
-      {username:"Admin4", message:"This is so Good4!", created_date:"2022-12-13T08:09:38+00:00"},
-      {username:"Admin5", message:"This is so Good5!", created_date:"2022-12-13T08:10:38+00:00"},
-      {username:"Admin2", message:"This is so Good6!", created_date:"2022-12-13T08:11:38+00:00"},
-    ]
-    const recipe = JSON.parse(localStorage.getItem('brew-recipe'))['items'].filter((item)=>{return item.key===id})[0]
+    const [commentList, setCommentList] = useState(recipe.comments)
+    // [
+    //   {username:"Admin1", message:"This is so Good1!", created_date:"2022-12-13T08:06:38+00:00"},
+    //   {username:"Admin2", message:"This is so Good2!", created_date:"2022-12-13T08:07:38+00:00"},
+    //   {username:"Admin3", message:"This is so Good3!", created_date:"2022-12-13T08:08:38+00:00"},
+    //   {username:"Admin4", message:"This is so Good4!", created_date:"2022-12-13T08:09:38+00:00"},
+    //   {username:"Admin5", message:"This is so Good5!", created_date:"2022-12-13T08:10:38+00:00"},
+    //   {username:"Admin2", message:"This is so Good6!", created_date:"2022-12-13T08:11:38+00:00"},
+    // ]
+
     const totaltime = recipe.process.reduce((accumulator, object) => {
       return accumulator + object.time;
     }, 0);
@@ -65,14 +66,30 @@ export default function BrewGuide() {
                   setComment('')
                   let token = localStorage.getItem('token')
                   const result = await axios.post(`https://q27z6n.deta.dev/recipes/${id}/comment`,data ,{headers: {'x-token':token}});
-                  console.log(result)
+                  // console.log(result)
+                  setCommentList(result.data.comments)
                 }
             }
         }catch(error){
             console.log(error.response)
         }
     }
-
+    useEffect(() => { 
+      const fetchData  = async () => { 
+          try{
+              const result = await axios.get(`https://q27z6n.deta.dev/recipes/${id}`);
+              setRecipe(result.data);
+              setCommentList(result.data.comments)
+              console.log(result)
+              // localStorage.setItem('brew-recipe', JSON.stringify(result.data))
+          }catch(error){
+            console.log(error)
+          }
+      }
+      console.log(recipe)
+      console.log(commentList)
+      fetchData()
+    }, [])
   return (
     <div>
       <BackButton />

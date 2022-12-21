@@ -24,7 +24,7 @@ export default function BrewRecipe() {
   const { brewer } = useParams();
   const { t } = useTranslation();
   const token = localStorage.getItem('token')
-  let user = JSON.parse(atob(token.split('.')[1]));
+  let user = (Boolean(token)?JSON.parse(atob(token.split('.')[1])):null);
 
   const [refresh, setRefresh] = useState(false)
   const [recipe, setRecipe] = useState([])
@@ -40,15 +40,6 @@ export default function BrewRecipe() {
   let [online, isOnline] = useState(navigator.onLine);
   let [result, setResult] = useState([]);
   const navigate = useNavigate()
-  const commentList = 
-  [
-    {username:"Admin1", message:"This is so Good1!", created_date:"2022-12-13T08:06:38+00:00"},
-    {username:"Admin2", message:"This is so Good2!", created_date:"2022-12-13T08:07:38+00:00"},
-    {username:"Admin3", message:"This is so Good3!", created_date:"2022-12-13T08:08:38+00:00"},
-    {username:"Admin4", message:"This is so Good4!", created_date:"2022-12-13T08:09:38+00:00"},
-    {username:"Admin5", message:"This is so Good5!", created_date:"2022-12-13T08:10:38+00:00"},
-    {username:"Admin2", message:"This is so Good6!", created_date:"2022-12-13T08:11:38+00:00"},
-  ]
   const setOnline = () => {
     isOnline(true);
   };
