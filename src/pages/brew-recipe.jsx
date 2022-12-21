@@ -204,7 +204,7 @@ export default function BrewRecipe() {
   <div id="main_template">
     <div className="container" id="recipelist_container">
       {
-        result === [] ? <h3>empty</h3>:result.map((item)=>{
+        result?result.map((item)=>{
 
         let shared = (item.public && item.owner!=="admin")
         if(item.brewer === tool[brewer]){
@@ -212,7 +212,7 @@ export default function BrewRecipe() {
           // return(<RecipeAdminCard name={item.name} favorite={item.favorite} shared={item.public} link={item.key} />)
         
       })
-      }
+      :null}
            
       <div style={{height: '50px'}}></div>
     </div>
