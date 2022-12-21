@@ -120,8 +120,8 @@ export default function BrewFav() {
         <div className="container" id="search_contrainer">
           <div className="input-group">
             <input className="form-control" type="search" id="search_input" value={searchText} onChange={(e)=>{setSearchText(e.target.value)}}/>
-          <button className="btn btn-primary" data-bss-hover-animate="pulse" id="search_button" type="button">
-            <i className="fa fa-search" id="Tool_icon" style={{ color: '#ffffff' }} /></button></div>
+          <span className="input-group-text" id="search_button">
+            <i className="fa fa-search" id="Tool_icon" style={{ color: '#ffffff' }} /></span></div>
         </div>
         <div className="container" id="recipelist_container" style={{ marginTop: '-70px' }}>
         

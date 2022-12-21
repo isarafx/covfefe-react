@@ -1,6 +1,4 @@
 import React from 'react'
-import SunEditor from 'suneditor-react';
-import 'suneditor/dist/css/suneditor.min.css';
 import { useState } from 'react';
 import BackButton from '../components/backbutton';
 
@@ -18,7 +16,6 @@ export default function ArticleNew() {
     {/* <button onClick={() => {navigator.clipboard.writeText(data)}}>copy</button> */}
         <h3>title :</h3><input width="100%"/>
         
-        <SunEditor />
         <p>{data}</p>
     </div>
   </div>
