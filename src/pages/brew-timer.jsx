@@ -91,7 +91,7 @@ export default function BrewTimer() {
           alert('finish')
           startCondition()
           localStorage.setItem('brewcount')
-          
+
           //post brew total to server
           //set localstorage to push to server
         }
@@ -118,9 +118,6 @@ export default function BrewTimer() {
     setCup(parseInt(searchParams.get('cup')))
   },[])
 
-  // Register the event listeners
-  useEffect(() => { window.addEventListener('offline', setOffline); window.addEventListener('online', setOnline); // cleanup if we unmount return () => { window.removeEventListener('offline', setOffline); window.removeEventListener('online', setOnline); } }, []);
-  
   return (
     <div>
   <BackButton />
@@ -188,5 +185,3 @@ export default function BrewTimer() {
 
   )
 }
-
-

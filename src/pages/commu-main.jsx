@@ -55,6 +55,7 @@ export default function CommuMain() {
             localStorage.setItem('community', JSON.stringify(result.data['items']))
           console.log(result.data)
           setData(result.data['items'])
+          setDisplayList(result.data['items'])
 
       }catch(error){
         console.log(error)
@@ -76,13 +77,84 @@ export default function CommuMain() {
     // console.log('i fire once');
   }, []);
 
-  function sorting(type){
-      if(type === 0){
-          setData([...data].sort((a,b)=> (a.date > b.date ? 1 : -1)))
-      }else if(type === 1){
-          setData([...data].sort((a,b)=> (a.star > b.star ? 1 : -1)))
+  const [searchText, setSearchText] = useState("")
+  const [displayList, setDisplayList] = useState(data);
+  useEffect(()=>{
+    let temp = []
+    for (let i = 0; i < data.length; i++) {
+      if (data[i]['name'].toLowerCase().includes(searchText.toLowerCase())) {
+          // result.push(data[i]);
+          temp.push(data[i]);
       }
+    }
+    setDisplayList(temp)
+  }, [searchText]);
+
+  const Fav = async (key) => { 
+      try{
+            // alert(key)
+            if(token){
+                if(online){
+                  
+                  const result = await axios.delete(`https://q27z6n.deta.dev/recipes/${key}`, {headers: {'Content-Type':'application/json','x-token':token}});
+                  // setRefresh(!refresh)
+                }else{
+                  storageAppendList('update_list',{'delete':key})
+                }
+            }
+    }catch(error){
+      console.log(error)
+    }
+  };
+  const Unfav = async (key) => { 
+      try{
+            // alert(key)
+            if(token){
+                if(online){
+                  
+                  const result = await axios.delete(`https://q27z6n.deta.dev/recipes/${key}`, {headers: {'Content-Type':'application/json','x-token':token}});
+                  // setRefresh(!refresh)
+                }else{
+                  storageAppendList('update_list',{'delete':key})
+                }
+            }
+    }catch(error){
+      console.log(error)
+    }
+  };
+  const Star = async (key) => { 
+      try{
+            // alert(key)
+            if(token){
+                if(online){
+                  
+                  const result = await axios.delete(`https://q27z6n.deta.dev/recipes/${key}`, {headers: {'Content-Type':'application/json','x-token':token}});
+                  // setRefresh(!refresh)
+                }else{
+                  storageAppendList('update_list',{'delete':key})
+                }
+            }
+    }catch(error){
+      console.log(error)
+    }
+  };
+  const UnStar = async (key) => { 
+    try{
+          // alert(key)
+          if(token){
+              if(online){
+                
+                const result = await axios.delete(`https://q27z6n.deta.dev/recipes/${key}`, {headers: {'Content-Type':'application/json','x-token':token}});
+                // setRefresh(!refresh)
+              }else{
+                storageAppendList('update_list',{'delete':key})
+              }
+          }
+  }catch(error){
+    console.log(error)
   }
+};
+
 
   return (
     <div>
@@ -92,9 +164,9 @@ export default function CommuMain() {
       <div className="input-group">
         <div className="dropdown"><button className="rounded-0 rounded-start btn btn-primary dropdown-toggle" aria-expanded="false" data-bs-toggle="dropdown" data-bss-hover-animate="pulse" id="search_filter2" type="button"><i className="fas fa-filter" style={{fontSize: '20px', fontWeight: 'bold'}} /></button>
           <div className="dropdown-menu">
-          <Link onClick={()=>{sorting(1)}}  className="dropdown-item">{t("Ctext06")}</Link>
-          <Link onClick={()=>{sorting(0)}} className="dropdown-item" >{t("Ctext07")}</Link></div>
-        </div><input className="form-control" type="search" id="search_input2" /><button className="btn btn-primary" data-bss-hover-animate="pulse" id="search_button2" type="button"><i className="fas fa-search" id="Tool_icon" style={{color: '#ffffff'}} /></button>
+          <Link className="dropdown-item">{t("Ctext06")}</Link>
+          <Link className="dropdown-item" >{t("Ctext07")}</Link></div>
+        </div><input value={searchText} onChange={(e)=>{setSearchText(e.target.value)}} className="form-control" type="search" id="search_input2" /><button className="btn btn-primary" data-bss-hover-animate="pulse" id="search_button2" type="button"><i className="fas fa-search" id="Tool_icon" style={{color: '#ffffff'}} /></button>
       </div>
       <div className="d-flex d-sm-flex d-md-flex d-lg-flex d-xl-flex d-xxl-flex justify-content-center justify-content-sm-center justify-content-md-center justify-content-lg-center justify-content-xl-center justify-content-xxl-center Page_Head">
         <p id="Page_Head_text">{t("Ctext08")}</p>
@@ -131,9 +203,9 @@ export default function CommuMain() {
         {/* {JSON.stringify(data)} */}
         {
          all?
-        data.map((data)=>{return <CommuCard name={data.name} main_eq={data.brewer} comment={data.comment} heart={0} star={0} comment_count={0} link={data.key} date={data.created_date}/>})
+        displayList.map((data)=>{return <CommuCard brewer={data.brewer} name={data.name} main_eq={data.brewer} comment={data.comment} heart={0} star={0} comment_count={data?data.comments.length:null} link={data.key} date={data.created_date}/>})
          :
-        data.filter((item)=>(item.brewer===sort)).map((data)=>{return <CommuCard name={data.name} main_eq={data.brewer} comment={data.comment} heart={0} star={0} comment_count={0} link={data.key} date={data.created_date}/>})
+        displayList.filter((item)=>(item.brewer===sort)).map((data)=>{return <CommuCard brewer={data.brewer} name={data.name} main_eq={data.brewer} comment={data.comment} heart={0} star={0} comment_count={data?data.comments.length:null} link={data.key} date={data.created_date}/>})
         
         }
 

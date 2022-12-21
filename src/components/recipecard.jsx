@@ -19,8 +19,6 @@ export default function RecipeCard({owner, delfunc, favfunc, unfavfunc, name="Re
       "mokapot":"Moka",
       "chemex":"Chemex",
     }
-
-
   return (
     <div id="method_result_card">
         <div className="row">

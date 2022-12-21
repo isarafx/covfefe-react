@@ -15,13 +15,12 @@ import { useEffect } from 'react'
 import axios from 'axios'
 export default function Profile() {
   const { t, i18n } = useTranslation()
-  const token = localStorage.getItem('token')
   const [isLogged, setIslogged] = useState(Boolean(localStorage.getItem('token')))
   const [sound, setSound] = useState(Boolean(localStorage.getItem('sound')) && localStorage.getItem('sound') !== '0' ? true : false);
   const [totalRecipe, setTotalRecipe] = useState(0)
   const [brewCount, setBrewCount] = useState(0)
 
-  let user = JSON.parse(atob(token.split('.')[1]));
+  
   function changeLanguage() {
     if (i18n.language === "en") {
       i18n.changeLanguage('th')
@@ -40,7 +39,7 @@ export default function Profile() {
   }
   const lang = localStorage.getItem('i18nextLng')
   const [checker, setChecker] = useState(lang === 'en' ? true : false);
-  
+  const [profile, setProfile] = useState(['assets/img/AvatarIcon.jpg'])
 
   // const { value } = useAuth()
 
@@ -73,10 +72,26 @@ export default function Profile() {
       try{
         // console.log(user)
         // alert(token)
-          const result = await axios.get('https://q27z6n.deta.dev/recipes/users', { headers: {'x-token': token} })
-          let count = result.data['items'].filter((item)=>{return item.owner == user['username']}).length
-          setTotalRecipe(count)
-          localStorage.setItem('totalrecipe', count)
+          if(isLogged){
+              console.log('reach here')
+              let token = localStorage.getItem('token')
+              let user = JSON.parse(atob(localStorage.getItem('token').split('.')[1]))['username']
+              console.log(user)
+              const result = await axios.get('https://q27z6n.deta.dev/recipes/users', { headers: {'x-token': token} })
+              const picture = await axios.get(`https://q27z6n.deta.dev/users/${user}`, { headers: {'x-token': token} })
+              let count = result.data['items'].filter((item)=>{return item.owner == user}).length
+              setTotalRecipe(count)
+              console.log('https://q27z6n.deta.dev'.concat(picture.data['image']))
+              // let a = ('https://q27z6n.deta.dev'.concat(picture.data['image']))
+              // setProfile(''JSON.stringify(picture.data['image']))
+              // console.log(typeof profile)
+              // console.log(typeof 'https://play-lh.googleusercontent.com/A26UUWOc_l_aPp2GRurp3sG0kaxjm8ArbFHtX5GQZ9x9QztmE_noNmHBE2fbTa855sZu')
+              setProfile(['https://q27z6n.deta.dev'.concat(picture.data['image'])])
+              // console.log(a)
+              localStorage.setItem('totalrecipe', count)
+              localStorage.setItem('profileImage', 'https://q27z6n.deta.dev'.concat(picture.data['image']))
+              // console.log(picture.data['image'])
+        }
           // console.log(result.data['items'].filter((item)=>{return item.owner == user['username']}).length)
 
           //counting in server
@@ -86,13 +101,15 @@ export default function Profile() {
     }
   };
       if(online){
-        fetchData()}
+        fetchData()
+      }
       else{
-        setTotalRecipe(localStorage.getItem('totalrecipe'))
-        
+        // setTotalRecipe(localStorage.getItem('totalrecipe'))
       }
   }, [])
 
+
+  
   return (
     <div>
       <NavBar />
@@ -103,11 +120,11 @@ export default function Profile() {
               <div className="row prow">
                 <div className="col" style={{ textAlign: 'center' }}>
                   <div className="d-flex justify-content-center">
-                    <div className="avatar_icon_border"><img id="avatar_icon" src="assets/img/AvatarIcon.jpg" /></div>
+                    <div className="avatar_icon_border"><img id="avatar_icon" src={profile[0]} /></div>
                   </div>
                   <div className="row">
                     <div className="col">
-                      <p id="avatar_name" style={{ fontSize: '17px' }}>{ isLogged ? JSON.parse(atob(token.split('.')[1]))['username']:'username'}<Link to="/profile-edit"><a href=""><i className="fa fa-edit" style={{ color: '#515151', paddingLeft: '10px' }} /></a></Link></p>
+                      <p id="avatar_name" style={{ fontSize: '17px' }}>{ isLogged ? JSON.parse(atob(localStorage.getItem('token').split('.')[1]))['username']:'Guest'}<Link to="/profile-edit"><a href=""><i className="fa fa-edit" style={{ color: '#515151', paddingLeft: '10px' }} /></a></Link></p>
                     </div>
                   </div>
                 </div>
