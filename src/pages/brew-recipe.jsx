@@ -50,20 +50,14 @@ export default function BrewRecipe() {
     {username:"Admin2", message:"This is so Good6!", created_date:"2022-12-13T08:11:38+00:00"},
   ]
   const setOnline = () => {
-    
     isOnline(true);
   };
   const setOffline = () => {
-    console.log('We are offline!');
     isOnline(false);
   };
-
-  // Register the event listeners
   useEffect(() => {
     window.addEventListener('offline', setOffline);
     window.addEventListener('online', setOnline);
-    
-    // cleanup if we unmount
     return () => {
       window.removeEventListener('offline', setOffline);
       window.removeEventListener('online', setOnline);
@@ -125,7 +119,7 @@ export default function BrewRecipe() {
             if(token){
                 if(online){
                   
-                  const result = await axios.delete(`https://q27z6n.deta.dev/recipes/${key}`, {headers: {'accept': '*/*','x-token':token}});
+                  const result = await axios.delete(`https://q27z6n.deta.dev/recipes/${key}`, {headers: {'Content-Type':'application/json','x-token':token}});
                   setRefresh(!refresh)
                 }else{
                   storageAppendList('update_list',{'delete':key})
@@ -135,6 +129,8 @@ export default function BrewRecipe() {
       console.log(error)
     }
 };
+
+
     const [id, setID] = useState('')
     const [trigger, setTrigger] = useState(false)
 
@@ -216,9 +212,6 @@ export default function BrewRecipe() {
   <BackButton />
   <div id="main_template">
     <div className="container" id="recipelist_container">
-      {/* {JSON.stringify(result)} */}
-      {/* {/* <p>{typeof result}</p> */}
-      {/* <p>{JSON.stringify(result)}</p> */} 
       {
         result === [] ? <h3>empty</h3>:result.map((item)=>{
 

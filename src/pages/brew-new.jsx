@@ -98,6 +98,8 @@ export default function BrewNew() {
       grind_size:refine,
       temp:heat,
       roast_level:roast,
+      comments:[],
+      rate:score
     }
     setRecordData(data)
     setEXData(data)

@@ -44,7 +44,7 @@ export default function BrewEdit() {
   const [oldprocess, setOldProcess] = useState()
   const [eqmodalname, setEqmodalname] = useState("Coffee")
   const [eqmodaldetail, setEqmodaldetail] = useState()
-  const [equipment, setEquipment] = useState(recipe.equipment.map((item)=>{return {"name":item.name, "description":item.description}})) //{name, description}
+  const [equipment, setEquipment] = useState(recipe.equipment.map((item)=>{return { id:`eq${item.name}${item.description}` ,"name":item.name, "description":item.description}})) //{name, description}
   const [processMethod, setProcessMethod] = useState(methodList[brewer])
   const [processModal, setProcessModal] = useState([1, 0, 1, 1])
   const [processStep, setProcessStep] = useState("Pour Water")
@@ -189,7 +189,7 @@ export default function BrewEdit() {
     }
   }
 
-  // const navigate = useNavigate()
+
 
   return (
     <div>

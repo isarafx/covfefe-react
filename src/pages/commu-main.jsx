@@ -76,13 +76,6 @@ export default function CommuMain() {
     // console.log('i fire once');
   }, []);
 
-  function sorting(type){
-      if(type === 0){
-          setData([...data].sort((a,b)=> (a.date > b.date ? 1 : -1)))
-      }else if(type === 1){
-          setData([...data].sort((a,b)=> (a.star > b.star ? 1 : -1)))
-      }
-  }
 
   return (
     <div>
@@ -92,8 +85,8 @@ export default function CommuMain() {
       <div className="input-group">
         <div className="dropdown"><button className="rounded-0 rounded-start btn btn-primary dropdown-toggle" aria-expanded="false" data-bs-toggle="dropdown" data-bss-hover-animate="pulse" id="search_filter2" type="button"><i className="fas fa-filter" style={{fontSize: '20px', fontWeight: 'bold'}} /></button>
           <div className="dropdown-menu">
-          <Link onClick={()=>{sorting(1)}}  className="dropdown-item">{t("Ctext06")}</Link>
-          <Link onClick={()=>{sorting(0)}} className="dropdown-item" >{t("Ctext07")}</Link></div>
+          <Link className="dropdown-item">{t("Ctext06")}</Link>
+          <Link className="dropdown-item" >{t("Ctext07")}</Link></div>
         </div><input className="form-control" type="search" id="search_input2" /><button className="btn btn-primary" data-bss-hover-animate="pulse" id="search_button2" type="button"><i className="fas fa-search" id="Tool_icon" style={{color: '#ffffff'}} /></button>
       </div>
       <div className="d-flex d-sm-flex d-md-flex d-lg-flex d-xl-flex d-xxl-flex justify-content-center justify-content-sm-center justify-content-md-center justify-content-lg-center justify-content-xl-center justify-content-xxl-center Page_Head">
