@@ -19,24 +19,77 @@ import { useTranslation } from 'react-i18next';
 import { Link, useParams } from 'react-router-dom'
 import { useEffect } from 'react'
 import { mmss } from '../method/mmss'
+import axios from 'axios'
 export default function BrewGuide() {
-  const { brewer, id } = useParams();
-  const [cup, setCup] = useState(1)
-  const { t, i18n } = useTranslation();
-  const commentList = 
-  [
-    {username:"Admin1", message:"This is so Good1!", created_date:"2022-12-13T08:06:38+00:00"},
-    {username:"Admin2", message:"This is so Good2!", created_date:"2022-12-13T08:07:38+00:00"},
-    {username:"Admin3", message:"This is so Good3!", created_date:"2022-12-13T08:08:38+00:00"},
-    {username:"Admin4", message:"This is so Good4!", created_date:"2022-12-13T08:09:38+00:00"},
-    {username:"Admin5", message:"This is so Good5!", created_date:"2022-12-13T08:10:38+00:00"},
-    {username:"Admin2", message:"This is so Good6!", created_date:"2022-12-13T08:11:38+00:00"},
-  ]
-  const recipe = JSON.parse(localStorage.getItem('brew-recipe'))['items'].filter((item)=>{return item.key===id})[0]
-  const totaltime = recipe.process.reduce((accumulator, object) => {
-    return accumulator + object.time;
-  }, 0);
+    const { brewer, id } = useParams();
+    const [cup, setCup] = useState(1)
+    const { t, i18n } = useTranslation();
+    const [isLogged, setIsLogged] = useState(Boolean(localStorage.getItem('token')) ? localStorage.getItem('token'):null)
+    const [comment, setComment] = useState('')
+    const user = JSON.parse(atob(localStorage.getItem('token').split('.')[1]))
+    let [online, isOnline] = useState(navigator.onLine);
+    const [recipe, setRecipe ] = useState(JSON.parse(localStorage.getItem('brew-recipe'))['items'].filter((item)=>{return item.key===id})[0])
+    const setOnline = () => {
+      isOnline(true);
+    };
+    const setOffline = () => {
+      isOnline(false);
+    };
+    useEffect(() => {
+      window.addEventListener('offline', setOffline);
+      window.addEventListener('online', setOnline);
+      return () => {
+        window.removeEventListener('offline', setOffline);
+        window.removeEventListener('online', setOnline);
+      }
+    }, []);
 
+    const [commentList, setCommentList] = useState(recipe.comments)
+    // [
+    //   {username:"Admin1", message:"This is so Good1!", created_date:"2022-12-13T08:06:38+00:00"},
+    //   {username:"Admin2", message:"This is so Good2!", created_date:"2022-12-13T08:07:38+00:00"},
+    //   {username:"Admin3", message:"This is so Good3!", created_date:"2022-12-13T08:08:38+00:00"},
+    //   {username:"Admin4", message:"This is so Good4!", created_date:"2022-12-13T08:09:38+00:00"},
+    //   {username:"Admin5", message:"This is so Good5!", created_date:"2022-12-13T08:10:38+00:00"},
+    //   {username:"Admin2", message:"This is so Good6!", created_date:"2022-12-13T08:11:38+00:00"},
+    // ]
+
+    const totaltime = recipe.process.reduce((accumulator, object) => {
+      return accumulator + object.time;
+    }, 0);
+    const postComment = async (e) => {
+        e.preventDefault()
+        try{
+            if(isLogged){
+                if(online){
+                  let data = {"message": comment}
+                  setComment('')
+                  let token = localStorage.getItem('token')
+                  const result = await axios.post(`https://q27z6n.deta.dev/recipes/${id}/comment`,data ,{headers: {'x-token':token}});
+                  // console.log(result)
+                  setCommentList(result.data.comments)
+                }
+            }
+        }catch(error){
+            console.log(error.response)
+        }
+    }
+    useEffect(() => { 
+      const fetchData  = async () => { 
+          try{
+              const result = await axios.get(`https://q27z6n.deta.dev/recipes/${id}`);
+              setRecipe(result.data);
+              setCommentList(result.data.comments)
+              console.log(result)
+              // localStorage.setItem('brew-recipe', JSON.stringify(result.data))
+          }catch(error){
+            console.log(error)
+          }
+      }
+      console.log(recipe)
+      console.log(commentList)
+      fetchData()
+    }, [])
   return (
     <div>
       <BackButton />
@@ -135,7 +188,7 @@ export default function BrewGuide() {
           </div>
         </div>
         
-        <div className="col" style={{height: '415px'}}>
+        { user.username === recipe.owner ?<div className="col" style={{height: '415px'}}>
           <div id="guide_container1" style={{height: '407px'}}>
             <p id="guide_con_title">{t("Modaltext38")}</p><textarea id="comment_guide_box" rows={9} readOnly value={recipe.note}/>
             <p id="guide_con_title">{t("Btext19")}</p>
@@ -147,8 +200,8 @@ export default function BrewGuide() {
           <div style={{height: '60px', bottom: 0}} />
         </div>
           <div style={{height: '60px', bottom: 0}} />
-        </div>
-        <div className="col" style={{width: '100%', overflow: 'auto'}}>
+        </div>:null}
+        {recipe.public ?<div className="col" style={{width: '100%', overflow: 'auto'}}>
           <div id="guide_container2">
             <p id="guide_con_title">ความคิดเห็น</p>
             <textarea id="comment_guide_box" rows={9} readOnly value={recipe.description} />
@@ -163,12 +216,13 @@ export default function BrewGuide() {
               })}
             </div>
             <p style={{color: '#cb0c00', marginBottom: '10px', marginTop: '5px'}}>{t("Ctext10")}</p>
-            <form><textarea id="Post_comment_box" rows={1} oninput="auto_grow(this)" required defaultValue={""} />
+            <form onSubmit={postComment}>
+              <textarea id="Post_comment_box" rows={1} oninput="auto_grow(this)" required value={comment} onChange={(e)=>{setComment(e.target.value)}} />
               <div className="d-flex justify-content-end"><button className="btn btn-primary d-xxl-flex" id="post_comment_btn" type="submit">{t("Ctext11")}</button></div>
             </form>
           </div>
           <div style={{height: '60px', bottom: 0}} />
-        </div>
+        </div>:null}
       </div>
     </div>
   </div>
