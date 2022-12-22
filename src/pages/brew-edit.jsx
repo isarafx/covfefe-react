@@ -52,7 +52,7 @@ export default function BrewEdit() {
     const [processStep, setProcessStep] = useState("Pour Water")
     const [processModalName, setprocessModalName] = useState('Custom')
     const [processModalCustomName, setprocessModalCustomName] = useState()
-    const [processModalWater, setProcessModalWater] = useState()
+    const [processModalWater, setProcessModalWater] = useState(1)
     const [processModaltime, setProcessModalTime] = useState()
     const [processModalComment, setProcessModalComment] = useState()
     const [remainWater, setRemainWater] = useState(water)
@@ -99,37 +99,50 @@ export default function BrewEdit() {
     }
     function submitEQ(e){
       e.preventDefault()
-      setEquipment([...equipment, {id:`${eqmodalname}-${eqmodaldetail}` ,name:eqmodalname, description:eqmodaldetail}])
+      if(!Boolean(eqmodaldetail)){
+          setEquipment([...equipment, {id:`${eqmodalname}-${eqmodaldetail}` ,name:eqmodalname, description:eqmodalname}])
+      }else{
+          setEquipment([...equipment, {id:`${eqmodalname}-${eqmodaldetail}` ,name:eqmodalname, description:eqmodaldetail}])
+      }
       setEqmodalname('Hario V60')
       setEqmodaldetail('')
     }
     const submitProcess = () => {
         let data = {}
+        if(!Boolean(processModaltime) || isNaN(processModaltime)){
+            return ; //break function
+        }
         if((processModalName === "Bloom")||(processModalName === "Pour Water")){
-          data.water = processModalWater
+            data.water = processModalWater
           setRemainWater(remainWater-parseInt(processModalWater))
         }else if((processModalName === "Custom")){
-          data.custom_name = processModalCustomName
+            data.custom_name = processModalCustomName
         }
         if(remainWater - processModalWater == 0){
-          setProcessMethod(processMethod.filter(item=>((item!="Pour Water") && (item!="Bloom"))))
-          setprocessModalName("Wait")
-          handleProcess("Wait")
+            setProcessMethod(processMethod.filter(item=>((item!="Pour Water") && (item!="Bloom"))))
+            setprocessModalName("Wait")
+            handleProcess("Wait")
         }
         data.id = `${processModalName}-${process.length+1}`
         data.name = processModalName
         data.time = parseInt(processModaltime)
         data.comment = processModalComment
-        setProcess([...process, data])
-        setRemainTime(remainTime+parseInt(data.time))
+            setProcess([...process, data])
+            setRemainTime(remainTime+parseInt(data.time))
     }
     function deleteEquipment(id) {
       setEquipment(equipment.filter((item) => {
         return item.id != id
       }))
     }
-    function deleteProcess(id, time) {
+    function deleteProcess(id, time, processname, water) {
       setRemainTime(remainTime-time)
+      if((processname === "Bloom")||(processname === "Pour Water")){
+        if(remainWater == 0){
+          setProcessMethod(["Pour Water", "Bloom", ...processMethod])
+        }
+        setRemainWater(remainWater+parseInt(water))
+      }
       setProcess(process.filter((item) => {
         return item.id != id
       }))
@@ -150,33 +163,43 @@ export default function BrewEdit() {
         // setEquipmentList([...equipmentList, { id: `${equipmentPic[modalEquipment]}${modalDetail}`, "pic": `${equipmentPic[modalEquipment]}.png`, "detail": temp }])
         // setModalDetail('')
       }
-    function record(){
 
-      let tempeq = (equipment.map((item)=>({name:item.name, description:item.description})))
-      let tempProcess = ([...process].map((item)=> {
-        let newprocess = {name:item.name, time:item.time, comment:item.comment};
-        if(item.custom_name){
-          newprocess.custom_name = item.custom_name
-        }if(item.water){
-          newprocess.water = item.water
+    const Record  = async () => { 
+        let tempeq = (equipment.map((item)=>({name:item.name, description:item.description})))
+        let tempProcess = ([...process].map((item)=> {
+          let newprocess = {name:item.name, time:item.time, comment:item.comment};
+          if(item.custom_name){
+            newprocess.custom_name = item.custom_name
+          }if(item.water){
+            newprocess.water = item.water
+          }else if(item.water == 0){
+            alert('Recipe contain invalid water amount')
+          }
+          return newprocess
+          }))
+        let data ={
+          name:name,
+          coffee_weight:coffee,
+          water:water,
+          ratio:ratio,
+          equipment: tempeq,
+          note: note,
+          process:tempProcess,
+          grind_size:refine,
+          temp:heat,
+          roast_level:roast,
+          rate:score
         }
-        return newprocess
-        }))
-      let data ={
-        name:name,
-        coffee_weight:coffee,
-        water:water,
-        ratio:ratio,
-        equipment: tempeq,
-        note: note,
-        process:tempProcess,
-        grind_size:refine,
-        temp:heat,
-        roast_level:roast,
-        rate:score
-      }
-      // setEXData(data)
+        try{
+          const result = await axios.patch(`https://q27z6n.deta.dev/recipes/${id}`, data, { headers: { 'x-token': token } });
+          console.log(result)
+          navigate(`/brew-recipe/${brewer}`)
+        }catch(error){
+          console.log(error.response)
+        }
+        // navigator.clipboard.writeText(JSON.stringify(data))
     }
+
     function changeRatio(type, value) {
         if(value>0 && !(Number.isNaN(value))){
             let multiplier = 1
@@ -227,11 +250,11 @@ export default function BrewEdit() {
   return (
     <div>
       <BackButton />
-      <div className="d-flex div_a" style={{ width: '80%', marginLeft: '20%' }}><button onClick={()=>{setTrigger(!trigger)}} className="btn" id="brew_save_btn" type="button"><i className="fas fa-save Add_icon" style={{ fontSize: '25px' }} /></button></div>
+      <div className="d-flex div_a" style={{ width: '80%', marginLeft: '20%' }}><button onClick={()=>{Record()}} className="btn" id="brew_save_btn" type="button"><i className="fas fa-save Add_icon" style={{ fontSize: '25px' }} /></button></div>
       <div id="main_template">
         <div className="container" id="recipelist_container">
-          {/* <input type="text" id="recipe_name_edit" placeholder="Enter Recipe Name Here" value={name} onChange={(e) => { setName(e.target.value) }} /> */}
-          {remainWater}
+          <input type="text" id="recipe_name_edit" placeholder="Enter Recipe Name Here" value={name} onChange={(e) => { setName(e.target.value) }} />
+          {/* {remainWater} */}
           <i className="fa fa-pencil" style={{ color: '#7f502b' }} />
           <div className="row row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-2 row-cols-xl-2 row-cols-xxl-2" style={{ height: '385px' }}>
             <div className="col" style={{ height: '425px' }}>
@@ -342,7 +365,7 @@ export default function BrewEdit() {
                       </div>
                     </div>
                     <div className="d-flex justify-content-center align-items-center process_delete_box">
-                      <button onClick={()=>{deleteProcess(item.id, item.time)}} className="btn btn-primary" id="process_timer_delete" type="button"><i className="fa fa-minus-square-o" style={{ fontSize: '20px' }} /></button></div>
+                      <button onClick={()=>{deleteProcess(item.id, item.time, item.name, item.water)}} className="btn btn-primary" id="process_timer_delete" type="button"><i className="fa fa-minus-square-o" style={{ fontSize: '20px' }} /></button></div>
                   </div>
                       )
                     })
@@ -477,7 +500,7 @@ export default function BrewEdit() {
                       <div className="tools_card">
                         <div className="d-inline-flex" style={{ width: '100%', marginTop: '5px' }}><img className="ae_legend" src="assets/img/legend_note.png" />
                           <p id="Etitle">{t("Btext18")}</p>
-                        </div><input className="form-control" type="text" style={{ borderStyle: 'solid', borderColor: 'rgb(253,200,137)', borderRadius: '15px' }} placeholder={t("Modaltext28")} value={processModalWater} onChange={(e)=>{setProcessModalComment(e.target.value)}} />
+                        </div><input className="form-control" type="text" style={{ borderStyle: 'solid', borderColor: 'rgb(253,200,137)', borderRadius: '15px' }} placeholder={t("Modaltext28")} value={processModalComment} onChange={(e)=>{setProcessModalComment(e.target.value)}} />
                       </div>
                     </div>
                   </div>

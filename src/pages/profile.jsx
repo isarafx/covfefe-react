@@ -90,7 +90,7 @@ export default function Profile() {
               if(Boolean(picture.data['brewed'])){
                 setBrewCount(picture.data['brewed'])
               }else{
-                
+                setBrewCount(0) 
               }
               if(picture.data['image'] == undefined ){setProfile(['assets/img/AvatarIcon.jpg'])}
               // console.log(a)
