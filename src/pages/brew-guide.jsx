@@ -206,7 +206,7 @@ export default function BrewGuide() {
 
         { Public?<div className="col" style={{width: '100%', overflow: 'auto'}}>
           <div id="guide_container2">
-            <p id="guide_con_title">ความคิดเห็น</p>
+            <p id="guide_con_title">{t("Ctext14")}</p>
             <textarea id="comment_guide_box" rows={9} readOnly value={recipe.description} />
             <div className="d-inline-flex justify-content-end" style={{minWidth: '100%', height: '50px'}}><img className="creator_avatar_icon" src="assets/img/AvatarIcon.jpg" />
               <p className="creator_avatar_name">{recipe.owner}</p>
