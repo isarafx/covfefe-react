@@ -136,10 +136,6 @@ const router = createBrowserRouter([
     path: "/community",
     element: <ProtectedRoute><CommuMain /></ProtectedRoute>,
   },
-  // {
-  //   path: "/commu-share",
-  //   element: <ProtectedRoute><CommuShare /></ProtectedRoute>
-  // },
   {
     path: "/error",
     element: <Error />,

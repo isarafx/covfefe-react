@@ -106,6 +106,7 @@ export default function Profile() {
       // console.log(exData)
     }
   };
+      document.title = t("Ptext01")
       if(online){
         fetchData()
       }

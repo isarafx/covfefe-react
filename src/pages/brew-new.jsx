@@ -322,7 +322,7 @@ export default function BrewNew() {
     <div>
       <BackButton />
       <div className="d-flex div_a" style={{ width: '80%', marginLeft: '20%' }}>
-      <button onClick={() => {navigator.clipboard.writeText(exData)}}>copy</button>
+      {/* <button onClick={() => {navigator.clipboard.writeText(exData)}}>copy</button> */}
         <button className="btn" id="brew_save_btn" type="button" onClick={()=>{record()}}>
         <i className="fas fa-save Add_icon" style={{ fontSize: '25px' }} /></button></div>
       <div id="main_template">

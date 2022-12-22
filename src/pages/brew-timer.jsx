@@ -142,6 +142,7 @@ export default function BrewTimer() {
     startCondition()
     setCup(parseInt(searchParams.get('cup')))
     getBrewed()
+    document.title = t("Btext02")
   },[])
 
   const sendBrewed = async () => { 

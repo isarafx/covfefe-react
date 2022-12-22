@@ -33,6 +33,7 @@ export default function ArticleMain() {
           setArticle(result.data['items'])
       }
       FetchData()
+      document.title = t("Atext01")
       console.log('here')
   }, [])
   return (

@@ -93,6 +93,7 @@ export default function BrewGuide() {
       }
       console.log(recipe)
       console.log(commentList)
+      document.title = t("Btext06")
       fetchData()
     }, [])
   return (
