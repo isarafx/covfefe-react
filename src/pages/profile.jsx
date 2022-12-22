@@ -87,6 +87,12 @@ export default function Profile() {
               // console.log(typeof profile)
               // console.log(typeof 'https://play-lh.googleusercontent.com/A26UUWOc_l_aPp2GRurp3sG0kaxjm8ArbFHtX5GQZ9x9QztmE_noNmHBE2fbTa855sZu')
               setProfile(['https://q27z6n.deta.dev'.concat(picture.data['image'])])
+              if(Boolean(picture.data['brewed'])){
+                setBrewCount(picture.data['brewed'])
+              }else{
+                
+              }
+              if(picture.data['image'] == undefined ){setProfile(['assets/img/AvatarIcon.jpg'])}
               // console.log(a)
               localStorage.setItem('totalrecipe', count)
               localStorage.setItem('profileImage', 'https://q27z6n.deta.dev'.concat(picture.data['image']))

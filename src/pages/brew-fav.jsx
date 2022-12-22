@@ -73,10 +73,12 @@ export default function BrewFav() {
   useEffect(() => {
       const unFav  = async () => { 
         try{
+          setDisplayList([...displayList].filter((item)=>item.key!=id2))
             console.log(`https://q27z6n.deta.dev/users/favorite/${id2}`)
             const result = await axios.delete(`https://q27z6n.deta.dev/users/favorite/${id2}`, { headers: {'x-token':token}})
             console.log('data here')
             console.log(result.data)
+            
             // setRefresh(!refresh)
             // setTrigger(!trigger)
       } catch(error){

@@ -21,11 +21,11 @@ export default function CommuShare() {
   const [description, setDescription] = useState('')
   const [ exData, setEXDATA] = useState('')
   const tool = {
-    "hario":"Hario",
-    "aeropress":"AeroPress",
-    "frenchpress":"French Press",
-    "mokapot":"Moka Pot",
-    "chemex":"Chemex",
+    "hario":"Hario_ICO.png",
+    "aeropress":"AeroPress_ICO.png",
+    "frenchpress":"FrenchPress_ICO.png",
+    "mokapot":"Moka_ICO.png",
+    "chemex":"Chemex_ICO.png",
   }
   const { t, i18n } = useTranslation();
   const recipe = JSON.parse(localStorage.getItem('brew-recipe'))['items'].filter((item)=>item.key === id)[0]
@@ -90,7 +90,7 @@ export default function CommuShare() {
       <form id="Shared_card">
         <div className="row" style={{textAlign: 'center', marginBottom: '20px'}}>
           <div className="col d-flex justify-content-center">
-            <div className="Shared_icon_border"><img id="Shared_icon" src={`assets/img/${tool[brewer]}_ICO.png`} /></div>
+            <div className="Shared_icon_border"><img id="Shared_icon" src={`assets/img/${tool[brewer]}`} /></div>
           </div>
         </div>
         <div className="row" style={{marginBottom: '10px'}}>

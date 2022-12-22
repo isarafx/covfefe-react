@@ -3,15 +3,14 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom'
 import { UpdateFav } from '../method/updateFav'
-export default function RecipeCard({owner, delfunc, favfunc, unfavfunc, name="Recipe Name", link="/", disabled=false, shared=0, favorite=0}) {
+export default function RecipeCard({owner, editable, delfunc, favfunc, unfavfunc, name="Recipe Name", link="/", disabled=false, shared=0, favorite=0}) {
     // disabled=false 
     const { brewer } = useParams();
     let tempfav = Boolean(favorite)
     if(shared){shared="Tool_Shared"}else{shared="Tool_icon"}
     const token = localStorage.getItem('token')
-    const user = JSON.parse(atob(token.split('.')[1]))
+    const [isOwner, setIsOwner] = useState(editable === owner)
     const [favid, setFavorite] = useState(favorite?"Tool_Faved":"Tool_icon")
-
     const tool = {
       "hario":"Hario",
       "aeropress":"AeroPress",
@@ -42,7 +41,7 @@ export default function RecipeCard({owner, delfunc, favfunc, unfavfunc, name="Re
           <div className="col">
             
             <div className="btn-group d-flex" role="group" style={{width: '100%'}}>
-                    { user.username === owner ?
+                    { isOwner ?
                     <Link to={`/brew-recipe/${brewer}/edit/${link}`} className="btn btn-primary" role="button" data-bss-hover-animate="jello" id="Tool_color" href="">
                     <i className="fa fa-pencil" id="Tool_icon"  />
                     </Link>
@@ -52,7 +51,7 @@ export default function RecipeCard({owner, delfunc, favfunc, unfavfunc, name="Re
                     </Link>
                     }
 
-                    { user.username === owner ?
+                    { isOwner ?
                     <Link to={`/brew-recipe/${brewer}/share/${link}`} className="btn btn-primary" role="button" data-bss-hover-animate="jello" id="Tool_color" href="">
                     <i className="fas fa-share" id={shared} />
                     </Link>
@@ -72,7 +71,7 @@ export default function RecipeCard({owner, delfunc, favfunc, unfavfunc, name="Re
                     </button>
                     }
 
-                    { user.username === owner ?
+                    { isOwner ?
                     <button onClick={()=>{delfunc(link)}} className="btn btn-primary" data-bss-hover-animate="jello" id="Tool_color" type="button">
                     <i className="fas fa-trash" id="Tool_icon" />
                     </button>

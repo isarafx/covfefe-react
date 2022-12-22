@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState } from 'react'
 import RecipeCard from '../components/recipecard'
-import { useNavigate, useParams } from 'react-router-dom'
+import { Navigate, useNavigate, useParams } from 'react-router-dom'
 import "../styles/Multiple-Input-Select-Pills.css"
 import "../styles/Profile_page.css"
 import "../styles/Round_switch.css"
@@ -17,183 +17,129 @@ import { useTranslation } from 'react-i18next'
 import { useEffect } from 'react'
 import { Fetching } from '../method/fetchScripts'
 import axios from 'axios';
-import { storageAppendList } from '../method/localStorageMethod'
 import RecipeAdminCard from '../components/recipecard_admin'
-import Comment from '../components/comment'
+import { LoginCheck } from '../method/mmss'
 export default function BrewRecipe() {
-  const { brewer } = useParams();
-  const { t } = useTranslation();
-  const token = localStorage.getItem('token')
-  let user = (Boolean(token)?JSON.parse(atob(token.split('.')[1])):null);
+    const { brewer } = useParams();
+    const { t } = useTranslation();
+    const token = localStorage.getItem('token')
+    
 
-  const [refresh, setRefresh] = useState(false)
-  const [recipe, setRecipe] = useState([])
-  
-  const tool = {
-    "hario":"Hario",
-    "aeropress":"AeroPress",
-    "frenchpress":"French Press",
-    "mokapot":"Moka Pot",
-    "chemex":"Chemex",
-  }
-  // let [display, setDisplay] = useState(JSON.parse(localStorage.getItem('brew-recipe'))['items'])
-  let [online, isOnline] = useState(navigator.onLine);
-  let [result, setResult] = useState([]);
-  const navigate = useNavigate()
-  const setOnline = () => {
-    isOnline(true);
-  };
-  const setOffline = () => {
-    isOnline(false);
-  };
-  useEffect(() => {
-    window.addEventListener('offline', setOffline);
-    window.addEventListener('online', setOnline);
-    return () => {
-      window.removeEventListener('offline', setOffline);
-      window.removeEventListener('online', setOnline);
+    const [refresh, setRefresh] = useState(false)
+    const [recipe, setRecipe] = useState([])
+    
+    const tool = {
+      "hario":"Hario",
+      "aeropress":"AeroPress",
+      "frenchpress":"French Press",
+      "mokapot":"Moka Pot",
+      "chemex":"Chemex",
     }
-  }, []);
-
+    // let [display, setDisplay] = useState(JSON.parse(localStorage.getItem('brew-recipe'))['items'])
+    let [online, isOnline] = useState(navigator.onLine);
+    let [result, setResult] = useState([]);
+    const navigate = useNavigate()
+    const setOnline = () => {
+      isOnline(true);
+    };
+    const setOffline = () => {
+      isOnline(false);
+    };
     useEffect(() => {
-      
+      window.addEventListener('offline', setOffline);
+      window.addEventListener('online', setOnline);
+      return () => {
+        window.removeEventListener('offline', setOffline);
+        window.removeEventListener('online', setOnline);
+      }
+    }, []);
+    useEffect(() => {
       const fetchData  = async () => { 
-          try{
-          let url = "";
-          if(!Boolean(token)){ // public
-            // alert('here anon')
-            const result = await axios.get("https://q27z6n.deta.dev/recipes/public", {
-              headers: {
-                  'accept': 'application/json'
-              }
-              
-          });
-              setResult(result.data['items']);
-              console.log(result)
-              localStorage.setItem('brew-recipe', JSON.stringify(result.data))
-          }else{
-            const result = await axios.get("https://q27z6n.deta.dev/recipes/users", {
-              headers: {
-                  'accept': 'application/json',
-                  'x-token':token
-              }
-          });
-              
-              setResult(result.data['items']);
-              console.log(result)
-              localStorage.setItem('brew-recipe', JSON.stringify(result.data))
-          }
+        try{
+            let url = "";
+            if(!Boolean(token)){ // public
+              console.log('public user')
+              const result = await axios.get("https://q27z6n.deta.dev/recipes/public", {
+                headers: {
+                    'accept': 'application/json'
+                }
+                
+            });
+                setResult(result.data['items']);
+                console.log(result)
+                localStorage.setItem('brew-recipe', JSON.stringify(result.data))
+            }else{
+              console.log('logged in user')
+              let user = (JSON.parse(atob(token.split('.')[1])));
+              const result = await axios.get("https://q27z6n.deta.dev/recipes/users", {
+                headers: {
+                    'x-token':token
+                }
+            });
+                
+                setResult(result.data['items']);
+                console.log(result)
+                localStorage.setItem('brew-recipe', JSON.stringify(result.data))
+            }
           
         }catch(error){
           console.log(error)
         }
     };
-      // if(Boolean(localStorage.getItem('brew-recipe'))){
-          
-      //     if(Boolean(JSON.parse(localStorage.getItem('brew-recipe'))['items'])){
-      //         setResult(JSON.parse(localStorage.getItem('brew-recipe'))['items'])
-      //   }
-      // }else{
-      //   if(!online){
-      //       navigate('/offline')
-      //   }
-      // }
       if(online){
           fetchData();
       }
-      // console.log('i fire once');
     }, [refresh]);
 
     const deleteData = async (key) => { 
-      try{
+        if(LoginCheck()){}else{navigate('/login')}
+        try{
             // alert(key)
             if(token){
                 if(online){
-                  
+                  // setResult([...result]);
                   const result = await axios.delete(`https://q27z6n.deta.dev/recipes/${key}`, {headers: {'Content-Type':'application/json','x-token':token}});
                   setRefresh(!refresh)
                 }else{
-                  storageAppendList('update_list',{'delete':key})
+                  // storageAppendList('update_list',{'delete':key})
                 }
             }
-    }catch(error){
-      console.log(error)
-    }
-};
-
-
-    const [id, setID] = useState('')
-    const [trigger, setTrigger] = useState(false)
-
-    useEffect(() => {
-      const Fav  = async () => { 
-        try{
-            // console.log(id)
-            // console.log("fav")
-            const result = await axios.post(`https://q27z6n.deta.dev/users/favorite/${id}`, '', { headers: {'x-token':token}})
-            setRefresh(!refresh)
-            // setTrigger(!trigger)
-      } catch(error){
-        console.log(error.response)
-      }
+        }catch(error){
+          console.log(error)
+        }
     };
-      Fav()
-      }, [trigger]);
-
-      function favorite(key){
-          console.log('fav', key)
-          setID(key)
-          setTrigger(!trigger)
-          
-      }
-    const [id2, setID2] = useState()
-    const [trigger2, setTrigger2] = useState(false)
-    useEffect(() => {
-        const unFav  = async () => { 
-          try{
-              console.log('reach here')
-              const result = await axios.delete(`https://q27z6n.deta.dev/users/favorite/${id2}`, { headers: {'x-token':token}})
-              console.log('data here')
-              console.log(result.data)
-              setRefresh(!refresh)
-              // setTrigger(!trigger)
-        } catch(error){
-          console.log(error.response)
+    const Favorite  = async (key) => { 
+        if(LoginCheck()){}else{navigate('/login')}
+        try{
+            console.log('reach unfavorite')
+            const result = await axios.post(`https://q27z6n.deta.dev/users/favorite/${key}`, '', { headers: {'x-token':token}})
+            console.log(result.data)
+            setRefresh(!refresh)
+        }catch(error){
+            console.log(error.response)
         }
-      };
-        unFav()
-        }, [trigger2]);
-  
-        function unfavorite(key){
-            console.log('unfav')
-            console.log(key)
-            setID2(key)
-            setTrigger2(!trigger2)
-            
+    }
+    const UnFavorite  = async (key) => { 
+        if(LoginCheck()){}else{navigate('/login')}
+        try{
+            console.log('reach unfavorite')
+            const result = await axios.delete(`https://q27z6n.deta.dev/users/favorite/${key}`, { headers: {'x-token':token}})
+            console.log(result.data)
+            setRefresh(!refresh)
+        }catch(error){
+            console.log(error.response)
         }
-    // const Favorite  = async (key) => { 
-    //   try{
-    //         // alert(key)
-    //         if(token){
-    //             if(online){
-    //               const result = await axios.delete(`https://q27z6n.deta.dev/recipes/${key}`, {headers: {'accept': '*/*','x-token':token}});
-    //             }else{
-    //               storageAppendList('update_list',{'delete':key})
-    //             }
-    //         }
-    //     }catch(error){
-    //       console.log(error)
-    //     }
-    // };
+    }
     const commuShare = async (key) => { 
-      try{
-          if(token){
-              if(online){
-                  const result = await axios.delete(`https://q27z6n.deta.dev/recipes/${key}`, {headers: {'accept': '*/*','x-token':token}});
-              }else{
-                  storageAppendList('update_list',{'delete':key})
-                }
-            }
+        if(LoginCheck()){}else{navigate('/')}
+        try{
+            if(token){
+                if(online){
+                    const result = await axios.delete(`https://q27z6n.deta.dev/recipes/${key}`, {headers: {'accept': '*/*','x-token':token}});
+                }else{
+                    // storageAppendList('update_list',{'delete':key})
+                  }
+              }
         }catch(error){
           console.log(error)
         }
@@ -206,9 +152,10 @@ export default function BrewRecipe() {
       {
         result?result.map((item)=>{
 
-        let shared = (item.public && item.owner!=="admin")
+        let shared = (item.public ? item.owner!=="admin":false)
+        let edit = LoginCheck()
         if(item.brewer === tool[brewer]){
-          return(<RecipeCard brewer={item.brewer} owner={item.owner} name={item.name} favorite={item.is_favorite} shared={shared} link={item.key} disabled={false} delfunc={deleteData} favfunc={favorite} unfavfunc={unfavorite}/>)}
+          return(<RecipeCard brewer={item.brewer} editable={edit} owner={item.owner} name={item.name} favorite={item.is_favorite} shared={shared} link={item.key} disabled={false} delfunc={deleteData} favfunc={Favorite} unfavfunc={UnFavorite}/>)}
           // return(<RecipeAdminCard name={item.name} favorite={item.favorite} shared={item.public} link={item.key} />)
         
       })

@@ -19,6 +19,7 @@ import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom'
 import { useSearchParams } from 'react-router-dom'
 import { descParse } from '../method/mmss'
+import axios from 'axios'
 export default function BrewTimer() {
   let [online, isOnline] = useState(navigator.onLine);
   const setOnline = () => { console.log('We are online!'); isOnline(true); };
@@ -33,6 +34,7 @@ export default function BrewTimer() {
 
 
   // const processList = JSON.parse(localStorage.getItem('recipe'))['item'].filter((item)=>{return item.Lid===id})[0]['process']
+  const name = JSON.parse(localStorage.getItem('brew-recipe'))['items'].filter((item)=>{return item.key===id})[0]['name']
   const processList = JSON.parse(localStorage.getItem('brew-recipe'))['items'].filter((item)=>{return item.key===id})[0]['process']
   const [overallTime, setOverallTime] = useState(0)   //overall = total time - total = total time but decrease when timer on
   const [runTime, setRunTime] = useState(0)           //total time since timer start
@@ -40,6 +42,8 @@ export default function BrewTimer() {
   const [processTime, setProcessTime] = useState(0)
   const [state, setState] = useState(0) // if true> clock start
   const [index, setIndex] = useState(1)
+  const token = localStorage.getItem('token')
+  const [brewed, setBrewed] = useState()
   function startCondition(){
     let time = 0
     processList.map((item)=>{
@@ -90,8 +94,8 @@ export default function BrewTimer() {
           setState(false)
           alert('finish')
           startCondition()
-          localStorage.setItem('brewcount')
-
+          localStorage.setItem('brewcount', (brewed+1))
+          sendBrewed()
           //post brew total to server
           //set localstorage to push to server
         }
@@ -114,9 +118,49 @@ export default function BrewTimer() {
     }
   }, [processTime, state])
   useEffect(()=>{
+    const getBrewed = async () => { 
+      try{
+            if(token){
+                if(online){
+                    try{
+                      let user = JSON.parse(atob(localStorage.getItem('token').split('.')[1]))['username']
+                      console.log(user)
+                      const picture = await axios.get(`https://q27z6n.deta.dev/users/${user}`, { headers: {'x-token': token} })
+                      console.log(picture.data['brewed'])
+                      setBrewed(parseInt(picture.data['brewed']))
+                    }catch(error){
+                      console.log(error.response)
+                      setBrewed(0)
+                    }
+                }else{
+                }
+            }
+    }catch(error){
+      console.log(error)
+    }
+  };
     startCondition()
     setCup(parseInt(searchParams.get('cup')))
+    getBrewed()
   },[])
+
+  const sendBrewed = async () => { 
+      try{
+            // alert(key)
+            if(token){
+                let user = JSON.parse(atob(localStorage.getItem('token').split('.')[1]))
+                if(online){
+                  const result = await axios.patch(`https://q27z6n.deta.dev/users`, {"brewed":(brewed+1)}, {headers: {'x-token':token}});
+                  console.log(result)
+                }else{
+                  //offline implement
+                }
+            }
+      }catch(error){
+        console.log(error)
+      }
+  };
+
 
   return (
     <div>
@@ -141,7 +185,7 @@ export default function BrewTimer() {
               <p id="process_title" style={{color: '#dc6c62'}}>{processList[index-1].name}</p>
             </div>
             <div>
-              <p id="process_des">{processList[index-1].description}</p>
+              <p id="process_des">{descParse(processList[index-1].name,processList[index-1].water,cup,brewer)}</p>
             </div>
             <div>
               <p id="process_comment">{processList[index-1].comment}<br /></p>
@@ -177,7 +221,7 @@ export default function BrewTimer() {
     </div>
   </div>
   <div className="d-flex" id="Header">
-    <p id="header_paragraph">Recipe Name</p>
+    <p id="header_paragraph">{name}</p>
   </div>
   <div className="d-flex" id="Footer" />
 </div>
