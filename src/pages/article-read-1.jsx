@@ -17,10 +17,11 @@ import { encode, decode } from 'js-base64';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import axios from 'axios';
+import { useTranslation } from 'react-i18next'
 
 export default function ArticleRead() {
 
-
+  const { t, i18n } = useTranslation();
   const [data, setData] = useState('')
   const { id } = useParams();
   const [contents, setContents] = useState('')
