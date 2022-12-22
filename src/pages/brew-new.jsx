@@ -68,8 +68,7 @@ export default function BrewNew() {
   const { t } = useTranslation();
   const [exData, setEXData] = useState();
 
-  function record(){
-
+  const record = async () => { 
     let eq = mainEquipment
     if(mainEquipment === "Moka"){eq = "Moka Pot"}
     if(mainEquipment === "Aeropress"){eq = "AeroPress"}

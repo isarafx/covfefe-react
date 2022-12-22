@@ -33,8 +33,6 @@ export default function NavBar() {
               <Link to="/"><li className="nav-item"><a onClick={()=>{setSidebarActive(false); setOverlayActive(false)}} className="nav-link" style={{fontSize: '19px', marginBottom: '5px'}}><i className="fas fa-coffee" />&nbsp;{t("Menu02")}</a></li></Link>
               <Link to="/community"><li className="nav-item"><a onClick={()=>{setSidebarActive(false); setOverlayActive(false)}} className="nav-link" style={{fontSize: '19px', marginBottom: '5px'}}><i className="fas fa-globe" />&nbsp; {t("Menu03")}</a></li></Link>
               <Link to="/profile"><li className="nav-item"><a onClick={()=>{setSidebarActive(false); setOverlayActive(false)}} className="nav-link" href="" style={{fontSize: '19px', marginBottom: '5px'}}><i className="fas fa-user-tie" />&nbsp; {t("Menu04")}</a></li></Link>
-              <Link to="/admin"><li className="nav-item"><a onClick={()=>{setSidebarActive(false); setOverlayActive(false)}} className="nav-link" style={{fontSize: '19px', marginBottom: '5px'}}><i className="fas fa-user-cog" />&nbsp; Admin</a></li></Link>
-              <li className="nav-item"><a onClick={()=>{setSidebarActive(false); setOverlayActive(false); changeLanguage()}} className="nav-link" style={{fontSize: '19px', marginBottom: '5px'}}><i className="fas fa-globe fa-solid" />&nbsp; Lang</a></li>
               
 
                 </ul>
