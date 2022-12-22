@@ -439,7 +439,7 @@ export default function BrewNew() {
                         <p className="text-end" style={{ minWidth: '15%' }}>{mmss(item.time)}</p>
                       </div>
                       <div>
-                        <p id="process_des">{descParse(item.name, item.water, )}</p>
+                        <p id="process_des">{descParse(item.name, item.water )}</p>
                       </div>
                       <div>
                         <p id="process_comment">{item.comment}</p>

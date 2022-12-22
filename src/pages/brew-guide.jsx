@@ -185,7 +185,7 @@ export default function BrewGuide() {
             <div id="process_container">
 
               {recipe?recipe.process.map((item)=>{
-                return(<BrewGuideProcessCard name={item.custom_name ? item.custom_name:item.name} description={item.description} comment={item.comment} time={item.time}/>)
+                return(<BrewGuideProcessCard name={item.custom_name ? item.custom_name:item.name} description={item.description} comment={item.comment} time={item.time} water={item.water*cup} />)
               }):null}
             </div>
             <div style={{textAlign: 'center'}}><Link to={`/brew-recipe/${brewer}/timer/${id}?cup=${cup}`}><a className="btn btn-primary" role="button" id="process_timer_start" href="">{t("Modaltext36")}</a></Link></div>
