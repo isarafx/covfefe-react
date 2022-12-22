@@ -25,11 +25,12 @@ export default function BrewGuide() {
     const [cup, setCup] = useState(1)
     const { t, i18n } = useTranslation();
     const [isLogged, setIsLogged] = useState(Boolean(localStorage.getItem('token')) ? localStorage.getItem('token'):null)
+
     const [comment, setComment] = useState('')
     
     let [online, isOnline] = useState(navigator.onLine);
     const [recipe, setRecipe ] = useState(JSON.parse(localStorage.getItem('brew-recipe'))['items'].filter((item)=>{return item.key===id})[0])
-    const [noteBox, setNoteBox ] = useState(false)
+    const [isOwner, setOwner ] = useState(false)
     const [Public, setPublic] = useState(false)
     // const [recipe, setRecipe] = useState()
     const setOnline = () => {
@@ -84,7 +85,7 @@ export default function BrewGuide() {
               setPublic(Boolean(result.data.public && Boolean(result.data.owner !== 'admin')))
               console.log(result)
               let user = JSON.parse(atob(localStorage.getItem('token').split('.')[1]))
-              if (user.username === recipe.owner ){setNoteBox(true)}
+              if (user.username === recipe.owner ){setOwner(true)}
               // localStorage.setItem('brew-recipe', JSON.stringify(result.data))
           }catch(error){
             console.log(error)
@@ -97,7 +98,8 @@ export default function BrewGuide() {
   return (
     <div>
       <BackButton />
-  <div className="d-flex div_a" style={{width: '80%', marginLeft: '20%'}}><Link to={`/brew-recipe/${brewer}/edit/${id}`}><i className="fa fa-pencil Add_icon" style={{fontSize: '25px'}} /></Link></div>
+  {isOwner?<div className="d-flex div_a" style={{width: '80%', marginLeft: '20%'}}><Link to={`/brew-recipe/${brewer}/edit/${id}`}><i className="fa fa-pencil Add_icon" style={{fontSize: '25px'}} /></Link></div>
+  :null}
   <div id="main_template">
     <div className="container" id="recipelist_container">
       <h1 id="guide_head">{recipe?recipe.name:null}</h1>
@@ -190,7 +192,7 @@ export default function BrewGuide() {
           </div>
         </div>
         
-        { noteBox ?<div className="col" style={{height: '415px'}}>
+        { isOwner ?<div className="col" style={{height: '415px'}}>
           <div id="guide_container1" style={{height: '407px'}}>
             <p id="guide_con_title">{t("Modaltext38")}</p><textarea id="comment_guide_box" rows={9} readOnly value={recipe.note}/>
             <p id="guide_con_title">{t("Btext19")}</p>

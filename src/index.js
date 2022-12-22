@@ -35,9 +35,6 @@ import {
   Navigate
 } from "react-router-dom";
 import Test from './pages/test';
-import ArticleReadTwo from './pages/article-read-2';
-import ArticleReadThree from './pages/article-read-3';
-import ArticleReadFour from './pages/article-read-4';
 import ProfileEdit from './pages/profile-edit';
 
 const AuthContext = createContext(null)
@@ -106,18 +103,6 @@ const router = createBrowserRouter([
   {
     path: "/article/:id",
     element: <ArticleRead />,
-  },
-  {
-    path: "/article/2",
-    element: <ArticleReadTwo />,
-  },
-  {
-    path: "/article/3",
-    element: <ArticleReadThree />,
-  },
-  {
-    path: "/article/4",
-    element: <ArticleReadFour />,
   },
   {
     path: "/favorite",

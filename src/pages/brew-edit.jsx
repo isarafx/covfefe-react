@@ -150,7 +150,33 @@ export default function BrewEdit() {
         // setEquipmentList([...equipmentList, { id: `${equipmentPic[modalEquipment]}${modalDetail}`, "pic": `${equipmentPic[modalEquipment]}.png`, "detail": temp }])
         // setModalDetail('')
       }
+    function record(){
 
+      let tempeq = (equipment.map((item)=>({name:item.name, description:item.description})))
+      let tempProcess = ([...process].map((item)=> {
+        let newprocess = {name:item.name, time:item.time, comment:item.comment};
+        if(item.custom_name){
+          newprocess.custom_name = item.custom_name
+        }if(item.water){
+          newprocess.water = item.water
+        }
+        return newprocess
+        }))
+      let data ={
+        name:name,
+        coffee_weight:coffee,
+        water:water,
+        ratio:ratio,
+        equipment: tempeq,
+        note: note,
+        process:tempProcess,
+        grind_size:refine,
+        temp:heat,
+        roast_level:roast,
+        rate:score
+      }
+      // setEXData(data)
+    }
     function changeRatio(type, value) {
         if(value>0 && !(Number.isNaN(value))){
             let multiplier = 1
@@ -183,7 +209,8 @@ export default function BrewEdit() {
             try{
                 
                 const result = await axios.get(`https://q27z6n.deta.dev/recipes/${id}`, { headers: { 'accept': 'application/json' } });
-                if(AdminCheck() || OwnerCheck()){
+                if(AdminCheck() || OwnerCheck(result.data['owner'])){
+                  setRemainWater(water - process.reduce((accumulator, object) => { return accumulator + object.water; }, 0))
                   console.log(result.data)
                 }
                 else{

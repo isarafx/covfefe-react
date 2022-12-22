@@ -17,10 +17,8 @@ import { encode, decode } from 'js-base64';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import axios from 'axios';
-import { useTranslation } from 'react-i18next';
 
 export default function ArticleRead() {
-  const { t, i18n } = useTranslation();
 
   
   const [data, setData] = useState('')
@@ -48,9 +46,8 @@ export default function ArticleRead() {
       </div>
       </div>
     </div>
-    <div style={{heigh: "40px"}}></div>
     <div className="d-flex" id="Header">
-      <p id="header_paragraph">{t("Atext01")}</p>
+      <p id="header_paragraph">("Atext01")</p>
     </div>
     <div className="d-flex" id="Footer" />
   </div>
