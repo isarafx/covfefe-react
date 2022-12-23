@@ -142,7 +142,7 @@ export default function BrewTimer() {
     startCondition()
     setCup(parseInt(searchParams.get('cup')))
     getBrewed()
-    document.title = t("Btext02")
+    document.title = t('Timer01')
   },[])
 
   const sendBrewed = async () => { 
@@ -222,7 +222,7 @@ export default function BrewTimer() {
     </div>
   </div>
   <div className="d-flex" id="Header">
-    <p id="header_paragraph">{name}</p>
+    <p id="header_paragraph">{t('Timer01')}</p>
   </div>
   <div className="d-flex" id="Footer" />
 </div>

@@ -315,6 +315,7 @@ export default function BrewNew() {
     }
   };
     fetchData()
+    document.title = t("Btext12")
     }, [trigger]);
 
 

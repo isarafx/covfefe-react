@@ -245,6 +245,7 @@ export default function BrewEdit() {
             }
         };
             fetchData();
+            document.title = t("Btext08")
       }, []);
 
   return (
