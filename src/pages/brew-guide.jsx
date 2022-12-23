@@ -91,10 +91,17 @@ export default function BrewGuide() {
             console.log(error)
           }
       }
-      console.log(recipe)
-      console.log(commentList)
+      if(online){
+          fetchData()
+      }else{
+          setRecipe(JSON.parse(localStorage.getItem('brew-recipe'))['items'].filter((item)=>{return item.key===id})[0]);
+          setCommentList(JSON.parse(localStorage.getItem('brew-recipe'))['items'].filter((item)=>{return item.key===id})[0].comments)
+          setPublic(Boolean(JSON.parse(localStorage.getItem('brew-recipe'))['items'].filter((item)=>{return item.key===id})[0].public && Boolean(JSON.parse(localStorage.getItem('brew-recipe'))['items'].filter((item)=>{return item.key===id})[0].owner !== 'admin')))
+          let user = JSON.parse(atob(localStorage.getItem('token').split('.')[1]))
+          if (user.username === JSON.parse(localStorage.getItem('brew-recipe'))['items'].filter((item)=>{return item.key===id})[0].owner ){setOwner(true)}
+      }
       document.title = t("Btext06")
-      fetchData()
+      
     }, [])
   return (
     <div>
@@ -117,21 +124,21 @@ export default function BrewGuide() {
                 <div id="guide_card"><img id="guide_icon" src="../../assets/img/guide_ratio_ico.png" />
                   <p id="guide_name">{t("Modaltext31")}</p>
                   <div className="input-group"><span className="d-flex justify-content-end input-group-text" id="guide_unit2">1&nbsp; :</span>
-                  <input className="form-control" type="number" id="guide_input2" value={recipe?recipe.ratio:15} /></div>
+                  <input className="form-control" type="number" id="guide_input2" disabled value={recipe?recipe.ratio:15} /></div>
                 </div>
               </div>
               <div className="col d-flex justify-content-center" style={{paddingLeft: '5px', paddingRight: '5px'}}>
                 <div id="guide_card"><img id="guide_icon" src="../../assets/img/guide_pack_ico.png" />
                   <p id="guide_name">{t("Modaltext29")}</p>
                   <div className="input-group">
-                    <input className="form-control" type="number" id="guide_input" value={recipe?recipe.coffee_weight*cup:20} /><span className="input-group-text" id="guide_unit">g</span></div>
+                    <input className="form-control" type="number" id="guide_input" disabled value={recipe?recipe.coffee_weight*cup:20} /><span className="input-group-text" id="guide_unit">g</span></div>
                 </div>
               </div>
               <div className="col d-flex justify-content-center" style={{paddingLeft: '5px', paddingRight: '5px'}}>
                 <div id="guide_card"><img id="guide_icon" src="../../assets/img/guide_water_ico.png" />
                   <p id="guide_name">{t("Modaltext30")}</p>
                   <div className="input-group">
-                    <input className="form-control" type="number" id="guide_input" value={recipe?recipe.water*cup:300} /><span className="input-group-text" id="guide_unit">ml</span></div>
+                    <input className="form-control" type="number" id="guide_input" disabled value={recipe?recipe.water*cup:300} /><span className="input-group-text" id="guide_unit">ml</span></div>
                 </div>
               </div>
             </div>

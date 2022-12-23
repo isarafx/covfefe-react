@@ -25,14 +25,35 @@ export default function ArticleRead() {
   const [data, setData] = useState('')
   const { id } = useParams();
   const [contents, setContents] = useState('')
+  let [online, isOnline] = useState(navigator.onLine);
+  const setOnline = () => {
+    isOnline(true);
+  };
+  const setOffline = () => {
+    console.log('We are offline!');
+    isOnline(false);
+  };
+  useEffect(() => {
+    window.addEventListener('offline', setOffline);
+    window.addEventListener('online', setOnline);
+    
+    // cleanup if we unmount
+    return () => {
+      window.removeEventListener('offline', setOffline);
+      window.removeEventListener('online', setOnline);
+    }
+  }, []);
   useEffect(() => {
     const FetchData = async () => {
       const result = await axios.get(`https://q27z6n.deta.dev/articles`);
       // console.log(Base64.decode(result.data['items'][6]['content']))
       setContents(Base64.decode(result.data['items'].filter((item) => item.key === id)[0]['content']))
     }
-    FetchData()
-    console.log('here')
+    if(online){
+        FetchData()
+    }else{
+        setContents(Base64.decode(localStorage.getItem('article').filter((item) => item.key === id)[0]['content']))
+    }
   }, [])
   return (
     <div>

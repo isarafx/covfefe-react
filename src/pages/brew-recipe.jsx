@@ -89,6 +89,8 @@ export default function BrewRecipe() {
       document.title = t("Btext05")
       if(online){
           fetchData();
+      }else{
+          setResult(localStorage.setItem('brew-recipe'));
       }
     }, [refresh]);
 

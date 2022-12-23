@@ -109,7 +109,6 @@ export default function BrewNew() {
 
 
   let [online, isOnline] = useState(navigator.onLine);
-
   const setOnline = () => {
     console.log('We are online!');
     isOnline(true);
@@ -118,7 +117,6 @@ export default function BrewNew() {
     console.log('We are offline!');
     isOnline(false);
   };
-
   // Register the event listeners
   useEffect(() => {
     window.addEventListener('offline', setOffline);

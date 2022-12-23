@@ -64,14 +64,11 @@ export default function CommuMain() {
         console.log(error)
       }
     };
-    if (!online) {
-      navigate('/offline')
-    }
     if (online) {
       fetchData();
-    }
-    if (online) {
-      fetchData();
+    }else{
+      setData(localStorage.getItem('community'))
+      setDisplayList(localStorage.getItem('community'))
     }
     // console.log('i fire once');
   }, [refresh]);

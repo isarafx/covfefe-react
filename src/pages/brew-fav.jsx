@@ -31,8 +31,6 @@ export default function BrewFav() {
     console.log('We are offline!');
     isOnline(false);
   };
-
-  // Register the event listeners
   useEffect(() => {
     window.addEventListener('offline', setOffline);
     window.addEventListener('online', setOnline);
@@ -63,10 +61,12 @@ export default function BrewFav() {
         }
   };
     if(online){
-      document.title = t("Btext02")
-    fetchData();
+        fetchData();
+    }else{
+        setResult(localStorage.getItem('favorite'))
+        setDisplayList(localStorage.getItem('favorite'))
     }
-    // console.log('i fire once');
+    document.title = t("Btext02")
   }, [refresh]);
 
   const [id2, setID2] = useState()
