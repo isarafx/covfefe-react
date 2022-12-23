@@ -15,6 +15,7 @@ import { useTranslation } from 'react-i18next';
 import { useEffect } from 'react'
 import { storageAppendList } from '../method/localStorageMethod'
 import { useNavigate } from 'react-router-dom'
+import { HashLink } from 'react-router-hash-link';
 export default function CommuMain() {
 
   const { t, i18n } = useTranslation();
@@ -66,7 +67,7 @@ export default function CommuMain() {
     };
     if (online) {
       fetchData();
-    }else{
+    } else {
       setData(localStorage.getItem('community'))
       setDisplayList(localStorage.getItem('community'))
     }
@@ -246,9 +247,9 @@ export default function CommuMain() {
                               }} className="btn btn-primary" id="Interaction_button" type="button">
                                 <small style={{ color: 'rgb(255,214,0)', paddingRight: '5px' }}>{item.star ? item.star.length : 0}</small>
                                 <i className="fa fa-star" id={is_star ? "Interaction_star_checked" : "Interaction_icon"} /></button>
-                              <a className="btn btn-primary" role="button" id="Interaction_button" href="google.com">
+                              <HashLink smooth to={`/brew-recipe/${item.brewer}/${item.key}#Post_comment_box`} className="btn btn-primary" role="button" id="Interaction_button" >
                                 <small style={{ color: 'rgb(255,214,0)', paddingRight: '5px' }}>{item.comments ? item.comments.length : 0}</small>
-                                <i className="fa fa-comment" id="Interaction_icon" /></a>
+                                <i className="fa fa-comment" id="Interaction_icon" /></HashLink>
                             </div>
                           </div>
                         </div>
