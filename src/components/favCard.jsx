@@ -18,7 +18,7 @@ export default function FavCard({name="lorem ipsum", link, brewer = 'hario' , id
   return (
     <div id="method_result_card">
       <div className="row">
-        <div className="col"><Link to={url}><a href="">
+        <div className="col"><Link to={url}>
           <div className="card" style={{ height: '65px', background: 'rgba(255,255,255,0)', borderStyle: 'none' }}>
             <div className="card-body fcard_body">
               <div className="row">
@@ -31,7 +31,7 @@ export default function FavCard({name="lorem ipsum", link, brewer = 'hario' , id
               </div>
             </div>
           </div>
-        </a></Link></div>
+        </Link></div>
       </div>
       <div className="row">
         <div className="col">

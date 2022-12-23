@@ -246,9 +246,9 @@ export default function CommuMain() {
                               }} className="btn btn-primary" id="Interaction_button" type="button">
                                 <small style={{ color: 'rgb(255,214,0)', paddingRight: '5px' }}>{item.star ? item.star.length : 0}</small>
                                 <i className="fa fa-star" id={is_star ? "Interaction_star_checked" : "Interaction_icon"} /></button>
-                              <a className="btn btn-primary" role="button" id="Interaction_button" href="google.com">
+                              <Link className="btn btn-primary" role="button" id="Interaction_button">
                                 <small style={{ color: 'rgb(255,214,0)', paddingRight: '5px' }}>{item.comments ? item.comments.length : 0}</small>
-                                <i className="fa fa-comment" id="Interaction_icon" /></a>
+                                <i className="fa fa-comment" id="Interaction_icon" /></Link>
                             </div>
                           </div>
                         </div>

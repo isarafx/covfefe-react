@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 export default function CardArticle({link="/", name="article.exe", detail="==เนื้อหา==", pic="assets/img/Article_Dummy.png"}) {
   return (
-    <div className="col-md-4 article_column"><Link to={link} ><a href="">
+    <div className="col-md-4 article_column"><Link to={link} >
             <div className="d-flex justify-content-center align-items-center">
               <div className="card" id="a_card">
                 <div className="card-body" data-bss-hover-animate="pulse">
@@ -13,6 +13,6 @@ export default function CardArticle({link="/", name="article.exe", detail="==เ
                 </div>
               </div>
             </div>
-          </a></Link></div>
+          </Link></div>
   )
 }

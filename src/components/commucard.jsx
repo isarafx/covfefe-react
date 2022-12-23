@@ -33,8 +33,8 @@ export default function CommuCard({name="Recipe card", main_eq=1, comment="test"
                       </button><button className="btn btn-primary" id="Interaction_button" type="button">
                         <small style={{color: 'rgb(255,214,0)', paddingRight: '5px'}}>{star}</small>
                         <i className="fa fa-star" id="Interaction_icon" /></button>
-                      <a className="btn btn-primary" role="button" id="Interaction_button" href="">
-                        <small style={{color: 'rgb(255,214,0)', paddingRight: '5px'}}>{comment_count}</small></a>
+                      <Link className="btn btn-primary" role="button" id="Interaction_button" >
+                        <small style={{color: 'rgb(255,214,0)', paddingRight: '5px'}}>{comment_count}</small></Link>
                       <i className="fa fa-comment" id="Interaction_icon" /></div>
                 </div>
               </div>

@@ -131,16 +131,16 @@ export default function Profile() {
                   </div>
                   <div className="row">
                     <div className="col">
-                      <p id="avatar_name" style={{ fontSize: '17px' }}>{ isLogged ? JSON.parse(atob(localStorage.getItem('token').split('.')[1]))['username']:'Guest'}<Link to="/profile-edit"><a href=""><i className="fa fa-edit" style={{ color: '#515151', paddingLeft: '10px' }} /></a></Link></p>
+                      <p id="avatar_name" style={{ fontSize: '17px' }}>{ isLogged ? JSON.parse(atob(localStorage.getItem('token').split('.')[1]))['username']:'Guest'}<Link to="/profile-edit"><i className="fa fa-edit" style={{ color: '#515151', paddingLeft: '10px' }} /></Link></p>
                     </div>
                   </div>
                 </div>
               </div>
               <div className="row prow" data-bss-hover-animate="pulse">
                 {isLogged ? 
-                <div className="col"><a onClick={()=>{localStorage.setItem('token','')}} className="btn btn-primary" role="button" style={{ background: '#d35151' }} href="">{t("Ltext10")}</a></div>
+                <div className="col"><Link onClick={()=>{localStorage.setItem('token','')}} className="btn btn-primary" role="button" style={{ background: '#d35151' }} >{t("Ltext10")}</Link></div>
                 :
-                <div className="col"><Link to="/login"><a className="btn btn-primary" role="button" style={{ background: '#d35151' }} href="">{t("Ltext01")}</a></Link></div>}
+                <div className="col"><Link to="/login" className="btn btn-primary" role="button" style={{ background: '#d35151' }}>{t("Ltext01")}</Link></div>}
                 
               </div>
             </div>

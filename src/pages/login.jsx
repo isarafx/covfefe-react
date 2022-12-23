@@ -60,7 +60,7 @@ export default function Login() {
       <div className="card-body">
         <div className="d-flex Div1"><button className="btn btn-primary" id="Toplogin_buttonL" type="button">{t("Ltext01")}</button>
         <img className="pic1" src="assets/img/Picture1.png" />
-        <Link to="/register"><a className="btn btn-primary" role="button" data-bss-hover-animate="pulse" id="Topregister_buttonL" href="">{t("Ltext02")}</a></Link></div>
+        <Link to="/register" className="btn btn-primary" role="button" data-bss-hover-animate="pulse" id="Topregister_buttonL">{t("Ltext02")}</Link></div>
         <form>
           <div>
             <p style={{marginBottom: '5px', marginLeft: '10px'}}>{t("User99")}</p>

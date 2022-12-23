@@ -2,7 +2,6 @@ import React, { createContext } from 'react';
 import ReactDOM from 'react-dom/client';
 
 // page
-import Admin from './pages/admin';
 import ArticleMain from './pages/article';
 import ArticleRead from './pages/article-read-1';
 import BrewFav from './pages/brew-fav';
@@ -11,7 +10,6 @@ import BrewIndex from './pages/brew-index';
 import BrewRecipe from './pages/brew-recipe';
 import BrewTimer from './pages/brew-timer';
 import BrewNew from './pages/brew-new';
-import CommuDetail from './pages/commu-detail';
 import CommuMain from './pages/commu-main';
 import CommuShare from './pages/commu-share';
 import Error from './pages/error';
@@ -88,11 +86,6 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <BrewIndex />,
-  },
-  {
-    path: "/admin",
-    element: <ProtectedRoute><Admin /></ ProtectedRoute>,
-    // errorElement:<Error />,
   },
   {
     path: "/article",

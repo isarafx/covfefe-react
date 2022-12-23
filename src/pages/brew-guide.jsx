@@ -85,7 +85,7 @@ export default function BrewGuide() {
               setPublic(Boolean(result.data.public && Boolean(result.data.owner !== 'admin')))
               console.log(result)
               let user = JSON.parse(atob(localStorage.getItem('token').split('.')[1]))
-              if (user.username === recipe.owner ){setOwner(true)}
+              if (user.username === recipe.owner || recipe.owner === "admin"){setOwner(true)}
               // localStorage.setItem('brew-recipe', JSON.stringify(result.data))
           }catch(error){
             console.log(error)
@@ -196,11 +196,11 @@ export default function BrewGuide() {
                 return(<BrewGuideProcessCard name={item.custom_name ? item.custom_name:item.name} description={item.description} comment={item.comment} time={item.time} water={item.water*cup} />)
               }):null}
             </div>
-            <div style={{textAlign: 'center'}}><Link to={`/brew-recipe/${brewer}/timer/${id}?cup=${cup}`}><a className="btn btn-primary" role="button" id="process_timer_start" href="">{t("Modaltext36")}</a></Link></div>
+            <div style={{textAlign: 'center'}}><Link className="btn btn-primary" role="button" id="process_timer_start" to={`/brew-recipe/${brewer}/timer/${id}?cup=${cup}`}>{t("Modaltext36")}</Link></div>
           </div>
         </div>
         
-        { isOwner ?<div className="col" style={{height: '415px'}}>
+        { Boolean(isOwner) ?<div className="col" style={{height: '415px'}}>
           <div id="guide_container1" style={{height: '407px'}}>
             <p id="guide_con_title">{t("Modaltext38")}</p><textarea id="comment_guide_box" rows={9} readOnly value={recipe.note}/>
             <p id="guide_con_title">{t("Btext19")}</p>

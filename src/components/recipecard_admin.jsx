@@ -11,7 +11,7 @@ export default function RecipeAdminCard({name="Recipe Name", link="/", favorite=
   return (
     <div id="method_result_card">
         <div className="row">
-          <div className="col"><Link to={`/brew-recipe/${brewer}/${link}`}><a href="">
+          <div className="col"><Link to={`/brew-recipe/${brewer}/${link}`}>
               <div className="card" style={{height: '65px', background: 'rgba(255,255,255,0)', borderStyle: 'none'}}>
                 <div className="card-body fcard_body">
                   <div className="row">
@@ -24,7 +24,7 @@ export default function RecipeAdminCard({name="Recipe Name", link="/", favorite=
                   </div>
                 </div>
               </div>
-            </a></Link></div>
+            </Link></div>
         </div>
 
         <div className="row">
@@ -34,9 +34,9 @@ export default function RecipeAdminCard({name="Recipe Name", link="/", favorite=
               <i className="fa fa-pencil" id="Tool_icon" />
               </button>
               
-              <a className="btn btn-primary invisible" role="button" data-bss-hover-animate="jello" id="Tool_color" href="Community_shared.html">
+              <Link className="btn btn-primary invisible" role="button" data-bss-hover-animate="jello" id="Tool_color" >
               <i className="fas fa-share" id="Tool_Shared" />
-              </a>
+              </Link>
               
               <button className="btn btn-primary" data-bss-hover-animate="jello" id="Tool_color" type="button">
               <i className="fas fa-heart" id={favorite} />

@@ -66,7 +66,7 @@ export default function Register() {
     <div className="card LoginCard">
       <div className="card-body">
         <div className="d-flex Div1">
-          <Link to="/login"><a className="btn btn-primary" role="button" data-bss-hover-animate="pulse" id="Toplogin_buttonR" href="">{t("Ltext01")}</a></Link>
+          <Link to="/login" className="btn btn-primary" role="button" data-bss-hover-animate="pulse" id="Toplogin_buttonR">{t("Ltext01")}</Link>
           <img className="pic1" src="assets/img/Picture1.png" />
           <button className="btn btn-primary" id="Topregister_buttonR" type="button">{t("Ltext02")}</button></div>
         <form>

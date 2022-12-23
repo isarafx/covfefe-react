@@ -42,21 +42,21 @@ export default function RecipeCard({owner, editable, delfunc, favfunc, unfavfunc
             
             <div className="btn-group d-flex" role="group" style={{width: '100%'}}>
                     { isOwner ?
-                    <Link to={`/brew-recipe/${brewer}/edit/${link}`} className="btn btn-primary" role="button" data-bss-hover-animate="jello" id="Tool_color" href="">
+                    <Link to={`/brew-recipe/${brewer}/edit/${link}`} className="btn btn-primary" role="button" data-bss-hover-animate="jello" id="Tool_color" >
                     <i className="fa fa-pencil" id="Tool_icon"  />
                     </Link>
                     :
-                    <Link to={`/brew-recipe/${brewer}/edit/${link}`} className="btn btn-primary disabled"  role="button" data-bss-hover-animate="jello" id="Tool_color" href="">
+                    <Link to={`/brew-recipe/${brewer}/edit/${link}`} className="btn btn-primary disabled"  role="button" data-bss-hover-animate="jello" id="Tool_color" >
                     <i className="fa fa-pencil" id="Tool_icon"  />
                     </Link>
                     }
 
                     { isOwner ?
-                    <Link to={`/brew-recipe/${brewer}/share/${link}`} className="btn btn-primary" role="button" data-bss-hover-animate="jello" id="Tool_color" href="">
+                    <Link to={`/brew-recipe/${brewer}/share/${link}`} className="btn btn-primary" role="button" data-bss-hover-animate="jello" id="Tool_color" >
                     <i className="fas fa-share" id={shared} />
                     </Link>
                     :
-                    <Link to={`/brew-recipe/${brewer}/share/${link}`} className="btn btn-primary disabled" role="button" data-bss-hover-animate="jello" id="Tool_color" href="">
+                    <Link to={`/brew-recipe/${brewer}/share/${link}`} className="btn btn-primary disabled" role="button" data-bss-hover-animate="jello" id="Tool_color" >
                     <i className="fas fa-share" id={shared} />
                     </Link>
                     }
