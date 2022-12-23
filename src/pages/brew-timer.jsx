@@ -14,7 +14,7 @@ import { useState } from 'react'
 import BackButton from '../components/backbutton'
 import { useEffect } from 'react'
 import { mmss } from '../method/mmss'
-
+import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom'
 import { useSearchParams } from 'react-router-dom'
@@ -24,6 +24,7 @@ export default function BrewTimer() {
   let [online, isOnline] = useState(navigator.onLine);
   const setOnline = () => { console.log('We are online!'); isOnline(true); };
   const setOffline = () => { console.log('We are offline!'); isOnline(false); };
+  const navigate = useNavigate()
   useEffect(() => { window.addEventListener('offline', setOffline); window.addEventListener('online', setOnline); return () => { window.removeEventListener('offline', setOffline); window.removeEventListener('online', setOnline); } }, []);
   
 
@@ -96,6 +97,7 @@ export default function BrewTimer() {
           startCondition()
           localStorage.setItem('brewcount', (brewed+1))
           sendBrewed()
+          navigate(`/brew-recipe/finish?brewer=${brewer}&id=${id}`)
           //post brew total to server
           //set localstorage to push to server
         }

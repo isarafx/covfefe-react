@@ -36,6 +36,7 @@ import {
 } from "react-router-dom";
 import Test from './pages/test';
 import ProfileEdit from './pages/profile-edit';
+import BrewFinish from './pages/brew-finish';
 
 const AuthContext = createContext(null)
  const ProtectedRoute = ({ children }) => {
@@ -177,9 +178,14 @@ const router = createBrowserRouter([
     errorElement:<Error />,
   },
   {
-    path: "offline",
+    path: "/offline",
     element: <Offline />,
     errorElement:<Error />,
+  },
+  {
+    path: "/brew-recipe/finish",
+    element: <BrewFinish />,
+    // errorElement:<Error />,
   },
   {
     path: "*",

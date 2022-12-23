@@ -230,7 +230,7 @@ export default function CommuMain() {
                             <div className="col">
                               <h4 id="Result_title">{item.name}</h4>
                               <hr style={{ marginTop: '5px', marginBottom: '10px' }} />
-                              <p className="Result_description">comment:{item.comment}, date:{item.created_date.slice(0, 17)}, type:{item.brewer}</p>
+                              <p className="Result_description">{item.description}</p>
                             </div>
                           </div>
                         </Link></div>

@@ -5,7 +5,15 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { UpdateFav } from '../method/updateFav';
 import { getToken } from '../method/localStorageMethod';
+import { useSearchParams } from 'react-router-dom';
 export default function Test() {
+  const [searchParams, setSearchParams] = useSearchParams();
+  let brewer = searchParams.get("brewer")
+  let id = searchParams.get("id")
+  useEffect(()=>{
+    console.log(brewer)
+    console.log(id)
+  }, [])
     // const [result, setResult] = useState()
     // const [trigger, setTrigger] = useState(false)
     // const data = {"breweer":"Moka Pot","name":"","coffee_weight":16,"water":160,"ratio":10,"equipment":[{"name":"Coffee","description":"test"}],"note":"test","public":false,"process":[{"name":"","time":"23","comment":"","water":"133"}],"grind_size":"Medium","temp":80,"roast_level":"Medium"}

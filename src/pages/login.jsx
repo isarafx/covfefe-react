@@ -45,7 +45,7 @@ export default function Login() {
           navigate('/')
         }
     } catch(error){
-
+      alert('login not successful')
       console.log(error.response.status)
     }
   };

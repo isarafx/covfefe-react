@@ -42,7 +42,10 @@ export default function Register() {
                 'Content-Type': 'application/json',
               }
           }
-
+          if(password === confirmPassword){
+          }else{
+            return;
+          }
           const result = await axios.post('https://q27z6n.deta.dev/users', body, header)
           setTrigger(false)
           // console.log(JSON.stringify(result.data))
