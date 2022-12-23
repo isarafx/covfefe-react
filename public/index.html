@@ -32,11 +32,11 @@
     <link rel="stylesheet" href="%PUBLIC_URL%/assets/fonts/fontawesome5-overrides.min.css">
     <link rel="icon" type="image/png" sizes="192x192" href="%PUBLIC_URL%/assets/img/Aeropress192.png">
     <link rel="icon" type="image/png" sizes="512x512" href="%PUBLIC_URL%/assets/img/Aeropress.png">
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
+    <link rel="manifest" href="/manifest.json">
     <script>
       if('serviceWorker' in navigator) {
           window.addEventListener('load', () => {
-              navigator.serviceWorker.register('./serviceworker.js')
+              navigator.serviceWorker.register('%PUBLIC_URL%/serviceworker.js')
                   .then((reg) => console.log('Success: ', reg.scope))
                   .catch((err) => console.log('Failure: ', err));
           })

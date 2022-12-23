@@ -15,6 +15,7 @@ export default function BrewFinish() {
     
         return () => window.clearTimeout(timeoutID );
     }, [])
+    
   return (
     <body>
         <div className="d-flex justify-content-center align-items-center" id="main_template2">

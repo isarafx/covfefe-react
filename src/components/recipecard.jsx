@@ -26,7 +26,7 @@ export default function RecipeCard({owner, editable, delfunc, favfunc, unfavfunc
                 <div className="card-body fcard_body">
                   <div className="row">
                     <div className="col d-flex justify-content-center method_result_col">
-                      <div className="method_result_ico_border"><img className="method_result_ico" src={`../assets/img/${tool[brewer]}_ICO.png`} /></div>
+                      <div className="method_result_ico_border"><img className="method_result_ico" src={`%PUBLIC_URL%/../assets/img/${tool[brewer]}_ICO.png`} /></div>
                     </div>
                     <div className="col d-flex align-items-center" style={{maxWidth: '550px', minWidth: '200px'}}>
                       <p className="recipe_title2">{name}&nbsp;</p>

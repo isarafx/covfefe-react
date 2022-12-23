@@ -101,7 +101,7 @@ export default function BrewNew() {
       rate:score
     }
     setRecordData(data)
-    setEXData(data)
+    // setEXData(data)
     setTrigger(!trigger)
     // setEXData(data)
   }
@@ -165,7 +165,7 @@ export default function BrewNew() {
   const submitProcess = () => {
     // alert('here')
       let data = {}
-      if(!Boolean(processDuration) || isNaN(processDuration)){
+      if(!Boolean(processDuration) || isNaN(processDuration) || processDuration==0){
         return ; //break function
     }
       if((processStep === "Bloom")||(processStep === "Pour Water")){
@@ -296,7 +296,7 @@ export default function BrewNew() {
     //update list
     let temp = modalDetail
     if (modalDetail===""){
-      temp = "lorem"
+      temp = modalEquipment
     }
     setEquipmentList([...equipmentList, { id: `${equipmentPic[modalEquipment]}${modalDetail}`, "pic": `${equipmentPic[modalEquipment]}.png`, "detail": temp }])
     setModalDetail('')
