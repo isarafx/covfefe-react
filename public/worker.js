@@ -130,7 +130,26 @@ var urlsToCache = [
     '/assets/fonts/fa-brands-400.ttf',
     '/assets/fonts/fontawesome-webfont.eot',
     '/assets/fonts/MaterialIcons-Regular.eot',
-    '/assets/fonts/fa-regular-400.eot'
+    '/assets/fonts/fa-regular-400.eot',
+    '../src/styles/Brewing_Guide2.css',
+    '../src/styles/Coffee_Article.css',
+    '../src/styles/Community.css',
+    '../src/styles/Brewing_Guide3.css',
+    '../src/styles/Range_Slider.css',
+    '../src/styles/Brewing_Guide4.css',
+    '../src/styles/.DS_Store',
+    '../src/styles/styles.css',
+    '../src/styles/Features-Clean.css',
+    '../src/styles/Multiple-Input-Select-Pills.css',
+    '../src/styles/Ultimate-Sidebar-Menu-BS5.css',
+    '../src/styles/Round_switch.css',
+    '../src/styles/Profile_page.css',
+    '../src/styles/Error.css',
+    '../src/styles/Login_Register.css',
+    '../src/styles/content-styles.css',
+    '../src/styles/Brewing_Guide.css',
+    '../src/styles/Admin_page.css',
+    
 ];
 
 // Install a service worker
