@@ -91,50 +91,62 @@ const router = createBrowserRouter([
   {
     path: "/admin",
     element: <ProtectedRoute><Admin /></ ProtectedRoute>,
+    errorElement:<Error />,
   },
   {
     path: "/article",
     element: <ArticleMain />,
+    errorElement:<Error />,
   },
   {
     path: "/article-new",
     element: <ProtectedRoute><ArticleNew /></ProtectedRoute>,
+    errorElement:<Error />,
   },
   {
     path: "/article/:id",
     element: <ArticleRead />,
+    errorElement:<Error />,
   },
   {
     path: "/favorite",
     element: <ProtectedRoute><BrewFav /></ProtectedRoute>,
+    errorElement:<Error />,
   },
   {
     path: "/brew-recipe/:brewer/:id",
     element: <BrewGuide />,
+    errorElement:<Error />,
   },
   {
     path: "/brew-recipe/new",
     element: <ProtectedRoute><BrewNew /></ProtectedRoute>,
+    errorElement:<Error />,
   },
   {
     path: "/brew-recipe/:brewer",
     element: <BrewRecipe />,
+    errorElement:<Error />,
   },
   {
     path: "/brew-recipe/:brewer/timer/:id",
     element: <BrewTimer />,
+    errorElement:<Error />,
   },
   {
     path: "/brew-recipe/:brewer/edit/:id",
     element: <ProtectedRoute><BrewEdit /></ ProtectedRoute>,
+    errorElement:<Error />,
   },
   {
     path: "/brew-recipe/:brewer/share/:id",
-    element: <ProtectedRoute><CommuShare /></ProtectedRoute>
+    element: <ProtectedRoute><CommuShare /></ProtectedRoute>,
+    errorElement:<Error />,
   },
   {
     path: "/community",
     element: <ProtectedRoute><CommuMain /></ProtectedRoute>,
+    errorElement:<Error />,
   },
   {
     path: "/error",
@@ -147,26 +159,32 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <Login />,
+    errorElement:<Error />,
   },
   {
     path: "/register",
     element: <Register />,
+    errorElement:<Error />,
   },
   {
     path: "/profile",
     element: <Profile />,
+    errorElement:<Error />,
   },
   {
     path: "/profile-edit",
     element: <ProtectedRoute><ProfileEdit /></ProtectedRoute>,
+    errorElement:<Error />,
   },
   {
     path: "offline",
     element: <Offline />,
+    errorElement:<Error />,
   },
   {
     path: "*",
     element: <Error />,
+    errorElement:<Error />,
   },
 ]);
 
