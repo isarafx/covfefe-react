@@ -167,6 +167,9 @@ export default function BrewNew() {
   const submitProcess = () => {
     // alert('here')
       let data = {}
+      if(!Boolean(processDuration) || isNaN(processDuration)){
+        return ; //break function
+    }
       if((processStep === "Bloom")||(processStep === "Pour Water")){
         data.water = waterSlider
         data.detail = `Pour ${waterSlider} ml water`
@@ -234,32 +237,63 @@ export default function BrewNew() {
 
  
 
+  // function changeRatio(type, value) {
+  //     setProcessList([])
+  //     if (type === "ratio") {
+  //       if(value>25){value=25}
+  //       if(value<=1){value=1}
+        
+  //       setRatio(value)
+  //       setWater(parseInt(value * coffee))
+  //       setRemainWater(value * coffee)
+  //     } else if (type === "coffee") {
+  //       if(value>200){value=200}
+  //       if(value<=1){value=1}
+
+  //       setCoffee(value)
+  //       setWater(parseInt(value * ratio))
+  //       setRemainWater(value * ratio)
+  //     } else if (type === "water") {
+  //       if(value>5000){value=5000}
+  //       if(value<=1){value=1}
+        
+
+  //       setCoffee(parseInt(value / ratio))
+  //       setWater(parseInt(value))
+  //       setRemainWater(value)
+  //     }
+  // }
+  const [water2, setWater2] = useState()
+  const [coffee2, setCoffee2] = useState()
+  const [ratio2, setRatio2] = useState()
+
   function changeRatio(type, value) {
-      setProcessList([])
-      if (type === "ratio") {
-        if(value>25){value=25}
-        if(value<=1){value=1}
+    if(value>0 && !(Number.isNaN(value))){
+        let multiplier = 1
+        if (type === "ratio") {
+          setWater(value * coffee)
+          multiplier =(value * coffee)/water2
+        } else if (type === "coffee") {
+          setWater(value * ratio)
+          multiplier = (value * ratio)/water2
+        } else if (type === "water") {
+          setCoffee(value / ratio)
+          multiplier = water2/water
+        }
+        let total_process_water = water
+        console.log([...processList].map((item)=>{ item.water= item.water*multiplier}))
+        setRemainWater(water - processList.reduce((accumulator, object) => { return accumulator + object.water; }, 0))
         
-        setRatio(value)
-        setWater(parseInt(value * coffee))
-        setRemainWater(value * coffee)
-      } else if (type === "coffee") {
-        if(value>200){value=200}
-        if(value<=1){value=1}
-
-        setCoffee(value)
-        setWater(parseInt(value * ratio))
-        setRemainWater(value * ratio)
-      } else if (type === "water") {
-        if(value>5000){value=5000}
-        if(value<=1){value=1}
-        
-
-        setCoffee(parseInt(value / ratio))
-        setWater(parseInt(value))
-        setRemainWater(value)
-      }
-  }
+    }else{
+        if (type === "ratio") {
+          setRatio(ratio2)
+        } else if (type === "coffee") {
+          setCoffee(coffee2)
+        } else if (type === "water") {
+          setWater(water2)
+        }
+    }
+}
   function submitEquipment(type, comment) {
     //update list
     let temp = modalDetail
@@ -277,16 +311,17 @@ export default function BrewNew() {
   }
 
   function deleteProcess(process) {
+    
+    setRemainTime(remainTime-parseInt(process.time))
+    if((process.name == "Pour Water") || (process.name == "Bloom")){
+      setRemainWater(remainWater+parseInt(process.water))
+      if(remainWater <= 0){
+        setProcessMethod(["Pour Water", "Bloom", ...processMethod])
+      }
+    }
     setProcessList(processList.filter((item) => {
       return item.id != process.id
     }))
-    setRemainTime(remainTime-parseInt(process.time))
-    if((process.stepname == "Pour Water") || (process.stepname == "Bloom")){
-      setRemainWater(remainWater+parseInt(process.water))
-      if (!processMethod.includes("Pour Water")){
-        setProcessMethod([...processMethod, "Pour Water", "Bloom"])
-      }
-    }
   }
   
   const [trigger, setTrigger] = useState(false)
@@ -318,7 +353,9 @@ export default function BrewNew() {
     document.title = t("Btext12")
     }, [trigger]);
 
-
+    useEffect(()=>{
+      console.log(remainWater)
+    }, [remainWater])
   return (
     <div>
       <BackButton />
@@ -373,21 +410,21 @@ export default function BrewNew() {
                 <div id="guide_card"><img id="guide_icon" src="../assets/img/guide_ratio_ico.png" />
                   <p id="guide_name">{t("Modaltext31")}</p>
                   <div className="input-group"><span className="d-flex justify-content-end input-group-text" id="guide_unit2">1&nbsp; :</span>
-                    <input className="form-control" type="number" min={1} max={25} step={0.1} id="guide_input2" value={ratio} onChange={(e) => { changeRatio("ratio", e.target.value) }} /></div>
+                    <input className="form-control" type="number" min={1} max={25} step={0.1} id="guide_input2" value={ratio} onBlur={(e)=>{changeRatio("ratio", e.target.value)}} onChange={(e)=>{setRatio(e.target.value)}} onFocus={(e)=>{setRatio2(e.target.value)}} /></div>
                 </div>
               </div>
               <div className="col d-flex justify-content-center" style={{ paddingLeft: '5px', paddingRight: '5px' }}>
                 <div id="guide_card"><img id="guide_icon" src="../assets/img/guide_pack_ico.png" />
                   <p id="guide_name">{t("Modaltext29")}</p>
                   <div className="input-group">
-                    <input className="form-control" type="number" id="guide_input" min={1} max={200} step={0.1} value={coffee} onChange={(e) => { changeRatio("coffee", e.target.value) }} /><span className="input-group-text" id="guide_unit">g</span></div>
+                    <input className="form-control" type="number" id="guide_input" min={1} max={200} step={0.1} value={coffee} onBlur={(e)=>{changeRatio("coffee", e.target.value)}} onChange={(e)=>{setCoffee(e.target.value)}} onFocus={(e)=>{setCoffee2(e.target.value)}}  /><span className="input-group-text" id="guide_unit">g</span></div>
                 </div>
               </div>
               <div className="col d-flex justify-content-center" style={{ paddingLeft: '5px', paddingRight: '5px' }}>
                 <div id="guide_card"><img id="guide_icon" src="../assets/img/guide_water_ico.png" />
                   <p id="guide_name">{t("Modaltext30")}</p>
                   <div className="input-group">
-                    <input className="form-control" type="number" id="guide_input" value={water} min={1} max={5000} step={0.1} onKeyPress={(e) => !/[0-9]/.test(e.key) && e.preventDefault()} onChange={(e) => { changeRatio("water", e.target.value) }} /><span className="input-group-text" id="guide_unit">ml</span></div>
+                    <input className="form-control" type="number" id="guide_input" value={water} min={1} max={5000} step={0.1} onBlur={(e)=>{changeRatio('water', e.target.value)}} onChange={(e)=>{setWater(e.target.value)}} onFocus={(e)=>{setWater2(e.target.value)}}  /><span className="input-group-text" id="guide_unit">ml</span></div>
                 </div>
               </div>
             </div>
@@ -436,7 +473,7 @@ export default function BrewNew() {
                     <div className="process_card2">
                       <div className="d-inline-flex" style={{ minWidth: '100%' }}>
                         <div style={{ minWidth: '15%' }}><img id="process_pic" src="../assets/img/Process_Dummy_icon.png" /></div>
-                        <p id="process_title">{item.name ? item.name : item.stepname}</p>
+                        <p id="process_title">{item.name ? item.name : item.custom_name}</p>
                         <p className="text-end" style={{ minWidth: '15%' }}>{mmss(item.time)}</p>
                       </div>
                       <div>

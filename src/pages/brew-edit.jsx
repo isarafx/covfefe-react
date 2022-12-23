@@ -138,7 +138,7 @@ export default function BrewEdit() {
     function deleteProcess(id, time, processname, water) {
       setRemainTime(remainTime-time)
       if((processname === "Bloom")||(processname === "Pour Water")){
-        if(remainWater == 0){
+        if(remainWater <= 0){
           setProcessMethod(["Pour Water", "Bloom", ...processMethod])
         }
         setRemainWater(remainWater+parseInt(water))
@@ -225,7 +225,6 @@ export default function BrewEdit() {
               setWater(water2)
             }
         }
-        
     }
     useEffect(() => {
         const fetchData  = async () => { 
