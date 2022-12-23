@@ -48,7 +48,7 @@ export default function BrewFav() {
         try{
             const result = await axios.get("https://q27z6n.deta.dev/favorite", { headers: { 'accept': 'application/json', 'x-token':token } });
             // setResult(result.data['items']);
-            console.log(result)
+            console.log(result.data['items'])
             localStorage.setItem('favorite', JSON.stringify(result.data))
             setResult(result.data['items'])
             setDisplayList(result.data['items'])
@@ -63,31 +63,33 @@ export default function BrewFav() {
     if(online){
         fetchData();
     }else{
-        setResult(localStorage.getItem('favorite'))
-        setDisplayList(localStorage.getItem('favorite'))
+        console.log('test')
+        console.log(JSON.parse(localStorage.getItem('favorite'))['items'])
+        setResult(JSON.parse(localStorage.getItem('favorite'))['items'])
+        setDisplayList(JSON.parse(localStorage.getItem('favorite'))['items'])
     }
     document.title = t("Btext02")
   }, [refresh]);
 
   const [id2, setID2] = useState()
   const [trigger2, setTrigger2] = useState(false)
-  useEffect(() => {
-      const unFav  = async () => { 
-        try{
-          setDisplayList([...displayList].filter((item)=>item.key!=id2))
-            console.log(`https://q27z6n.deta.dev/users/favorite/${id2}`)
-            const result = await axios.delete(`https://q27z6n.deta.dev/users/favorite/${id2}`, { headers: {'x-token':token}})
-            console.log('data here')
-            console.log(result.data)
+  // useEffect(() => {
+  //     const unFav  = async () => { 
+  //       try{
+  //         setDisplayList([...displayList].filter((item)=>item.key!=id2))
+  //           console.log(`https://q27z6n.deta.dev/users/favorite/${id2}`)
+  //           const result = await axios.delete(`https://q27z6n.deta.dev/users/favorite/${id2}`, { headers: {'x-token':token}})
+  //           console.log('data here')
+  //           console.log(result.data)
             
-            // setRefresh(!refresh)
-            // setTrigger(!trigger)
-      } catch(error){
-        console.log(error.response)
-      }
-    };
-      unFav()
-      }, [trigger2]);
+  //           // setRefresh(!refresh)
+  //           // setTrigger(!trigger)
+  //     } catch(error){
+  //       console.log(error.response)
+  //     }
+  //   };
+  //     unFav()
+  //     }, [trigger2]);
 
       function unfavorite(key){
           console.log('unfav')

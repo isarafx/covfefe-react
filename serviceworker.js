@@ -157,7 +157,6 @@ const PRECACHE_URLS = [
 '/public/assets/fonts/fontawesome-webfont.eot',
 '/public/assets/fonts/MaterialIcons-Regular.eot',
 '/public/assets/fonts/fa-regular-400.eot',
-'/src/.DS_Store',
 '/src/index.js',
 '/src/i18n.js',
 '/src/locales/en.json',

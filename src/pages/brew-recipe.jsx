@@ -90,7 +90,8 @@ export default function BrewRecipe() {
       if(online){
           fetchData();
       }else{
-          setResult(localStorage.setItem('brew-recipe'));
+          console.log(localStorage.getItem('brew-recipe'))
+          setResult(JSON.parse(localStorage.getItem('brew-recipe'))['items']);
       }
     }, [refresh]);
 
