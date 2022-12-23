@@ -47,7 +47,7 @@ export default function Register() {
           setTrigger(false)
           // console.log(JSON.stringify(result.data))
           alert('register success')
-          navigate('/')
+          navigate('/login')
         }
     } catch(error){
       // alert(error.response.status)

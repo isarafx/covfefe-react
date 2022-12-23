@@ -25,10 +25,14 @@ export default function BrewGuide() {
     const [cup, setCup] = useState(1)
     const { t, i18n } = useTranslation();
     const [isLogged, setIsLogged] = useState(Boolean(localStorage.getItem('token')) ? localStorage.getItem('token'):null)
+
     const [comment, setComment] = useState('')
-    const user = JSON.parse(atob(localStorage.getItem('token').split('.')[1]))
+    
     let [online, isOnline] = useState(navigator.onLine);
     const [recipe, setRecipe ] = useState(JSON.parse(localStorage.getItem('brew-recipe'))['items'].filter((item)=>{return item.key===id})[0])
+    const [isOwner, setOwner ] = useState(false)
+    const [Public, setPublic] = useState(false)
+    // const [recipe, setRecipe] = useState()
     const setOnline = () => {
       isOnline(true);
     };
@@ -44,7 +48,7 @@ export default function BrewGuide() {
       }
     }, []);
 
-    const [commentList, setCommentList] = useState(recipe.comments)
+    const [commentList, setCommentList] = useState(recipe && recipe.comments != [] ? recipe.comments:null)
     // [
     //   {username:"Admin1", message:"This is so Good1!", created_date:"2022-12-13T08:06:38+00:00"},
     //   {username:"Admin2", message:"This is so Good2!", created_date:"2022-12-13T08:07:38+00:00"},
@@ -54,9 +58,7 @@ export default function BrewGuide() {
     //   {username:"Admin2", message:"This is so Good6!", created_date:"2022-12-13T08:11:38+00:00"},
     // ]
 
-    const totaltime = recipe.process.reduce((accumulator, object) => {
-      return accumulator + object.time;
-    }, 0);
+    const totaltime = (recipe?recipe.process.reduce((accumulator, object) => { return accumulator + object.time; }, 0):null)
     const postComment = async (e) => {
         e.preventDefault()
         try{
@@ -80,7 +82,10 @@ export default function BrewGuide() {
               const result = await axios.get(`https://q27z6n.deta.dev/recipes/${id}`);
               setRecipe(result.data);
               setCommentList(result.data.comments)
+              setPublic(Boolean(result.data.public && Boolean(result.data.owner !== 'admin')))
               console.log(result)
+              let user = JSON.parse(atob(localStorage.getItem('token').split('.')[1]))
+              if (user.username === recipe.owner ){setOwner(true)}
               // localStorage.setItem('brew-recipe', JSON.stringify(result.data))
           }catch(error){
             console.log(error)
@@ -88,15 +93,17 @@ export default function BrewGuide() {
       }
       console.log(recipe)
       console.log(commentList)
+      document.title = t("Btext06")
       fetchData()
     }, [])
   return (
     <div>
       <BackButton />
-  <div className="d-flex div_a" style={{width: '80%', marginLeft: '20%'}}><Link to={`/brew-recipe/${brewer}/edit/${id}`}><i className="fa fa-pencil Add_icon" style={{fontSize: '25px'}} /></Link></div>
+  {isOwner?<div className="d-flex div_a" style={{width: '80%', marginLeft: '20%'}}><Link to={`/brew-recipe/${brewer}/edit/${id}`}><i className="fa fa-pencil Add_icon" style={{fontSize: '25px'}} /></Link></div>
+  :null}
   <div id="main_template">
     <div className="container" id="recipelist_container">
-      <h1 id="guide_head">{recipe.name}</h1>
+      <h1 id="guide_head">{recipe?recipe.name:null}</h1>
       <div className="row row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-2 row-cols-xl-2 row-cols-xxl-2" style={{height: '385px'}}>
         <div className="col" style={{height: '425px'}}>
           <div id="guide_container1">
@@ -110,21 +117,21 @@ export default function BrewGuide() {
                 <div id="guide_card"><img id="guide_icon" src="../../assets/img/guide_ratio_ico.png" />
                   <p id="guide_name">{t("Modaltext31")}</p>
                   <div className="input-group"><span className="d-flex justify-content-end input-group-text" id="guide_unit2">1&nbsp; :</span>
-                  <input className="form-control" type="number" id="guide_input2" value={recipe.ratio} /></div>
+                  <input className="form-control" type="number" id="guide_input2" value={recipe?recipe.ratio:15} /></div>
                 </div>
               </div>
               <div className="col d-flex justify-content-center" style={{paddingLeft: '5px', paddingRight: '5px'}}>
                 <div id="guide_card"><img id="guide_icon" src="../../assets/img/guide_pack_ico.png" />
                   <p id="guide_name">{t("Modaltext29")}</p>
                   <div className="input-group">
-                    <input className="form-control" type="number" id="guide_input" value={recipe.coffee_weight*cup} /><span className="input-group-text" id="guide_unit">g</span></div>
+                    <input className="form-control" type="number" id="guide_input" value={recipe?recipe.coffee_weight*cup:20} /><span className="input-group-text" id="guide_unit">g</span></div>
                 </div>
               </div>
               <div className="col d-flex justify-content-center" style={{paddingLeft: '5px', paddingRight: '5px'}}>
                 <div id="guide_card"><img id="guide_icon" src="../../assets/img/guide_water_ico.png" />
                   <p id="guide_name">{t("Modaltext30")}</p>
                   <div className="input-group">
-                    <input className="form-control" type="number" id="guide_input" value={recipe.water*cup} /><span className="input-group-text" id="guide_unit">ml</span></div>
+                    <input className="form-control" type="number" id="guide_input" value={recipe?recipe.water*cup:300} /><span className="input-group-text" id="guide_unit">ml</span></div>
                 </div>
               </div>
             </div>
@@ -133,7 +140,7 @@ export default function BrewGuide() {
               <div className="col d-flex justify-content-center" style={{paddingLeft: '5px', paddingRight: '5px'}}>
                 <div id="guide_card"><img id="guide_icon" src="../../assets/img/guide_grind_ico.png" />
                   <p id="guide_name">{t("Modaltext32")}</p><select id="guide_option" disabled>
-                    <option value={14} selected>{recipe.grind_size}</option>
+                    <option value={14} selected>{recipe?recipe.grind_size:"Medium"}</option>
                     {/* <option value={13}>Fine</option>
                     <option value>Medium Fine</option>
                     <option value={12} selected>Medium</option>
@@ -146,13 +153,13 @@ export default function BrewGuide() {
                 <div id="guide_card"><img id="guide_icon" src="../../assets/img/guide_heat_ico.png" />
                   <p id="guide_name">{t("Modaltext33")}</p>
                   <div className="input-group d-sm-flex justify-content-center justify-content-xxl-center" style={{width: '100%'}}>
-                    <input className="form-control" type="text" id="guide_readonly" value={recipe.temp} disabled /><span className="input-group-text" id="guide_unit">°C</span></div>
+                    <input className="form-control" type="text" id="guide_readonly" value={recipe?recipe.temp:null} disabled /><span className="input-group-text" id="guide_unit">°C</span></div>
                 </div>
               </div>
               <div className="col d-flex justify-content-center" style={{paddingLeft: '5px', paddingRight: '5px'}}>
                 <div id="guide_card" style={{maxWidth: '150px', minWidth: '95px'}}><img id="guide_icon" src="../../assets/img/guide_bean_ico.png" />
                   <p id="guide_name">{t("Modaltext34")}</p><select id="guide_option" disabled>
-                    <option value={14} selected>{recipe.roast_level}</option>
+                    <option value={14} selected>{recipe?recipe.roast_level:"Medium"}</option>
                     {/* <option value={13}>Medium</option>
                     <option value={12} selected>Dark</option> */}
                   </select>
@@ -174,19 +181,19 @@ export default function BrewGuide() {
             <div className="d-inline-flex" style={{minWidth: '100%'}}>
               <p id="guide_con_title" style={{width: '80%'}}>{t("Modaltext35")}</p>
               <div style={{minWidth: '10%'}}><img src="../../assets/img/guide_timer_ico.png" style={{width: '30px', height: '30px'}} /></div>
-              <p style={{textAlign: 'center', minWidth: '10%', paddingTop: '5px'}}>{mmss(totaltime)}</p>
+              <p style={{textAlign: 'center', minWidth: '10%', paddingTop: '5px'}}>{totaltime?mmss(totaltime):mmss(0)}</p>
             </div>
             <div id="process_container">
 
               {recipe?recipe.process.map((item)=>{
-                return(<BrewGuideProcessCard name={item.custom_name ? item.custom_name:item.name} description={item.description} comment={item.comment} time={item.time}/>)
+                return(<BrewGuideProcessCard name={item.custom_name ? item.custom_name:item.name} description={item.description} comment={item.comment} time={item.time} water={item.water*cup} />)
               }):null}
             </div>
             <div style={{textAlign: 'center'}}><Link to={`/brew-recipe/${brewer}/timer/${id}?cup=${cup}`}><a className="btn btn-primary" role="button" id="process_timer_start" href="">{t("Modaltext36")}</a></Link></div>
           </div>
         </div>
         
-        { user.username === recipe.owner ?<div className="col" style={{height: '415px'}}>
+        { isOwner ?<div className="col" style={{height: '415px'}}>
           <div id="guide_container1" style={{height: '407px'}}>
             <p id="guide_con_title">{t("Modaltext38")}</p><textarea id="comment_guide_box" rows={9} readOnly value={recipe.note}/>
             <p id="guide_con_title">{t("Btext19")}</p>
@@ -199,9 +206,10 @@ export default function BrewGuide() {
         </div>
           <div style={{height: '60px', bottom: 0}} />
         </div>:null}
-        {recipe.public ?<div className="col" style={{width: '100%', overflow: 'auto'}}>
+
+        { Public?<div className="col" style={{width: '100%', overflow: 'auto'}}>
           <div id="guide_container2">
-            <p id="guide_con_title">ความคิดเห็น</p>
+            <p id="guide_con_title">{t("Ctext14")}</p>
             <textarea id="comment_guide_box" rows={9} readOnly value={recipe.description} />
             <div className="d-inline-flex justify-content-end" style={{minWidth: '100%', height: '50px'}}><img className="creator_avatar_icon" src="assets/img/AvatarIcon.jpg" />
               <p className="creator_avatar_name">{recipe.owner}</p>

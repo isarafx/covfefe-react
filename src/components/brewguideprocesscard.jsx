@@ -1,6 +1,6 @@
 import React from 'react'
-import { mmss } from '../method/mmss'
-export default function BrewGuideProcessCard({name="process_dummy", description="desc", comment="comment", time=0}) {
+import { descParse, mmss } from '../method/mmss'
+export default function BrewGuideProcessCard({name="process_dummy", description="desc", comment=" ", time=0, water}) {
   const picture={
     
   }
@@ -12,7 +12,7 @@ export default function BrewGuideProcessCard({name="process_dummy", description=
                   <p className="text-end" style={{minWidth: '15%'}}>{mmss(time)}</p>
                 </div>
                 <div>
-                  <p id="process_des">{description}</p>
+                  <p id="process_des">{descParse(name, water)}</p>
                 </div>
                 <div>
                   <p id="process_comment">{comment}</p>

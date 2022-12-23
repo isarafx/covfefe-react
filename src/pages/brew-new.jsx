@@ -68,8 +68,7 @@ export default function BrewNew() {
   const { t } = useTranslation();
   const [exData, setEXData] = useState();
 
-  function record(){
-
+  const record = async () => { 
     let eq = mainEquipment
     if(mainEquipment === "Moka"){eq = "Moka Pot"}
     if(mainEquipment === "Aeropress"){eq = "AeroPress"}
@@ -316,6 +315,7 @@ export default function BrewNew() {
     }
   };
     fetchData()
+    document.title = t("Btext12")
     }, [trigger]);
 
 
@@ -323,7 +323,7 @@ export default function BrewNew() {
     <div>
       <BackButton />
       <div className="d-flex div_a" style={{ width: '80%', marginLeft: '20%' }}>
-      <button onClick={() => {navigator.clipboard.writeText(exData)}}>copy</button>
+      {/* <button onClick={() => {navigator.clipboard.writeText(exData)}}>copy</button> */}
         <button className="btn" id="brew_save_btn" type="button" onClick={()=>{record()}}>
         <i className="fas fa-save Add_icon" style={{ fontSize: '25px' }} /></button></div>
       <div id="main_template">
@@ -440,7 +440,7 @@ export default function BrewNew() {
                         <p className="text-end" style={{ minWidth: '15%' }}>{mmss(item.time)}</p>
                       </div>
                       <div>
-                        <p id="process_des">{descParse(item.name, item.water, )}</p>
+                        <p id="process_des">{descParse(item.name, item.water )}</p>
                       </div>
                       <div>
                         <p id="process_comment">{item.comment}</p>

@@ -35,9 +35,6 @@ import {
   Navigate
 } from "react-router-dom";
 import Test from './pages/test';
-import ArticleReadTwo from './pages/article-read-2';
-import ArticleReadThree from './pages/article-read-3';
-import ArticleReadFour from './pages/article-read-4';
 import ProfileEdit from './pages/profile-edit';
 
 const AuthContext = createContext(null)
@@ -104,20 +101,8 @@ const router = createBrowserRouter([
     element: <ProtectedRoute><ArticleNew /></ProtectedRoute>,
   },
   {
-    path: "/article/1",
+    path: "/article/:id",
     element: <ArticleRead />,
-  },
-  {
-    path: "/article/2",
-    element: <ArticleReadTwo />,
-  },
-  {
-    path: "/article/3",
-    element: <ArticleReadThree />,
-  },
-  {
-    path: "/article/4",
-    element: <ArticleReadFour />,
   },
   {
     path: "/favorite",
@@ -151,10 +136,6 @@ const router = createBrowserRouter([
     path: "/community",
     element: <ProtectedRoute><CommuMain /></ProtectedRoute>,
   },
-  // {
-  //   path: "/commu-share",
-  //   element: <ProtectedRoute><CommuShare /></ProtectedRoute>
-  // },
   {
     path: "/error",
     element: <Error />,
@@ -191,11 +172,11 @@ const router = createBrowserRouter([
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  // <React.StrictMode>
+   <React.StrictMode>
     <AuthProvider>
       <RouterProvider router={router} />
     </AuthProvider>
-  // </React.StrictMode>
+   </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function
