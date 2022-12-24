@@ -4,7 +4,9 @@ import BackButton from '../components/backbutton'
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
-
+import "../styles/assets/fonts/font-awesome.min.css"
+import "../styles/assets/fonts/fontawesome-all.min.css"
+import "../styles/assets/fonts/fontawesome5-overrides.min.css"
 import "../styles/assets/fonts/ionicons.min.css"
 import "../styles/assets/fonts/material-icons.min.css"
 import "../styles/assets/js/bs-init.js"
@@ -314,7 +316,7 @@ export default function BrewEdit() {
                   
                   {equipment.map((item)=>{
                       return(
-                      <div className="d-flex align-items-center guide_toolbox2">
+                      <div className="d-flex align-items-center guide_toolbox2" key={item.id}>
                       <div className="row g-0 row-cols-3 d-flex guide_toolr_edit">
                         <div className="col d-flex align-items-center guide_toolc1_edit">
                           <div className="guide_tool_border"><img id="guide_tool_icon" src={`${PicEQ[item.name]}`} /></div>

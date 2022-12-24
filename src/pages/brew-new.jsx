@@ -1,6 +1,11 @@
 import React from 'react'
 import { useState } from 'react'
-import { useEffect } from 'react'
+import BackButton from '../components/backbutton'
+
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min";
+
+import "../styles/assets/js/bs-init.js"
 import "../styles/Multiple-Input-Select-Pills.css"
 import "../styles/Round_switch.css"
 import "../styles/styles.css"
@@ -11,318 +16,271 @@ import "../styles/Brewing_Guide3.css"
 import "../styles/Brewing_Guide4.css"
 import "../styles/Range_Slider.css"
 import "../styles/Features-Clean.css"
-import BackButton from '../components/backbutton'
-import NewBrewProcessCard from '../components/newbrewprocesscard'
-import NewBrewEQCard from '../components/newbreweqcard'
-import { mmss } from '../method/mmss'
 import { useTranslation } from 'react-i18next'
-import {Routes, Route, useNavigate} from 'react-router-dom';
-import axios from 'axios'
-import { descParse } from '../method/mmss'
+import { useParams } from 'react-router-dom'
+import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
+import axios from 'axios'
+import { AdminCheck, mmss, OwnerCheck } from '../method/mmss'
+import { descParse } from '../method/mmss'
+import "../styles/assets/fonts/font-awesome.min.css"
+import "../styles/assets/fonts/fontawesome-all.min.css"
+import "../styles/assets/fonts/fontawesome5-overrides.min.css"
+import "../styles/assets/fonts/ionicons.min.css"
+import "../styles/assets/fonts/material-icons.min.css"
+
+
 export default function BrewNew() {
 
-  
-
-  const getInitialState = () => {
-    const value = "Pour Water";
-    return value;
-  };
-  
-
-  const [mainEquipment, setMainEquipment] = useState("Hario")
-
-  const [name, setName] = useState("")
-  const [note, setNote] = useState("")
-  const [score, setScore] = useState(1)
-  const [coffee, setCoffee] = useState(16)
-  const [water, setWater] = useState(160)
-  const [ratio, setRatio] = useState(10)
-  const [refine, setRefine] = useState('Medium')
-  const [heat, setHeat] = useState(80)
-  const [roast, setRoast] = useState('Medium')
-
-  //slider
-  const [coffeeSlider, setCoffeeSlider] = useState(1)
-  const [waterSlider, setWaterSlider] = useState(1)
-  const [remainWater, setRemainWater] = useState(water)
-  const [remainCoffee, setRemainCoffee] = useState(coffee)
-
-
-  const [equipmentList, setEquipmentList] = useState([])
-  const [modalEquipment, setModalEquipment] = useState('Coffee')
-  const [modalDetail, setModalDetail] = useState('')
-
-  const [processMethod, setProcessMethod] = useState(["Pour Water", "Add Coffee", "Stir", "Bloom", "Wait", "Swirl", "Rinse Filter", "Custom"])
-  // const [processMethod, setProcessMethod] = useState([])
-  // const [processModal, setProcessModal] = useState([1,1,1,1,1])
-  
-  const [processModal, setProcessModal] = useState([0, 1, 0, 1, 1])
-  const [processList, setProcessList] = useState([])
-  const [processStep, setProcessStep] = useState(getInitialState())
-  const [processName, setProcessName] = useState("")
-  const [processDuration, setProcessDuration] = useState("")
-  const [processNote, setProcessNote] = useState("")
-
-  const [remainTime, setRemainTime] = useState(0)
-
-  const { t } = useTranslation();
-  const [exData, setEXData] = useState();
-
-  const record = async () => { 
-    let eq = mainEquipment
-    if(mainEquipment === "Moka"){eq = "Moka Pot"}
-    if(mainEquipment === "Aeropress"){eq = "AeroPress"}
-    if(mainEquipment === "Frenchpress"){eq = "French Press"}
-    
-    let tempeq = (equipmentList.map((item)=>({name:PicEQ[item.pic.slice(0,-4)], description:item.detail})))
-    let tempProcess = ([...processList].map((item)=> {
-      let data2 = {name:item.name, time:item.time, comment:item.comment};
-      if(item.custom_name){
-        data2.custom_name = item.custom_name
-      }if(item.water){
-        data2.water = item.water
+    const methodList = {
+      "hario":["Pour Water", "Add Coffee", "Stir", "Bloom", "Wait", "Swirl", "Rinse Filter", "Custom"],
+      "mokapot":["Pour Water", "Add Coffee", "Brew", "Custom"],
+      "frenchpress":["Pour Water", "Add Coffee", "Stir", "Bloom", "Wait", "Swirl", "Press Plunger", "Place Plunger", "Remove Plunger", "Custom"],
+      "aeropress":["Pour Water", "Add Coffee", "Stir", "Bloom", "Wait", "Swirl", "Rinse Filter", "Press Plunger", "Place Plunger", "Remove Plunger", "Invert", "Put the Lid on", "Custom"],
+      "chemex":["Pour Water", "Add Coffee", "Stir", "Bloom", "Wait", "Swirl", "Rinse Filter", "Custom"]
+    };
+    const nameList = {
+      "Hario":"Hario",
+      "Moka":"Moka Pot",
+      "Frenchpress":"French Press",
+      "Aeropress":"Aeropress",
+      "Chemex":"Chemex"
+    };
+    const PicEQ = {   //assets/img/${PicEQ[item.name]}.png
+      "Coffee":"/assets/img/Tools_1.png",
+      "Hario V60":"/assets/img/Tools_2.png",
+      "Chemex":"/assets/img/Tools_3.png",
+      "Moka Pot":"/assets/img/Tools_4.png",
+      "AeroPress":"/assets/img/Tools_5.png",
+      "French Press":"/assets/img/Tools_6.png",
+      "Kettle":"/assets/img/Tools_7.png",
+      "Scale":"/assets/img/Tools_8.png",
+      "Grinder":"/assets/img/Tools_9.png",
+      "Filter":"/assets/img/Tools_10.png",
+      "Other":"/assets/img/Tools_11.png",
       }
-      return data2
-      }))
-    let data ={
-      brewer:eq,
-      name:name,
-      coffee_weight:coffee,
-      water:water,
-      ratio:ratio,
-      equipment: tempeq,
-      note: note,
-      public: false,
-      process:tempProcess,
-      grind_size:refine,
-      temp:heat,
-      roast_level:roast,
-      rate:score
-    }
-    setRecordData(data)
-    // setEXData(data)
-    setTrigger(!trigger)
-    // setEXData(data)
-  }
-  
+    const [mainEquipment, setMainEquipment] = useState("Hario")
+    const [name, setName] = useState("")
+    const [note, setNote] = useState("")
+    const [score, setScore] = useState(8)
+    const [coffee, setCoffee] = useState(20)
+    const [water, setWater] = useState(300)
+    const [ratio, setRatio] = useState(15)
+    const [coffee2, setCoffee2] = useState(coffee)
+    const [water2, setWater2] = useState(water)
+    const [ratio2, setRatio2] = useState(ratio)
+    const [refine, setRefine] = useState("Coarse")
+    const [heat, setHeat] = useState(90)
+    const [roast, setRoast] = useState("Dark")
+    //data.id = `${processModalName}-${process.length+1}`
+    const [process, setProcess] = useState([])     //{name, custom_name, water, time, comment}
+    const [eqmodalname, setEqmodalname] = useState("Coffee")
+    const [eqmodaldetail, setEqmodaldetail] = useState("")
+    const [equipment, setEquipment] = useState([]) //{name, description}
+    const [processMethod, setProcessMethod] = useState([methodList[mainEquipment]])
 
-
-  let [online, isOnline] = useState(navigator.onLine);
-  const setOnline = () => {
-    console.log('We are online!');
-    isOnline(true);
-  };
-  const setOffline = () => {
-    console.log('We are offline!');
-    isOnline(false);
-  };
-  // Register the event listeners
-  useEffect(() => {
-    window.addEventListener('offline', setOffline);
-    window.addEventListener('online', setOnline);
-
-    // cleanup if we unmount
-    return () => {
-      window.removeEventListener('offline', setOffline);
-      window.removeEventListener('online', setOnline);
-    }
-  }, []);
-
-
-
-
-  const handleProcess = (item) => {                         //set show or hide input when add process
-    setProcessModal([0,0,0,0,0])
-    if (item === "Pour Water" || item === "Bloom") {
-      setProcessModal([0, 1, 0, 1, 1])
-    } else if (item === "Add Coffee") {
-      setProcessModal([0, 0, 1, 1, 1])
-    } else if (item === "Custom") {
-      setProcessModal([1, 0, 0, 1, 1])
-    } else {
-      setProcessModal([0, 0, 0, 1, 1])
-    }
-    setProcessStep(item)
+    const [processModal, setProcessModal] = useState([0, 1, 1, 1])
+    const [processStep, setProcessStep] = useState("Pour Water")
+    const [processModalName, setprocessModalName] = useState('Pour Water')
+    const [processModalCustomName, setprocessModalCustomName] = useState()
+    const [processModalWater, setProcessModalWater] = useState(1)
+    const [processModaltime, setProcessModalTime] = useState()
+    const [processModalComment, setProcessModalComment] = useState()
+    const [remainWater, setRemainWater] = useState(300)
+    const [remainTime, setRemainTime] = useState(0)
+    const getInitialState = () => {
+      const value = "";
+      return value;
+    };
+    const { t, i18 } = useTranslation()
     
-    clearProcessModal()
-  }
-
-  const submitProcess = () => {
-    // alert('here')
-      let data = {}
-      if(!Boolean(processDuration) || isNaN(processDuration) || processDuration==0){
-        // alert('invalid input type')
-        return ; //break function
+    function clearProcessModal() {
+      setprocessModalCustomName("")
+      setProcessModalTime("")
+      setProcessModalComment("")
     }
-      if((processStep === "Bloom")||(processStep === "Pour Water")){
-        data.water = waterSlider
-        data.detail = `Pour ${waterSlider} ml water`
-        setRemainWater(remainWater-parseInt(waterSlider))
-      }else if((processStep === "Custom")){
-        data.custom_name = processName
+    const handleProcess = (item) => {                         //set show or hide input when add process
+      // alert(JSON.stringify(item))
+      setProcessModal([0,0,0,0])
+      if (item === "Pour Water" || item === "Bloom") {
+        setProcessModal([0, 1, 1, 1])
+      }else if (item === "Custom") {
+        setProcessModal([1, 0, 1, 1])
+      } else {
+        setProcessModal([0, 0, 1, 1])
       }
-
-    
-      data.id = `${processStep}-${processList.length+1}`
-      data.name = processStep
-      data.time = processDuration
-      data.comment = processNote
-      setProcessList([...processList, data])
-      setRemainTime(remainTime+parseInt(data.time))
-      
+      setprocessModalName(item)
       clearProcessModal()
-  }
-
-  const equipmentPic = {
-    "Coffee": "Tools_1",
-    "Hario V60": "Tools_2",
-    "Chemex": "Tools_3",
-    "Moka Pot": "Tools_4",
-    "Aeropress": "Tools_5",
-    "French Press": "Tools_6",
-    "Kettle": "Tools_7",
-    "Scale": "Tools_8",
-    "Grinder": "Tools_9",
-    "Filter": "Tools_10",
-    "Other": "Tools_11",
-  }
-  const PicEQ = {
-    "Tools_1":"Coffee",
-    "Tools_2":"Hario V60",
-    "Tools_3":"Chemex",
-    "Tools_4":"Moka Pot",
-    "Tools_5":"AeroPress",
-    "Tools_6":"French Press",
-    "Tools_7":"Kettle",
-    "Tools_8":"Scale",
-    "Tools_9":"Grinder",
-    "Tools_10":"Filter",
-    "Tools_11":"Other",
-  }
-
-  function clearProcessModal() {
-    setProcessName("")
-    setProcessDuration("")
-    setProcessNote("")
-    setWaterSlider(1)
-  }
-
-  function convertNum(num){
-    if(Number.isInteger(num)){
-      return parseInt(num)
-    }else{
-      return num.toFixed(1)
     }
-  }
-
-
-  const [water2, setWater2] = useState()
-  const [coffee2, setCoffee2] = useState()
-  const [ratio2, setRatio2] = useState()
-
-  function changeRatio(type, value) {
-    if(value>0 && !(Number.isNaN(value))){
-        let multiplier = 1
-        let total_process_water
-        if (type === "ratio") {
-          setWater(value * coffee)
-          multiplier =(value * coffee)/water2
-          total_process_water = value * coffee
-        } else if (type === "coffee") {
-          setWater(value * ratio)
-          multiplier = (value * ratio)/water2
-          total_process_water = value * coffee
-        } else if (type === "water") {
-          setCoffee(value / ratio)
-          multiplier = water2/water
-          total_process_water = value * coffee
+    function submitEQ(e){
+      e.preventDefault()
+      if(!Boolean(eqmodaldetail)){
+          setEquipment([...equipment, {id:`${eqmodalname}-${eqmodaldetail}` ,name:eqmodalname, description:eqmodalname}])
+      }else{
+          setEquipment([...equipment, {id:`${eqmodalname}-${eqmodaldetail}` ,name:eqmodalname, description:eqmodaldetail}])
+      }
+      setEqmodalname('Hario V60')
+      setEqmodaldetail('')
+    }
+    const submitProcess = () => {
+        let data = {}
+        if(!Boolean(processModaltime) || isNaN(processModaltime)){
+            return ; //break function
         }
-        setProcessList([...processList].map((item, index)=> {
+        if((processModalName === "Bloom")||(processModalName === "Pour Water")){
+          data.water = processModalWater
+          setRemainWater(remainWater-parseInt(processModalWater))
+        }else if((processModalName === "Custom")){
+            data.custom_name = processModalCustomName
+        }
+        
+        
+        data.id = `${processModalName}-${process.length+1}`
+        data.name = processModalName
+        data.time = parseInt(processModaltime)
+        data.comment = processModalComment
+            setProcess([...process, data])
+            setRemainTime(remainTime+parseInt(data.time))
+        setProcessStep("Custom")
+        handleProcess("Custom")
+    }
+    function deleteEquipment(id) {
+      setEquipment(equipment.filter((item) => {
+        return item.id != id
+      }))
+    }
+    function deleteProcess(id, time, processname, water) {
+      setRemainTime(remainTime-time)
+      if((processname === "Bloom")||(processname === "Pour Water")){
+        if(remainWater <= 0){
+          setProcessMethod(["Pour Water", "Bloom", ...processMethod])
+        }
+        setRemainWater(remainWater+parseInt(water))
+      }
+      setProcess(process.filter((item) => {
+        return item.id != id
+      }))
+    }
+    const navigate = useNavigate();
+    const [trigger, setTrigger] = useState(false)
+    // const header = {
+    //     headers: {
+    //         'x-token': token,
+    //         'Content-Type': 'application/json'
+    //     }
+    // }
+
+
+    function submitEquipment(e) {
+        e.preventDefault()
+        console.log(e)
+        // setEquipmentList([...equipmentList, { id: `${equipmentPic[modalEquipment]}${modalDetail}`, "pic": `${equipmentPic[modalEquipment]}.png`, "detail": temp }])
+        // setModalDetail('')
+      }
+
+    const Record  = async () => { 
+        let tempeq = (equipment.map((item)=>({name:item.name, description:item.description})))
+        let tempProcess = ([...process].map((item)=> {
+          let newprocess = {name:item.name, time:item.time, comment:item.comment};
+          if(item.custom_name){
+            newprocess.custom_name = item.custom_name
+          }if(item.water){
+            newprocess.water = item.water
+          }else if(item.water == 0){
+            alert('Recipe contain invalid water amount')
+          }
+          return newprocess
+          }))
+        let data ={
+          brewer:nameList[mainEquipment],
+          name:name,
+          coffee_weight:coffee,
+          water:water,
+          ratio:ratio,
+          equipment: tempeq,
+          note: note,
+          process:tempProcess,
+          grind_size:refine,
+          temp:heat,
+          roast_level:roast,
+          rate:score
+        }
+        try{
+          let token = localStorage.getItem('token')
+          const result = await axios.post(`https://q27z6n.deta.dev/recipes`, data, { headers: { 'x-token': token } });
+          console.log(result)
+          navigate(`/`)
+        }catch(error){
+          console.log(error.response)
+        }
+        // navigator.clipboard.writeText(JSON.stringify(data))
+    }
+
+    function changeRatio(type, value) {
+        if(value>0 && !(Number.isNaN(value))){
+            let multiplier = 1
+            let total_process_water
+            if (type === "ratio") {
+              setWater(value * coffee)
+              multiplier =(value * coffee)/water2
+              total_process_water = value * coffee
+            } else if (type === "coffee") {
+              setWater(value * ratio)
+              multiplier = (value * ratio)/water2
+              total_process_water = value * ratio
+            } else if (type === "water") {
+              setCoffee(value / ratio)
+              multiplier = water/water2
+              total_process_water = value
+            }
+            
+            setProcess([...process].map((item, index)=> {
               if(item.water){
                 total_process_water = total_process_water - parseInt(item.water*multiplier)
                 return {...item, water:item.water*multiplier}
               }
               return item
             }))
-        setRemainWater(total_process_water)
-    }else{
-        if (type === "ratio") {
-          setRatio(ratio2)
-        } else if (type === "coffee") {
-          setCoffee(coffee2)
-        } else if (type === "water") {
-          setWater(water2)
+            setRemainWater(total_process_water)
+
+        }else{
+            if (type === "ratio") {
+              setRatio(ratio2)
+            } else if (type === "coffee") {
+              setCoffee(coffee2)
+            } else if (type === "water") {
+              setWater(water2)
+            }
         }
     }
-}
-  function submitEquipment(type, comment) {
-    //update list
-    let temp = modalDetail
-    if (modalDetail===""){
-      temp = modalEquipment
-    }
-    setEquipmentList([...equipmentList, { id: `${equipmentPic[modalEquipment]}${modalDetail}`, "pic": `${equipmentPic[modalEquipment]}.png`, "detail": temp }])
-    setModalDetail('')
-  }
+    let [online, isOnline] = useState(navigator.onLine);
+    const setOnline = () => { console.log('We are online!'); isOnline(true); };
+    const setOffline = () => { console.log('We are offline!'); isOnline(false); };
+    // Register the event listeners
+    useEffect(() => {
+      window.addEventListener('offline', setOffline);
+      window.addEventListener('online', setOnline);
 
-  function deleteEquipment(id) {
-    setEquipmentList(equipmentList.filter((item) => {
-      return item.id != id
-    }))
-  }
-
-  function deleteProcess(process) {
-    setRemainTime(remainTime-parseInt(process.time))
-    if((process.name == "Pour Water") || (process.name == "Bloom")){
-      
-      if(remainWater <= 0){
-        setProcessMethod(["Pour Water", "Bloom", ...processMethod])
-        setProcessStep("Wait")
-        handleProcess("Wait")
-        setProcessModal(processMethod[0],false,processModal[2],processModal[3],processModal[4])
+      // cleanup if we unmount
+      return () => {
+        window.removeEventListener('offline', setOffline);
+        window.removeEventListener('online', setOnline);
       }
-      setRemainWater(remainWater+parseInt(process.water))
-    }
-    setProcessList(processList.filter((item) => {
-      return item.id != process.id
-    }))
-  }
-  
-  const [trigger, setTrigger] = useState(false)
-  const [recordData, setRecordData] = useState(false)
-  let token = localStorage.getItem('token')
-  const header = {
-    headers: {
-        'accept': 'application/json',
-        'x-token': token,
-        'Content-Type': 'application/json'
-    }
-}
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const fetchData  = async () => { 
-      try{
-        if(trigger){
-          const result = await axios.post('https://q27z6n.deta.dev/recipes', recordData, header)
-          setTrigger(false)
-          navigate('/')
-        }
-    } catch(error){
-      console.log(error.response)
-      console.log(exData)
-    }
-  };
-    fetchData()
-    document.title = t("Btext12")
-    }, [trigger]);
-
+    }, []);
     useEffect(()=>{
       if(remainWater<=0){
           setProcessMethod(processMethod.filter(item=>(item!="Pour Water")&&(item!="Bloom")))
+          setProcessModal([processModal[0],0,processModal[2],processModal[3]])
+          setProcessStep("Wait")
+          handleProcess("Wait")
       }
     }, [remainWater])
+  
+    useEffect(() => {
+            document.title = t("Btext08")
+      }, []);
+
     useEffect(()=>{
       if (mainEquipment === "Hario") {
       setProcessMethod(["Pour Water", "Add Coffee", "Stir", "Bloom", "Wait", "Swirl", "Rinse Filter", "Custom"])
@@ -335,28 +293,26 @@ export default function BrewNew() {
     } else if (mainEquipment === "Chemex") {
       setProcessMethod(["Pour Water", "Add Coffee", "Stir", "Bloom", "Wait", "Swirl", "Rinse Filter", "Custom"])
     }
-    setProcessList([])
+    setProcess([])
     }, [mainEquipment])
+    useEffect(()=>{
+        console.log(mainEquipment)
+    }, [remainWater])
 
   return (
     <div>
       <div className="div_back"><Link to="/" ><i className="icon ion-android-arrow-back" id="Back_icon" /></Link></div>
       <div className="d-flex div_a" style={{ width: '80%', marginLeft: '20%' }}>
-      {/* <button onClick={() => {navigator.clipboard.writeText(exData)}}>copy</button> */}
-        <button className="btn" id="brew_save_btn" type="button" onClick={()=>{record()}}>
-        <i className="fas fa-save Add_icon" style={{ fontSize: '25px' }} /></button></div>
+        <button className="btn" id="brew_save_btn" type="button" onClick={()=>{Record()}} />
+      </div>
       <div id="main_template">
         <div className="container profile_container">
           <div id="guide_container3" style={{ marginBottom: '10px' }}>
-
-            <p>{JSON.stringify(exData)}</p>
-            {/* <p>{"test"}</p> */}
-
             <p className="newbrew_title">1.{t("Btext13")}</p>
             <div className="text-center d-flex justify-content-center align-items-center">
               <div className="newbrew_preview_border">
                 <img id="brew_preview" className="newbrew_preview" src={`../assets/img/${mainEquipment}_ICO.png`} /></div>
-              <select className="newbrew_selector" onChange={(e) => { setMainEquipment(e.target.value) }}>&gt;
+              <select className="newbrew_selector" onChange={(e) => { console.log(e.target.value);setMainEquipment(e.target.value) }}>&gt;
                 <option value="Hario" selected>Hario V60</option>
                 <option value="Chemex">Chemex</option>
                 <option value="Moka">Moka Pot</option>
@@ -368,16 +324,16 @@ export default function BrewNew() {
             <div className="d-inline-flex" id="guide_tool_bar">
               <div className="d-flex justify-content-center tool_add_box">
                 <button className="btn btn-primary d-flex justify-content-center align-items-center" id="tool_add_btn" type="button" style={{ background: '#bc000000' }} data-bs-target="#Modal_tool" data-bs-toggle="modal"><i className="fas fa-plus tool_add_icon" /></button></div>
-              {equipmentList.map((item) => {
+              {equipment.map((item) => {
                 return (
                   // <NewBrewEQCard key={item.id} pic={item.pic} detail={item.detail} func={()=>{deleteEquipment(item.id)}}/>
                   <div className="d-flex align-items-center guide_toolbox2" key={item.id}>
                     <div className="row g-0 row-cols-3 d-flex guide_toolr_edit">
                       <div className="col d-flex align-items-center guide_toolc1_edit">
-                        <div className="guide_tool_border"><img id="guide_tool_icon" src={`../../assets/img/${item.pic}`} /></div>
+                        <div className="guide_tool_border"><img id="guide_tool_icon" src={`${PicEQ[item.name]}`} /></div>
                       </div>
                       <div className="col guide_toolc2_edit">
-                        <p className="fw-normal" id="gtext">{item.detail}</p>
+                        <p className="fw-normal" id="gtext">{item.description}</p>
                       </div>
                       <div className="col d-flex justify-content-center align-items-center guide_toolc3_edit">
                         <button onClick={() => { deleteEquipment(item.id) }} className="btn btn-primary" id="guide_tool_delete" type="button"><i className="fa fa-minus-square-o" /></button></div>
@@ -449,9 +405,9 @@ export default function BrewNew() {
               <p style={{ textAlign: 'center', minWidth: '10%', paddingTop: '5px' }}>{mmss(remainTime)}</p>
             </div>
             <div id="process_container">
-              {processList.map((item, index) => {
+              {process.map((item) => {
                 return (
-                  <div className="d-inline-flex" id="Process_edit_card" style={{ width: '100%' }} key={item.id}>
+                  <div className="d-inline-flex" id="Process_edit_card" style={{ width: '100%' }} >
                     <div className="process_card2">
                       <div className="d-inline-flex" style={{ minWidth: '100%' }}>
                         <div style={{ minWidth: '15%' }}><img id="process_pic" src="../assets/img/Process_Dummy_icon.png" /></div>
@@ -466,7 +422,7 @@ export default function BrewNew() {
                       </div>
                     </div>
                     <div className="d-flex justify-content-center align-items-center process_delete_box">
-                      <button onClick={() => { deleteProcess(item) }} className="btn btn-primary" id="process_timer_delete" type="button"><i className="fa fa-minus-square-o" style={{ fontSize: '20px' }} /></button></div>
+                      <button onClick={() => { deleteProcess(item.id, item.time, item.name, item.water) }} className="btn btn-primary" id="process_timer_delete" type="button"><i className="fa fa-minus-square-o" style={{ fontSize: '20px' }} /></button></div>
                   </div>
                 )
               })}
@@ -503,8 +459,8 @@ export default function BrewNew() {
                             <p id="Etitle">{t("Modaltext01")}</p>
                           </div>
                           <div className="d-inline-flex" style={{ width: '100%' }}>
-                            <img id="t_preview" className="tools_image" src={`../assets/img/${equipmentPic[modalEquipment]}.png`} />
-                            <select className="form-select tools_switch" onChange={(e) => { setModalEquipment(e.target.value) }}>
+                            <img id="t_preview" className="tools_image" src={`${PicEQ[eqmodalname]}`} />
+                            <select className="form-select tools_switch" onChange={(e) => { setEqmodalname(e.target.value) }} >
                               <option value="Coffee" selected>{t("Modaltext02")}</option>
                               <option value="Hario V60">Hario V60</option>
                               <option value="Chemex">Chemex</option>
@@ -526,13 +482,13 @@ export default function BrewNew() {
                           <div className="d-inline-flex" style={{ width: '100%', marginTop: '5px' }}><img className="ae_legend" src="../assets/img/legend_name.png" />
                             <p id="Etitle">{t("Modaltext08")}<br /></p>
                           </div>
-                          <input className="form-control ae_input" type="text" required placeholder="eg. Moka pot 6-Cup, Timemore grinder" value={modalDetail} onChange={(e) => { setModalDetail(e.target.value) }} />
+                          <input className="form-control ae_input" type="text" required placeholder="eg. Moka pot 6-Cup, Timemore grinder" value={eqmodaldetail} onChange={(e)=>{setEqmodaldetail(e.target.value)}} />
                         </div>
                       </div>
                     </div>
                   </div>
                   <div className="modal-footer d-flex justify-content-center modal_footer">
-                    <button onClick={() => { submitEquipment(modalEquipment, modalDetail) }} className="btn btn-primary modal_summit" data-bs-dismiss="modal" id="Modal_summit" type="submit">{t("Confirm99")}</button></div>
+                    <button onClick={submitEQ} className="btn btn-primary modal_summit" data-bs-dismiss="modal" id="Modal_summit" type="submit">{t("Confirm99")}</button></div>
                 </form>
               </div>
             </div>
@@ -559,11 +515,11 @@ export default function BrewNew() {
                       <div className="tools_card">
                         <div className="d-inline-flex" style={{ width: '100%', marginTop: '5px' }}><img className="ae_legend" src="../assets/img/legend_name.png" />
                           <p id="Etitle">{t("Modaltext10")}</p>
-                        </div><input className="form-control ae_input" type="text" placeholder="step name" value={processName} onChange={(e) => { setProcessName(e.target.value) }} />
+                        </div><input className="form-control ae_input" type="text" placeholder="step name" value={processModalCustomName} onChange={(e) => { setprocessModalCustomName(e.target.value) }} />
                       </div>
                     </div>
                   </div>}
-                  {processModal[1] > 0 && <div className="row" style={{ marginBottom: '10px' }}>
+                  {processModal[1] ? <div className="row" style={{ marginBottom: '10px' }}>
                     <div className="col">
                       <div className="tools_card">
                         <div className="d-inline-flex" style={{ width: '100%', marginTop: '5px' }}><img className="ae_legend" src="../assets/img/legend_water.png" />
@@ -571,9 +527,9 @@ export default function BrewNew() {
                         </div>
                         <div className="row" style={{ minWidth: '100%' }}>
                           <div className="col" style={{ minWidth: '80%' }}>
-                            <input className="form-range form-control" type="range" id="Water_Slider" min={1} max={remainWater} step={1} value={waterSlider} onChange={(e)=>{setWaterSlider(e.target.value)}} /></div>
+                            <input className="form-range form-control" type="range" id="Water_Slider" min={1} max={remainWater} step={1} value={processModalWater} onChange={(e)=>{setProcessModalWater(e.target.value)}} /></div>
                           <div className="col" style={{ textAlign: 'center', minWidth: '10%' }}>
-                            <p>{waterSlider}</p>
+                            <p>{processModalWater}</p>
                           </div>
                           <div className="col" style={{ textAlign: 'center', minWidth: '10%' }}>
                             <p>ml</p>
@@ -581,27 +537,27 @@ export default function BrewNew() {
                         </div>
                       </div>
                     </div>
-                  </div>}
-                  {processModal[3] > 0 && <div className="row" style={{ marginBottom: '10px' }}>
+                  </div>:null}
+                  {processModal[2] ? <div className="row" style={{ marginBottom: '10px' }}>
                     <div className="col">
                       <div className="tools_card">
                         <div className="d-inline-flex" style={{ width: '100%', marginTop: '5px' }}><img className="ae_legend" src="../assets/img/legend_time.png" />
                           <p id="Etitle">{t("Modaltext13")}&nbsp;</p>
                         </div>
-                        <input className="form-control ae_input" type="text" placeholder="seconds" value={processDuration} onChange={(e) => { setProcessDuration(e.target.value) }} />
+                        <input className="form-control ae_input" type="text" placeholder="seconds" value={processModaltime} onChange={(e) => { setProcessModalTime(e.target.value) }} />
                       </div>
                     </div>
-                  </div>}
-                  {processModal[4] > 0 && <div className="row" style={{ marginBottom: '10px' }}>
+                  </div>:null}
+                  {processModal[3] ? <div className="row" style={{ marginBottom: '10px' }}>
                     <div className="col">
                       <div className="tools_card">
                         <div className="d-inline-flex" style={{ width: '100%', marginTop: '5px' }}><img className="ae_legend" src="../assets/img/legend_note.png" />
                           <p id="Etitle">{t("Btext18")}</p>
                         </div>
-                        <input className="form-control" type="text" style={{ borderStyle: 'solid', borderColor: 'rgb(253,200,137)', borderRadius: '15px' }} placeholder={t("Modaltext28")} value={processNote} onChange={(e) => { setProcessNote(e.target.value) }} />
+                        <input className="form-control" type="text" style={{ borderStyle: 'solid', borderColor: 'rgb(253,200,137)', borderRadius: '15px' }} placeholder={t("Modaltext28")} value={processModalComment} onChange={(e) => { setProcessModalComment(e.target.value) }} />
                       </div>
                     </div>
-                  </div>}
+                  </div>:null}
                 </div>
                 <div className="modal-footer d-flex justify-content-center modal_footer">
                   <button onClick={() => { submitProcess() }} className="btn btn-primary " id="Modal_summit" type="submit" data-bs-dismiss="modal">{t("Confirm99")}</button></div>
@@ -615,6 +571,7 @@ export default function BrewNew() {
       </div>
       <div className="d-flex" id="Footer" />
     </div>
+    
 
   )
 }
