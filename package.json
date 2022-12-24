@@ -15,7 +15,6 @@
     "react-html-parser": "^2.0.2",
     "react-i18next": "^12.1.1",
     "react-router-hash-link": "^2.4.3",
-    "react-scripts": "5.0.1",
     "suneditor": "^2.44.3",
     "suneditor-react": "^3.4.1",
     "web-vitals": "^2.1.4",
@@ -65,6 +64,7 @@
   "devDependencies": {
     "copy-webpack-plugin": "^11.0.0",
     "react-router-dom": "^6.4.5",
-    "workbox-webpack-plugin": "^6.5.4"
+    "workbox-webpack-plugin": "^6.5.4",
+    "react-scripts": "^5.0.1"
   }
 }
