@@ -72,36 +72,20 @@ export default function BrewFav() {
     document.title = t("Btext02")
   }, [refresh]);
 
-  const [id2, setID2] = useState()
-  const [trigger2, setTrigger2] = useState(false)
-  // useEffect(() => {
-  //     const unFav  = async () => { 
-  //       try{
-  //         setDisplayList([...displayList].filter((item)=>item.key!=id2))
-  //           console.log(`https://q27z6n.deta.dev/users/favorite/${id2}`)
-  //           const result = await axios.delete(`https://q27z6n.deta.dev/users/favorite/${id2}`, { headers: {'x-token':token}})
-  //           console.log('data here')
-  //           console.log(result.data)
-            
-  //           // setRefresh(!refresh)
-  //           // setTrigger(!trigger)
-  //     } catch(error){
-  //       console.log(error.response)
-  //     }
-  //   };
-  //     unFav()
-  //     }, [trigger2]);
-
-      function unfavorite(key){
-          console.log('unfav')
-          console.log(key)
-          setID2(key)
-          setTrigger2(!trigger2)
-          setResult(result.filter((item) => {
-            return item.key != key
-          }))
-          // setRefresh(!refresh)
+      const unfavorite  = async (key) => { 
+        try{
+            setDisplayList([...displayList].filter((item)=>item.key!=key))
+            // console.log(`https://q27z6n.deta.dev/users/favorite/${id2}`)
+            const result = await axios.delete(`https://q27z6n.deta.dev/users/favorite/${key}`, { headers: {'x-token':token}})
+            console.log('data here')
+            console.log(result.data)
+            setRefresh(!refresh)
+            // setTrigger(!trigger)
+      } catch(error){
+        console.log(error.response)
       }
+    };
+
       const [searchText, setSearchText] = useState("")
       const [displayList, setDisplayList] = useState(result);
       useEffect(()=>{
