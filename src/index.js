@@ -4,6 +4,12 @@ import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 // page
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
+import "./styles/assets/fonts/font-awesome.min.css"
+import "./styles/assets/fonts/fontawesome-all.min.css"
+import "./styles/assets/fonts/fontawesome5-overrides.min.css"
+import "./styles/assets/fonts/ionicons.min.css"
+import "./styles/assets/fonts/material-icons.min.css"
+import "./styles/assets/js/bs-init.js"
 import ArticleMain from './pages/article';
 import ArticleRead from './pages/article-read-1';
 import BrewFav from './pages/brew-fav';
