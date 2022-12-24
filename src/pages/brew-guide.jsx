@@ -32,21 +32,11 @@ export default function BrewGuide() {
   const [recipe, setRecipe] = useState(JSON.parse(localStorage.getItem('brew-recipe'))['items'].filter((item) => { return item.key === id })[0])
   const [isOwner, setOwner] = useState(false)
   const [Public, setPublic] = useState(false)
-  // const [recipe, setRecipe] = useState()
-  const setOnline = () => {
-    isOnline(true);
-  };
-  const setOffline = () => {
-    isOnline(false);
-  };
-  useEffect(() => {
-    window.addEventListener('offline', setOffline);
-    window.addEventListener('online', setOnline);
-    return () => {
-      window.removeEventListener('offline', setOffline);
-      window.removeEventListener('online', setOnline);
-    }
-  }, []);
+  
+  //offline detection
+  const setOnline = () => { isOnline(true); };
+  const setOffline = () => { isOnline(false); };
+  useEffect(() => { window.addEventListener('offline', setOffline); window.addEventListener('online', setOnline); return () => { window.removeEventListener('offline', setOffline); window.removeEventListener('online', setOnline); } }, []);
 
   const [commentList, setCommentList] = useState(recipe && recipe.comments != [] ? recipe.comments : null)
   // [

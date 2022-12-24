@@ -13,7 +13,7 @@ export default function RecipeCard({owner, editable, delfunc, favfunc, unfavfunc
     const [favid, setFavorite] = useState(favorite?"Tool_Faved":"Tool_icon")
     const tool = {
       "hario":"Hario",
-      "aeropress":"AeroPress",
+      "aeropress":"Aeropress",
       "frenchpress":"Frenchpress",
       "mokapot":"Moka",
       "chemex":"Chemex",
