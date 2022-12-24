@@ -206,7 +206,7 @@ export default function BrewGuide() {
                 <p id="guide_con_title">{t("Modaltext38")}</p><textarea id="comment_guide_box" rows={9} readOnly value={recipe?recipe.note:null} />
                 <p id="guide_con_title">{t("Btext19")}</p>
                 <div className="d-inline-flex" style={{ minWidth: '100%' }}><i className="fa fa-star" id="comment_rating" style={{ width: '10%', fontSize: '30px', color: 'rgb(255,184,0)', marginLeft: '10px', marginTop: '-5px' }} />
-                  <input className="form-range" type="range" id="ratingbar" min={1} max={10} step={1} value={recipe?recipe.score:null} style={{ width: '70%' }} disabled /><span id="score" style={{ paddingLeft: '10px' }} /><span>6/10</span>
+                  <input className="form-range" type="range" id="ratingbar" min={1} max={10} step={1} value={recipe?recipe.rate:null} style={{ width: '70%' }} disabled /><span id="score" style={{ paddingLeft: '10px' }} /><span>{recipe?recipe.rate:8}/10</span>
                 </div>
               </div>
               <div className="col" style={{ width: '100%', overflow: 'auto' }}>
