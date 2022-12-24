@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import NavBar from '../components/navbar'
 import NewBrewButton from '../components/newbrewbutton'
+
 import "../styles/Multiple-Input-Select-Pills.css"
 import "../styles/Profile_page.css"
 import "../styles/Round_switch.css"
@@ -12,6 +13,7 @@ import "../styles/Brewing_Guide2.css"
 import "../styles/Brewing_Guide3.css"
 import "../styles/Brewing_Guide4.css"
 import "../styles/Features-Clean.css"
+
 import { useTranslation } from 'react-i18next'
 import { useEffect } from 'react'
 export default function BrewIndex() {

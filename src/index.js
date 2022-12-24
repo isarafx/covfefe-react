@@ -2,6 +2,8 @@ import React, { createContext } from 'react';
 import ReactDOM from 'react-dom/client';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 // page
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min";
 import ArticleMain from './pages/article';
 import ArticleRead from './pages/article-read-1';
 import BrewFav from './pages/brew-fav';
@@ -19,6 +21,7 @@ import Register from './pages/register';
 import BrewEdit from './pages/brew-edit';
 import Profile from './pages/profile';
 import ArticleNew from './pages/article-new';
+
 import './i18n';
 import { useContext } from 'react';
 import { useState } from 'react';
