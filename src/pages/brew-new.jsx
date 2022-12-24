@@ -98,7 +98,6 @@ export default function BrewNew() {
       grind_size:refine,
       temp:heat,
       roast_level:roast,
-      comments:[],
       rate:score
     }
     setRecordData(data)
@@ -131,21 +130,7 @@ export default function BrewNew() {
   }, []);
 
 
-  const submitTool = (tool) => {
-    if (tool === "Hario") {
-      setProcessMethod(["Pour Water", "Add Coffee", "Stir", "Bloom", "Wait", "Swirl", "Rinse Filter", "Custom"])
-    } else if (tool === "Moka") {
-      setProcessMethod(["Pour Water", "Add Coffee", "Brew", "Custom"])
-    } else if (tool === "Frenchpress") {
-      setProcessMethod(["Pour Water", "Add Coffee", "Stir", "Bloom", "Wait", "Swirl", "Press", "Place Plunger", "Remove Plunger", "Custom"])
-    } else if (tool === "Aeropress") {
-      setProcessMethod(["Pour Water", "Add Coffee", "Stir", "Bloom", "Wait", "Swirl", "Rinse Filter", "Press", "Place Plunger", "Remove Plunger", "Invert", "Put the Lid on", "Custom"])
-    } else if (tool === "Chemex") {
-      setProcessMethod(["Pour Water", "Add Coffee", "Stir", "Bloom", "Wait", "Swirl", "Rinse Filter", "Custom"])
-    }
-    processList([])
-    setRemainWater(water)
-  }
+
 
   const handleProcess = (item) => {                         //set show or hide input when add process
     setProcessModal([0,0,0,0,0])
@@ -167,6 +152,7 @@ export default function BrewNew() {
     // alert('here')
       let data = {}
       if(!Boolean(processDuration) || isNaN(processDuration) || processDuration==0){
+        // alert('invalid input type')
         return ; //break function
     }
       if((processStep === "Bloom")||(processStep === "Pour Water")){
@@ -176,11 +162,7 @@ export default function BrewNew() {
       }else if((processStep === "Custom")){
         data.custom_name = processName
       }
-      if(remainWater - waterSlider == 0){
-        setProcessMethod(processMethod.filter(item=>((item!="Pour Water") && (item!="Bloom"))))
-        setProcessStep("Wait")
-        handleProcess("Wait")
-      }
+
     
       data.id = `${processStep}-${processList.length+1}`
       data.name = processStep
@@ -234,34 +216,7 @@ export default function BrewNew() {
     }
   }
 
- 
 
-  // function changeRatio(type, value) {
-  //     setProcessList([])
-  //     if (type === "ratio") {
-  //       if(value>25){value=25}
-  //       if(value<=1){value=1}
-        
-  //       setRatio(value)
-  //       setWater(parseInt(value * coffee))
-  //       setRemainWater(value * coffee)
-  //     } else if (type === "coffee") {
-  //       if(value>200){value=200}
-  //       if(value<=1){value=1}
-
-  //       setCoffee(value)
-  //       setWater(parseInt(value * ratio))
-  //       setRemainWater(value * ratio)
-  //     } else if (type === "water") {
-  //       if(value>5000){value=5000}
-  //       if(value<=1){value=1}
-        
-
-  //       setCoffee(parseInt(value / ratio))
-  //       setWater(parseInt(value))
-  //       setRemainWater(value)
-  //     }
-  // }
   const [water2, setWater2] = useState()
   const [coffee2, setCoffee2] = useState()
   const [ratio2, setRatio2] = useState()
@@ -269,20 +224,28 @@ export default function BrewNew() {
   function changeRatio(type, value) {
     if(value>0 && !(Number.isNaN(value))){
         let multiplier = 1
+        let total_process_water
         if (type === "ratio") {
           setWater(value * coffee)
           multiplier =(value * coffee)/water2
+          total_process_water = value * coffee
         } else if (type === "coffee") {
           setWater(value * ratio)
           multiplier = (value * ratio)/water2
+          total_process_water = value * coffee
         } else if (type === "water") {
           setCoffee(value / ratio)
           multiplier = water2/water
+          total_process_water = value * coffee
         }
-        let total_process_water = water
-        console.log([...processList].map((item)=>{ item.water= item.water*multiplier}))
-        setRemainWater(water - processList.reduce((accumulator, object) => { return accumulator + object.water; }, 0))
-        
+        setProcessList([...processList].map((item, index)=> {
+              if(item.water){
+                total_process_water = total_process_water - parseInt(item.water*multiplier)
+                return {...item, water:item.water*multiplier}
+              }
+              return item
+            }))
+        setRemainWater(total_process_water)
     }else{
         if (type === "ratio") {
           setRatio(ratio2)
@@ -310,13 +273,16 @@ export default function BrewNew() {
   }
 
   function deleteProcess(process) {
-    
     setRemainTime(remainTime-parseInt(process.time))
     if((process.name == "Pour Water") || (process.name == "Bloom")){
-      setRemainWater(remainWater+parseInt(process.water))
+      
       if(remainWater <= 0){
         setProcessMethod(["Pour Water", "Bloom", ...processMethod])
+        setProcessStep("Wait")
+        handleProcess("Wait")
+        setProcessModal(processMethod[0],false,processModal[2],processModal[3],processModal[4])
       }
+      setRemainWater(remainWater+parseInt(process.water))
     }
     setProcessList(processList.filter((item) => {
       return item.id != process.id
@@ -353,8 +319,25 @@ export default function BrewNew() {
     }, [trigger]);
 
     useEffect(()=>{
-      console.log(remainWater)
+      if(remainWater<=0){
+          setProcessMethod(processMethod.filter(item=>(item!="Pour Water")&&(item!="Bloom")))
+      }
     }, [remainWater])
+    useEffect(()=>{
+      if (mainEquipment === "Hario") {
+      setProcessMethod(["Pour Water", "Add Coffee", "Stir", "Bloom", "Wait", "Swirl", "Rinse Filter", "Custom"])
+    } else if (mainEquipment === "Moka") {
+      setProcessMethod(["Pour Water", "Add Coffee", "Brew", "Custom"])
+    } else if (mainEquipment === "Frenchpress") {
+      setProcessMethod(["Pour Water", "Add Coffee", "Stir", "Bloom", "Wait", "Swirl", "Press Plunger", "Place Plunger", "Remove Plunger", "Custom"])
+    } else if (mainEquipment === "Aeropress") {
+      setProcessMethod(["Pour Water", "Add Coffee", "Stir", "Bloom", "Wait", "Swirl", "Rinse Filter", "Press Plunger", "Place Plunger", "Remove Plunger", "Invert", "Put the Lid on", "Custom"])
+    } else if (mainEquipment === "Chemex") {
+      setProcessMethod(["Pour Water", "Add Coffee", "Stir", "Bloom", "Wait", "Swirl", "Rinse Filter", "Custom"])
+    }
+    setProcessList([])
+    }, [mainEquipment])
+
   return (
     <div>
       <div className="div_back"><Link to="/" ><i className="icon ion-android-arrow-back" id="Back_icon" /></Link></div>
@@ -373,7 +356,7 @@ export default function BrewNew() {
             <div className="text-center d-flex justify-content-center align-items-center">
               <div className="newbrew_preview_border">
                 <img id="brew_preview" className="newbrew_preview" src={`../assets/img/${mainEquipment}_ICO.png`} /></div>
-              <select className="newbrew_selector" onChange={(e) => { setMainEquipment(e.target.value); submitTool(e.target.value) }}>&gt;
+              <select className="newbrew_selector" onChange={(e) => { setMainEquipment(e.target.value) }}>&gt;
                 <option value="Hario" selected>Hario V60</option>
                 <option value="Chemex">Chemex</option>
                 <option value="Moka">Moka Pot</option>
@@ -605,7 +588,7 @@ export default function BrewNew() {
                         <div className="d-inline-flex" style={{ width: '100%', marginTop: '5px' }}><img className="ae_legend" src="../assets/img/legend_time.png" />
                           <p id="Etitle">{t("Modaltext13")}&nbsp;</p>
                         </div>
-                        <input className="form-control ae_input" type="text" placeholder="seconds" value={processDuration} onKeyPress={(e) => !/[0-9]/.test(e.key) && e.preventDefault()} onChange={(e) => { setProcessDuration(e.target.value) }} />
+                        <input className="form-control ae_input" type="text" placeholder="seconds" value={processDuration} onChange={(e) => { setProcessDuration(e.target.value) }} />
                       </div>
                     </div>
                   </div>}

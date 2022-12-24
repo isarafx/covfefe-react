@@ -2,6 +2,12 @@ import React from 'react'
 import { useState } from 'react'
 import BackButton from '../components/backbutton'
 
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min";
+
+import "../styles/assets/fonts/ionicons.min.css"
+import "../styles/assets/fonts/material-icons.min.css"
+import "../styles/assets/js/bs-init.js"
 import "../styles/Multiple-Input-Select-Pills.css"
 import "../styles/Round_switch.css"
 import "../styles/styles.css"
@@ -24,8 +30,8 @@ export default function BrewEdit() {
     const methodList = {
       "hario":["Pour Water", "Add Coffee", "Stir", "Bloom", "Wait", "Swirl", "Rinse Filter", "Custom"],
       "mokapot":["Pour Water", "Add Coffee", "Brew", "Custom"],
-      "frenchpress":["Pour Water", "Add Coffee", "Stir", "Bloom", "Wait", "Swirl", "Press", "Place Plunger", "Remove Plunger", "Custom"],
-      "aeropress":["Pour Water", "Add Coffee", "Stir", "Bloom", "Wait", "Swirl", "Rinse Filter", "Press", "Place Plunger", "Remove Plunger", "Invert", "Put the Lid on", "Custom"],
+      "frenchpress":["Pour Water", "Add Coffee", "Stir", "Bloom", "Wait", "Swirl", "Press Plunger", "Place Plunger", "Remove Plunger", "Custom"],
+      "aeropress":["Pour Water", "Add Coffee", "Stir", "Bloom", "Wait", "Swirl", "Rinse Filter", "Press Plunger", "Place Plunger", "Remove Plunger", "Invert", "Put the Lid on", "Custom"],
       "chemex":["Pour Water", "Add Coffee", "Stir", "Bloom", "Wait", "Swirl", "Rinse Filter", "Custom"]
     };
     const { brewer, id } = useParams();
@@ -115,13 +121,7 @@ export default function BrewEdit() {
         }
         if((processModalName === "Bloom")||(processModalName === "Pour Water")){
           data.water = processModalWater
-          if(parseInt(remainWater) - parseInt(processModalWater) === 0){
-          
-            setProcessMethod(processMethod.filter(item=>((item!="Pour Water") && (item!="Bloom"))))
-            setprocessModalName("Wait")
-            handleProcess("Wait")
-        }
-        setRemainWater(remainWater-parseInt(processModalWater))
+          setRemainWater(remainWater-parseInt(processModalWater))
         }else if((processModalName === "Custom")){
             data.custom_name = processModalCustomName
         }
@@ -262,8 +262,10 @@ export default function BrewEdit() {
       }
     }, []);
     useEffect(()=>{
-      if(remainWater===0){
+      if(remainWater<=0){
           setProcessMethod(processMethod.filter(item=>(item!="Pour Water")&&(item!="Bloom")))
+          setProcessStep("Wait")
+          handleProcess("Wait")
       }
     }, [remainWater])
     
@@ -291,9 +293,7 @@ export default function BrewEdit() {
             }
             document.title = t("Btext08")
       }, []);
-  useEffect(()=>{
-      console.log(remainWater)
-  }, [remainWater])
+
 
 
   return (

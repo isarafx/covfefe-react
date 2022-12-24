@@ -77,17 +77,13 @@ export default function Test() {
       }
       setResult(temp)
     }
+    const [testdata, setTestData] = useState({name:"123", surname:"456"})
+    const [num, setNum] = useState(0)
   return (
     <div>
       <input value={searchValue} onChange={(e)=>{setSearch(e.target.value)}}></input>
-      <button onClick={Search}>test</button>
-      {data.map((item)=>{
-        return(<h1>{item.name}</h1>)
-      })}
-      <h1>----------------</h1>
-      {result?result.map((item)=>{
-        return(<h1>{item.name}</h1>)
-      }):null}
+      <button onClick={()=>{setTestData({...testdata, name:`potato${num}`});setNum(num+1)}}>test</button>
+      <h3>{testdata.name}</h3>
     </div>
   )
 }
