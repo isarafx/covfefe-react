@@ -1,5 +1,5 @@
 import React from 'react'
-
+import { AdminCheck } from '../method/mmss'
 import "../styles/Multiple-Input-Select-Pills.css"
 import "../styles/Profile_page.css"
 import "../styles/Round_switch.css"
@@ -81,6 +81,7 @@ export default function BrewGuide() {
       try {
         const result = await axios.get(`https://q27z6n.deta.dev/recipes/${id}`);
         setRecipe(result.data);
+        
         setCommentList(result.data.comments)
         setPublic(Boolean(result.data.public && Boolean(result.data.owner !== 'admin')))
         console.log(result)
@@ -105,7 +106,7 @@ export default function BrewGuide() {
   }, [])
   return (
     <div>
-      <BackButton />
+      <div className="div_back"><Link to={`/brew-recipe/${brewer}/`} ><i className="icon ion-android-arrow-back" id="Back_icon" /></Link></div>
       {isOwner ? <div className="d-flex div_a" style={{ width: '80%', marginLeft: '20%' }}><Link to={`/brew-recipe/${brewer}/edit/${id}`}><i className="fa fa-pencil Add_icon" style={{ fontSize: '25px' }} /></Link></div>
         : null}
       <div id="main_template">
@@ -200,12 +201,12 @@ export default function BrewGuide() {
               </div>
             </div>
 
-            {isOwner ? <div className="col" style={{ height: '415px' }}>
+            { isOwner || AdminCheck  ? <div className="col" style={{ height: '415px' }}>
               <div id="guide_container1" style={{ height: '407px' }}>
-                <p id="guide_con_title">{t("Modaltext38")}</p><textarea id="comment_guide_box" rows={9} readOnly value={recipe.note} />
+                <p id="guide_con_title">{t("Modaltext38")}</p><textarea id="comment_guide_box" rows={9} readOnly value={recipe?recipe.note:null} />
                 <p id="guide_con_title">{t("Btext19")}</p>
                 <div className="d-inline-flex" style={{ minWidth: '100%' }}><i className="fa fa-star" id="comment_rating" style={{ width: '10%', fontSize: '30px', color: 'rgb(255,184,0)', marginLeft: '10px', marginTop: '-5px' }} />
-                  <input className="form-range" type="range" id="ratingbar" min={1} max={10} step={1} value={recipe.score} style={{ width: '70%' }} disabled /><span id="score" style={{ paddingLeft: '10px' }} /><span>6/10</span>
+                  <input className="form-range" type="range" id="ratingbar" min={1} max={10} step={1} value={recipe?recipe.score:null} style={{ width: '70%' }} disabled /><span id="score" style={{ paddingLeft: '10px' }} /><span>6/10</span>
                 </div>
               </div>
               <div className="col" style={{ width: '100%', overflow: 'auto' }}>
@@ -215,9 +216,9 @@ export default function BrewGuide() {
             {Public ? <div className="col" style={{ width: '100%', overflow: 'auto' }}>
               <div id="guide_container2">
                 <p id="guide_con_title">{t("Ctext14")}</p>
-                <textarea id="comment_guide_box" rows={9} readOnly value={recipe.description} />
+                <textarea id="comment_guide_box" rows={9} readOnly value={recipe?recipe.description:null} />
                 <div className="d-inline-flex justify-content-end" style={{ minWidth: '100%', height: '50px' }}><img className="creator_avatar_icon" src="assets/img/AvatarIcon.jpg" />
-                  <p className="creator_avatar_name">{recipe.owner}</p>
+                  <p className="creator_avatar_name">{recipe?recipe.owner:null}</p>
                 </div>
                 <hr style={{ marginTop: '0px', background: '#ff9900', height: '2px' }} />
                 <div id="Comment_container_div">

@@ -17,6 +17,7 @@ import { useTranslation } from 'react-i18next';
 import { useState } from 'react'
 import FavCard from '../components/favCard'
 import { useNavigate } from 'react-router-dom'
+
 export default function BrewFav() {
   const { t, i18n } = useTranslation();
   let [online, isOnline] = useState(navigator.onLine);

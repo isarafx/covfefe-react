@@ -19,6 +19,7 @@ import { useTranslation } from 'react-i18next'
 import {Routes, Route, useNavigate} from 'react-router-dom';
 import axios from 'axios'
 import { descParse } from '../method/mmss'
+import { Link } from 'react-router-dom'
 export default function BrewNew() {
 
   
@@ -356,7 +357,7 @@ export default function BrewNew() {
     }, [remainWater])
   return (
     <div>
-      <BackButton />
+      <div className="div_back"><Link to="/" ><i className="icon ion-android-arrow-back" id="Back_icon" /></Link></div>
       <div className="d-flex div_a" style={{ width: '80%', marginLeft: '20%' }}>
       {/* <button onClick={() => {navigator.clipboard.writeText(exData)}}>copy</button> */}
         <button className="btn" id="brew_save_btn" type="button" onClick={()=>{record()}}>
@@ -471,7 +472,7 @@ export default function BrewNew() {
                     <div className="process_card2">
                       <div className="d-inline-flex" style={{ minWidth: '100%' }}>
                         <div style={{ minWidth: '15%' }}><img id="process_pic" src="../assets/img/Process_Dummy_icon.png" /></div>
-                        <p id="process_title">{item.name ? item.name : item.custom_name}</p>
+                        <p id="process_title">{item.custom_name ? item.custom_name : item.name}</p>
                         <p className="text-end" style={{ minWidth: '15%' }}>{mmss(item.time)}</p>
                       </div>
                       <div>

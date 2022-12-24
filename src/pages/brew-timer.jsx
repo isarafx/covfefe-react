@@ -16,6 +16,7 @@ import { useEffect } from 'react'
 import { mmss } from '../method/mmss'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom'
 import { useParams } from 'react-router-dom'
 import { useSearchParams } from 'react-router-dom'
 import { descParse } from '../method/mmss'
@@ -35,8 +36,10 @@ export default function BrewTimer() {
 
 
   // const processList = JSON.parse(localStorage.getItem('recipe'))['item'].filter((item)=>{return item.Lid===id})[0]['process']
-  const name = JSON.parse(localStorage.getItem('brew-recipe'))['items'].filter((item)=>{return item.key===id})[0]['name']
-  const processList = JSON.parse(localStorage.getItem('brew-recipe'))['items'].filter((item)=>{return item.key===id})[0]['process']
+  // const name = JSON.parse(localStorage.getItem('brew-recipe'))['items'].filter((item)=>{return item.key===id})[0]['name']
+  // const processList = JSON.parse(localStorage.getItem('brew-recipe'))['items'].filter((item)=>{return item.key===id})[0]['process']
+  const [processList, setProcessList] = useState([])
+  const [name, setName] =useState("")
   const [overallTime, setOverallTime] = useState(0)   //overall = total time - total = total time but decrease when timer on
   const [runTime, setRunTime] = useState(0)           //total time since timer start
   const [totaltime, setTotalTime] = useState(0)
@@ -45,16 +48,7 @@ export default function BrewTimer() {
   const [index, setIndex] = useState(1)
   const token = localStorage.getItem('token')
   const [brewed, setBrewed] = useState()
-  function startCondition(){
-    let time = 0
-    processList.map((item)=>{
-      time += parseInt(item.time)
-    })
-    setTotalTime(time)
-    setOverallTime(time)
-    setProcessTime(parseInt(processList[0].time))
-  }
-  
+
   function skipMethod(){
     setProcessTime(parseInt(processList[index].time))
     setIndex(index+1)
@@ -93,8 +87,7 @@ export default function BrewTimer() {
       const interval = setInterval(() => {
         if(processTime<=0 && totaltime<=0){ //finish case
           setState(false)
-          alert('finish')
-          startCondition()
+          // startCondition()
           localStorage.setItem('brewcount', (brewed+1))
           sendBrewed()
           navigate(`/brew-recipe/finish?brewer=${brewer}&id=${id}`)
@@ -125,6 +118,7 @@ export default function BrewTimer() {
             if(token){
                 if(online){
                     try{
+                      console.log(processList)
                       let user = JSON.parse(atob(localStorage.getItem('token').split('.')[1]))['username']
                       console.log(user)
                       const picture = await axios.get(`https://q27z6n.deta.dev/users/${user}`, { headers: {'x-token': token} })
@@ -141,7 +135,6 @@ export default function BrewTimer() {
       console.log(error)
     }
   };
-    startCondition()
     setCup(parseInt(searchParams.get('cup')))
     getBrewed()
     document.title = t('Timer01')
@@ -163,11 +156,38 @@ export default function BrewTimer() {
         console.log(error)
       }
   };
-
+  useEffect(()=>{
+    const FetchData = async () => { 
+      try{
+                if(online){
+                    try{
+                      console.log(id)
+                      const recipee = await axios.get(`https://q27z6n.deta.dev/recipes/${id}`)
+                      setProcessList(recipee.data['process'])
+                      let time = 0
+                      recipee.data['process'].map((item)=>{
+                        time += parseInt(item.time)
+                      })
+                      setTotalTime(time)
+                      setOverallTime(time)
+                      setProcessTime(recipee.data['process'][0].time)
+                    }catch(error){
+                      console.log(error)
+                    }
+                }else{
+                }
+            
+    }catch(error){
+      console.log(error)
+    }
+  };
+    console.log(processList)
+    FetchData()
+  }, [])
 
   return (
     <div>
-  <BackButton />
+  <div className="div_back"><Link to={`/brew-recipe/${brewer}/${id}`} ><i className="icon ion-android-arrow-back" id="Back_icon" /></Link></div>
   <div id="main_template">
     <div className="container" id="recipelist_container2" style={{position: 'relative'}}>
       <div className="d-flex justify-content-center" id="Timer_container1"><button onClick={()=> {test()}} className="btn btn-primary" id="Timer_PP_button" type="button" />
@@ -180,18 +200,18 @@ export default function BrewTimer() {
           <p style={{fontSize: '14px'}}>{mmss(totaltime)}</p>
         </div><button onClick={()=>{skipMethod()}} className="btn btn-primary d-flex justify-content-center align-items-center" id="Timer_Skip_button" type="button"><img className="timer_skip_icon" src="../../assets/img/Timer_skip_ico.png" /></button>
       </div>
-      <div id="Timer_container2">
+      <div id="Timer_container2"> 
         <div id="Current_method_box">
           <div id="process_card2">
             <div className="d-inline-flex" style={{minWidth: '100%'}}>
               <div style={{minWidth: '15%'}}><img id="process_pic" src="../../assets/img/Process_Dummy_icon.png" /></div>
-              <p id="process_title" style={{color: '#dc6c62'}}>{processList[index-1].name}</p>
+              <p id="process_title" style={{color: '#dc6c62'}}>{processList.length >0?processList[index-1].name:null}</p>
             </div>
             <div>
-              <p id="process_des">{descParse(processList[index-1].name,processList[index-1].water,cup,brewer)}</p>
+              <p id="process_des">{processList.length >0?descParse(processList[index-1].name,processList[index-1].water,cup,brewer):null}</p>
             </div>
             <div>
-              <p id="process_comment">{processList[index-1].comment}<br /></p>
+              <p id="process_comment">{processList.length >0?processList[index-1].comment:null}<br /></p>
             </div>
           </div>
         </div>
@@ -207,7 +227,7 @@ export default function BrewTimer() {
               return(<div id="process_card3">
               <div className="d-inline-flex" style={{minWidth: '100%'}}>
                 <div style={{minWidth: '15%'}}><img id="process_pic" src="../../assets/img/Process_Dummy_icon.png" /></div>
-                <p id="process_title" style={{color: 'rgb(80,80,80)'}}>{item.name}</p>
+                <p id="process_title" style={{color: 'rgb(80,80,80)'}}>{item.custom_name?item.custom_name:item.name}</p>
                 <p className="text-end" style={{minWidth: '15%'}}>{mmss(parseInt(item.time))}</p>
               </div>
               <div>

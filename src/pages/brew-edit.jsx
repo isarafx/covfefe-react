@@ -16,6 +16,7 @@ import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { AdminCheck, mmss, OwnerCheck } from '../method/mmss'
 import { descParse } from '../method/mmss'
@@ -31,7 +32,7 @@ export default function BrewEdit() {
     const recipe = (JSON.parse(localStorage.getItem('brew-recipe'))['items']).filter((item)=> item.key===id)[0]
     const [name, setName] = useState(recipe.name)
     const [note, setNote] = useState(recipe.note)
-    const [score, setScore] = useState(8)
+    const [score, setScore] = useState(recipe.score)
     const [coffee, setCoffee] = useState(recipe.coffee_weight)
     const [water, setWater] = useState(recipe.water)
     const [ratio, setRatio] = useState(recipe.ratio)
@@ -41,8 +42,8 @@ export default function BrewEdit() {
     const [refine, setRefine] = useState(recipe.grind_size)
     const [heat, setHeat] = useState(recipe.temp)
     const [roast, setRoast] = useState(recipe.roast_level)
-
-    const [process, setProcess] = useState(recipe.process)     //{name, custom_name, water, time, comment}
+    //data.id = `${processModalName}-${process.length+1}`
+    const [process, setProcess] = useState(recipe.process.map((item, index)=>{return {...item, id:`${item.name}-${index+1}`}}))     //{name, custom_name, water, time, comment}
     const [oldprocess, setOldProcess] = useState()
     const [eqmodalname, setEqmodalname] = useState("Coffee")
     const [eqmodaldetail, setEqmodaldetail] = useState()
@@ -55,7 +56,7 @@ export default function BrewEdit() {
     const [processModalWater, setProcessModalWater] = useState(1)
     const [processModaltime, setProcessModalTime] = useState()
     const [processModalComment, setProcessModalComment] = useState()
-    const [remainWater, setRemainWater] = useState(water)
+    const [remainWater, setRemainWater] = useState(recipe.process.reduce((accumulator, object) => { return accumulator + object.water; }, 0))
     const [remainTime, setRemainTime] = useState(recipe.process.reduce((accumulator, object) => { return accumulator + object.time; }, 0))
     const getInitialState = () => {
       const value = "";
@@ -113,16 +114,19 @@ export default function BrewEdit() {
             return ; //break function
         }
         if((processModalName === "Bloom")||(processModalName === "Pour Water")){
-            data.water = processModalWater
-          setRemainWater(remainWater-parseInt(processModalWater))
-        }else if((processModalName === "Custom")){
-            data.custom_name = processModalCustomName
-        }
-        if(remainWater - processModalWater == 0){
+          data.water = processModalWater
+          if(parseInt(remainWater) - parseInt(processModalWater) === 0){
+          
             setProcessMethod(processMethod.filter(item=>((item!="Pour Water") && (item!="Bloom"))))
             setprocessModalName("Wait")
             handleProcess("Wait")
         }
+        setRemainWater(remainWater-parseInt(processModalWater))
+        }else if((processModalName === "Custom")){
+            data.custom_name = processModalCustomName
+        }
+        
+        
         data.id = `${processModalName}-${process.length+1}`
         data.name = processModalName
         data.time = parseInt(processModaltime)
@@ -203,19 +207,30 @@ export default function BrewEdit() {
     function changeRatio(type, value) {
         if(value>0 && !(Number.isNaN(value))){
             let multiplier = 1
+            let total_process_water
             if (type === "ratio") {
               setWater(value * coffee)
               multiplier =(value * coffee)/water2
+              total_process_water = value * coffee
             } else if (type === "coffee") {
               setWater(value * ratio)
               multiplier = (value * ratio)/water2
+              total_process_water = value * ratio
             } else if (type === "water") {
               setCoffee(value / ratio)
-              multiplier = water2/water
+              multiplier = water/water2
+              total_process_water = value
             }
-            let total_process_water = water
-            console.log([...process].map((item)=>{ item.water= item.water*multiplier}))
-            setRemainWater(water - process.reduce((accumulator, object) => { return accumulator + object.water; }, 0))
+            
+            setProcess([...process].map((item, index)=> {
+              if(item.water){
+                total_process_water = total_process_water - parseInt(item.water*multiplier)
+                return {...item, water:item.water*multiplier}
+              }
+              return item
+            }))
+            setRemainWater(total_process_water)
+
         }else{
             if (type === "ratio") {
               setRatio(ratio2)
@@ -246,6 +261,11 @@ export default function BrewEdit() {
         window.removeEventListener('online', setOnline);
       }
     }, []);
+    useEffect(()=>{
+      if(remainWater===0){
+          setProcessMethod(processMethod.filter(item=>(item!="Pour Water")&&(item!="Bloom")))
+      }
+    }, [remainWater])
     
     useEffect(() => {
         const fetchData  = async () => { 
@@ -253,7 +273,7 @@ export default function BrewEdit() {
                 
                 const result = await axios.get(`https://q27z6n.deta.dev/recipes/${id}`, { headers: { 'accept': 'application/json' } });
                 if(AdminCheck() || OwnerCheck(result.data['owner'])){
-                  setRemainWater(water - process.reduce((accumulator, object) => { return accumulator + object.water; }, 0))
+                  // setRemainWater(water - process.reduce((accumulator, object) => { return accumulator + object.water; }, 0))
                   console.log(result.data)
                 }
                 else{
@@ -267,14 +287,18 @@ export default function BrewEdit() {
             if(online){
                 fetchData();
             }else{
-                setRemainWater(water - process.reduce((accumulator, object) => { return accumulator + object.water; }, 0))
+                // setRemainWater(water - process.reduce((accumulator, object) => { return accumulator + object.water; }, 0))
             }
             document.title = t("Btext08")
       }, []);
+  useEffect(()=>{
+      console.log(remainWater)
+  }, [remainWater])
+
 
   return (
     <div>
-      <BackButton />
+      <div className="div_back"><Link to={`/brew-recipe/${brewer}/${id}`} ><i className="icon ion-android-arrow-back" id="Back_icon" /></Link></div>
       <div className="d-flex div_a" style={{ width: '80%', marginLeft: '20%' }}><button onClick={()=>{Record()}} className="btn" id="brew_save_btn" type="button"><i className="fas fa-save Add_icon" style={{ fontSize: '25px' }} /></button></div>
       <div id="main_template">
         <div className="container" id="recipelist_container">
@@ -310,14 +334,14 @@ export default function BrewEdit() {
                     <div id="guide_card"><img id="guide_icon" src="assets/img/guide_ratio_ico.png" />
                       <p id="guide_name">{t("Modaltext31")}</p>
                       <div className="input-group"><span className="d-flex justify-content-end input-group-text" id="guide_unit2">1&nbsp; :</span>
-                        <input className="form-control" type="number" id="guide_input2" value={ratio} onBlur={(e)=>{changeRatio("ratio", e.target.value)}} onChange={(e)=>{setRatio(e.target.value)}} onFocus={(e)=>{setRatio2(e.target.value)}}  /></div>
+                        <input className="form-control" type="number" id="guide_input2" value={ratio} onBlur={(e)=>{changeRatio("ratio", e.target.value)}} onChange={(e)=>{setRatio(e.target.value)}} onFocus={(e)=>{setWater2(water);setRatio2(e.target.value)}}  /></div>
                     </div>
                   </div>
                   <div className="col d-flex justify-content-center" style={{ paddingLeft: '5px', paddingRight: '5px' }}>
                     <div id="guide_card"><img id="guide_icon" src="assets/img/guide_pack_ico.png" />
                       <p id="guide_name">{t("Modaltext29")}</p>
                       <div className="input-group">
-                        <input className="form-control" type="number" id="guide_input" value={coffee} onBlur={(e)=>{changeRatio("coffee", e.target.value)}} onChange={(e)=>{setCoffee(e.target.value)}} onFocus={(e)=>{setCoffee2(e.target.value)}}  /><span className="input-group-text" id="guide_unit">g</span></div>
+                        <input className="form-control" type="number" id="guide_input" value={coffee} onBlur={(e)=>{changeRatio("coffee", e.target.value)}} onChange={(e)=>{setCoffee(e.target.value)}} onFocus={(e)=>{setWater2(water);setCoffee2(e.target.value)}}  /><span className="input-group-text" id="guide_unit">g</span></div>
                     </div>
                   </div>
                   <div className="col d-flex justify-content-center" style={{ paddingLeft: '5px', paddingRight: '5px' }}>
@@ -379,7 +403,7 @@ export default function BrewEdit() {
                     <div className="process_card2">
                       <div className="d-inline-flex" style={{ minWidth: '100%' }}>
                         <div style={{ minWidth: '15%' }}><img id="process_pic" src="assets/img/Process_Dummy_icon.png" /></div>
-                        <p id="process_title">{item.name}</p>
+                        <p id="process_title">{item.custom_name?item.custom_name:item.name}</p>
                         <p className="text-end" style={{ minWidth: '15%' }}>{mmss(item.time)}</p>
                       </div>
                       <div>

@@ -19,6 +19,7 @@ import { Fetching } from '../method/fetchScripts'
 import axios from 'axios';
 import RecipeAdminCard from '../components/recipecard_admin'
 import { LoginCheck } from '../method/mmss'
+import { Link } from 'react-router-dom'
 export default function BrewRecipe() {
     const { brewer } = useParams();
     const { t } = useTranslation();
@@ -150,7 +151,7 @@ export default function BrewRecipe() {
     };
   return (
     <div>
-  <BackButton />
+  <div className="div_back"><Link to={`/`} ><i className="icon ion-android-arrow-back" id="Back_icon" /></Link></div>
   <div id="main_template">
     <div className="container" id="recipelist_container">
       {

@@ -1,6 +1,6 @@
 import React from 'react'
 import { useParams } from 'react-router';
-
+import { Link } from 'react-router-dom';
 import "../styles/Coffee_Article.css"
 import "../styles/Multiple-Input-Select-Pills.css"
 import "../styles/Profile_page.css"
@@ -57,7 +57,7 @@ export default function ArticleRead() {
   }, [])
   return (
     <div>
-      <BackButton />
+      <div className="div_back"><Link to="/article" ><i className="icon ion-android-arrow-back" id="Back_icon" /></Link></div>
       <div id="main_template">
 
         <div className="container article_container">

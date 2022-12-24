@@ -13,6 +13,7 @@ import { Link } from 'react-router-dom'
 import { useAuth } from '..'
 import { useEffect } from 'react'
 import axios from 'axios'
+import { LoginCheck } from '../method/mmss'
 export default function Profile() {
   const { t, i18n } = useTranslation()
   const [isLogged, setIslogged] = useState(Boolean(localStorage.getItem('token')))
@@ -72,7 +73,7 @@ export default function Profile() {
       try{
         // console.log(user)
         // alert(token)
-          if(isLogged){
+          if(LoginCheck()){
               console.log('reach here')
               let token = localStorage.getItem('token')
               let user = JSON.parse(atob(localStorage.getItem('token').split('.')[1]))['username']
@@ -80,6 +81,7 @@ export default function Profile() {
               const result = await axios.get('https://q27z6n.deta.dev/recipes/users', { headers: {'x-token': token} })
               const picture = await axios.get(`https://q27z6n.deta.dev/users/${user}`, { headers: {'x-token': token} })
               let count = result.data['items'].filter((item)=>{return item.owner == user}).length
+              if(LoginCheck()){
               setTotalRecipe(count)
               console.log('https://q27z6n.deta.dev'.concat(picture.data['image']))
               // let a = ('https://q27z6n.deta.dev'.concat(picture.data['image']))
@@ -96,6 +98,9 @@ export default function Profile() {
               // console.log(a)
               localStorage.setItem('totalrecipe', count)
               localStorage.setItem('profileImage', 'https://q27z6n.deta.dev'.concat(picture.data['image']))
+              }else{
+
+              }
               // console.log(picture.data['image'])
         }
           // console.log(result.data['items'].filter((item)=>{return item.owner == user['username']}).length)
@@ -138,7 +143,7 @@ export default function Profile() {
               </div>
               <div className="row prow" data-bss-hover-animate="pulse">
                 {isLogged ? 
-                <div className="col"><Link onClick={()=>{localStorage.setItem('token','')}} className="btn btn-primary" role="button" style={{ background: '#d35151' }} >{t("Ltext10")}</Link></div>
+                <div className="col"><Link onClick={()=>{setIslogged(false);localStorage.setItem('token','');setBrewCount(0);setTotalRecipe(0);setProfile(['assets/img/AvatarIcon.jpg'])}} className="btn btn-primary" role="button" style={{ background: '#d35151' }} >{t("Ltext10")}</Link></div>
                 :
                 <div className="col"><Link to="/login" className="btn btn-primary" role="button" style={{ background: '#d35151' }}>{t("Ltext01")}</Link></div>}
                 

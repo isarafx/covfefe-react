@@ -15,7 +15,6 @@ import BackButton from '../components/backbutton'
 import { useEffect } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
-
 export default function CommuShare() {
   const {brewer, id} = useParams()
   const [description, setDescription] = useState('')
@@ -84,7 +83,7 @@ export default function CommuShare() {
     
   return (
     <div>
-  <BackButton />
+  <div className="div_back"><Link to={`/brew-recipe/${brewer}/`} ><i className="icon ion-android-arrow-back" id="Back_icon" /></Link></div>
   <div id="main_template">
     <div className="container profile_container">
       <form id="Shared_card">
