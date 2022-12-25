@@ -52,7 +52,7 @@ export default function BrewNew() {
       "Hario V60":"/assets/img/Tools_2.png",
       "Chemex":"/assets/img/Tools_3.png",
       "Moka Pot":"/assets/img/Tools_4.png",
-      "AeroPress":"/assets/img/Tools_5.png",
+      "Aeropress":"/assets/img/Tools_5.png",
       "French Press":"/assets/img/Tools_6.png",
       "Kettle":"/assets/img/Tools_7.png",
       "Scale":"/assets/img/Tools_8.png",
@@ -142,8 +142,8 @@ export default function BrewNew() {
         data.comment = processModalComment
             setProcess([...process, data])
             setRemainTime(remainTime+parseInt(data.time))
-        setProcessStep("Custom")
-        handleProcess("Custom")
+        setProcessStep("Wait")
+        handleProcess("Wait")
     }
     function deleteEquipment(id) {
       setEquipment(equipment.filter((item) => {
@@ -155,6 +155,8 @@ export default function BrewNew() {
       if((processname === "Bloom")||(processname === "Pour Water")){
         if(remainWater <= 0){
           setProcessMethod(["Pour Water", "Bloom", ...processMethod])
+          setProcessStep("Wait")
+          handleProcess("Wait")
         }
         setRemainWater(remainWater+parseInt(water))
       }
@@ -257,30 +259,14 @@ export default function BrewNew() {
     let [online, isOnline] = useState(navigator.onLine);
     const setOnline = () => { console.log('We are online!'); isOnline(true); };
     const setOffline = () => { console.log('We are offline!'); isOnline(false); };
-    // Register the event listeners
-    useEffect(() => {
-      window.addEventListener('offline', setOffline);
-      window.addEventListener('online', setOnline);
-
-      // cleanup if we unmount
-      return () => {
-        window.removeEventListener('offline', setOffline);
-        window.removeEventListener('online', setOnline);
-      }
-    }, []);
+    useEffect(() => { document.title = t("Btext08"); window.addEventListener('offline', setOffline); window.addEventListener('online', setOnline); return () => { window.removeEventListener('offline', setOffline); window.removeEventListener('online', setOnline); } }, []);
     useEffect(()=>{
       if(remainWater<=0){
           setProcessMethod(processMethod.filter(item=>(item!="Pour Water")&&(item!="Bloom")))
           setProcessModal([processModal[0],0,processModal[2],processModal[3]])
-          setProcessStep("Wait")
-          handleProcess("Wait")
       }
     }, [remainWater])
   
-    useEffect(() => {
-            document.title = t("Btext08")
-      }, []);
-
     useEffect(()=>{
       if (mainEquipment === "Hario") {
       setProcessMethod(["Pour Water", "Add Coffee", "Stir", "Bloom", "Wait", "Swirl", "Rinse Filter", "Custom"])
@@ -294,10 +280,12 @@ export default function BrewNew() {
       setProcessMethod(["Pour Water", "Add Coffee", "Stir", "Bloom", "Wait", "Swirl", "Rinse Filter", "Custom"])
     }
     setProcess([])
+    setProcessStep("Wait")
+    handleProcess("Wait")
     }, [mainEquipment])
-    useEffect(()=>{
-        console.log(mainEquipment)
-    }, [remainWater])
+    // useEffect(()=>{
+    //     console.log(mainEquipment)
+    // }, [remainWater])
 
   return (
     <div>

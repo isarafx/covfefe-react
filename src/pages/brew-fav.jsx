@@ -46,10 +46,11 @@ export default function BrewFav() {
   useEffect(() => {
       
     const fetchData  = async () => { 
+
         try{
             const result = await axios.get("https://q27z6n.deta.dev/favorite", { headers: { 'accept': 'application/json', 'x-token':token } });
             // setResult(result.data['items']);
-            console.log(result.data['items'])
+            // console.log(result.data['items'])
             localStorage.setItem('favorite', JSON.stringify(result.data))
             setResult(result.data['items'])
             setDisplayList(result.data['items'])
@@ -64,14 +65,23 @@ export default function BrewFav() {
     if(online){
         fetchData();
     }else{
-        console.log('test')
-        console.log(JSON.parse(localStorage.getItem('favorite'))['items'])
+        // console.log('test')
+        // console.log(JSON.parse(localStorage.getItem('favorite'))['items'])
+        // console.log('here')
         setResult(JSON.parse(localStorage.getItem('favorite'))['items'])
         setDisplayList(JSON.parse(localStorage.getItem('favorite'))['items'])
     }
     document.title = t("Btext02")
   }, [refresh]);
 
+      useEffect(()=>{ // temporaly fix unload offline
+        if(true){
+          let timer1 = setTimeout(() => setRefresh(!refresh), 1000);
+          return () => {
+            clearTimeout(timer1);
+          };
+        }
+      }, [])
       const unfavorite  = async (key) => { 
         try{
             setDisplayList([...displayList].filter((item)=>item.key!=key))

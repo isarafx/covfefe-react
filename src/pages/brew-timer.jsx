@@ -159,30 +159,48 @@ export default function BrewTimer() {
   useEffect(()=>{
     const FetchData = async () => { 
       try{
-                if(online){
-                    try{
-                      console.log(id)
-                      const recipee = await axios.get(`https://q27z6n.deta.dev/recipes/${id}`)
-                      setProcessList(recipee.data['process'])
-                      let time = 0
-                      recipee.data['process'].map((item)=>{
-                        time += parseInt(item.time)
-                      })
-                      setTotalTime(time)
-                      setOverallTime(time)
-                      setProcessTime(recipee.data['process'][0].time)
-                    }catch(error){
-                      console.log(error)
-                    }
-                }else{
-                }
-            
+        
+        if(online){
+            try{
+              const recipee = await axios.get(`https://q27z6n.deta.dev/recipes/${id}`)
+              setProcessList(recipee.data['process'])
+              let time = 0
+              recipee.data['process'].map((item)=>{
+                time += parseInt(item.time)
+              })
+              setTotalTime(time)
+              setOverallTime(time)
+              setProcessTime(recipee.data['process'][0].time)
+            }catch(error){
+              console.log(error)
+            }
+        }else{
+        }
     }catch(error){
       console.log(error)
     }
   };
-    console.log(processList)
-    FetchData()
+    // console.log(processList)
+      if(online){
+          FetchData()
+      }else{
+          let owner = (searchParams.get('owner'))
+          let recipee 
+          if(owner==="admin" || owner==='user'){
+              recipee = JSON.parse(localStorage.getItem('brew-recipe'))['items'].filter((item)=>item.key===id)[0]
+          }else{
+              recipee = JSON.parse(localStorage.getItem('community')).filter((item)=>item.key===id)[0]
+          }
+          
+          setProcessList(recipee['process'])
+          let time = 0
+          recipee['process'].map((item)=>{
+            time += parseInt(item.time)
+          })
+          setTotalTime(time)
+          setOverallTime(time)
+          setProcessTime(recipee['process'][0].time)
+      }
   }, [])
 
   return (

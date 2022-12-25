@@ -187,7 +187,7 @@ export default function BrewGuide() {
                     return (<BrewGuideProcessCard name={item.custom_name ? item.custom_name : item.name} description={item.description} comment={item.comment} time={item.time} water={item.water * cup} />)
                   }) : null}
                 </div>
-                <div style={{ textAlign: 'center' }}><Link to={`/brew-recipe/${brewer}/timer/${id}?cup=${cup}`}><a className="btn btn-primary" role="button" id="process_timer_start" href="">{t("Modaltext36")}</a></Link></div>
+                <div style={{ textAlign: 'center' }}><Link to={`/brew-recipe/${brewer}/timer/${id}?cup=${cup}&owner=${recipe?recipe.owner:null}`}><a className="btn btn-primary" role="button" id="process_timer_start" href="">{t("Modaltext36")}</a></Link></div>
               </div>
             </div>
 

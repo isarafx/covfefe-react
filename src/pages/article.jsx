@@ -24,40 +24,32 @@ export default function ArticleMain() {
   //   { link: "/article/4", name: "Moka Pot เพลิดเพลินกับกาแฟเอสเปรสโซ่ได้อย่างง่ายดาย", detail: "โมก้าพ็อตได้รับการพัฒนาขึ้นเมื่อปี 1933 โดยอัลฟอนโซ", pic: "./Article4/Article4_1.png" },
   // ]
   const [article, setArticle] = useState([]);
+
   let [online, isOnline] = useState(navigator.onLine);
-  const setOnline = () => {
-    isOnline(true);
-  };
-  const setOffline = () => {
-    console.log('We are offline!');
-    isOnline(false);
-  };
-  useEffect(() => {
-    window.addEventListener('offline', setOffline);
-    window.addEventListener('online', setOnline);
-    
-    // cleanup if we unmount
-    return () => {
-      window.removeEventListener('offline', setOffline);
-      window.removeEventListener('online', setOnline);
-    }
-  }, []);
+  const setOnline = () => { isOnline(true); };
+  const setOffline = () => { console.log('We are offline!'); isOnline(false); };
+  useEffect(() => { window.addEventListener('offline', setOffline); window.addEventListener('online', setOnline); return () => { window.removeEventListener('offline', setOffline); window.removeEventListener('online', setOnline); } }, []);
+  
   useEffect(()=>{
       const FetchData = async() => {
           if(AdminCheck()){
             setAdmin(true)
           }
-          const result = await axios.get(`https://q27z6n.deta.dev/articles`);
-          setArticle(result.data['items'])
-          localStorage.setItem('article', JSON.stringify(result.data['items']))
+          if(online){
+            const result = await axios.get(`https://q27z6n.deta.dev/articles`);
+            setArticle(result.data['items'])
+            localStorage.setItem('article', JSON.stringify(result.data['items']))
+          }
       }
       if(online){
           FetchData()      
       }else{
-          setArticle(localStorage.getItem('article'))
+          // console.log(JSON.stringify(JSON.parse(localStorage.getItem('article'))))
+          setArticle(JSON.parse(localStorage.getItem('article')))
       }
       document.title = t("Atext01")
   }, [])
+  
   return (
     <div>
       <NavBar />

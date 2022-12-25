@@ -26,23 +26,9 @@ export default function ArticleRead() {
   const { id } = useParams();
   const [contents, setContents] = useState('')
   let [online, isOnline] = useState(navigator.onLine);
-  const setOnline = () => {
-    isOnline(true);
-  };
-  const setOffline = () => {
-    console.log('We are offline!');
-    isOnline(false);
-  };
-  useEffect(() => {
-    window.addEventListener('offline', setOffline);
-    window.addEventListener('online', setOnline);
-    
-    // cleanup if we unmount
-    return () => {
-      window.removeEventListener('offline', setOffline);
-      window.removeEventListener('online', setOnline);
-    }
-  }, []);
+  const setOnline = () => { isOnline(true); };
+  const setOffline = () => { console.log('We are offline!'); isOnline(false); };
+  useEffect(() => { window.addEventListener('offline', setOffline); window.addEventListener('online', setOnline); return () => { window.removeEventListener('offline', setOffline); window.removeEventListener('online', setOnline); } }, []);
   useEffect(() => {
     const FetchData = async () => {
       const result = await axios.get(`https://q27z6n.deta.dev/articles`);
@@ -52,7 +38,7 @@ export default function ArticleRead() {
     if(online){
         FetchData()
     }else{
-        setContents(Base64.decode(localStorage.getItem('article').filter((item) => item.key === id)[0]['content']))
+        setContents(Base64.decode(JSON.parse(localStorage.getItem('article')).filter((item) => item.key === id)[0]['content']))
     }
   }, [])
   return (
