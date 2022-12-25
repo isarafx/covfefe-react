@@ -6,7 +6,7 @@ export default function FavCard({name="lorem ipsum", link, brewer = 'hario' , id
 
   const tool = {
     "Hario":"Hario",
-    "AeroPress":"AeroPress",
+    "AeroPress":"Aeropress",
     "French Press":"Frenchpress",
     "Moka Pot":"Moka",
     "Chemex":"Chemex",

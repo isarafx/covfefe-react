@@ -8,6 +8,7 @@ export default function RecipeCard({owner, editable, delfunc, favfunc, unfavfunc
     const { brewer } = useParams();
     let tempfav = Boolean(favorite)
     if(shared){shared="Tool_Shared"}else{shared="Tool_icon"}
+    
     const token = localStorage.getItem('token')
     const [isOwner, setIsOwner] = useState(editable === owner)
     const [favid, setFavorite] = useState(favorite?"Tool_Faved":"Tool_icon")
@@ -52,7 +53,7 @@ export default function RecipeCard({owner, editable, delfunc, favfunc, unfavfunc
                     }
 
                     { isOwner ?
-                    <Link to={`/brew-recipe/${brewer}/share/${link}`} className="btn btn-primary {Boolean(shared==='Tool_Shared'?disabled:null}"  role="button" data-bss-hover-animate="jello" id="Tool_color" >
+                    <Link to={`/brew-recipe/${brewer}/share/${link}`} className="btn btn-primary"  role="button" data-bss-hover-animate="jello" id="Tool_color" >
                     <i className="fas fa-share" id={shared} />
                     </Link>
                     :

@@ -25,23 +25,9 @@ export default function BrewFav() {
   const token = localStorage.getItem('token')
   const navigate = useNavigate();
 
-  const setOnline = () => {
-    isOnline(true);
-  };
-  const setOffline = () => {
-    console.log('We are offline!');
-    isOnline(false);
-  };
-  useEffect(() => {
-    window.addEventListener('offline', setOffline);
-    window.addEventListener('online', setOnline);
-    
-    // cleanup if we unmount
-    return () => {
-      window.removeEventListener('offline', setOffline);
-      window.removeEventListener('online', setOnline);
-    }
-  }, []);
+  const setOnline = () => { isOnline(true); };
+  const setOffline = () => { console.log('We are offline!'); isOnline(false); };
+  useEffect(() => { window.addEventListener('offline', setOffline); window.addEventListener('online', setOnline); return () => { window.removeEventListener('offline', setOffline); window.removeEventListener('online', setOnline); } }, []);
   const [refresh, setRefresh] = useState(false)
   useEffect(() => {
       
