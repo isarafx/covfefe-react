@@ -8,7 +8,7 @@ import "../styles/Ultimate-Sidebar-Menu-BS5.css"
 import "../styles/Features-Clean.css"
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next';
-
+import errorpic from "../assets/img/Error1.png";
 export default function Error() {
   const { t, i18n } = useTranslation();
   return (
@@ -17,7 +17,7 @@ export default function Error() {
     <div className="container" id="recipelist_container">
       <div style={{textAlign: 'center'}}>
         <div className="d-flex justify-content-center">
-          <div className="Error_div"><img className="img-fluid" src="assets/img/Error1.png" /></div>
+          <div className="Error_div"><img className="img-fluid" src={errorpic} /></div>
         </div>
         <p className="Errormain">{t("Error04")}</p>
         <p className="Errorsub">{t("Error05")}</p><Link className="btn btn-primary" role="button" id="back_main_btn" to="/">{t("Error06")}</Link>

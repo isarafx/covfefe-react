@@ -144,9 +144,6 @@ export default function BrewEdit() {
     function deleteProcess(id, time, processname, water) {
       setRemainTime(remainTime-time)
       if((processname === "Bloom")||(processname === "Pour Water")){
-        if(remainWater <= 0){
-          setProcessMethod(["Pour Water", "Bloom", ...processMethod])
-        }
         setRemainWater(remainWater+parseInt(water))
       }
       setProcess(process.filter((item) => {
@@ -197,6 +194,7 @@ export default function BrewEdit() {
           rate:score
         }
         try{
+          console.log(remainWater)
           const result = await axios.patch(`https://q27z6n.deta.dev/recipes/${id}`, data, { headers: { 'x-token': token } });
           console.log(result)
           navigate(`/brew-recipe/${brewer}`)
@@ -253,6 +251,9 @@ export default function BrewEdit() {
           setProcessStep("Wait")
           handleProcess("Wait")
       }
+      if(!processMethod.includes("Pour Water") && !processMethod.includes("Bloom") && remainWater>=0){
+        setProcessMethod("Pour Water", "Bloom", ...processMethod)
+      }
     }, [remainWater])
     
     useEffect(() => {
@@ -260,8 +261,17 @@ export default function BrewEdit() {
             try{
                 
                 const result = await axios.get(`https://q27z6n.deta.dev/recipes/${id}`, { headers: { 'accept': 'application/json' } });
+                let total_process_water = water
+                for (const element of process) {
+                  if(element.water){
+                  total_process_water = total_process_water-element.water}
+                }
+                setRemainWater(total_process_water)
+                
+                // setRemainWater(water - process.reduce((accumulator, object) => { return accumulator + object.water; }, 0))
+//                setRemainWater(remainWater+1)
+
                 if(AdminCheck() || OwnerCheck(result.data['owner'])){
-                  // setRemainWater(water - process.reduce((accumulator, object) => { return accumulator + object.water; }, 0))
                   console.log(result.data)
                 }
                 else{
@@ -279,7 +289,6 @@ export default function BrewEdit() {
             }
             document.title = t("Btext08")
       }, []);
-
 
 
   return (

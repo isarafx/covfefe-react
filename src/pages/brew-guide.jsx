@@ -196,7 +196,7 @@ export default function BrewGuide() {
               </div>
             </div>
 
-            { isOwner || AdminCheck  ? <div className="col" style={{ height: '415px' }}>
+            { isOwner || AdminCheck()  ? <div className="col" style={{ height: '415px' }}>
               <div id="guide_container1" style={{ height: '407px' }}>
                 <p id="guide_con_title">{t("Modaltext38")}</p><textarea id="comment_guide_box" rows={9} readOnly value={recipe?recipe.note:null} />
                 <p id="guide_con_title">{t("Btext19")}</p>

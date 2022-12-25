@@ -280,6 +280,7 @@ export default function BrewNew() {
     } else if (mainEquipment === "Chemex") {
       setProcessMethod(["Pour Water", "Add Coffee", "Stir", "Bloom", "Wait", "Swirl", "Rinse Filter", "Custom"])
     }
+    setRemainWater(water)
     setProcess([])
     setProcessStep("Wait")
     handleProcess("Wait")
