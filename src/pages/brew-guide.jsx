@@ -84,7 +84,7 @@ export default function BrewGuide() {
         console.log(error)
       }
     }
-    if(Boolean(searchParams.get('community'))){
+    if(searchParams.get('community') == 1){
       setPath('/community')
     }
     if (online) {
