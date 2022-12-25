@@ -22,7 +22,8 @@ export default function Offline() {
           <div className="Error_div"><img className="img-fluid" src="assets/img/Error2.png" /></div>
         </div>
         <p className="Errormain">{t("Error01")}</p>
-        <p className="Errorsub">{t("Error02")}</p><button onClick={()=>{navigate('/')}} className="btn btn-primary" id="back_main_btn2" type="button">{t("Error03")}</button>
+        <p className="Errorsub">{t("Error02")}</p>
+        <button onClick={()=>{navigate('/')}} className="btn btn-primary" id="back_main_btn1" type="button">{t("Error06")}</button>
       </div>
     </div>
   </div>
