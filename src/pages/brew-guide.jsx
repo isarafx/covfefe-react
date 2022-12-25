@@ -20,6 +20,7 @@ import { Link, useParams } from 'react-router-dom'
 import { useEffect } from 'react'
 import { mmss } from '../method/mmss'
 import axios from 'axios'
+import { useSearchParams } from 'react-router-dom'
 export default function BrewGuide() {
   const { brewer, id } = useParams();
   const [searchParams] = useSearchParams();
