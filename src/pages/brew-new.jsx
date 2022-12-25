@@ -492,7 +492,7 @@ export default function BrewNew() {
                         <div className="d-inline-flex" style={{ width: '100%', marginTop: '5px' }}><img className="ae_legend" src="../assets/img/legend_process.png" />
                           <p id="Etitle">{t("Modaltext09")}</p>
                         </div>
-                        <select value={processStep} className="form-select tools_switch" style={{ marginLeft: '0px', marginTop: '0px' }} onChange={(e) => { handleProcess(e.target.value) }}>
+                        <select value={processStep} className="form-select tools_switch" style={{ marginLeft: '0px', marginTop: '0px' }} onChange={(e) => { setProcessStep(e.target.value);handleProcess(e.target.value) }}>
                           {processMethod.map((item, index) => (<option key={item} value={item}>{item}</option>))}
                         </select>
                       </div>
