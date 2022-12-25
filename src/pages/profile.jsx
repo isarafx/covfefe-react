@@ -21,7 +21,7 @@ export default function Profile() {
   const [totalRecipe, setTotalRecipe] = useState(0)
   const [brewCount, setBrewCount] = useState(0)
 
-  
+
   function changeLanguage() {
     if (i18n.language === "en") {
       i18n.changeLanguage('th')
@@ -34,7 +34,7 @@ export default function Profile() {
   function changeSound() {
     if (sound) {
       localStorage.setItem('sound', '0')
-    }else {
+    } else {
       localStorage.setItem('sound', '1')
     }
   }
@@ -68,60 +68,60 @@ export default function Profile() {
     }
   }, []);
 
-  useEffect(()=>{
-    const fetchData  = async () => { 
-      try{
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
         // console.log(user)
         // alert(token)
-          if(LoginCheck()){
-              console.log('reach here')
-              let token = localStorage.getItem('token')
-              let user = JSON.parse(atob(localStorage.getItem('token').split('.')[1]))['username']
-              console.log(user)
-              const result = await axios.get('https://q27z6n.deta.dev/recipes/users', { headers: {'x-token': token} })
-              const picture = await axios.get(`https://q27z6n.deta.dev/users/${user}`, { headers: {'x-token': token} })
-              let count = result.data['items'].filter((item)=>{return item.owner == user}).length
-              if(LoginCheck()){
-              setTotalRecipe(count)
-              console.log('https://q27z6n.deta.dev'.concat(picture.data['image']))
-              // let a = ('https://q27z6n.deta.dev'.concat(picture.data['image']))
-              // setProfile(''JSON.stringify(picture.data['image']))
-              // console.log(typeof profile)
-              // console.log(typeof 'https://play-lh.googleusercontent.com/A26UUWOc_l_aPp2GRurp3sG0kaxjm8ArbFHtX5GQZ9x9QztmE_noNmHBE2fbTa855sZu')
-              setProfile(['https://q27z6n.deta.dev'.concat(picture.data['image'])])
-              if(Boolean(picture.data['brewed'])){
-                setBrewCount(picture.data['brewed'])
-              }else{
-                setBrewCount(0) 
-              }
-              if(picture.data['image'] == undefined ){setProfile(['assets/img/AvatarIcon.jpg'])}
-              // console.log(a)
-              localStorage.setItem('totalrecipe', count)
-              localStorage.setItem('profileImage', 'https://q27z6n.deta.dev'.concat(picture.data['image']))
-              }else{
+        if (LoginCheck()) {
+          console.log('reach here')
+          let token = localStorage.getItem('token')
+          let user = JSON.parse(atob(localStorage.getItem('token').split('.')[1]))['username']
+          console.log(user)
+          const result = await axios.get('https://q27z6n.deta.dev/recipes/users', { headers: { 'x-token': token } })
+          const picture = await axios.get(`https://q27z6n.deta.dev/users/${user}`, { headers: { 'x-token': token } })
+          let count = result.data['items'].filter((item) => { return item.owner == user }).length
+          if (LoginCheck()) {
+            setTotalRecipe(count)
+            console.log('https://q27z6n.deta.dev'.concat(picture.data['image']))
+            // let a = ('https://q27z6n.deta.dev'.concat(picture.data['image']))
+            // setProfile(''JSON.stringify(picture.data['image']))
+            // console.log(typeof profile)
+            // console.log(typeof 'https://play-lh.googleusercontent.com/A26UUWOc_l_aPp2GRurp3sG0kaxjm8ArbFHtX5GQZ9x9QztmE_noNmHBE2fbTa855sZu')
+            setProfile(['https://q27z6n.deta.dev'.concat(picture.data['image'])])
+            if (Boolean(picture.data['brewed'])) {
+              setBrewCount(picture.data['brewed'])
+            } else {
+              setBrewCount(0)
+            }
+            if (picture.data['image'] == undefined) { setProfile(['assets/img/AvatarIcon.jpg']) }
+            // console.log(a)
+            localStorage.setItem('totalrecipe', count)
+            localStorage.setItem('profileImage', 'https://q27z6n.deta.dev'.concat(picture.data['image']))
+          } else {
 
-              }
-              // console.log(picture.data['image'])
+          }
+          // console.log(picture.data['image'])
         }
-          // console.log(result.data['items'].filter((item)=>{return item.owner == user['username']}).length)
+        // console.log(result.data['items'].filter((item)=>{return item.owner == user['username']}).length)
 
-          //counting in server
-    } catch(error){
-      console.log(error.response)
-      // console.log(exData)
+        //counting in server
+      } catch (error) {
+        console.log(error.response)
+        // console.log(exData)
+      }
+    };
+    document.title = t("Ptext01")
+    if (online) {
+      fetchData()
     }
-  };
-      document.title = t("Ptext01")
-      if(online){
-        fetchData()
-      }
-      else{
-        // setTotalRecipe(localStorage.getItem('totalrecipe'))
-      }
+    else {
+      // setTotalRecipe(localStorage.getItem('totalrecipe'))
+    }
   }, [])
 
 
-  
+
   return (
     <div>
       <NavBar />
@@ -136,17 +136,19 @@ export default function Profile() {
                   </div>
                   <div className="row">
                     <div className="col">
-                      <p id="avatar_name" style={{ fontSize: '17px' }}>{ isLogged ? JSON.parse(atob(localStorage.getItem('token').split('.')[1]))['username']:'Guest'}<Link to="/profile-edit"><i className="fa fa-edit" style={{ color: '#515151', paddingLeft: '10px' }} /></Link></p>
+                      <div className='d-inline-flex'>
+                        <p id="avatar_name">{isLogged ? JSON.parse(atob(localStorage.getItem('token').split('.')[1]))['username'] : 'Guest'}</p><Link to="/profile-edit"><i className="fa fa-edit" style={{ color: '#515151', paddingLeft: '10px' }} /></Link>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
               <div className="row prow" data-bss-hover-animate="pulse">
-                {isLogged ? 
-                <div className="col"><Link onClick={()=>{setIslogged(false);localStorage.setItem('token','');setBrewCount(0);setTotalRecipe(0);setProfile(['assets/img/AvatarIcon.jpg'])}} className="btn btn-primary" role="button" style={{ background: '#d35151' }} >{t("Ltext10")}</Link></div>
-                :
-                <div className="col"><Link to="/login" className="btn btn-primary" role="button" style={{ background: '#d35151' }}>{t("Ltext01")}</Link></div>}
-                
+                {isLogged ?
+                  <div className="col"><Link onClick={() => { setIslogged(false); localStorage.setItem('token', ''); setBrewCount(0); setTotalRecipe(0); setProfile(['assets/img/AvatarIcon.jpg']) }} className="btn btn-primary" role="button" style={{ background: '#d35151' }} >{t("Ltext10")}</Link></div>
+                  :
+                  <div className="col"><Link to="/login" className="btn btn-primary" role="button" style={{ background: '#d35151' }}>{t("Ltext01")}</Link></div>}
+
               </div>
             </div>
             <div className="col profile_section">
@@ -183,9 +185,9 @@ export default function Profile() {
                 </div>
                 <div className="col" style={{ maxWidth: '100%', width: '70px', textAlign: 'center', minWidth: '60px' }}><label className="switch">
                   {/* <input type="checkbox" /> */}
-                  {sound?
-                  <input type="checkbox" checked onClick={()=>{setSound(!sound);changeSound()}}/>
-                  :<input type="checkbox" onClick={()=>{setSound(!sound);changeSound()}} />}
+                  {sound ?
+                    <input type="checkbox" checked onClick={() => { setSound(!sound); changeSound() }} />
+                    : <input type="checkbox" onClick={() => { setSound(!sound); changeSound() }} />}
                   <span className="slider round" />
                 </label></div>
                 <div className="col" style={{ width: '40.4px', maxWidth: '100%', textAlign: 'center' }}>
@@ -202,9 +204,9 @@ export default function Profile() {
                   <p className="setting_label2">{t("Ptext09")}</p>
                 </div>
                 <div className="col" style={{ maxWidth: '100%', width: '70px', textAlign: 'center', minWidth: '60px' }}><label className="switch">
-                  {checker?
-                  <input type="checkbox" checked onClick={()=>{setChecker(!checker);changeLanguage()}}/>
-                  :<input type="checkbox" onClick={()=>{setChecker(!checker);changeLanguage()}} />}
+                  {checker ?
+                    <input type="checkbox" checked onClick={() => { setChecker(!checker); changeLanguage() }} />
+                    : <input type="checkbox" onClick={() => { setChecker(!checker); changeLanguage() }} />}
                   <span className="slider round" />
                 </label></div>
                 <div className="col" style={{ width: '40.4px', maxWidth: '100%', textAlign: 'center' }}>

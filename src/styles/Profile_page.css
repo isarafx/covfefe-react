@@ -42,9 +42,11 @@
 
 #avatar_name {
   padding-left: 5px;
-  font-size: 18px;
+  font-size: 17px;
   color: #955c18;
   font-weight: bold;
+  overflow: hidden;
+  width: 100px;
 }
 
 .prow {
