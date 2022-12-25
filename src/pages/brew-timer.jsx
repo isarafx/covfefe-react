@@ -1,5 +1,5 @@
 import React from 'react'
-
+import soundSRC from "../assets/Untitled Project.wav"
 import "../styles/Multiple-Input-Select-Pills.css"
 import "../styles/Profile_page.css"
 import "../styles/Round_switch.css"
@@ -102,7 +102,7 @@ export default function BrewTimer() {
           
 
         }else if(processTime>0 && totaltime>0){ //run this case every 1000ms
-          if(processTime == 7){play()}
+          if(processTime == 3){play()}
           console.log('1s')
           setProcessTime(processTime-1)
           setTotalTime(totaltime-1)
@@ -211,7 +211,7 @@ export default function BrewTimer() {
       <div className="d-flex justify-content-center" id="Timer_container1"><button onClick={()=> {test()}} className="btn btn-primary" id="Timer_PP_button" type="button" />
         <div className="Main_timer" />
         <p className="Main_timer_text">{t("Btext10")}</p>
-        <audio id='a1'><source src="%PUBLIC_URL%/../assets/img/5sec.mp3" type='audio/mpeg' /></audio>
+        <audio id='a1'><source src={soundSRC} type='audio/mpeg' /></audio>
         {/* <button onClick={(e)=>{test()}}>test</button> */}
         <p className="Main_timer_num">{mmss(processTime)}</p><img className="timer_control_icon" src={state ? "../../assets/img/Timer_pause_ico.png":"../../assets/img/Timer_play_ico.png"} />
         <div className="d-inline-flex Sub_timer"><img className="Sub_timer_icon" src="%PUBLIC_URL%/../assets/img/guide_timer_ico.png" />
