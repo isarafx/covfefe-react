@@ -196,7 +196,7 @@ export default function CommuMain() {
           </div>
           <div className="d-flex justify-content-center align-items-center" id="Method_selectorbox">
             <div className="form-check d-flex align-items-center method_box">
-              <button onClick={() => { setDisplayList([...data].filter((item) => item.brewer === "Aeropress")) }} className="form-check-input" type="radio" id="Radio_button" name="coffee" /><label className="form-check-label" htmlFor="Radio_button"><img className="Method_pic" src="assets/img/Aeropress_ICO.png" /></label></div>
+              <button onClick={() => { setDisplayList([...data].filter((item) => item.brewer === "AeroPress")) }} className="form-check-input" type="radio" id="Radio_button" name="coffee" /><label className="form-check-label" htmlFor="Radio_button"><img className="Method_pic" src="assets/img/Aeropress_ICO.png" /></label></div>
           </div>
           <div className="d-flex justify-content-center align-items-center" id="Method_selectorbox">
             <div className="form-check d-flex align-items-center method_box">
