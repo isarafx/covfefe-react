@@ -22,10 +22,11 @@ import { mmss } from '../method/mmss'
 import axios from 'axios'
 export default function BrewGuide() {
   const { brewer, id } = useParams();
+  const [searchParams] = useSearchParams();
   const [cup, setCup] = useState(1)
   const { t, i18n } = useTranslation();
   const [isLogged, setIsLogged] = useState(Boolean(localStorage.getItem('token')) ? localStorage.getItem('token') : null)
-
+  const [path, setPath] = useState(`/brew-recipe/${brewer}`)
   const [comment, setComment] = useState('')
 
   let [online, isOnline] = useState(navigator.onLine);
@@ -82,6 +83,9 @@ export default function BrewGuide() {
         console.log(error)
       }
     }
+    if(Boolean(searchParams.get('community'))){
+      setPath('/community')
+    }
     if (online) {
       fetchData()
     } else {
@@ -96,7 +100,7 @@ export default function BrewGuide() {
   }, [])
   return (
     <div>
-      <div className="div_back"><Link to={`/brew-recipe/${brewer}/`} ><i className="icon ion-android-arrow-back" id="Back_icon" /></Link></div>
+      <div className="div_back"><Link to={path} ><i className="icon ion-android-arrow-back" id="Back_icon" /></Link></div>
       {isOwner ? <div className="d-flex div_a" style={{ width: '80%', marginLeft: '20%' }}><Link to={`/brew-recipe/${brewer}/edit/${id}`}><i className="fa fa-pencil Add_icon" style={{ fontSize: '25px' }} /></Link></div>
         : null}
       <div id="main_template">

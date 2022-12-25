@@ -52,7 +52,7 @@ export default function RecipeCard({owner, editable, delfunc, favfunc, unfavfunc
                     }
 
                     { isOwner ?
-                    <Link to={`/brew-recipe/${brewer}/share/${link}`} className="btn btn-primary" role="button" data-bss-hover-animate="jello" id="Tool_color" >
+                    <Link to={`/brew-recipe/${brewer}/share/${link}`} className="btn btn-primary" disabled={Boolean(shared==='Tool_Shared')} role="button" data-bss-hover-animate="jello" id="Tool_color" >
                     <i className="fas fa-share" id={shared} />
                     </Link>
                     :

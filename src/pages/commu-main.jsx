@@ -68,6 +68,7 @@ export default function CommuMain() {
     if (online) {
       fetchData();
     } else {
+      navigate('/offline')
       setData(localStorage.getItem('community'))
       setDisplayList(localStorage.getItem('community'))
     }
@@ -223,7 +224,7 @@ export default function CommuMain() {
                   <div className="col">
                     <div className="card Recipe_card">
                       <div className="card-body">
-                        <div><Link to={`/brew-recipe/${item.brewer}/${item.key}`}>
+                        <div><Link to={`/brew-recipe/${item.brewer}/${item.key}?community=1`}>
                           <div className="row" style={{ textAlign: 'center' }}>
                             <div className="col"><img id="Result_mpic" src="assets/img/Sample.png" /></div>
                           </div>

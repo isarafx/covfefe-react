@@ -21,8 +21,8 @@ export default function CommuShare() {
   const [ exData, setEXDATA] = useState('')
   const tool = {
     "hario":"Hario_ICO.png",
-    "aeropress":"AeroPress_ICO.png",
-    "frenchpress":"FrenchPress_ICO.png",
+    "aeropress":"Aeropress_ICO.png",
+    "frenchpress":"Frenchpress_ICO.png",
     "mokapot":"Moka_ICO.png",
     "chemex":"Chemex_ICO.png",
   }
