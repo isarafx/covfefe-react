@@ -8,9 +8,11 @@ import "../styles/Ultimate-Sidebar-Menu-BS5.css"
 import "../styles/Features-Clean.css"
 
 import { useTranslation } from 'react-i18next';
-
+import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 export default function Offline() {
   const { t, i18n } = useTranslation();
+  let navigate = useNavigate();
   return (
     <div>
   <div id="main_template">
@@ -20,7 +22,7 @@ export default function Offline() {
           <div className="Error_div"><img className="img-fluid" src="assets/img/Error2.png" /></div>
         </div>
         <p className="Errormain">{t("Error01")}</p>
-        <p className="Errorsub">{t("Error02")}</p><button className="btn btn-primary" id="back_main_btn2" type="button">{t("Error03")}</button>
+        <p className="Errorsub">{t("Error02")}</p><button onClick={()=>{navigate('/')}} className="btn btn-primary" id="back_main_btn2" type="button">{t("Error03")}</button>
       </div>
     </div>
   </div>

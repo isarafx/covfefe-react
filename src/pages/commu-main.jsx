@@ -218,7 +218,7 @@ export default function CommuMain() {
               Boolean(displayList) ? displayList.map((item) => {
                 let is_star = null
                 if (Boolean(item.star)) {
-                  if (item.star.includes()) { is_star = 1 }
+                  if (item.star.includes(user)) { is_star = 1 }
                 }
                 return (
                   <div className="col">

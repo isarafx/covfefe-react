@@ -223,7 +223,8 @@ export default function BrewTimer() {
           <div id="process_card2">
             <div className="d-inline-flex" style={{minWidth: '100%'}}>
               <div style={{minWidth: '15%'}}><img id="process_pic" src="../../assets/img/Process_Dummy_icon.png" /></div>
-              <p id="process_title" style={{color: '#dc6c62'}}>{processList.length >0?processList[index-1].name:null}</p>
+              {/* <p id="process_title" style={{color: '#dc6c62'}}>{processList.length > 0?processList[index-1].name:null}</p> */}
+              <p id="process_title" style={{color: '#dc6c62'}}>{processList.length > 0?processList[index-1].name:null}</p>
             </div>
             <div>
               <p id="process_des">{processList.length >0?descParse(processList[index-1].name,processList[index-1].water,cup,brewer):null}</p>

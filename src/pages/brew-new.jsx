@@ -52,7 +52,7 @@ export default function BrewNew() {
       "Hario V60":"/assets/img/Tools_2.png",
       "Chemex":"/assets/img/Tools_3.png",
       "Moka Pot":"/assets/img/Tools_4.png",
-      "Aero Press":"/assets/img/Tools_5.png",
+      "AeroPress":"/assets/img/Tools_5.png",
       "French Press":"/assets/img/Tools_6.png",
       "Kettle":"/assets/img/Tools_7.png",
       "Scale":"/assets/img/Tools_8.png",
@@ -454,7 +454,7 @@ export default function BrewNew() {
                               <option value="Hario V60">Hario V60</option>
                               <option value="Chemex">Chemex</option>
                               <option value="Moka Pot">Moka Pot</option>
-                              <option value="Aero Press">Aeropress</option>
+                              <option value="AeroPress">Aeropress</option>
                               <option value="French Press">French Press</option>
                               <option value="Kettle">{t("Modaltext03")}</option>
                               <option value="Scale">{t("Modaltext04")}</option>
