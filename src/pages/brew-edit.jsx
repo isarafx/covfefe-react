@@ -244,25 +244,9 @@ export default function BrewEdit() {
         }
     }
     let [online, isOnline] = useState(navigator.onLine);
-    const setOnline = () => {
-      console.log('We are online!');
-      isOnline(true);
-    };
-    const setOffline = () => {
-      console.log('We are offline!');
-      isOnline(false);
-    };
-    // Register the event listeners
-    useEffect(() => {
-      window.addEventListener('offline', setOffline);
-      window.addEventListener('online', setOnline);
-  
-      // cleanup if we unmount
-      return () => {
-        window.removeEventListener('offline', setOffline);
-        window.removeEventListener('online', setOnline);
-      }
-    }, []);
+    const setOnline = () => { console.log('We are online!'); isOnline(true); };
+    const setOffline = () => { console.log('We are offline!'); isOnline(false); };
+    useEffect(() => { window.addEventListener('offline', setOffline); window.addEventListener('online', setOnline); return () => { window.removeEventListener('offline', setOffline); window.removeEventListener('online', setOnline); } }, []);
     useEffect(()=>{
       if(remainWater<=0){
           setProcessMethod(processMethod.filter(item=>(item!="Pour Water")&&(item!="Bloom")))
@@ -301,7 +285,8 @@ export default function BrewEdit() {
   return (
     <div>
       <div className="div_back"><Link to={`/brew-recipe/${brewer}/${id}`} ><i className="icon ion-android-arrow-back" id="Back_icon" /></Link></div>
-      <div className="d-flex div_a" style={{ width: '80%', marginLeft: '20%' }}><button onClick={()=>{Record()}} className="btn" id="brew_save_btn" type="button"><i className="fas fa-save Add_icon" style={{ fontSize: '25px' }} /></button></div>
+      <div className="d-flex div_a" style={{ width: '80%', marginLeft: '20%' }}>
+        <button onClick={()=>{Record()}} className="btn" id="brew_save_btn" type="button"><i className="fas fa-save Add_icon" style={{ fontSize: '25px' }} /></button></div>
       <div id="main_template">
         <div className="container" id="recipelist_container">
           <input type="text" id="recipe_name_edit" placeholder="Enter Recipe Name Here" value={name} onChange={(e) => { setName(e.target.value) }} />

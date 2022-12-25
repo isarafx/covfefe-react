@@ -44,7 +44,7 @@ export default function BrewNew() {
       "Hario":"Hario",
       "Moka":"Moka Pot",
       "Frenchpress":"French Press",
-      "Aeropress":"Aeropress",
+      "Aeropress":"AeroPress",
       "Chemex":"Chemex"
     };
     const PicEQ = {   //assets/img/${PicEQ[item.name]}.png
@@ -181,7 +181,8 @@ export default function BrewNew() {
         // setModalDetail('')
       }
 
-    const Record  = async () => { 
+    const Record  = async () => {
+
         let tempeq = (equipment.map((item)=>({name:item.name, description:item.description})))
         let tempProcess = ([...process].map((item)=> {
           let newprocess = {name:item.name, time:item.time, comment:item.comment};
@@ -291,7 +292,7 @@ export default function BrewNew() {
     <div>
       <div className="div_back"><Link to="/" ><i className="icon ion-android-arrow-back" id="Back_icon" /></Link></div>
       <div className="d-flex div_a" style={{ width: '80%', marginLeft: '20%' }}>
-        <button className="btn" id="brew_save_btn" type="button" onClick={()=>{Record()}} />
+          <button onClick={()=>{Record()}} className="btn" id="brew_save_btn" type="button"><i className="fas fa-save Add_icon" style={{ fontSize: '25px' }} /></button>
       </div>
       <div id="main_template">
         <div className="container profile_container">
