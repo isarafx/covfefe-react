@@ -6,7 +6,7 @@ import "../styles/Round_switch.css"
 import "../styles/styles.css"
 import "../styles/Ultimate-Sidebar-Menu-BS5.css"
 import "../styles/Features-Clean.css"
-
+import errorPic from "../assets/img/Error2.png"
 import { useTranslation } from 'react-i18next';
 
 export default function Offline() {
@@ -17,7 +17,7 @@ export default function Offline() {
     <div className="container" id="recipelist_container">
       <div style={{textAlign: 'center'}}>
         <div className="d-flex justify-content-center">
-          <div className="Error_div"><img className="img-fluid" src="assets/img/Error2.png" /></div>
+          <div className="Error_div"><img className="img-fluid" src={errorPic} /></div>
         </div>
         <p className="Errormain">{t("Error01")}</p>
         <p className="Errorsub">{t("Error02")}</p><button className="btn btn-primary" id="back_main_btn2" type="button">{t("Error03")}</button>
