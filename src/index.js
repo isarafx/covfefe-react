@@ -103,61 +103,61 @@ const router = createBrowserRouter([
   {
     path: "/article",
     element: <ArticleMain />,
-    // errorElement:<Error />,
+    errorElement:<Error />,
   },
   {
     path: "/article-new",
     element: <ProtectedRoute><ArticleNew /></ProtectedRoute>,
-    // errorElement:<Error />,
+    errorElement:<Error />,
   },
   {
     path: "/article/:id",
     element: <ArticleRead />,
-    // errorElement:<Error />,
+    errorElement:<Error />,
   },
   {
     path: "/favorite",
     element: <ProtectedRoute><BrewFav /></ProtectedRoute>,
-    // errorElement:<Error />,
+    errorElement:<Error />,
   },
   {
     path: "/brew-recipe/:brewer/:id",
     element: <BrewGuide />,
-    // errorElement:<Error />,
+    errorElement:<Error />,
   },
   {
     path: "/brew-recipe/new",
     element: <ProtectedRoute><BrewNew /></ProtectedRoute>,
-    // errorElement:<Error />,
+    errorElement:<Error />,
   },
   {
     path: "/brew-recipe/:brewer",
     element: <BrewRecipe />,
-    // errorElement:<Error />,
+    errorElement:<Error />,
   },
   {
     path: "/brew-recipe/:brewer/timer/:id",
     element: <BrewTimer />,
-    // errorElement:<Error />,
+    errorElement:<Error />,
   },
   {
     path: "/brew-recipe/:brewer/edit/:id",
     element: <ProtectedRoute><BrewEdit /></ ProtectedRoute>,
-    // errorElement:<Error />,
+    errorElement:<Error />,
   },
   {
     path: "/brew-recipe/:brewer/share/:id",
     element: <ProtectedRoute><CommuShare /></ProtectedRoute>,
-    // errorElement:<Error />,
+    errorElement:<Error />,
   },
   {
     path: "/community",
     element: <ProtectedRoute><CommuMain /></ProtectedRoute>,
-    // errorElement:<Error />,
+    errorElement:<Error />,
   },
   {
     path: "/error",
-    // element: <Error />,
+    element: <Error />,
   },
   {
     path: "/offline",
@@ -166,37 +166,37 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <Login />,
-    // errorElement:<Error />,
+    errorElement:<Error />,
   },
   {
     path: "/register",
     element: <Register />,
-    // errorElement:<Error />,
+    errorElement:<Error />,
   },
   {
     path: "/profile",
     element: <Profile />,
-    // errorElement:<Error />,
+    errorElement:<Error />,
   },
   {
     path: "/profile-edit",
     element: <ProtectedRoute><ProfileEdit /></ProtectedRoute>,
-    // errorElement:<Error />,
+    errorElement:<Error />,
   },
   {
     path: "/offline",
     element: <Offline />,
-    // errorElement:<Error />,
+    errorElement:<Error />,
   },
   {
     path: "/brew-recipe/finish",
     element: <BrewFinish />,
-    // errorElement:<Error />,
+    errorElement:<Error />,
   },
   {
     path: "*",
     element: <Error />,
-    // errorElement:<Error />,
+    errorElement:<Error />,
   },
 ]);
 
