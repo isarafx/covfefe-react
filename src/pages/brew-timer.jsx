@@ -46,8 +46,20 @@ export default function BrewTimer() {
   const [processTime, setProcessTime] = useState(0)
   const [state, setState] = useState(0) // if true> clock start
   const [index, setIndex] = useState(1)
-  const token = localStorage.getItem('token')
-  const [brewed, setBrewed] = useState()
+  const token = useState(()=>{
+    if(localStorage.getItem('token') == null){
+        return 0
+    }else{
+      return localStorage.getItem('token')
+    }
+  });
+  const [brewed, setBrewed] = useState(()=>{
+    if(localStorage.getItem('brewed') == null){
+        return 0
+    }else{
+      return parseInt(localStorage.getItem('brewed'))
+    }
+  });
 
   function skipMethod(){
     setProcessTime(parseInt(processList[index].time))
@@ -81,7 +93,10 @@ export default function BrewTimer() {
     audio.currentTime = 0;
   }
 
-
+  async function sendBrew2(){
+    await sendBrewed()
+    console.log('done')
+  }
   useEffect( ()=>{
     if(state){
       const interval = setInterval(() => {
@@ -89,8 +104,8 @@ export default function BrewTimer() {
           setState(false)
           // startCondition()
           localStorage.setItem('brewcount', (brewed+1))
-          sendBrewed()
-          navigate(`/brew-recipe/finish?brewer=${brewer}&id=${id}`)
+          sendBrew2()
+          
           //post brew total to server
           //set localstorage to push to server
         }
@@ -146,14 +161,17 @@ export default function BrewTimer() {
             if(token){
                 let user = JSON.parse(atob(localStorage.getItem('token').split('.')[1]))
                 if(online){
-                  const result = await axios.patch(`https://q27z6n.deta.dev/users`, {"brewed":(brewed+1)}, {headers: {'x-token':token}});
-                  console.log(result)
+                  console.log(brewed)
+                  const result = await axios.patch(`https://q27z6n.deta.dev/users`, {"brewed":3}, {headers: {'x-token':token}});
+                  console.log(result.data)
+                  console.warn('reach here')
                 }else{
                   //offline implement
                 }
             }
       }catch(error){
-        console.log(error)
+        
+        console.log(error.response)
       }
   };
   useEffect(()=>{

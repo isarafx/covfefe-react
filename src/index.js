@@ -128,7 +128,6 @@ const router = createBrowserRouter([
   {
     path: "/brew-recipe/new",
     element: <ProtectedRoute><BrewNew /></ProtectedRoute>,
-    errorElement:<Error />,
   },
   {
     path: "/brew-recipe/:brewer",
@@ -143,7 +142,6 @@ const router = createBrowserRouter([
   {
     path: "/brew-recipe/:brewer/edit/:id",
     element: <ProtectedRoute><BrewEdit /></ ProtectedRoute>,
-    errorElement:<Error />,
   },
   {
     path: "/brew-recipe/:brewer/share/:id",

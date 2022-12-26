@@ -66,10 +66,12 @@ export default function BrewEdit() {
     const [processModalComment, setProcessModalComment] = useState()
     const [remainWater, setRemainWater] = useState(recipe.process.reduce((accumulator, object) => { return accumulator + object.water; }, 0))
     const [remainTime, setRemainTime] = useState(recipe.process.reduce((accumulator, object) => { return accumulator + object.time; }, 0))
+    const [waterLimit, setwaterLimit] = useState(false)
     const getInitialState = () => {
       const value = "";
       return value;
     };
+    const [focus, setFocus] = useState(false)
     const token = localStorage.getItem('token')
     const user = JSON.parse(atob(localStorage.getItem('token').split('.')[1]))['username']
     const { t, i18 } = useTranslation()
@@ -155,7 +157,6 @@ export default function BrewEdit() {
     const header = {
         headers: {
             'x-token': token,
-            'Content-Type': 'application/json'
         }
     }
 
@@ -168,6 +169,7 @@ export default function BrewEdit() {
       }
 
     const Record  = async () => { 
+      try{
         let tempeq = (equipment.map((item)=>({name:item.name, description:item.description})))
         let tempProcess = ([...process].map((item)=> {
           let newprocess = {name:item.name, time:item.time, comment:item.comment};
@@ -193,7 +195,7 @@ export default function BrewEdit() {
           roast_level:roast,
           rate:score
         }
-        try{
+        
           console.log(remainWater)
           const result = await axios.patch(`https://q27z6n.deta.dev/recipes/${id}`, data, { headers: { 'x-token': token } });
           console.log(result)
@@ -246,13 +248,19 @@ export default function BrewEdit() {
     const setOffline = () => { console.log('We are offline!'); isOnline(false); };
     useEffect(() => { window.addEventListener('offline', setOffline); window.addEventListener('online', setOnline); return () => { window.removeEventListener('offline', setOffline); window.removeEventListener('online', setOnline); } }, []);
     useEffect(()=>{
-      if(remainWater<=0){
+      console.log('test')
+      if(remainWater<=0 && processMethod!=undefined){
           setProcessMethod(processMethod.filter(item=>(item!="Pour Water")&&(item!="Bloom")))
           setProcessStep("Wait")
           handleProcess("Wait")
-      }
-      if(!processMethod.includes("Pour Water") && !processMethod.includes("Bloom") && remainWater>=0){
-        setProcessMethod("Pour Water", "Bloom", ...processMethod)
+          setwaterLimit(true)
+      }else if(remainWater >=0 && waterLimit){
+        setProcessMethod(["Pour Water", "Bloom", ...processMethod])
+        setProcessStep("Wait")
+        handleProcess("Wait")
+        setwaterLimit(false)
+        console.warn(remainWater)
+          
       }
     }, [remainWater])
     
@@ -330,21 +338,30 @@ export default function BrewEdit() {
                     <div id="guide_card"><img id="guide_icon" src="assets/img/guide_ratio_ico.png" />
                       <p id="guide_name">{t("Modaltext31")}</p>
                       <div className="input-group"><span className="d-flex justify-content-end input-group-text" id="guide_unit2">1&nbsp; :</span>
-                        <input className="form-control" type="number" id="guide_input2" value={ratio} onBlur={(e)=>{changeRatio("ratio", e.target.value)}} onChange={(e)=>{setRatio(e.target.value)}} onFocus={(e)=>{setWater2(water);setRatio2(e.target.value)}}  /></div>
+                        <input className="form-control" type="number" id="guide_input2" value={ratio} 
+                        onBlur={(e)=>{changeRatio("ratio", e.target.value);setFocus(false)}}
+                        onChange={(e)=>{setRatio(e.target.value)}} 
+                        onFocus={(e)=>{setWater2(water);setRatio2(e.target.value)}}  /></div>
                     </div>
                   </div>
                   <div className="col d-flex justify-content-center" style={{ paddingLeft: '5px', paddingRight: '5px' }}>
                     <div id="guide_card"><img id="guide_icon" src="assets/img/guide_pack_ico.png" />
                       <p id="guide_name">{t("Modaltext29")}</p>
                       <div className="input-group">
-                        <input className="form-control" type="number" id="guide_input" value={coffee} onBlur={(e)=>{changeRatio("coffee", e.target.value)}} onChange={(e)=>{setCoffee(e.target.value)}} onFocus={(e)=>{setWater2(water);setCoffee2(e.target.value)}}  /><span className="input-group-text" id="guide_unit">g</span></div>
+                        <input className="form-control" type="number" id="guide_input" value={coffee} 
+                        onBlur={(e)=>{changeRatio("coffee", e.target.value);setFocus(false)}} 
+                        onChange={(e)=>{setCoffee(e.target.value)}} 
+                        onFocus={(e)=>{setWater2(water);setCoffee2(e.target.value)}}  /><span className="input-group-text" id="guide_unit">g</span></div>
                     </div>
                   </div>
                   <div className="col d-flex justify-content-center" style={{ paddingLeft: '5px', paddingRight: '5px' }}>
                     <div id="guide_card"><img id="guide_icon" src="assets/img/guide_water_ico.png" />
                       <p id="guide_name">{t("Modaltext30")}</p>
                       <div className="input-group">
-                        <input className="form-control" type="number" id="guide_input" value={water} onBlur={(e)=>{changeRatio('water', e.target.value)}} onChange={(e)=>{setWater(e.target.value)}} onFocus={(e)=>{setWater2(e.target.value)}} /><span className="input-group-text" id="guide_unit">ml</span></div>
+                        <input className="form-control" type="number" id="guide_input" value={water} 
+                        onBlur={(e)=>{changeRatio('water', e.target.value);setFocus(false)}} 
+                        onChange={(e)=>{setWater(e.target.value)}} 
+                        onFocus={(e)=>{if(focus){e.preventDefault()}else{setFocus(true);setWater2(e.target.value);setCoffee2(coffee);setRatio2(ratio)}}} /><span className="input-group-text" id="guide_unit">ml</span></div>
                     </div>
                   </div>
                 </div>
