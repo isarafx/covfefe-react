@@ -13,6 +13,7 @@ import { Link, Navigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next';
 import BackButton from '../components/backbutton'
 import { useNavigate } from 'react-router-dom'
+import defaultPic from "../assets/img/AvatarIcon.jpg"
 export default function ProfileEdit() {
   const { t, i18n } = useTranslation();
   const token = localStorage.getItem('token')
@@ -57,7 +58,7 @@ export default function ProfileEdit() {
           <form id="Eprofile_card" onSubmit={handleSubmit}>
             <div className="row" style={{ textAlign: 'center', marginBottom: '20px' }}>
               <div className="col d-flex justify-content-center">
-                <div className="Eavarta_icon_border"><img id="Eavarta_icon" src={imgurl?imgurl:"assets/img/AvatarIcon.jpg"} /></div>
+                <div className="Eavarta_icon_border"><img id="Eavarta_icon" src={imgurl?imgurl:defaultPic} /></div>
               </div>
             </div>
             <div className="row" style={{ marginBottom: '10px' }}>

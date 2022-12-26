@@ -15,16 +15,26 @@ import BackButton from '../components/backbutton'
 import { useEffect } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+
+import namepic from "../assets/img/legend_name.png"
+import notepic from "../assets/img/legend_note.png"
+import imgtool1 from "../assets/img/Hario_ICO.png"
+import imgtool2 from "../assets/img/Aeropress_ICO.png"
+import imgtool3 from "../assets/img/Frenchpress_ICO.png"
+import imgtool4 from "../assets/img/Moka_ICO.png"
+import imgtool5 from "../assets/img/Chemex_ICO.png"
+
+
 export default function CommuShare() {
   const {brewer, id} = useParams()
   const [description, setDescription] = useState('')
   const [ exData, setEXDATA] = useState('')
   const tool = {
-    "hario":"Hario_ICO.png",
-    "aeropress":"Aeropress_ICO.png",
-    "frenchpress":"Frenchpress_ICO.png",
-    "mokapot":"Moka_ICO.png",
-    "chemex":"Chemex_ICO.png",
+    "hario": imgtool1,
+    "aeropress":imgtool2,
+    "frenchpress":imgtool3,
+    "mokapot":imgtool4,
+    "chemex":imgtool5,
   }
   const { t, i18n } = useTranslation();
   const recipe = JSON.parse(localStorage.getItem('brew-recipe'))['items'].filter((item)=>item.key === id)[0]
@@ -89,13 +99,13 @@ export default function CommuShare() {
       <form id="Shared_card">
         <div className="row" style={{textAlign: 'center', marginBottom: '20px'}}>
           <div className="col d-flex justify-content-center">
-            <div className="Shared_icon_border"><img id="Shared_icon" src={`assets/img/${tool[brewer]}`} /></div>
+            <div className="Shared_icon_border"><img id="Shared_icon" src={tool[brewer]} /></div>
           </div>
         </div>
         <div className="row" style={{marginBottom: '10px'}}>
           <div className="col">
             <div className="Ecard" style={{height: '92px'}}>
-              <div className="d-inline-flex" style={{width: '100%', marginTop: '5px'}}><img className="ae_legend" src="assets/img/legend_name.png" />
+              <div className="d-inline-flex" style={{width: '100%', marginTop: '5px'}}><img className="ae_legend" src={namepic} />
                 <p id="Etitle">{t("Ctext02")}</p>
               </div><input className="form-control-plaintext" type="text" id="Shared_title" defaultValue={recipe.name} readOnly />
             </div>
@@ -104,7 +114,7 @@ export default function CommuShare() {
         <div className="row" style={{marginBottom: '10px'}}>
           <div className="col">
             <div className="Ecard" style={{height: '214px'}}>
-              <div className="d-inline-flex" style={{width: '100%', marginTop: '5px'}}><img className="ae_legend" src="assets/img/legend_note.png" />
+              <div className="d-inline-flex" style={{width: '100%', marginTop: '5px'}}><img className="ae_legend" src={notepic} />
                 <p id="Etitle">{t("Ctext03")}</p>
               </div><textarea className="form-control" id="Shared_com_field" rows={6} value={description} onChange={(e)=>{setDescription(e.target.value)}} />
             </div>

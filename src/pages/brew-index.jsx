@@ -16,6 +16,11 @@ import "../styles/Brewing_Guide4.css"
 import "../styles/Features-Clean.css"
 import imgcup from "../assets/img/Cup Icon.png"
 import imgfav from "../assets/img/Favorite Icon.png"
+import imghar from "../assets/img/Hario V60.png"
+import imgaer from "../assets/img/Aeropress.png"
+import imgfre from "../assets/img/Frenchpress.png"
+import imgmok from "../assets/img/MokaPot.png"
+import imgche from "../assets/img/Chemex.png"
 import { useTranslation } from 'react-i18next'
 import { useEffect } from 'react'
 export default function BrewIndex() {
@@ -36,7 +41,7 @@ export default function BrewIndex() {
         <div className="col d-flex d-sm-flex d-md-flex d-lg-flex d-xl-flex d-xxl-flex justify-content-center justify-content-sm-center justify-content-md-center justify-content-lg-center justify-content-xl-center justify-content-xxl-center">
           <div className="d-flex justify-content-center align-items-center Method_box"><Link to="/brew-recipe/hario">
               <div className="card d-flex mcard" data-bss-hover-animate="pulse">
-                <div className="card-body" style={{textAlign: 'center'}}><img className="Method_icon" src="assets/img/Hario%20V60.png" />
+                <div className="card-body" style={{textAlign: 'center'}}><img className="Method_icon" src={imghar} />
                   <h4 className="card-title Method_name">Hario V60</h4>
                 </div>
               </div>
@@ -45,7 +50,7 @@ export default function BrewIndex() {
         <div className="col d-flex d-sm-flex d-md-flex d-lg-flex d-xl-flex d-xxl-flex justify-content-center justify-content-sm-center justify-content-md-center justify-content-lg-center justify-content-xl-center justify-content-xxl-center">
           <div className="d-flex justify-content-center align-items-center Method_box"><Link to="/brew-recipe/aeropress">
               <div className="card d-flex mcard" data-bss-hover-animate="pulse">
-                <div className="card-body" style={{textAlign: 'center'}}><img className="Method_icon" src="assets/img/Aeropress.png" />
+                <div className="card-body" style={{textAlign: 'center'}}><img className="Method_icon" src={imgaer} />
                   <h4 className="card-title Method_name">Aeropress</h4>
                 </div>
               </div>
@@ -54,7 +59,7 @@ export default function BrewIndex() {
         <div className="col d-flex d-sm-flex d-md-flex d-lg-flex d-xl-flex d-xxl-flex justify-content-center justify-content-sm-center justify-content-md-center justify-content-lg-center justify-content-xl-center justify-content-xxl-center">
           <div className="d-flex justify-content-center align-items-center Method_box"><Link to="/brew-recipe/frenchpress">
               <div className="card d-flex mcard" data-bss-hover-animate="pulse">
-                <div className="card-body" style={{textAlign: 'center'}}><img className="Method_icon" src="assets/img/Frenchpress.png" />
+                <div className="card-body" style={{textAlign: 'center'}}><img className="Method_icon" src={imgfre} />
                   <h4 className="card-title Method_name">French Press<br /></h4>
                 </div>
               </div>
@@ -63,7 +68,7 @@ export default function BrewIndex() {
         <div className="col d-flex d-sm-flex d-md-flex d-lg-flex d-xl-flex d-xxl-flex justify-content-center justify-content-sm-center justify-content-md-center justify-content-lg-center justify-content-xl-center justify-content-xxl-center">
           <div className="d-flex justify-content-center align-items-center Method_box"><Link to="/brew-recipe/mokapot">
               <div className="card d-flex mcard" data-bss-hover-animate="pulse">
-                <div className="card-body" style={{textAlign: 'center'}}><img className="Method_icon" src="assets/img/MokaPot.png" />
+                <div className="card-body" style={{textAlign: 'center'}}><img className="Method_icon" src={imgmok} />
                   <h4 className="card-title Method_name">Moka Pot</h4>
                 </div>
               </div>
@@ -72,7 +77,7 @@ export default function BrewIndex() {
         <div className="col d-flex d-sm-flex d-md-flex d-lg-flex d-xl-flex d-xxl-flex justify-content-center justify-content-sm-center justify-content-md-center justify-content-lg-center justify-content-xl-center justify-content-xxl-center">
           <div className="d-flex justify-content-center align-items-center Method_box"><Link to="/brew-recipe/chemex">
               <div className="card d-flex mcard" data-bss-hover-animate="pulse">
-                <div className="card-body" style={{textAlign: 'center'}}><img className="Method_icon" src="assets/img/Chemex.png" />
+                <div className="card-body" style={{textAlign: 'center'}}><img className="Method_icon" src={imgche} />
                   <h4 className="card-title Method_name">Chemex</h4>
                 </div>
               </div>

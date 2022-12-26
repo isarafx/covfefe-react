@@ -15,7 +15,8 @@ import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-
+import pic1 from "../assets/img/Picture1.png"
+import pic3 from "../assets/img/CoffeeCactus.png"
 export default function Register() {
   const { t, i18n } = useTranslation();
 
@@ -67,7 +68,7 @@ export default function Register() {
       <div className="card-body">
         <div className="d-flex Div1">
           <Link to="/login" className="btn btn-primary" role="button" data-bss-hover-animate="pulse" id="Toplogin_buttonR">{t("Ltext01")}</Link>
-          <img className="pic1" src="assets/img/Picture1.png" />
+          <img className="pic1" src={pic1} />
           <button className="btn btn-primary" id="Topregister_buttonR" type="button">{t("Ltext02")}</button></div>
         <form>
           <div>
@@ -94,7 +95,7 @@ export default function Register() {
             <button className="btn btn-primary d-flex" data-bss-hover-animate="pulse" id="Confirm_Button" onClick={(e)=>{e.preventDefault();setTrigger(!trigger)}} type="submit">{t("Ltext07")}</button>
           <Link className="skiplog" to="/">{t("Ltext04")}</Link></div>
         </form>
-        <div style={{textAlign: 'center'}}><img className="pic3" src="assets/img/CoffeeCactus.png" /></div>
+        <div style={{textAlign: 'center'}}><img className="pic3" src={pic3} /></div>
       </div>
     </div>
   </div>

@@ -6,7 +6,7 @@ import "../styles/Round_switch.css"
 import "../styles/styles.css"
 import "../styles/Ultimate-Sidebar-Menu-BS5.css"
 import "../styles/Features-Clean.css"
-
+import error from "../assets/img/Error2.png"
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
@@ -19,7 +19,7 @@ export default function Offline() {
     <div className="container" id="recipelist_container">
       <div style={{textAlign: 'center'}}>
         <div className="d-flex justify-content-center">
-          <div className="Error_div"><img className="img-fluid" src="assets/img/Error2.png" /></div>
+          <div className="Error_div"><img className="img-fluid" src={error} /></div>
         </div>
         <p className="Errormain">{t("Error01")}</p>
         <p className="Errorsub">{t("Error02")}</p>

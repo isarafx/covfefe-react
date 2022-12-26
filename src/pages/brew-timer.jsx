@@ -21,6 +21,11 @@ import { useParams } from 'react-router-dom'
 import { useSearchParams } from 'react-router-dom'
 import { descParse } from '../method/mmss'
 import axios from 'axios'
+
+import pausepic from "../assets/img/Timer_pause_ico.png"
+import playpic from "../assets/img/Timer_play_ico.png"
+import subtimerpic from "../assets/img/guide_timer_ico.png"
+import processdummy from "../assets/img/Process_Dummy_icon.png"
 export default function BrewTimer() {
   let [online, isOnline] = useState(navigator.onLine);
   const setOnline = () => { console.log('We are online!'); isOnline(true); };
@@ -236,8 +241,8 @@ export default function BrewTimer() {
         <p className="Main_timer_text">{t("Btext10")}</p>
         <audio id='a1'><source src={soundSRC} type='audio/mpeg' /></audio>
         {/* <button onClick={(e)=>{test()}}>test</button> */}
-        <p className="Main_timer_num">{mmss(processTime)}</p><img className="timer_control_icon" src={state ? "../../assets/img/Timer_pause_ico.png":"../../assets/img/Timer_play_ico.png"} />
-        <div className="d-inline-flex Sub_timer"><img className="Sub_timer_icon" src="%PUBLIC_URL%/../assets/img/guide_timer_ico.png" />
+        <p className="Main_timer_num">{mmss(processTime)}</p><img className="timer_control_icon" src={state ? pausepic:playpic} />
+        <div className="d-inline-flex Sub_timer"><img className="Sub_timer_icon" src={subtimerpic} />
           <p style={{fontSize: '14px'}}>{mmss(totaltime)}</p>
         </div><button onClick={()=>{skipMethod()}} className="btn btn-primary d-flex justify-content-center align-items-center" id="Timer_Skip_button" type="button"><img className="timer_skip_icon" src="../../assets/img/Timer_skip_ico.png" /></button>
       </div>
@@ -245,7 +250,7 @@ export default function BrewTimer() {
         <div id="Current_method_box">
           <div id="process_card2">
             <div className="d-inline-flex" style={{minWidth: '100%'}}>
-              <div style={{minWidth: '15%'}}><img id="process_pic" src="../../assets/img/Process_Dummy_icon.png" /></div>
+              <div style={{minWidth: '15%'}}><img id="process_pic" src={processdummy} /></div>
               {/* <p id="process_title" style={{color: '#dc6c62'}}>{processList.length > 0?processList[index-1].name:null}</p> */}
               <p id="process_title" style={{color: '#dc6c62'}}>{processList.length > 0?getname():null}</p>
             </div>
@@ -268,7 +273,7 @@ export default function BrewTimer() {
             if(itemIndex+1 > index){
               return(<div id="process_card3">
               <div className="d-inline-flex" style={{minWidth: '100%'}}>
-                <div style={{minWidth: '15%'}}><img id="process_pic" src="../../assets/img/Process_Dummy_icon.png" /></div>
+                <div style={{minWidth: '15%'}}><img id="process_pic" src={processdummy} /></div>
                 <p id="process_title" style={{color: 'rgb(80,80,80)'}}>{item.custom_name?item.custom_name:item.name}</p>
                 <p className="text-end" style={{minWidth: '15%'}}>{mmss(parseInt(item.time))}</p>
               </div>

@@ -17,6 +17,8 @@ import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '..'
 
+import pic1 from "../assets/img/Picture1.png"
+import pic3 from "../assets/img/CoffeeCactus.png"
 
 export default function Login() {
   const [test, setTest] = useState("t")
@@ -59,7 +61,7 @@ export default function Login() {
     <div className="card LoginCard">
       <div className="card-body">
         <div className="d-flex Div1"><button className="btn btn-primary" id="Toplogin_buttonL" type="button">{t("Ltext01")}</button>
-        <img className="pic1" src="assets/img/Picture1.png" />
+        <img className="pic1" src={pic1} />
         <Link to="/register" className="btn btn-primary" role="button" data-bss-hover-animate="pulse" id="Topregister_buttonL">{t("Ltext02")}</Link></div>
         <form>
           <div>
@@ -81,7 +83,7 @@ export default function Login() {
             <Link className="skiplog" to="/">{t("Ltext04")}</Link>
           </div>
         </form>
-        <div style={{textAlign: 'center'}}><img className="pic3" src="assets/img/CoffeeCactus.png" /></div>
+        <div style={{textAlign: 'center'}}><img className="pic3" src={pic3} /></div>
       </div>
     </div>
   </div>
