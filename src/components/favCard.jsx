@@ -12,7 +12,7 @@ export default function FavCard({name="lorem ipsum", link, brewer = 'hario' , id
     "Chemex":"Chemex",
   }
   let url = `/brew-recipe/${brewer}/${link}`
-
+  let potato = ';'
 
     
   return (

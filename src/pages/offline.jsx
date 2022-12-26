@@ -23,7 +23,7 @@ export default function Offline() {
         </div>
         <p className="Errormain">{t("Error01")}</p>
         <p className="Errorsub">{t("Error02")}</p>
-        <button onClick={()=>{navigate('/')}} className="btn btn-primary" id="back_main_btn1" type="button">{t("Error06")}</button>
+        <button onClick={()=>{navigate('/')}} className="btn btn-primary" id="back_main_btn" type="button">{t("Error06")}</button>
       </div>
     </div>
   </div>

@@ -46,8 +46,20 @@ export default function BrewTimer() {
   const [processTime, setProcessTime] = useState(0)
   const [state, setState] = useState(0) // if true> clock start
   const [index, setIndex] = useState(1)
-  const token = localStorage.getItem('token')
-  const [brewed, setBrewed] = useState()
+  const token = useState(()=>{
+    if(localStorage.getItem('token') == null){
+        return 0
+    }else{
+      return localStorage.getItem('token')
+    }
+  });
+  const [brewed, setBrewed] = useState(()=>{
+    if(localStorage.getItem('brewed') == null){
+        return 0
+    }else{
+      return parseInt(localStorage.getItem('brewed'))
+    }
+  });
 
   function skipMethod(){
     setProcessTime(parseInt(processList[index].time))
@@ -80,7 +92,6 @@ export default function BrewTimer() {
     audio.pause()
     audio.currentTime = 0;
   }
-
 
   useEffect( ()=>{
     if(state){
@@ -139,21 +150,33 @@ export default function BrewTimer() {
     getBrewed()
     document.title = t('Timer01')
   },[])
-
+  const getname = () => {
+    try{
+      if(processList[index-1].custom_name){
+        return processList[index-1].custom_name
+      }else{
+        return processList[index-1].name
+      }
+      }catch(error){
+        return error
+      }
+  }
   const sendBrewed = async () => { 
       try{
             // alert(key)
             if(token){
                 let user = JSON.parse(atob(localStorage.getItem('token').split('.')[1]))
                 if(online){
-                  const result = await axios.patch(`https://q27z6n.deta.dev/users`, {"brewed":(brewed+1)}, {headers: {'x-token':token}});
-                  console.log(result)
+                  console.log(brewed)
+                  const result = await axios.patch(`https://q27z6n.deta.dev/users`, {"brewed":3}, {headers: {'x-token':token}});
+                  console.log(result.data)
+                  console.warn('reach here')
                 }else{
                   //offline implement
                 }
             }
       }catch(error){
-        console.log(error)
+        console.log(error.response)
       }
   };
   useEffect(()=>{
@@ -224,7 +247,7 @@ export default function BrewTimer() {
             <div className="d-inline-flex" style={{minWidth: '100%'}}>
               <div style={{minWidth: '15%'}}><img id="process_pic" src="../../assets/img/Process_Dummy_icon.png" /></div>
               {/* <p id="process_title" style={{color: '#dc6c62'}}>{processList.length > 0?processList[index-1].name:null}</p> */}
-              <p id="process_title" style={{color: '#dc6c62'}}>{processList.length > 0?processList[index-1].name:null}</p>
+              <p id="process_title" style={{color: '#dc6c62'}}>{processList.length > 0?getname():null}</p>
             </div>
             <div>
               <p id="process_des">{processList.length >0?descParse(processList[index-1].name,processList[index-1].water,cup,brewer):null}</p>

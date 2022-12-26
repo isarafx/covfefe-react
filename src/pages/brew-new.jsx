@@ -60,6 +60,7 @@ export default function BrewNew() {
       "Filter":"/assets/img/Tools_10.png",
       "Other":"/assets/img/Tools_11.png",
       }
+    const [focus, setFocus] = useState(false)
     const [mainEquipment, setMainEquipment] = useState("Hario")
     const [name, setName] = useState("")
     const [note, setNote] = useState("")
@@ -68,6 +69,7 @@ export default function BrewNew() {
     const [water, setWater] = useState(300)
     const [ratio, setRatio] = useState(15)
     const [coffee2, setCoffee2] = useState(coffee)
+    const [waterLimit, setwaterLimit] = useState(false)
     const [water2, setWater2] = useState(water)
     const [ratio2, setRatio2] = useState(ratio)
     const [refine, setRefine] = useState("Coarse")
@@ -153,11 +155,6 @@ export default function BrewNew() {
     function deleteProcess(id, time, processname, water) {
       setRemainTime(remainTime-time)
       if((processname === "Bloom")||(processname === "Pour Water")){
-        if(remainWater <= 0){
-          setProcessMethod(["Pour Water", "Bloom", ...processMethod])
-          setProcessStep("Wait")
-          handleProcess("Wait")
-        }
         setRemainWater(remainWater+parseInt(water))
       }
       setProcess(process.filter((item) => {
@@ -221,6 +218,7 @@ export default function BrewNew() {
     }
 
     function changeRatio(type, value) {
+        
         if(value>0 && !(Number.isNaN(value))){
             let multiplier = 1
             let total_process_water
@@ -237,7 +235,7 @@ export default function BrewNew() {
               multiplier = water/water2
               total_process_water = value
             }
-            
+            console.log(`type-${type}rat${ratio}cof-${coffee}wat-${water}mul-${multiplier}wat2-${water2}rem-${remainWater}`)
             setProcess([...process].map((item, index)=> {
               if(item.water){
                 total_process_water = total_process_water - parseInt(item.water*multiplier)
@@ -262,9 +260,19 @@ export default function BrewNew() {
     const setOffline = () => { console.log('We are offline!'); isOnline(false); };
     useEffect(() => { document.title = t("Btext08"); window.addEventListener('offline', setOffline); window.addEventListener('online', setOnline); return () => { window.removeEventListener('offline', setOffline); window.removeEventListener('online', setOnline); } }, []);
     useEffect(()=>{
-      if(remainWater<=0){
+      console.log('test')
+      if(remainWater<=0 && processMethod!=undefined){
           setProcessMethod(processMethod.filter(item=>(item!="Pour Water")&&(item!="Bloom")))
-          setProcessModal([processModal[0],0,processModal[2],processModal[3]])
+          setProcessStep("Wait")
+          handleProcess("Wait")
+          setwaterLimit(true)
+      }else if(remainWater >=0 && waterLimit){
+        setProcessMethod(["Pour Water", "Bloom", ...processMethod])
+        setProcessStep("Wait")
+        handleProcess("Wait")
+        setwaterLimit(false)
+        console.warn(remainWater)
+          
       }
     }, [remainWater])
   
@@ -338,21 +346,30 @@ export default function BrewNew() {
                 <div id="guide_card"><img id="guide_icon" src="../assets/img/guide_ratio_ico.png" />
                   <p id="guide_name">{t("Modaltext31")}</p>
                   <div className="input-group"><span className="d-flex justify-content-end input-group-text" id="guide_unit2">1&nbsp; :</span>
-                    <input className="form-control" type="number" min={1} max={25} step={0.1} id="guide_input2" value={ratio} onBlur={(e)=>{changeRatio("ratio", e.target.value)}} onChange={(e)=>{setRatio(e.target.value)}} onFocus={(e)=>{setRatio2(e.target.value)}} /></div>
+                    <input className="form-control" type="number" min={1} max={25} step={0.1} id="guide_input2" value={ratio} 
+                    onBlur={(e)=>{changeRatio("ratio", e.target.value);setFocus(false)}} 
+                    onChange={(e)=>{setRatio(e.target.value)}} 
+                    onFocus={(e)=>{if(focus){e.preventDefault()}else{setFocus(true);setRatio2(e.target.value);setWater2(water);setCoffee2(coffee)}}} /></div>
                 </div>
               </div>
               <div className="col d-flex justify-content-center" style={{ paddingLeft: '5px', paddingRight: '5px' }}>
                 <div id="guide_card"><img id="guide_icon" src="../assets/img/guide_pack_ico.png" />
                   <p id="guide_name">{t("Modaltext29")}</p>
                   <div className="input-group">
-                    <input className="form-control" type="number" id="guide_input" min={1} max={200} step={0.1} value={coffee} onBlur={(e)=>{changeRatio("coffee", e.target.value)}} onChange={(e)=>{setCoffee(e.target.value)}} onFocus={(e)=>{setCoffee2(e.target.value)}}  /><span className="input-group-text" id="guide_unit">g</span></div>
+                    <input className="form-control" type="number" id="guide_input" min={1} max={200} step={0.1} value={coffee} 
+                    onBlur={(e)=>{changeRatio("coffee", e.target.value);setFocus(false)}} 
+                    onChange={(e)=>{setCoffee(e.target.value)}} 
+                    onFocus={(e)=>{if(focus){e.preventDefault()}else{setFocus(true);setCoffee2(e.target.value);setWater2(water);setRatio2(ratio)}}}  /><span className="input-group-text" id="guide_unit">g</span></div>
                 </div>
               </div>
               <div className="col d-flex justify-content-center" style={{ paddingLeft: '5px', paddingRight: '5px' }}>
                 <div id="guide_card"><img id="guide_icon" src="../assets/img/guide_water_ico.png" />
                   <p id="guide_name">{t("Modaltext30")}</p>
                   <div className="input-group">
-                    <input className="form-control" type="number" id="guide_input" value={water} min={1} max={5000} step={0.1} onBlur={(e)=>{changeRatio('water', e.target.value)}} onChange={(e)=>{setWater(e.target.value)}} onFocus={(e)=>{setWater2(e.target.value)}}  /><span className="input-group-text" id="guide_unit">ml</span></div>
+                    <input className="form-control" type="number" id="guide_input" value={water} min={1} max={5000} step={0.1} 
+                    onBlur={(e)=>{changeRatio('water', e.target.value);setFocus(false)}} 
+                    onChange={(e)=>{setWater(e.target.value)}} 
+                    onFocus={(e)=>{if(focus){e.preventDefault()}else{setFocus(true);setWater2(e.target.value);setCoffee2(coffee);setRatio2(ratio)}}}  /><span className="input-group-text" id="guide_unit">ml</span></div>
                 </div>
               </div>
             </div>
