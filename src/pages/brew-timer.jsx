@@ -93,10 +93,6 @@ export default function BrewTimer() {
     audio.currentTime = 0;
   }
 
-  async function sendBrew2(){
-    await sendBrewed()
-    console.log('done')
-  }
   useEffect( ()=>{
     if(state){
       const interval = setInterval(() => {
@@ -104,8 +100,8 @@ export default function BrewTimer() {
           setState(false)
           // startCondition()
           localStorage.setItem('brewcount', (brewed+1))
-          sendBrew2()
-          
+          sendBrewed()
+          navigate(`/brew-recipe/finish?brewer=${brewer}&id=${id}`)
           //post brew total to server
           //set localstorage to push to server
         }
@@ -154,7 +150,17 @@ export default function BrewTimer() {
     getBrewed()
     document.title = t('Timer01')
   },[])
-
+  const getname = () => {
+    try{
+      if(processList[index-1].custom_name){
+        return processList[index-1].custom_name
+      }else{
+        return processList[index-1].name
+      }
+      }catch(error){
+        return error
+      }
+  }
   const sendBrewed = async () => { 
       try{
             // alert(key)
@@ -170,7 +176,6 @@ export default function BrewTimer() {
                 }
             }
       }catch(error){
-        
         console.log(error.response)
       }
   };
@@ -242,7 +247,7 @@ export default function BrewTimer() {
             <div className="d-inline-flex" style={{minWidth: '100%'}}>
               <div style={{minWidth: '15%'}}><img id="process_pic" src="../../assets/img/Process_Dummy_icon.png" /></div>
               {/* <p id="process_title" style={{color: '#dc6c62'}}>{processList.length > 0?processList[index-1].name:null}</p> */}
-              <p id="process_title" style={{color: '#dc6c62'}}>{processList.length > 0?processList[index-1].name:null}</p>
+              <p id="process_title" style={{color: '#dc6c62'}}>{processList.length > 0?getname():null}</p>
             </div>
             <div>
               <p id="process_des">{processList.length >0?descParse(processList[index-1].name,processList[index-1].water,cup,brewer):null}</p>
