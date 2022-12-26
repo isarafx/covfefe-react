@@ -30,9 +30,49 @@ import "../styles/assets/fonts/fontawesome5-overrides.min.css"
 import "../styles/assets/fonts/ionicons.min.css"
 import "../styles/assets/fonts/material-icons.min.css"
 
+import imgmaineq1 from "../assets/img/Hario_ICO.png"
+import imgmaineq2 from "../assets/img/Moka_ICO.png"
+import imgmaineq3 from "../assets/img/Frenchpress_ICO.png"
+import imgmaineq4 from "../assets/img/Aeropress_ICO.png"
+import imgmaineq5 from "../assets/img/Chemex_ICO.png"
+
+import imgeq1 from "../assets/img/Tools_1.png"
+import imgeq2 from "../assets/img/Tools_2.png"
+import imgeq3 from "../assets/img/Tools_3.png"
+import imgeq4 from "../assets/img/Tools_4.png"
+import imgeq5 from "../assets/img/Tools_5.png"
+import imgeq6 from "../assets/img/Tools_6.png"
+import imgeq7 from "../assets/img/Tools_7.png"
+import imgeq8 from "../assets/img/Tools_8.png"
+import imgeq9 from "../assets/img/Tools_9.png"
+import imgeq10 from "../assets/img/Tools_10.png"
+import imgeq11 from "../assets/img/Tools_11.png"
+
+import imgratio from "../assets/img/guide_ratio_ico.png"
+import imgpack from "../assets/img/guide_pack_ico.png"
+import imgwater from "../assets/img/guide_water_ico.png"
+import imggrind from "../assets/img/guide_ratio_ico.png"
+import imgheat from "../assets/img/guide_heat_ico.png"
+import imgbean from "../assets/img/guide_bean_ico.png"
+import imgcup from "../assets/img/Cup Icon.png"
+import imgtimer from "../assets/img/guide_timer_ico.png"
+import imgavatar from "../assets/img/AvatarIcon.jpg"
+import imgdummy from "../assets/img/Process_Dummy_icon.png"
+import imgtool from "../assets/img/legend_tool.png"
+import imgmodal1 from "../assets/img/legend_process.png"
+import imgmodal2 from "../assets/img/legend_name.png"
+import imgmodal3 from "../assets/img/legend_water.png"
+import imgmodal4 from "../assets/img/legend_time.png"
+import imgmodal5 from "../assets/img/legend_note.png"
 
 export default function BrewNew() {
-
+    const mainEQList = {
+      "Hario":imgmaineq1,
+      "Moka":imgmaineq2,
+      "Frenchpress":imgmaineq3,
+      "Aeropress":imgmaineq4,
+      "Chemex":imgmaineq5
+    }
     const methodList = {
       "hario":["Pour Water", "Add Coffee", "Stir", "Bloom", "Wait", "Swirl", "Rinse Filter", "Custom"],
       "mokapot":["Pour Water", "Add Coffee", "Brew", "Custom"],
@@ -48,17 +88,17 @@ export default function BrewNew() {
       "Chemex":"Chemex"
     };
     const PicEQ = {   //assets/img/${PicEQ[item.name]}.png
-      "Coffee":"/assets/img/Tools_1.png",
-      "Hario V60":"/assets/img/Tools_2.png",
-      "Chemex":"/assets/img/Tools_3.png",
-      "Moka Pot":"/assets/img/Tools_4.png",
-      "AeroPress":"/assets/img/Tools_5.png",
-      "French Press":"/assets/img/Tools_6.png",
-      "Kettle":"/assets/img/Tools_7.png",
-      "Scale":"/assets/img/Tools_8.png",
-      "Grinder":"/assets/img/Tools_9.png",
-      "Filter":"/assets/img/Tools_10.png",
-      "Other":"/assets/img/Tools_11.png",
+      "Coffee":imgeq1,
+      "Hario V60":imgeq2,
+      "Chemex":imgeq3,
+      "Moka Pot":imgeq4,
+      "AeroPress":imgeq5,
+      "French Press":imgeq6,
+      "Kettle":imgeq7,
+      "Scale":imgeq8,
+      "Grinder":imgeq9,
+      "Filter":imgeq10,
+      "Other":imgeq11
       }
     const [focus, setFocus] = useState(false)
     const [mainEquipment, setMainEquipment] = useState("Hario")
@@ -309,7 +349,7 @@ export default function BrewNew() {
             <p className="newbrew_title">1.{t("Btext13")}</p>
             <div className="text-center d-flex justify-content-center align-items-center">
               <div className="newbrew_preview_border">
-                <img id="brew_preview" className="newbrew_preview" src={`../assets/img/${mainEquipment}_ICO.png`} /></div>
+                <img id="brew_preview" className="newbrew_preview" src={mainEQList[mainEquipment]} /></div>
               <select className="newbrew_selector" onChange={(e) => { console.log(e.target.value);setMainEquipment(e.target.value) }}>&gt;
                 <option value="Hario" selected>Hario V60</option>
                 <option value="Chemex">Chemex</option>
@@ -328,7 +368,7 @@ export default function BrewNew() {
                   <div className="d-flex align-items-center guide_toolbox2" key={item.id}>
                     <div className="row g-0 row-cols-3 d-flex guide_toolr_edit">
                       <div className="col d-flex align-items-center guide_toolc1_edit">
-                        <div className="guide_tool_border"><img id="guide_tool_icon" src={`${PicEQ[item.name]}`} /></div>
+                        <div className="guide_tool_border"><img id="guide_tool_icon" src={PicEQ[item.name]} /></div>
                       </div>
                       <div className="col guide_toolc2_edit">
                         <p className="fw-normal" id="gtext">{item.description}</p>
@@ -343,7 +383,7 @@ export default function BrewNew() {
             <p className="newbrew_title" style={{ marginBottom: '20px' }}>3.{t("Btext15")}</p>
             <div className="row row-cols-3" id="guide_row">
               <div className="col d-flex justify-content-center" style={{ paddingLeft: '5px', paddingRight: '5px' }}>
-                <div id="guide_card"><img id="guide_icon" src="../assets/img/guide_ratio_ico.png" />
+                <div id="guide_card"><img id="guide_icon" src={imgratio} />
                   <p id="guide_name">{t("Modaltext31")}</p>
                   <div className="input-group"><span className="d-flex justify-content-end input-group-text" id="guide_unit2">1&nbsp; :</span>
                     <input className="form-control" type="number" min={1} max={25} step={0.1} id="guide_input2" value={ratio} 
@@ -353,7 +393,7 @@ export default function BrewNew() {
                 </div>
               </div>
               <div className="col d-flex justify-content-center" style={{ paddingLeft: '5px', paddingRight: '5px' }}>
-                <div id="guide_card"><img id="guide_icon" src="../assets/img/guide_pack_ico.png" />
+                <div id="guide_card"><img id="guide_icon" src={imgpack} />
                   <p id="guide_name">{t("Modaltext29")}</p>
                   <div className="input-group">
                     <input className="form-control" type="number" id="guide_input" min={1} max={200} step={0.1} value={coffee} 
@@ -363,7 +403,7 @@ export default function BrewNew() {
                 </div>
               </div>
               <div className="col d-flex justify-content-center" style={{ paddingLeft: '5px', paddingRight: '5px' }}>
-                <div id="guide_card"><img id="guide_icon" src="../assets/img/guide_water_ico.png" />
+                <div id="guide_card"><img id="guide_icon" src={imgwater} />
                   <p id="guide_name">{t("Modaltext30")}</p>
                   <div className="input-group">
                     <input className="form-control" type="number" id="guide_input" value={water} min={1} max={5000} step={0.1} 
@@ -376,7 +416,7 @@ export default function BrewNew() {
             <hr className="guide_nline" />
             <div className="row row-cols-3" style={{ marginRight: '0px', marginLeft: '0px', marginBottom: '15px' }}>
               <div className="col d-flex justify-content-center" style={{ paddingLeft: '5px', paddingRight: '5px' }}>
-                <div id="guide_card"><img id="guide_icon" src="../assets/img/guide_grind_ico.png" />
+                <div id="guide_card"><img id="guide_icon" src={imggrind} />
                   <p id="guide_name">{t("Modaltext32")}</p>
                   <select id="guide_option" onChange={(e) => { setRefine(e.target.value) }}>
                     <option value="Extra Fine">Extra Fine</option>
@@ -389,14 +429,14 @@ export default function BrewNew() {
                 </div>
               </div>
               <div className="col d-flex justify-content-center" style={{ paddingLeft: '5px', paddingRight: '5px' }}>
-                <div id="guide_card"><img id="guide_icon" src="../assets/img/guide_heat_ico.png" />
+                <div id="guide_card"><img id="guide_icon" src={imgheat} />
                   <p id="guide_name">{t("Modaltext33")}</p>
                   <div className="input-group d-sm-flex justify-content-center justify-content-xxl-center" style={{ width: '100%' }}>
                     <input className="form-control" type="text" id="guide_readonly" value={heat} onChange={(e) => { setHeat(e.target.value) }} /><span className="input-group-text" id="guide_unit">°C</span></div>
                 </div>
               </div>
               <div className="col d-flex justify-content-center" style={{ paddingLeft: '5px', paddingRight: '5px' }}>
-                <div id="guide_card" style={{ maxWidth: '150px', minWidth: '95px' }}><img id="guide_icon" src="../assets/img/guide_bean_ico.png" />
+                <div id="guide_card" style={{ maxWidth: '150px', minWidth: '95px' }}><img id="guide_icon" src={imgbean} />
                   <p id="guide_name">{t("Modaltext34")}</p>
                   <select id="guide_option" onChange={(e) => { setRoast(e.target.value) }}>
                     <option value="Light">Light</option>
@@ -408,7 +448,7 @@ export default function BrewNew() {
             </div>
             <div className="d-inline-flex" style={{ minWidth: '100%' }}>
               <p className="newbrew_title" style={{ width: '80%' }}>4.{t("Btext16")}</p>
-              <div style={{ minWidth: '10%' }}><img src="../assets/img/guide_timer_ico.png" style={{ width: '30px', height: '30px' }} /></div>
+              <div style={{ minWidth: '10%' }}><img src={imgtimer} style={{ width: '30px', height: '30px' }} /></div>
               <p style={{ textAlign: 'center', minWidth: '10%', paddingTop: '5px' }}>{mmss(remainTime)}</p>
             </div>
             <div id="process_container">
@@ -417,7 +457,7 @@ export default function BrewNew() {
                   <div className="d-inline-flex" id="Process_edit_card" style={{ width: '100%' }} >
                     <div className="process_card2">
                       <div className="d-inline-flex" style={{ minWidth: '100%' }}>
-                        <div style={{ minWidth: '15%' }}><img id="process_pic" src="../assets/img/Process_Dummy_icon.png" /></div>
+                        <div style={{ minWidth: '15%' }}><img id="process_pic" src={imgdummy} /></div>
                         <p id="process_title">{item.custom_name ? item.custom_name : item.name}</p>
                         <p className="text-end" style={{ minWidth: '15%' }}>{mmss(item.time)}</p>
                       </div>
@@ -462,11 +502,11 @@ export default function BrewNew() {
                     <div className="row" style={{ textAlign: 'center', marginBottom: '20px' }}>
                       <div className="col">
                         <div className="tools_card">
-                          <div className="d-inline-flex" style={{ width: '100%', marginTop: '5px' }}><img className="ae_legend" src="../assets/img/legend_tool.png" />
+                          <div className="d-inline-flex" style={{ width: '100%', marginTop: '5px' }}><img className="ae_legend" src={imgtool} />
                             <p id="Etitle">{t("Modaltext01")}</p>
                           </div>
                           <div className="d-inline-flex" style={{ width: '100%' }}>
-                            <img id="t_preview" className="tools_image" src={`${PicEQ[eqmodalname]}`} />
+                            <img id="t_preview" className="tools_image" src={PicEQ[eqmodalname]} />
                             <select className="form-select tools_switch" onChange={(e) => { setEqmodalname(e.target.value) }} >
                               <option value="Coffee" selected>{t("Modaltext02")}</option>
                               <option value="Hario V60">Hario V60</option>
@@ -486,7 +526,7 @@ export default function BrewNew() {
                     <div className="row" style={{ marginBottom: '10px' }}>
                       <div className="col">
                         <div className="tools_card">
-                          <div className="d-inline-flex" style={{ width: '100%', marginTop: '5px' }}><img className="ae_legend" src="../assets/img/legend_name.png" />
+                          <div className="d-inline-flex" style={{ width: '100%', marginTop: '5px' }}><img className="ae_legend" src={imgmodal2} />
                             <p id="Etitle">{t("Modaltext08")}<br /></p>
                           </div>
                           <input className="form-control ae_input" type="text" required placeholder="eg. Moka pot 6-Cup, Timemore grinder" value={eqmodaldetail} onChange={(e)=>{setEqmodaldetail(e.target.value)}} />
@@ -508,7 +548,7 @@ export default function BrewNew() {
                   <div className="row" style={{ marginBottom: '10px' }}>
                     <div className="col">
                       <div className="tools_card">
-                        <div className="d-inline-flex" style={{ width: '100%', marginTop: '5px' }}><img className="ae_legend" src="../assets/img/legend_process.png" />
+                        <div className="d-inline-flex" style={{ width: '100%', marginTop: '5px' }}><img className="ae_legend" src={imgmodal1} />
                           <p id="Etitle">{t("Modaltext09")}</p>
                         </div>
                         <select value={processStep} className="form-select tools_switch" style={{ marginLeft: '0px', marginTop: '0px' }} onChange={(e) => { setProcessStep(e.target.value);handleProcess(e.target.value) }}>
@@ -520,7 +560,7 @@ export default function BrewNew() {
                   {processModal[0] > 0 && <div className="row" style={{ marginBottom: '10px' }}>
                     <div className="col">
                       <div className="tools_card">
-                        <div className="d-inline-flex" style={{ width: '100%', marginTop: '5px' }}><img className="ae_legend" src="../assets/img/legend_name.png" />
+                        <div className="d-inline-flex" style={{ width: '100%', marginTop: '5px' }}><img className="ae_legend" src={imgmodal2} />
                           <p id="Etitle">{t("Modaltext10")}</p>
                         </div><input className="form-control ae_input" type="text" placeholder="step name" value={processModalCustomName} onChange={(e) => { setprocessModalCustomName(e.target.value) }} />
                       </div>
@@ -529,7 +569,7 @@ export default function BrewNew() {
                   {processModal[1] ? <div className="row" style={{ marginBottom: '10px' }}>
                     <div className="col">
                       <div className="tools_card">
-                        <div className="d-inline-flex" style={{ width: '100%', marginTop: '5px' }}><img className="ae_legend" src="../assets/img/legend_water.png" />
+                        <div className="d-inline-flex" style={{ width: '100%', marginTop: '5px' }}><img className="ae_legend" src={imgmodal3} />
                           <p id="Etitle">{t("Modaltext11")}</p>
                         </div>
                         <div className="row" style={{ minWidth: '100%' }}>
@@ -548,7 +588,7 @@ export default function BrewNew() {
                   {processModal[2] ? <div className="row" style={{ marginBottom: '10px' }}>
                     <div className="col">
                       <div className="tools_card">
-                        <div className="d-inline-flex" style={{ width: '100%', marginTop: '5px' }}><img className="ae_legend" src="../assets/img/legend_time.png" />
+                        <div className="d-inline-flex" style={{ width: '100%', marginTop: '5px' }}><img className="ae_legend" src={imgmodal4} />
                           <p id="Etitle">{t("Modaltext13")}&nbsp;</p>
                         </div>
                         <input className="form-control ae_input" type="text" placeholder="seconds" value={processModaltime} onChange={(e) => { setProcessModalTime(e.target.value) }} />
@@ -558,7 +598,7 @@ export default function BrewNew() {
                   {processModal[3] ? <div className="row" style={{ marginBottom: '10px' }}>
                     <div className="col">
                       <div className="tools_card">
-                        <div className="d-inline-flex" style={{ width: '100%', marginTop: '5px' }}><img className="ae_legend" src="../assets/img/legend_note.png" />
+                        <div className="d-inline-flex" style={{ width: '100%', marginTop: '5px' }}><img className="ae_legend" src={imgmodal5} />
                           <p id="Etitle">{t("Btext18")}</p>
                         </div>
                         <input className="form-control" type="text" style={{ borderStyle: 'solid', borderColor: 'rgb(253,200,137)', borderRadius: '15px' }} placeholder={t("Modaltext28")} value={processModalComment} onChange={(e) => { setProcessModalComment(e.target.value) }} />
