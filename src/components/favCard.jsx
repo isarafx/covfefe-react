@@ -1,15 +1,19 @@
 import React from 'react'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-
+import imghario from "../assets/img/Hario_ICO.png"
+import imgaeropress from "../assets/img/Aeropress_ICO.png"
+import imgfrenchpress from "../assets/img/Frenchpress_ICO.png"
+import imgmokapot from "../assets/img/Moka_ICO.png"
+import imgchemex from "../assets/img/Chemex_ICO.png"
 export default function FavCard({name="lorem ipsum", link, brewer = 'hario' , id='', func }) {
 
   const tool = {
-    "Hario":"Hario",
-    "AeroPress":"Aeropress",
-    "French Press":"Frenchpress",
-    "Moka Pot":"Moka",
-    "Chemex":"Chemex",
+    "hario":imghario,
+    "aeropress":imgaeropress,
+    "frenchpress":imgfrenchpress,
+    "mokapot":imgmokapot,
+    "chemex":imgchemex,
   }
   let url = `/brew-recipe/${brewer}/${link}`
   let potato = ';'
@@ -23,7 +27,7 @@ export default function FavCard({name="lorem ipsum", link, brewer = 'hario' , id
             <div className="card-body fcard_body">
               <div className="row">
                 <div className="col d-flex justify-content-center method_result_col">
-                  <div className="method_result_ico_border"><img className="method_result_ico" src={`../assets/img/${tool[brewer]}_ICO.png`} /></div>
+                  <div className="method_result_ico_border"><img className="method_result_ico" src={tool[brewer]} /></div>
                 </div>
                 <div className="col d-flex align-items-center" style={{ maxWidth: '550px', minWidth: '200px' }}>
                   <p className="recipe_title2">{name}<br /></p>

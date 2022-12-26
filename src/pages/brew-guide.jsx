@@ -21,6 +21,17 @@ import { useEffect } from 'react'
 import { mmss } from '../method/mmss'
 import axios from 'axios'
 import { useSearchParams } from 'react-router-dom'
+
+import imgratio from "../assets/img/guide_ratio_ico.png"
+import imgpack from "../assets/img/guide_pack_ico.png"
+import imgwater from "../assets/img/guide_water_ico.png"
+import imggrind from "../assets/img/guide_ratio_ico.png"
+import imgheat from "../assets/img/guide_heat_ico.png"
+import imgbean from "../assets/img/guide_bean_ico.png"
+import imgcup from "../assets/img/Cup Icon.png"
+import imgtimer from "../assets/img/guide_timer_ico.png"
+import imgavatar from "../assets/img/AvatarIcon.jpg"
+
 export default function BrewGuide() {
   const { brewer, id } = useParams();
   const [searchParams] = useSearchParams();
@@ -117,21 +128,21 @@ export default function BrewGuide() {
                 </div>
                 <div className="row row-cols-3" id="guide_row">
                   <div className="col d-flex justify-content-center" style={{ paddingLeft: '5px', paddingRight: '5px' }}>
-                    <div id="guide_card"><img id="guide_icon" src="../../assets/img/guide_ratio_ico.png" />
+                    <div id="guide_card"><img id="guide_icon" src={imgratio} />
                       <p id="guide_name">{t("Modaltext31")}</p>
                       <div className="input-group"><span className="d-flex justify-content-end input-group-text" id="guide_unit2">1&nbsp; :</span>
                         <input className="form-control" type="number" id="guide_input2" disabled value={recipe ? recipe.ratio : 15} /></div>
                     </div>
                   </div>
                   <div className="col d-flex justify-content-center" style={{ paddingLeft: '5px', paddingRight: '5px' }}>
-                    <div id="guide_card"><img id="guide_icon" src="../../assets/img/guide_pack_ico.png" />
+                    <div id="guide_card"><img id="guide_icon" src={imgpack} />
                       <p id="guide_name">{t("Modaltext29")}</p>
                       <div className="input-group">
                         <input className="form-control" type="number" id="guide_input" disabled value={recipe ? recipe.coffee_weight * cup : 20} /><span className="input-group-text" id="guide_unit">g</span></div>
                     </div>
                   </div>
                   <div className="col d-flex justify-content-center" style={{ paddingLeft: '5px', paddingRight: '5px' }}>
-                    <div id="guide_card"><img id="guide_icon" src="../../assets/img/guide_water_ico.png" />
+                    <div id="guide_card"><img id="guide_icon" src={imgwater} />
                       <p id="guide_name">{t("Modaltext30")}</p>
                       <div className="input-group">
                         <input className="form-control" type="number" id="guide_input" disabled value={recipe ? recipe.water * cup : 300} /><span className="input-group-text" id="guide_unit">ml</span></div>
@@ -141,7 +152,7 @@ export default function BrewGuide() {
                 <hr className="guide_nline" />
                 <div className="row row-cols-3" style={{ marginRight: '0px', marginLeft: '0px' }}>
                   <div className="col d-flex justify-content-center" style={{ paddingLeft: '5px', paddingRight: '5px' }}>
-                    <div id="guide_card"><img id="guide_icon" src="../../assets/img/guide_grind_ico.png" />
+                    <div id="guide_card"><img id="guide_icon" src={imggrind} />
                       <p id="guide_name">{t("Modaltext32")}</p><select id="guide_option" disabled>
                         <option value={14} selected>{recipe ? recipe.grind_size : "Medium"}</option>
                         {/* <option value={13}>Fine</option>
@@ -153,14 +164,14 @@ export default function BrewGuide() {
                     </div>
                   </div>
                   <div className="col d-flex justify-content-center" style={{ paddingLeft: '5px', paddingRight: '5px' }}>
-                    <div id="guide_card"><img id="guide_icon" src="../../assets/img/guide_heat_ico.png" />
+                    <div id="guide_card"><img id="guide_icon" src={imgheat} />
                       <p id="guide_name">{t("Modaltext33")}</p>
                       <div className="input-group d-sm-flex justify-content-center justify-content-xxl-center" style={{ width: '100%' }}>
                         <input className="form-control" type="text" id="guide_readonly" value={recipe ? recipe.temp : null} disabled /><span className="input-group-text" id="guide_unit">°C</span></div>
                     </div>
                   </div>
                   <div className="col d-flex justify-content-center" style={{ paddingLeft: '5px', paddingRight: '5px' }}>
-                    <div id="guide_card" style={{ maxWidth: '150px', minWidth: '95px' }}><img id="guide_icon" src="../../assets/img/guide_bean_ico.png" />
+                    <div id="guide_card" style={{ maxWidth: '150px', minWidth: '95px' }}><img id="guide_icon" src={imgbean} />
                       <p id="guide_name">{t("Modaltext34")}</p><select id="guide_option" disabled>
                         <option value={14} selected>{recipe ? recipe.roast_level : "Medium"}</option>
                         {/* <option value={13}>Medium</option>
@@ -172,7 +183,7 @@ export default function BrewGuide() {
                 <div className="row row-cols-3 d-flex justify-content-center align-items-center" style={{ marginRight: '0px', marginLeft: '0px', width: '100%' }}>
                   <div className="col" style={{ width: '100%' }}>
                     <div className="d-inline-flex" style={{ width: '100%' }}>
-                      <div id="cup_number_div"><img id="cup_number_icon" src="../../assets/img/Cup%20Icon.png" /></div>
+                      <div id="cup_number_div"><img id="cup_number_icon" src={imgcup} /></div>
                       <input className="form-range" type="range" id="myRange" min={1} max={10} step={1} value={cup} onChange={(e) => { setCup(e.target.value) }} />{cup}<span id="demo" style={{ marginTop: '18px', paddingLeft: '10px' }} />
                     </div>
                   </div>
@@ -183,7 +194,7 @@ export default function BrewGuide() {
               <div id="guide_container1">
                 <div className="d-inline-flex" style={{ minWidth: '100%' }}>
                   <p id="guide_con_title" style={{ width: '80%' }}>{t("Modaltext35")}</p>
-                  <div style={{ minWidth: '10%' }}><img src="../../assets/img/guide_timer_ico.png" style={{ width: '30px', height: '30px' }} /></div>
+                  <div style={{ minWidth: '10%' }}><img src={imgtimer} style={{ width: '30px', height: '30px' }} /></div>
                   <p style={{ textAlign: 'center', minWidth: '10%', paddingTop: '5px' }}>{totaltime ? mmss(totaltime) : mmss(0)}</p>
                 </div>
                 <div id="process_container">
@@ -212,7 +223,7 @@ export default function BrewGuide() {
               <div id="guide_container2">
                 <p id="guide_con_title">{t("Ctext14")}</p>
                 <textarea id="comment_guide_box" rows={9} readOnly value={recipe?recipe.description:null} />
-                <div className="d-inline-flex justify-content-end" style={{ minWidth: '100%', height: '50px' }}><img className="creator_avatar_icon" src="assets/img/AvatarIcon.jpg" />
+                <div className="d-inline-flex justify-content-end" style={{ minWidth: '100%', height: '50px' }}><img className="creator_avatar_icon" src={imgavatar} />
                   <p className="creator_avatar_name">{recipe?recipe.owner:null}</p>
                 </div>
                 <hr style={{ marginTop: '0px', background: '#ff9900', height: '2px' }} />

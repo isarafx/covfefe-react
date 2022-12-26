@@ -14,7 +14,8 @@ import "../styles/Brewing_Guide2.css"
 import "../styles/Brewing_Guide3.css"
 import "../styles/Brewing_Guide4.css"
 import "../styles/Features-Clean.css"
-
+import imgcup from "../assets/img/Cup Icon.png"
+import imgfav from "../assets/img/Favorite Icon.png"
 import { useTranslation } from 'react-i18next'
 import { useEffect } from 'react'
 export default function BrewIndex() {
@@ -88,9 +89,9 @@ export default function BrewIndex() {
   </div>
   <div className="d-flex" id="Footer">
     <button className="btn btn-primary disabled" data-bss-hover-animate="pulse" id="brew_button" type="button" disabled>
-      <img src="assets/img/Cup%20Icon.png" style={{width: '50px', marginTop: '-17px'}} /></button>
+      <img src={imgcup} style={{width: '50px', marginTop: '-17px'}} /></button>
       <Link to="/favorite" className="btn btn-primary d-flex" role="button" data-bss-hover-animate="pulse" id="fav_button" >
-        <img src="assets/img/Favorite%20Icon.png" style={{width: '42px'}} /></Link></div>
+        <img src={imgfav} style={{width: '42px'}} /></Link></div>
 </div>
   )
 }

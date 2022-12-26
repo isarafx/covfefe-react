@@ -17,7 +17,8 @@ import { useTranslation } from 'react-i18next';
 import { useState } from 'react'
 import FavCard from '../components/favCard'
 import { useNavigate } from 'react-router-dom'
-
+import imgcup from "../assets/img/Cup Icon.png"
+import imgfav from "../assets/img/Favorite Icon.png"
 export default function BrewFav() {
   const { t, i18n } = useTranslation();
   let [online, isOnline] = useState(navigator.onLine);
@@ -127,9 +128,9 @@ export default function BrewFav() {
       </div>
       <div className="d-flex" id="Footer">
         <Link to="/"className="btn btn-primary" role="button" data-bss-hover-animate="pulse" id="fbrew_button">
-          <img src="assets/img/Cup%20Icon.png" style={{ width: '50px', marginTop: '-17px' }} /></Link>
+          <img src={imgcup} style={{ width: '50px', marginTop: '-17px' }} /></Link>
         <button className="btn btn-primary disabled d-flex" data-bss-hover-animate="pulse" id="ffav_button" type="button" disabled>
-          <img src="assets/img/Favorite%20Icon.png" style={{ width: '42px' }} /></button></div>
+          <img src={imgfav} style={{ width: '42px' }} /></button></div>
     </div>
   )
 }
