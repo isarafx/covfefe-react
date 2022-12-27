@@ -1,6 +1,6 @@
 import React from 'react'
 import { useEffect } from 'react'
-
+"assets/img/Tools_1.png"
 export default function BrewGuideEQCard({name, pic="assets/img/Tools_5.png", detail="lorem"}) {
   const PicEQ = {
     "Coffee":"Tools_1",
