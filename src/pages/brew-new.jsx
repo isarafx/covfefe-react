@@ -247,10 +247,20 @@ export default function BrewNew() {
           rate:score
         }
         try{
-          let token = localStorage.getItem('token')
-          const result = await axios.post(`https://q27z6n.deta.dev/recipes`, data, { headers: { 'x-token': token } });
-          console.log(result)
-          navigate(`/`)
+          if(online){
+            let token = localStorage.getItem('token')
+            const result = await axios.post(`https://q27z6n.deta.dev/recipes`, data, { headers: { 'x-token': token } });
+            console.log(result)
+            navigate(`/`)}
+          else{
+            data = {...data, key:`tempkey${data.name}`}
+            let list_recipe = JSON.parse(localStorage.getItem('brew-recipe'))
+            let numcount = list_recipe['count']
+            list_recipe = [...list_recipe['items'], data]
+            let newitem = {count:numcount+1, items:list_recipe}
+            localStorage.setItem('brew-recipe', JSON.stringify(newitem))
+            console.log(newitem)
+          }
         }catch(error){
           console.log(error.response)
         }
