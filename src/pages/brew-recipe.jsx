@@ -68,7 +68,7 @@ export default function BrewRecipe() {
             });
                 setResult(result.data['items']);
                 console.log(result)
-                localStorage.setItem('brew-recipe', JSON.stringify(result.data))
+                localStorage.setItem('brew-recipe', JSON.stringify(result.data['items']))
             }else{
               console.log('logged in user')
               let user = (JSON.parse(atob(token.split('.')[1])));
@@ -80,7 +80,7 @@ export default function BrewRecipe() {
                 
                 setResult(result.data['items']);
                 console.log(result)
-                localStorage.setItem('brew-recipe', JSON.stringify(result.data))
+                localStorage.setItem('brew-recipe', JSON.stringify(result.data['items']))
             }
           
         }catch(error){
@@ -92,7 +92,7 @@ export default function BrewRecipe() {
           fetchData();
       }else{
           console.log(localStorage.getItem('brew-recipe'))
-          setResult(JSON.parse(localStorage.getItem('brew-recipe'))['items']);
+          setResult(JSON.parse(localStorage.getItem('brew-recipe')));
       }
     }, [refresh]);
 

@@ -19,6 +19,7 @@ import FavCard from '../components/favCard'
 import { useNavigate } from 'react-router-dom'
 import imgcup from "../assets/img/Cup Icon.png"
 import imgfav from "../assets/img/Favorite Icon.png"
+import { localListUpdate } from '../method/mmss'
 export default function BrewFav() {
   const { t, i18n } = useTranslation();
   let [online, isOnline] = useState(navigator.onLine);
@@ -57,6 +58,7 @@ export default function BrewFav() {
         // console.log('here')
         setResult(JSON.parse(localStorage.getItem('favorite'))['items'])
         setDisplayList(JSON.parse(localStorage.getItem('favorite'))['items'])
+        localStorage.setItem()
     }
     document.title = t("Btext02")
   }, [refresh]);
@@ -71,13 +73,16 @@ export default function BrewFav() {
       }, [])
       const unfavorite  = async (key) => { 
         try{
+            if(online){
             setDisplayList([...displayList].filter((item)=>item.key!=key))
-            // console.log(`https://q27z6n.deta.dev/users/favorite/${id2}`)
             const result = await axios.delete(`https://q27z6n.deta.dev/users/favorite/${key}`, { headers: {'x-token':token}})
             console.log('data here')
             console.log(result.data)
             setRefresh(!refresh)
             // setTrigger(!trigger)
+            }else{
+              localListUpdate('unfavorite', key)
+            }
       } catch(error){
         console.log(error.response)
       }

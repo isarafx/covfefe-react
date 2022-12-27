@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState } from 'react'
 import BackButton from '../components/backbutton'
-
+import { localListObjectUpdate, localListUpdate } from '../method/mmss';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 import "../styles/assets/fonts/font-awesome.min.css"
@@ -67,7 +67,7 @@ export default function BrewEdit() {
       "chemex":["Pour Water", "Add Coffee", "Stir", "Bloom", "Wait", "Swirl", "Rinse Filter", "Custom"]
     };
     const { brewer, id } = useParams();
-    const recipe = (JSON.parse(localStorage.getItem('brew-recipe'))['items']).filter((item)=> item.key===id)[0]
+    const recipe = (JSON.parse(localStorage.getItem('brew-recipe'))).filter((item)=> item.key===id)[0]
     const [name, setName] = useState(recipe.name)
     const [note, setNote] = useState(recipe.note)
     const [score, setScore] = useState(recipe.score)
@@ -227,9 +227,14 @@ export default function BrewEdit() {
         }
         
           console.log(remainWater)
+          if(online){
           const result = await axios.patch(`https://q27z6n.deta.dev/recipes/${id}`, data, { headers: { 'x-token': token } });
           console.log(result)
           navigate(`/brew-recipe/${brewer}`)
+          }else{
+            localListObjectUpdate('brew-recipe', data)
+            localListObjectUpdate('new', data)
+          }
         }catch(error){
           console.log(error.response)
         }
@@ -290,7 +295,6 @@ export default function BrewEdit() {
         handleProcess("Wait")
         setwaterLimit(false)
         console.warn(remainWater)
-          
       }
     }, [remainWater])
     

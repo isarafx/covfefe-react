@@ -203,6 +203,15 @@ export default function BrewTimer() {
               console.log(error)
             }
         }else{
+          let recipee= JSON.parse(localStorage.getItem('brew-recipe')).filter((item)=> item.key===id)[0]
+          setProcessList(recipee['process'])
+              let time = 0
+              recipee.process.map((item)=>{
+                time += parseInt(item.time)
+              })
+              setTotalTime(time)
+              setOverallTime(time)
+              setProcessTime(recipee.process[0].time)
         }
     }catch(error){
       console.log(error)

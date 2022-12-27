@@ -37,6 +37,7 @@ export default function BrewGuide() {
   const [searchParams] = useSearchParams();
   const [cup, setCup] = useState(1)
   const { t, i18n } = useTranslation();
+  
   const [isLogged, setIsLogged] = useState(Boolean(localStorage.getItem('token')) ? localStorage.getItem('token') : null)
   const [path, setPath] = useState(`/brew-recipe/${brewer}`)
   const [comment, setComment] = useState('')
@@ -82,6 +83,7 @@ export default function BrewGuide() {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        if(online){
         const result = await axios.get(`https://q27z6n.deta.dev/recipes/${id}`);
         setRecipe(result.data);
         
@@ -90,6 +92,17 @@ export default function BrewGuide() {
         console.log(result)
         let user = JSON.parse(atob(localStorage.getItem('token').split('.')[1]))
         if (user.username === recipe.owner) { setOwner(true) }
+        }else{
+          let result = JSON.parse(localStorage.getItem('brew-recipe')).filter((item)=> item.key===id)[0]
+          setRecipe(result.data);
+          
+          setCommentList(result.data.comments)
+          setPublic(Boolean(result.data.public && Boolean(result.data.owner !== 'admin')))
+          console.log(result)
+          let user = JSON.parse(atob(localStorage.getItem('token').split('.')[1]))
+          if (user.username === recipe.owner) { setOwner(true) }
+        }
+        
         // localStorage.setItem('brew-recipe', JSON.stringify(result.data))
       } catch (error) {
         console.log(error)

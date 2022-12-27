@@ -27,40 +27,18 @@ export default function CommuMain() {
   //"Tool_Faved":"Tool_icon" Interaction_star_checked:Interaction_icon
 
   const navigate = useNavigate()
-  const setOnline = () => {
-    console.log('We are online!');
-    isOnline(true);
-  };
-  const setOffline = () => {
-    console.log('We are offline!');
-    isOnline(false);
-  };
-
-  // Register the event listeners
-  useEffect(() => {
-    window.addEventListener('offline', setOffline);
-    window.addEventListener('online', setOnline);
-
-    // cleanup if we unmount
-    return () => {
-      window.removeEventListener('offline', setOffline);
-      window.removeEventListener('online', setOnline);
-    }
-  }, []);
+  const setOnline = () => { console.log('We are online!'); isOnline(true); };
+  const setOffline = () => { console.log('We are offline!'); isOnline(false); };
+  useEffect(() => { window.addEventListener('offline', setOffline); window.addEventListener('online', setOnline); return () => { window.removeEventListener('offline', setOffline); window.removeEventListener('online', setOnline); } }, []);
 
   useEffect(() => {
-
     const fetchData = async () => {
       try {
         const result = await axios.get("https://q27z6n.deta.dev/recipes/community", { headers: { 'content-type': 'application/json', 'x-token': token } })
-        // storageAppendList('community', result.data['items'])
-        // alert('here')
         localStorage.setItem('community', JSON.stringify(result.data['items']))
         console.log(result.data)
-        setData(result.data['items'])
+        setData(result.data)
         setDisplayList(result.data['items'])
-        console.log('setter')
-
       } catch (error) {
         console.log(error)
       }
@@ -69,10 +47,7 @@ export default function CommuMain() {
       fetchData();
     } else {
       navigate('/offline')
-      setData(localStorage.getItem('community'))
-      setDisplayList(localStorage.getItem('community'))
     }
-    // console.log('i fire once');
   }, [refresh]);
 
   const [searchText, setSearchText] = useState("")

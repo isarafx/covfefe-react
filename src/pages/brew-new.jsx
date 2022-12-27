@@ -2,6 +2,7 @@ import React from 'react'
 import { useState } from 'react'
 import BackButton from '../components/backbutton'
 
+
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 
@@ -22,7 +23,7 @@ import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
-import { AdminCheck, mmss, OwnerCheck } from '../method/mmss'
+import { AdminCheck, localListUpdate, mmss, OwnerCheck } from '../method/mmss'
 import { descParse } from '../method/mmss'
 import "../styles/assets/fonts/font-awesome.min.css"
 import "../styles/assets/fonts/fontawesome-all.min.css"
@@ -247,10 +248,18 @@ export default function BrewNew() {
           rate:score
         }
         try{
-          let token = localStorage.getItem('token')
-          const result = await axios.post(`https://q27z6n.deta.dev/recipes`, data, { headers: { 'x-token': token } });
-          console.log(result)
-          navigate(`/`)
+            if(online){
+              let token = localStorage.getItem('token')
+              const result = await axios.post(`https://q27z6n.deta.dev/recipes`, data, { headers: { 'x-token': token } });
+              console.log(result)
+            //   navigate(`/`)
+            // }else{
+              console.log(data)
+              // localListUpdate('brew-recipe', JSON.stringifydata)
+              let old_item = JSON.parse(localStorage.getItem('brew-recipe'))
+              localStorage.setItem('brew-recipe', JSON.stringify([...old_item, data]))
+              navigate(`/`)
+            }
         }catch(error){
           console.log(error.response)
         }

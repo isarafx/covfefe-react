@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom"
+import axios from "axios"
 export function mmss(second) {
     return (
         new Date(parseInt(second) * 1000).toISOString().substring(14, 19)
@@ -55,4 +56,44 @@ export function AdminCheck(){
     }catch(error){
       return false
     }
+}
+
+export function localListUpdate(path, item){
+    let old_item = JSON.parse(localStorage.getItem(path))
+    if(old_item === [] || old_item === null){
+        localStorage.setItem(path, JSON.stringify([item]))
+    }else{
+        if (old_item.includes(item)){
+            
+        }else{
+          console.warn('update')
+          localStorage.setItem(path, JSON.stringify([...old_item, item]))
+        }
+    }
+}
+
+export function localListObjectUpdate(path, item){
+  let old_item = JSON.parse(localStorage.getItem(path))
+  if(old_item === [] || old_item === null){
+      localStorage.setItem(path, JSON.stringify([item]))
+  }else{
+      if (old_item.includes(item)){
+          
+      }else{
+        let myArray = old_item.filter(function( obj ) {
+          return obj.id !== item.key;
+        });
+        localStorage.setItem(path, JSON.stringify([...myArray, item]))
+      }
+  }
+}
+
+export function postAll(){
+  let old_item = JSON.parse(localStorage.getItem('unfavorite'))
+  if(old_item === [] || old_item === null){
+      axios.all(old_item.map((endpoint) => axios.get(endpoint))).then(
+        (data) => console.log(data),
+      );
+  }else{
+  }
 }
