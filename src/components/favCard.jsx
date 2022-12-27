@@ -6,14 +6,15 @@ import imgaeropress from "../assets/img/Aeropress_ICO.png"
 import imgfrenchpress from "../assets/img/Frenchpress_ICO.png"
 import imgmokapot from "../assets/img/Moka_ICO.png"
 import imgchemex from "../assets/img/Chemex_ICO.png"
+import { useParams } from 'react-router-dom'
 export default function FavCard({name="lorem ipsum", link, brewer = 'hario' , id='', func }) {
-
+  //'Hario', 'Chemex', 'Moka Pot', 'French Press', 'AeroPress'
   const tool = {
-    "hario":imghario,
-    "aeropress":imgaeropress,
-    "frenchpress":imgfrenchpress,
-    "mokapot":imgmokapot,
-    "chemex":imgchemex,
+    "Hario":imghario,
+    "AeroPress":imgaeropress,
+    "French Press":imgfrenchpress,
+    "Moka Pot":imgmokapot,
+    "Chemex":imgchemex,
   }
   let url = `/brew-recipe/${brewer}/${link}`
   let potato = ';'
