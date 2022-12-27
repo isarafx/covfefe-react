@@ -213,12 +213,7 @@ export default function BrewTimer() {
           FetchData()
       }else{
           let owner = (searchParams.get('owner'))
-          let recipee 
-          if(owner==="admin" || owner==='user'){
-              recipee = JSON.parse(localStorage.getItem('brew-recipe'))['items'].filter((item)=>item.key===id)[0]
-          }else{
-              recipee = JSON.parse(localStorage.getItem('community')).filter((item)=>item.key===id)[0]
-          }
+          let recipee = JSON.parse(localStorage.getItem('brew-recipe'))['items'].filter((item)=>item.key===id)[0]
           
           setProcessList(recipee['process'])
           let time = 0
