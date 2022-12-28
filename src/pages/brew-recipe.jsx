@@ -62,7 +62,6 @@ export default function BrewRecipe() {
               console.log('public user')
               const result = await axios.get("https://q27z6n.deta.dev/recipes/public", {
                 headers: {
-                    'accept': 'application/json'
                 }
                 
             });
