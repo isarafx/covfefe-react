@@ -105,6 +105,12 @@ export default function BrewRecipe() {
                   const result = await axios.delete(`https://q27z6n.deta.dev/recipes/${key}`, {headers: {'Content-Type':'application/json','x-token':token}});
                   setRefresh(!refresh)
                 }else{
+                  let newlist = JSON.parse(localStorage.getItem('brew-recipe'))['items'].filter((item)=>item.key != key)
+                  let list_recipe = JSON.parse(localStorage.getItem('brew-recipe'))
+                  let numcount = list_recipe['count']
+                  let newitem = {count:numcount+1, items:newlist}
+                  localStorage.setItem('brew-recipe', JSON.stringify(newitem))
+                  console.log(newitem)
                   // storageAppendList('update_list',{'delete':key})
                 }
             }

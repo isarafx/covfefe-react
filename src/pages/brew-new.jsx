@@ -175,8 +175,7 @@ export default function BrewNew() {
           setRemainWater(remainWater-parseInt(processModalWater))
         }else if((processModalName === "Custom")){
             data.custom_name = processModalCustomName
-        }
-        
+        } 
         
         data.id = `${processModalName}-${process.length+1}`
         data.name = processModalName
@@ -187,11 +186,13 @@ export default function BrewNew() {
         setProcessStep("Wait")
         handleProcess("Wait")
     }
+
     function deleteEquipment(id) {
       setEquipment(equipment.filter((item) => {
         return item.id != id
       }))
     }
+
     function deleteProcess(id, time, processname, water) {
       setRemainTime(remainTime-time)
       if((processname === "Bloom")||(processname === "Pour Water")){
@@ -201,6 +202,7 @@ export default function BrewNew() {
         return item.id != id
       }))
     }
+
     const navigate = useNavigate();
     const [trigger, setTrigger] = useState(false)
     // const header = {
@@ -251,15 +253,18 @@ export default function BrewNew() {
             let token = localStorage.getItem('token')
             const result = await axios.post(`https://q27z6n.deta.dev/recipes`, data, { headers: { 'x-token': token } });
             console.log(result)
-            navigate(`/`)}
+            navigate(`/`)
+          }
           else{
-            data = {...data, key:String(Date.now()), description:"", public:false, owner:"offline"}
+            let user = JSON.parse(atob(localStorage.getItem('token').split('.')[1]))['username']
+            data = {...data, key:String(Date.now()), description:"", public:false, owner:user}
             let list_recipe = JSON.parse(localStorage.getItem('brew-recipe'))
             let numcount = list_recipe['count']
             list_recipe = [...list_recipe['items'], data]
             let newitem = {count:numcount+1, items:list_recipe}
             localStorage.setItem('brew-recipe', JSON.stringify(newitem))
             console.log(newitem)
+            navigate(`/`)
           }
         }catch(error){
           console.log(error.response)
