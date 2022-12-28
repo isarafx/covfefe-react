@@ -41,9 +41,11 @@ export default function BrewRecipe() {
     let [result, setResult] = useState([]);
     const navigate = useNavigate()
     const setOnline = () => {
+      console.log('online')
       isOnline(true);
     };
     const setOffline = () => {
+      console.log('offline')
       isOnline(false);
     };
     useEffect(() => {
