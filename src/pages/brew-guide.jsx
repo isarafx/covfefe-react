@@ -109,8 +109,10 @@ export default function BrewGuide() {
       setRecipe(JSON.parse(localStorage.getItem('brew-recipe'))['items'].filter((item) => { return item.key === id })[0]);
       setCommentList(JSON.parse(localStorage.getItem('brew-recipe'))['items'].filter((item) => { return item.key === id })[0].comments)
       setPublic(Boolean(JSON.parse(localStorage.getItem('brew-recipe'))['items'].filter((item) => { return item.key === id })[0].public && Boolean(JSON.parse(localStorage.getItem('brew-recipe'))['items'].filter((item) => { return item.key === id })[0].owner !== 'admin')))
-      let user = JSON.parse(atob(localStorage.getItem('token').split('.')[1]))
-      if (user.username === JSON.parse(localStorage.getItem('brew-recipe'))['items'].filter((item) => { return item.key === id })[0].owner) { setOwner(true) }
+      if(isLogged){
+        let user = JSON.parse(atob(localStorage.getItem('token').split('.')[1]))
+        if (user.username === JSON.parse(localStorage.getItem('brew-recipe'))['items'].filter((item) => { return item.key === id })[0].owner) { setOwner(true) }
+      }
     }
     document.title = t("Btext06")
 

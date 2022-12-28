@@ -253,7 +253,7 @@ export default function BrewNew() {
             console.log(result)
             navigate(`/`)}
           else{
-            data = {...data, key:`tempkey${data.name}`}
+            data = {...data, key:String(Date.now()), description:"", public:false, owner:"offline"}
             let list_recipe = JSON.parse(localStorage.getItem('brew-recipe'))
             let numcount = list_recipe['count']
             list_recipe = [...list_recipe['items'], data]

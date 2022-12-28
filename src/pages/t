@@ -1,4 +1,32 @@
-
+"description": "string",
+"public": false,
+  "owner": "admin",
+{
+  "brewer": "Chemex",
+  "name": "test",
+  "coffee_weight": 20,
+  "water": 300,
+  "ratio": 15,
+  "equipment": [
+    {
+      "name": "Chemex",
+      "description": "Chemex"
+    }
+  ],
+  "note": "test",
+  "process": [
+    {
+      "name": "Swirl",
+      "time": 23,
+      "comment": ""
+    }
+  ],
+  "grind_size": "Coarse",
+  "temp": 90,
+  "roast_level": "Dark",
+  "rate": "9",
+  "key": "1672220985498"
+}
 
   {
   "key": "test1",
@@ -10,8 +38,49 @@
     "string"
   ]
 }
-No links
-422	
+
+
+{
+  "key": "string",
+  "brewer": "Hario",
+  "name": "string",
+  "coffee_weight": 20,
+  "water": 300,
+  "ratio": 15,
+  "description": "string",
+  "equipment": [
+    {
+      "name": "Coffee",
+      "description": "string"
+    }
+  ],
+  "comments": [
+    {
+      "username": "string",
+      "message": "string",
+      "created_date": "2022-12-28T09:55:18.936Z"
+    }
+  ],
+  "note": "string",
+  "public": false,
+  "star": [],
+  "rate": 0,
+  "process": [
+    {
+      "name": "string",
+      "custom_name": "string",
+      "description": "string",
+      "comment": "string",
+      "time": 0,
+      "water": 0
+    }
+  ],
+  "grind_size": "Medium",
+  "temp": 96,
+  "roast_level": "Light",
+  "owner": "admin",
+  "created_date": "2022-12-28T09:55:18.936Z"
+}
 
 [
     { "brewer": "Hario", "name": "Basic V60", "coffee_weight": "25", "water": 375, "ratio": "15", "equipment": [ { "name": "Filter", "description": "Hario" }, { "name": "Scale", "description": "lorem" }, { "name": "Hario V60", "description": "lorem" }, { "name": "Kettle", "description": "lorem" } ], "note": "สูตรการชง V60 เบื้องต้น ถ้ารสชาติที่ได้ไม่ตรงความต้องการหรือระยะเวลาการชงไม่ตรง คุณสามารถปรับขนาดการบดใหม่แล้วลองอีกครั้ง", "public": true, "process": [ { "time":23, "comment": "เพื่อล้างสิ่งสกปรกและอุ่นภาชนะให้ร้อนหลังจากนั้นเทน้ำทิ้ง", "name": "Rinse Filter" }, {  "time":23, "comment": "", "name": "Add Coffee" }, {  "time":23, "water": "75", "comment": "", "name": "Bloom" }, {  "time":23, "water": "300", "comment": "ค่อยๆ เทน้ำร้อนวนให้ทั่วกาแฟอย่างต่อเนื่อง", "name": "Pour Water" }, {  "time":23, "comment": "", "name": "Wait" }, { "custom_name": "นำดริปเปอร์ออก พร้อมเสริฟ",  "time":23, "comment": "", "name": "Custom" } ], "grind_size": "Medium Fine", "temp": "94", "roast_level": "Light" },
