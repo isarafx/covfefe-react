@@ -74,34 +74,36 @@ export default function Profile() {
         // console.log(user)
         // alert(token)
         if (LoginCheck()) {
-          console.log('reach here')
-          let token = localStorage.getItem('token')
-          let user = JSON.parse(atob(localStorage.getItem('token').split('.')[1]))['username']
-          console.log(user)
-          const result = await axios.get('https://q27z6n.deta.dev/recipes/users', { headers: { 'x-token': token } })
-          const picture = await axios.get(`https://q27z6n.deta.dev/users/${user}`, { headers: { 'x-token': token } })
-          let count = result.data['items'].filter((item) => { return item.owner == user }).length
-          if (LoginCheck()) {
-            setTotalRecipe(count)
-            console.log('https://q27z6n.deta.dev'.concat(picture.data['image']))
-            // let a = ('https://q27z6n.deta.dev'.concat(picture.data['image']))
-            // setProfile(''JSON.stringify(picture.data['image']))
-            // console.log(typeof profile)
-            // console.log(typeof 'https://play-lh.googleusercontent.com/A26UUWOc_l_aPp2GRurp3sG0kaxjm8ArbFHtX5GQZ9x9QztmE_noNmHBE2fbTa855sZu')
-            setProfile(['https://q27z6n.deta.dev'.concat(picture.data['image'])])
-            if (Boolean(picture.data['brewed'])) {
-              setBrewCount(picture.data['brewed'])
-            } else {
-              setBrewCount(0)
+            if(online){
+                console.log('reach here')
+                let token = localStorage.getItem('token')
+                let user = JSON.parse(atob(localStorage.getItem('token').split('.')[1]))['username']
+                console.log(user)
+                const result = await axios.get('https://q27z6n.deta.dev/recipes/users', { headers: { 'x-token': token } })
+                const picture = await axios.get(`https://q27z6n.deta.dev/users/${user}`, { headers: { 'x-token': token } })
+                let count = result.data['items'].filter((item) => { return item.owner == user }).length
+                setTotalRecipe(count)
+                console.log('https://q27z6n.deta.dev'.concat(picture.data['image']))
+                // let a = ('https://q27z6n.deta.dev'.concat(picture.data['image']))
+                // setProfile(''JSON.stringify(picture.data['image']))
+                // console.log(typeof profile)
+                // console.log(typeof 'https://play-lh.googleusercontent.com/A26UUWOc_l_aPp2GRurp3sG0kaxjm8ArbFHtX5GQZ9x9QztmE_noNmHBE2fbTa855sZu')
+                setProfile(['https://q27z6n.deta.dev'.concat(picture.data['image'])])
+                if (Boolean(picture.data['brewed'])) {
+                  setBrewCount(picture.data['brewed'])
+                } else {
+                  setBrewCount(0)
+                }
+                if (picture.data['image'] == undefined) { setProfile(['assets/img/AvatarIcon.jpg']) }
+                // console.log(a)
+                localStorage.setItem('totalrecipe', count)
+                localStorage.setItem('profileImage', 'https://q27z6n.deta.dev'.concat(picture.data['image']))
+            }else{
+                setProfile(['assets/img/AvatarIcon.jpg'])
+                setBrewCount(0)
+                setTotalRecipe(0)
             }
-            if (picture.data['image'] == undefined) { setProfile(['assets/img/AvatarIcon.jpg']) }
-            // console.log(a)
-            localStorage.setItem('totalrecipe', count)
-            localStorage.setItem('profileImage', 'https://q27z6n.deta.dev'.concat(picture.data['image']))
-          } else {
-
-          }
-          // console.log(picture.data['image'])
+              // console.log(picture.data['image'])
         }
         // console.log(result.data['items'].filter((item)=>{return item.owner == user['username']}).length)
 

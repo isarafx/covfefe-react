@@ -16,7 +16,14 @@ export default function FavCard({name="lorem ipsum", link, brewer = 'hario' , id
     "Moka Pot":imgmokapot,
     "Chemex":imgchemex,
   }
-  let url = `/brew-recipe/${brewer}/${link}`
+  const toolpath = {
+    "Hario":"hario",
+    "AeroPress":"aeropress",
+    "French Press":"frenchpress",
+    "Moka Pot":"mokapot",
+    "Chemex":"chemex",
+  }
+  let url = `/brew-recipe/${toolpath[brewer]}/${link}?favorite=1`
   let potato = ';'
 
     

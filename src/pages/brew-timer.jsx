@@ -51,13 +51,7 @@ export default function BrewTimer() {
   const [processTime, setProcessTime] = useState(0)
   const [state, setState] = useState(0) // if true> clock start
   const [index, setIndex] = useState(1)
-  const token = useState(()=>{
-    if(localStorage.getItem('token') == null){
-        return 0
-    }else{
-      return localStorage.getItem('token')
-    }
-  });
+  const token = localStorage.getItem('token')
   const [brewed, setBrewed] = useState(()=>{
     if(localStorage.getItem('brewed') == null){
         return 0
@@ -106,6 +100,7 @@ export default function BrewTimer() {
           // startCondition()
           localStorage.setItem('brewcount', (brewed+1))
           sendBrewed()
+          
           navigate(`/brew-recipe/finish?brewer=${brewer}&id=${id}`)
           //post brew total to server
           //set localstorage to push to server
@@ -172,9 +167,10 @@ export default function BrewTimer() {
             if(token){
                 let user = JSON.parse(atob(localStorage.getItem('token').split('.')[1]))
                 if(online){
-                  console.log(brewed)
-                  const result = await axios.patch(`https://q27z6n.deta.dev/users`, {"brewed":3}, {headers: {'x-token':token}});
-                  console.log(result.data)
+                  console.log('reach here')
+                  console.log(token)
+                  const result = await axios.patch(`https://q27z6n.deta.dev/users`, {"brewed":brewed+1}, {headers: {'x-token':token}});
+                  console.log(result)
                   console.warn('reach here')
                 }else{
                   //offline implement

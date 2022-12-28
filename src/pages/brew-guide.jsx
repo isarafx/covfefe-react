@@ -39,6 +39,7 @@ export default function BrewGuide() {
   const { t, i18n } = useTranslation();
   const [isLogged, setIsLogged] = useState(Boolean(localStorage.getItem('token')) ? localStorage.getItem('token') : null)
   const [path, setPath] = useState(`/brew-recipe/${brewer}`)
+  let editpath = `/brew-recipe/${brewer}/edit/${id}`
   const [comment, setComment] = useState('')
 
   let [online, isOnline] = useState(navigator.onLine);
@@ -71,7 +72,7 @@ export default function BrewGuide() {
           setComment('')
           let token = localStorage.getItem('token')
           const result = await axios.post(`https://q27z6n.deta.dev/recipes/${id}/comment`, data, { headers: { 'x-token': token } });
-          // console.log(result)
+
           setCommentList(result.data.comments)
         }
       }
@@ -96,7 +97,11 @@ export default function BrewGuide() {
       }
     }
     if(searchParams.get('community') == 1){
-      setPath('/community')
+        setPath('/community')
+        editpath = `/`
+    }else if(searchParams.get('favorite') == 1){
+        setPath('/favorite')
+        editpath = `/`
     }
     if (online) {
       fetchData()
@@ -113,7 +118,7 @@ export default function BrewGuide() {
   return (
     <div>
       <div className="div_back"><Link to={path} ><i className="icon ion-android-arrow-back" id="Back_icon" /></Link></div>
-      {isOwner ? <div className="d-flex div_a" style={{ width: '80%', marginLeft: '20%' }}><Link to={`/brew-recipe/${brewer}/edit/${id}`}><i className="fa fa-pencil Add_icon" style={{ fontSize: '25px' }} /></Link></div>
+      {isOwner ? <div className="d-flex div_a" style={{ width: '80%', marginLeft: '20%' }}><Link to={editpath}><i className="fa fa-pencil Add_icon" style={{ fontSize: '25px' }} /></Link></div>
         : null}
       <div id="main_template">
         <div className="container" id="recipelist_container">

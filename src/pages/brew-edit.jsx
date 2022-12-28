@@ -346,7 +346,7 @@ export default function BrewEdit() {
                 <div className="d-inline-flex" id="guide_tool_bar">
                   <div className="d-flex justify-content-center tool_add_box"><button className="btn btn-primary d-flex justify-content-center align-items-center" id="tool_add_btn" type="button" style={{ background: '#bc000000' }} data-bs-target="#Modal_tool" data-bs-toggle="modal"><i className="fas fa-plus tool_add_icon" /></button></div>
                   
-                  {equipment.map((item)=>{
+                  {equipment?equipment.map((item)=>{
                       return(
                       <div className="d-flex align-items-center guide_toolbox2" key={item.id}>
                       <div className="row g-0 row-cols-3 d-flex guide_toolr_edit">
@@ -361,7 +361,7 @@ export default function BrewEdit() {
                       </div>
                     </div>
                     )
-                  })}
+                  }):null}
                 </div>
                 <div className="row row-cols-3" id="guide_row">
                   <div className="col d-flex justify-content-center" style={{ paddingLeft: '5px', paddingRight: '5px' }}>
@@ -440,7 +440,7 @@ export default function BrewEdit() {
                 </div>
                 <div id="process_container">
                   {
-                    process.map((item)=>{
+                    process?process.map((item)=>{
                       return(
                         <div className="d-inline-flex" id="Process_edit_card" style={{ width: '100%' }}>
                     <div className="process_card2">
@@ -461,7 +461,7 @@ export default function BrewEdit() {
                   </div>
                       )
                     })
-                  }
+                  :null}
                   
                 </div>
                 <div style={{ textAlign: 'center' }}><button className="btn btn-primary" id="process_timer_add" type="button" data-bs-target="#Modal_step" data-bs-toggle="modal"><i className="fas fa-plus" />&nbsp;{t("Btext09")}</button></div>
@@ -540,7 +540,7 @@ export default function BrewEdit() {
                         <div className="d-inline-flex" style={{ width: '100%', marginTop: '5px' }}><img className="ae_legend" src={imgmodal1} />
                           <p id="Etitle">{t("Modaltext09")}</p>
                         </div><select value={processModalName} className="form-select tools_switch" style={{ marginLeft: '0px', marginTop: '0px' }} onChange={(e) => { handleProcess(e.target.value) }}>
-                            {processMethod.map((item, index) => (<option key={item} value={item}>{item}</option>))}
+                            {processMethod?processMethod.map((item, index) => (<option key={item} value={item}>{item}</option>)):null}
                         </select>
                       </div>
                     </div>

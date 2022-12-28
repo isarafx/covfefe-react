@@ -17,7 +17,13 @@ import { storageAppendList } from '../method/localStorageMethod'
 import { useNavigate } from 'react-router-dom'
 import { HashLink } from 'react-router-hash-link';
 export default function CommuMain() {
-
+  const toolpath = {
+    "Hario":"hario",
+    "AeroPress":"aeropress",
+    "French Press":"frenchpress",
+    "Moka Pot":"mokapot",
+    "Chemex":"chemex",
+  }
   const { t, i18n } = useTranslation();
   let [online, isOnline] = useState(navigator.onLine);
   const token = localStorage.getItem('token')
@@ -224,7 +230,7 @@ export default function CommuMain() {
                   <div className="col">
                     <div className="card Recipe_card">
                       <div className="card-body">
-                        <div><Link to={`/brew-recipe/${item.brewer}/${item.key}?community=1`}>
+                        <div><Link to={`/brew-recipe/${toolpath[item.brewer]}/${item.key}?community=1`}>
                           <div className="row" style={{ textAlign: 'center' }}>
                             <div className="col"><img id="Result_mpic" src="assets/img/Sample.png" /></div>
                           </div>
