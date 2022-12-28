@@ -11,8 +11,6 @@ import "./styles/assets/fonts/fontawesome5-overrides.min.css"
 import "./styles/assets/fonts/ionicons.min.css"
 import "./styles/assets/fonts/material-icons.min.css"
 
-
-
 import "./styles/assets/js/bs-init.js"
 import ArticleMain from './pages/article';
 import ArticleRead from './pages/article-read-1';
@@ -103,27 +101,27 @@ const router = createBrowserRouter([
   {
     path: "/article",
     element: <ArticleMain />,
-    errorElement:<Error />,
+    //errorElement:<Error />,
   },
   {
     path: "/article-new",
     element: <ProtectedRoute><ArticleNew /></ProtectedRoute>,
-    errorElement:<Error />,
+    //errorElement:<Error />,
   },
   {
     path: "/article/:id",
     element: <ArticleRead />,
-    errorElement:<Error />,
+    //errorElement:<Error />,
   },
   {
     path: "/favorite",
     element: <ProtectedRoute><BrewFav /></ProtectedRoute>,
-    errorElement:<Error />,
+    //errorElement:<Error />,
   },
   {
     path: "/brew-recipe/:brewer/:id",
     element: <BrewGuide />,
-    errorElement:<Error />,
+    //errorElement:<Error />,
   },
   {
     path: "/brew-recipe/new",
@@ -132,7 +130,7 @@ const router = createBrowserRouter([
   {
     path: "/brew-recipe/:brewer",
     element: <BrewRecipe />,
-    errorElement:<Error />,
+    //errorElement:<Error />,
   },
   {
     path: "/brew-recipe/:brewer/timer/:id",
@@ -145,12 +143,12 @@ const router = createBrowserRouter([
   {
     path: "/brew-recipe/:brewer/share/:id",
     element: <ProtectedRoute><CommuShare /></ProtectedRoute>,
-    errorElement:<Error />,
+    //errorElement:<Error />,
   },
   {
     path: "/community",
     element: <ProtectedRoute><CommuMain /></ProtectedRoute>,
-    errorElement:<Error />,
+    //errorElement:<Error />,
   },
   {
     path: "/error",
@@ -163,37 +161,37 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <Login />,
-    errorElement:<Error />,
+    //errorElement:<Error />,
   },
   {
     path: "/register",
     element: <Register />,
-    errorElement:<Error />,
+    //errorElement:<Error />,
   },
   {
     path: "/profile",
     element: <Profile />,
-    errorElement:<Error />,
+    //errorElement:<Error />,
   },
   {
     path: "/profile-edit",
     element: <ProtectedRoute><ProfileEdit /></ProtectedRoute>,
-    errorElement:<Error />,
+    //errorElement:<Error />,
   },
   {
     path: "/offline",
     element: <Offline />,
-    errorElement:<Error />,
+    //errorElement:<Error />,
   },
   {
     path: "/brew-recipe/finish",
     element: <BrewFinish />,
-    errorElement:<Error />,
+    //errorElement:<Error />,
   },
   {
     path: "*",
     element: <Error />,
-    errorElement:<Error />,
+    //errorElement:<Error />,
   },
 ]);
 
