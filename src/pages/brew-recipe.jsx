@@ -68,7 +68,7 @@ export default function BrewRecipe() {
                 
             });
                 setResult(result.data['items']);
-                console.log(result)
+                // console.log(result)
                 localStorage.setItem('brew-recipe', JSON.stringify(result.data))
             }else{
               console.log('logged in user')
@@ -80,7 +80,7 @@ export default function BrewRecipe() {
             });
                 
                 setResult(result.data['items']);
-                console.log(result)
+                // console.log(result)
                 localStorage.setItem('brew-recipe', JSON.stringify(result.data))
             }
           
@@ -92,7 +92,7 @@ export default function BrewRecipe() {
       if(online){
           fetchData();
       }else{
-          console.log(localStorage.getItem('brew-recipe'))
+          // console.log(localStorage.getItem('brew-recipe'))
           setResult(JSON.parse(localStorage.getItem('brew-recipe'))['items']);
       }
     }, [refresh]);
@@ -112,7 +112,8 @@ export default function BrewRecipe() {
                   let numcount = list_recipe['count']
                   let newitem = {count:numcount+1, items:newlist}
                   localStorage.setItem('brew-recipe', JSON.stringify(newitem))
-                  console.log(newitem)
+                  // console.log(newitem)
+                  setRefresh(!refresh)
                   // storageAppendList('update_list',{'delete':key})
                 }
             }
