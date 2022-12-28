@@ -14,6 +14,7 @@ import { useAuth } from '..'
 import { useEffect } from 'react'
 import axios from 'axios'
 import { LoginCheck } from '../method/mmss'
+import defaultpic from"../assets/img/AvatarIcon.jpg"
 export default function Profile() {
   const { t, i18n } = useTranslation()
   const [isLogged, setIslogged] = useState(Boolean(localStorage.getItem('token')))
@@ -40,7 +41,7 @@ export default function Profile() {
   }
   const lang = localStorage.getItem('i18nextLng')
   const [checker, setChecker] = useState(lang === 'en' ? true : false);
-  const [profile, setProfile] = useState(['assets/img/AvatarIcon.jpg'])
+  const [profile, setProfile] = useState([defaultpic])
 
   // const { value } = useAuth()
 
@@ -94,12 +95,12 @@ export default function Profile() {
                 } else {
                   setBrewCount(0)
                 }
-                if (picture.data['image'] == undefined) { setProfile(['assets/img/AvatarIcon.jpg']) }
+                if (picture.data['image'] == undefined) { setProfile(defaultpic) }
                 // console.log(a)
                 localStorage.setItem('totalrecipe', count)
                 localStorage.setItem('profileImage', 'https://q27z6n.deta.dev'.concat(picture.data['image']))
             }else{
-                setProfile(['assets/img/AvatarIcon.jpg'])
+                setProfile([defaultpic])
                 setBrewCount(0)
                 setTotalRecipe(0)
             }
@@ -147,7 +148,7 @@ export default function Profile() {
               </div>
               <div className="row prow" data-bss-hover-animate="pulse">
                 {isLogged ?
-                  <div className="col"><Link onClick={() => { setIslogged(false); localStorage.setItem('token', ''); setBrewCount(0); setTotalRecipe(0); setProfile(['assets/img/AvatarIcon.jpg']) }} className="btn btn-primary" role="button" style={{ background: '#d35151' }} >{t("Ltext10")}</Link></div>
+                  <div className="col"><Link onClick={() => { setIslogged(false); localStorage.setItem('token', ''); setBrewCount(0); setTotalRecipe(0); setProfile(defaultpic) }} className="btn btn-primary" role="button" style={{ background: '#d35151' }} >{t("Ltext10")}</Link></div>
                   :
                   <div className="col"><Link to="/login" className="btn btn-primary" role="button" style={{ background: '#d35151' }}>{t("Ltext01")}</Link></div>}
 
