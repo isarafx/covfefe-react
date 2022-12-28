@@ -234,14 +234,13 @@ export default function BrewEdit() {
         }else{
             let _ = require('lodash');
             let user = JSON.parse(atob(localStorage.getItem('token').split('.')[1]))['username']
-            data = {...data}
-            console.log(data)
             let list_recipe = JSON.parse(localStorage.getItem('brew-recipe'))
             let numcount = list_recipe['count']
-            list_recipe = [...(list_recipe['items'].filter((item)=>item.key != id)), data]
+            list_recipe = [...(list_recipe['items'].filter((item)=>item.key != id)), _.merge(recipe, data)]
+            console.log(_.merge(recipe, data))
             let newitem = {count:numcount, items:list_recipe}
-            localStorage.setItem('brew-recipe', JSON.stringify(_.merge(data, recipe)))
-            // console.log(newitem)
+            localStorage.setItem('brew-recipe', JSON.stringify(newitem))
+            console.log(newitem)
             navigate(`/brew-recipe/${brewer}`)
         }
         }catch(error){
