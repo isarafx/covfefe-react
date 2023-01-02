@@ -18,7 +18,7 @@ import { useEffect } from 'react'
 import { Fetching } from '../method/fetchScripts'
 import axios from 'axios';
 import RecipeAdminCard from '../components/recipecard_admin'
-import { LoginCheck } from '../method/mmss'
+import { LoginCheck, postAll, updateLocalList } from '../method/mmss'
 import { Link } from 'react-router-dom'
 export default function BrewRecipe() {
     const { brewer } = useParams();
@@ -29,33 +29,15 @@ export default function BrewRecipe() {
     const [refresh, setRefresh] = useState(false)
     const [recipe, setRecipe] = useState([])
     
-    const tool = {
-      "hario":"Hario",
-      "aeropress":"AeroPress",
-      "frenchpress":"French Press",
-      "mokapot":"Moka Pot",
-      "chemex":"Chemex",
-    }
+    const tool = { "hario":"Hario", "aeropress":"AeroPress", "frenchpress":"French Press", "mokapot":"Moka Pot", "chemex":"Chemex" }
     // let [display, setDisplay] = useState(JSON.parse(localStorage.getItem('brew-recipe'))['items'])
     let [online, isOnline] = useState(navigator.onLine);
     let [result, setResult] = useState([]);
     const navigate = useNavigate()
-    const setOnline = () => {
-      console.log('online')
-      isOnline(true);
-    };
-    const setOffline = () => {
-      console.log('offline')
-      isOnline(false);
-    };
-    useEffect(() => {
-      window.addEventListener('offline', setOffline);
-      window.addEventListener('online', setOnline);
-      return () => {
-        window.removeEventListener('offline', setOffline);
-        window.removeEventListener('online', setOnline);
-      }
-    }, []);
+    const setOnline = () => { console.log('online'); isOnline(true);postAll(); };
+    const setOffline = () => { console.log('offline'); isOnline(false); };
+    useEffect(() => { window.addEventListener('offline', setOffline); window.addEventListener('online', setOnline); return () => { window.removeEventListener('offline', setOffline); window.removeEventListener('online', setOnline); } }, []);
+    
     useEffect(() => {
       const fetchData  = async () => { 
         try{
@@ -92,7 +74,6 @@ export default function BrewRecipe() {
       if(online){
           fetchData();
       }else{
-          // console.log(localStorage.getItem('brew-recipe'))
           setResult(JSON.parse(localStorage.getItem('brew-recipe'))['items']);
       }
     }, [refresh]);
@@ -124,10 +105,27 @@ export default function BrewRecipe() {
     const Favorite  = async (key) => { 
         if(LoginCheck()){}else{navigate('/login')}
         try{
-            console.log('reach unfavorite')
-            const result = await axios.post(`https://q27z6n.deta.dev/users/favorite/${key}`, '', { headers: {'x-token':token}})
-            console.log(result.data)
-            setRefresh(!refresh)
+            if(online){
+                console.log('reach unfavorite')
+                const result = await axios.post(`https://q27z6n.deta.dev/users/favorite/${key}`, '', { headers: {'x-token':token}})
+                console.log(result.data)
+                setRefresh(!refresh)
+            }else{
+                console.warn('fav')
+                let allitem = JSON.parse(localStorage.getItem('brew-recipe'))['items'].filter(item=>item.key!=key)
+                let item = JSON.parse(localStorage.getItem('brew-recipe'))['items'].filter(item=>item.key===key)[0]
+                item = {...item, is_favorite:true}
+                item = [...allitem, item]
+                localStorage.setItem('brew-recipe', JSON.stringify({count:99, items:item}))
+                setRefresh(!refresh)
+                localStorage.setItem('favorite', JSON.stringify({count:99, items:item.filter(item=>item.is_favorite === true)}))
+                let off_record = {method:"fav", key:key}
+                try{
+                  updateLocalList('update', off_record)
+                }catch{
+                
+                }
+            }
         }catch(error){
             console.log(error.response)
         }
@@ -135,10 +133,27 @@ export default function BrewRecipe() {
     const UnFavorite  = async (key) => { 
         if(LoginCheck()){}else{navigate('/login')}
         try{
-            console.log('reach unfavorite')
-            const result = await axios.delete(`https://q27z6n.deta.dev/users/favorite/${key}`, { headers: {'x-token':token}})
-            console.log(result.data)
-            setRefresh(!refresh)
+            if(online){
+                console.log('reach unfavorite')
+                const result = await axios.delete(`https://q27z6n.deta.dev/users/favorite/${key}`, { headers: {'x-token':token}})
+                console.log(result.data)
+                setRefresh(!refresh)
+            }else{
+                console.warn('unfav')
+                let allitem = JSON.parse(localStorage.getItem('brew-recipe'))['items'].filter(item=>item.key!=key)
+                let item = JSON.parse(localStorage.getItem('brew-recipe'))['items'].filter(item=>item.key===key)[0]
+                item = {...item, is_favorite:false}
+                item = [...allitem, item]
+                localStorage.setItem('brew-recipe', JSON.stringify({count:99, items:item}))
+                setRefresh(!refresh)
+                localStorage.setItem('favorite', JSON.stringify({count:99, items:item.filter(item=>item.is_favorite === true)}))
+                let off_record = {method:"unfav", key:key}
+                try{
+                  updateLocalList('update', off_record)
+                }catch{
+                
+                }
+            }
         }catch(error){
             console.log(error.response)
         }
@@ -168,7 +183,7 @@ export default function BrewRecipe() {
         let shared = (item.public ? item.owner!=="admin":false)
         let edit = LoginCheck()
         if(item.brewer === tool[brewer]){
-          return(<RecipeCard brewer={item.brewer} editable={edit} owner={item.owner} name={item.name} favorite={item.is_favorite} shared={shared} link={item.key} disabled={false} delfunc={deleteData} favfunc={Favorite} unfavfunc={UnFavorite}/>)}
+          return(<RecipeCard key={item.key} brewer={item.brewer} editable={edit} owner={item.owner} name={item.name} favorite={item.is_favorite} shared={shared} link={item.key} disabled={false} delfunc={deleteData} favfunc={Favorite} unfavfunc={UnFavorite}/>)}
           // return(<RecipeAdminCard name={item.name} favorite={item.favorite} shared={item.public} link={item.key} />)
         
       })

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import NavBar from '../components/navbar'
 import NewBrewButton from '../components/newbrewbutton'
 
-
+import { useState } from 'react'
 import "../styles/Multiple-Input-Select-Pills.css"
 import "../styles/Profile_page.css"
 import "../styles/Round_switch.css"
@@ -23,6 +23,7 @@ import imgmok from "../assets/img/MokaPot.png"
 import imgche from "../assets/img/Chemex.png"
 import { useTranslation } from 'react-i18next'
 import { useEffect } from 'react'
+import { postAll } from '../method/mmss'
 export default function BrewIndex() {
   const { t, i18n } = useTranslation();
 
@@ -30,7 +31,15 @@ export default function BrewIndex() {
      {
        i18n.changeLanguage("th")
      }
-
+  let [online, isOnline] = useState(navigator.onLine);
+  const setOnline = () => { isOnline(true); };
+  const setOffline = () => { console.log('We are offline!'); isOnline(false); };
+  useEffect(() => { window.addEventListener('offline', setOffline); window.addEventListener('online', setOnline); return () => { window.removeEventListener('offline', setOffline); window.removeEventListener('online', setOnline); } }, []);
+  useEffect(()=>{
+      if(online){
+        postAll()
+      }
+  }, [])
   return (
     <div>
       <NavBar />

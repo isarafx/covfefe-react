@@ -8,7 +8,7 @@ import imgaeropress from "../assets/img/Aeropress_ICO.png"
 import imgfrenchpress from "../assets/img/Frenchpress_ICO.png"
 import imgmokapot from "../assets/img/Moka_ICO.png"
 import imgchemex from "../assets/img/Chemex_ICO.png"
-export default function RecipeCard({owner, editable, delfunc, favfunc, unfavfunc, name="Recipe Name", link="/", disabled=false, shared=0, favorite=0}) {
+export default function RecipeCard({key, owner, editable, delfunc, favfunc, unfavfunc, name="Recipe Name", link="/", disabled=false, shared=0, favorite=0}) {
     // disabled=false 
     const { brewer } = useParams();
     let tempfav = Boolean(favorite)
@@ -25,7 +25,7 @@ export default function RecipeCard({owner, editable, delfunc, favfunc, unfavfunc
       "chemex":imgchemex,
     }
   return (
-    <div id="method_result_card">
+    <div id="method_result_card" key={`${key}${favorite}`}>
         <div className="row">
           <div className="col"><Link to={`/brew-recipe/${brewer}/${link}`}>
               <div className="card" style={{height: '65px', background: 'rgba(255,255,255,0)', borderStyle: 'none'}}>

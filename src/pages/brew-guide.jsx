@@ -226,7 +226,7 @@ export default function BrewGuide() {
               </div>
             </div> : null}
 
-            {Public ? <div className="col" style={{ width: '100%', overflow: 'auto' }}>
+            {Public && online ? <div className="col" style={{ width: '100%', overflow: 'auto' }}>
               <div id="guide_container2">
                 <p id="guide_con_title">{t("Ctext14")}</p>
                 <textarea id="comment_guide_box" rows={9} readOnly value={recipe?recipe.description:null} />

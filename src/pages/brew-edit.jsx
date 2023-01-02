@@ -26,7 +26,7 @@ import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
-import { AdminCheck, mmss, OwnerCheck } from '../method/mmss'
+import { AdminCheck, mmss, OwnerCheck, updateLocalList } from '../method/mmss'
 import { descParse } from '../method/mmss'
 
 import imgeq1 from "../assets/img/Tools_1.png"
@@ -232,6 +232,7 @@ export default function BrewEdit() {
             console.log(result)
             navigate(`/brew-recipe/${brewer}`)
         }else{
+            let olddata = data
             let _ = require('lodash');
             let user = JSON.parse(atob(localStorage.getItem('token').split('.')[1]))['username']
             let list_recipe = JSON.parse(localStorage.getItem('brew-recipe'))
@@ -241,6 +242,13 @@ export default function BrewEdit() {
             let newitem = {count:numcount, items:list_recipe}
             localStorage.setItem('brew-recipe', JSON.stringify(newitem))
             console.log(newitem)
+            let off_record = {method:"edit", data:data}
+            
+            try{
+              updateLocalList('update', off_record)
+            }catch{
+
+            }
             navigate(`/brew-recipe/${brewer}`)
         }
         }catch(error){

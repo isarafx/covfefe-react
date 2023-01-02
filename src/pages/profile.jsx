@@ -57,12 +57,10 @@ export default function Profile() {
     isOnline(false);
   };
 
-  // Register the event listeners
   useEffect(() => {
     window.addEventListener('offline', setOffline);
     window.addEventListener('online', setOnline);
 
-    // cleanup if we unmount
     return () => {
       window.removeEventListener('offline', setOffline);
       window.removeEventListener('online', setOnline);
@@ -140,7 +138,12 @@ export default function Profile() {
                   <div className="row">
                     <div className="col">
                       <div className='d-inline-flex'>
-                        <p id="avatar_name">{isLogged ? JSON.parse(atob(localStorage.getItem('token').split('.')[1]))['username'] : 'Guest'}</p><Link to="/profile-edit"><i className="fa fa-edit" style={{ color: '#515151', paddingLeft: '10px' }} /></Link>
+                        <p id="avatar_name">{isLogged ? JSON.parse(atob(localStorage.getItem('token').split('.')[1]))['username'] : 'Guest'}</p>
+                        { online?
+                        <Link to="/profile-edit"><i className="fa fa-edit" style={{ color: '#515151', paddingLeft: '10px' }} /></Link>
+                        :
+                        <Link to="/profile-edit"><i className="fa fa-edit" style={{ color: '#515151', paddingLeft: '10px' }} /></Link>
+                        }
                       </div>
                     </div>
                   </div>

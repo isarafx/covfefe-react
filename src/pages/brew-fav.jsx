@@ -19,6 +19,9 @@ import FavCard from '../components/favCard'
 import { useNavigate } from 'react-router-dom'
 import imgcup from "../assets/img/Cup Icon.png"
 import imgfav from "../assets/img/Favorite Icon.png"
+import { updateLocalList } from '../method/mmss'
+import { postAll } from '../method/mmss'
+
 export default function BrewFav() {
   const { t, i18n } = useTranslation();
   let [online, isOnline] = useState(navigator.onLine);
@@ -38,6 +41,7 @@ export default function BrewFav() {
     const fetchData  = async () => { 
 
         try{
+          
             const result = await axios.get("https://q27z6n.deta.dev/favorite", { headers: { 'accept': 'application/json', 'x-token':token } });
             // setResult(result.data['items']);
             // console.log(result.data['items'])
@@ -58,8 +62,13 @@ export default function BrewFav() {
         // console.log('test')
         // console.log(JSON.parse(localStorage.getItem('favorite'))['items'])
         // console.log('here')
-        setResult(JSON.parse(localStorage.getItem('favorite'))['items'])
-        setDisplayList(JSON.parse(localStorage.getItem('favorite'))['items'])
+        try{
+            setResult(JSON.parse(localStorage.getItem('favorite'))['items'])
+            setDisplayList(JSON.parse(localStorage.getItem('favorite'))['items'])
+        }catch(error){
+            setResult([])
+            setDisplayList([])
+        }
     }
     document.title = t("Btext02")
   }, [refresh]);
@@ -71,16 +80,37 @@ export default function BrewFav() {
             clearTimeout(timer1);
           };
         }
+        if(online){
+          postAll()
+        }
       }, [])
       const unfavorite  = async (key) => { 
         try{
-            setDisplayList([...displayList].filter((item)=>item.key!=key))
-            // console.log(`https://q27z6n.deta.dev/users/favorite/${id2}`)
-            const result = await axios.delete(`https://q27z6n.deta.dev/users/favorite/${key}`, { headers: {'x-token':token}})
-            console.log('data here')
-            console.log(result.data)
-            setRefresh(!refresh)
-            // setTrigger(!trigger)
+            if(online){
+                setDisplayList([...displayList].filter((item)=>item.key!=key))
+                // console.log(`https://q27z6n.deta.dev/users/favorite/${id2}`)
+                const result = await axios.delete(`https://q27z6n.deta.dev/users/favorite/${key}`, { headers: {'x-token':token}})
+                console.log('data here')
+                console.log(result.data)
+                setRefresh(!refresh)
+                // setTrigger(!trigger)
+            }else{
+                let newlist = JSON.parse(localStorage.getItem('favorite'))['items'].filter(item=>item.key!=key)
+                setDisplayList([...displayList].filter((item)=>item.key!=key))
+                localStorage.setItem('favorite', JSON.stringify({count:99 , items:[...result].filter((item)=>item.key!=key)}))
+                let allitem = JSON.parse(localStorage.getItem('brew-recipe'))['items'].filter(item=>item.key!=key)
+                let item = JSON.parse(localStorage.getItem('brew-recipe'))['items'].filter(item=>item.key===key)[0]
+                item = {...item, is_favorite:false}
+                item = [...allitem, item]
+                localStorage.setItem('brew-recipe', JSON.stringify({count:99, items:item}))
+                let off_record = {method:"unfav", key:key}
+                
+                try{
+                  updateLocalList('update', off_record)
+                }catch{
+                
+                }
+            }
       } catch(error){
         console.log(error.response)
       }

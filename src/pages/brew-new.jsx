@@ -22,7 +22,7 @@ import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
-import { AdminCheck, mmss, OwnerCheck } from '../method/mmss'
+import { AdminCheck, mmss, OwnerCheck, updateLocalList } from '../method/mmss'
 import { descParse } from '../method/mmss'
 import "../styles/assets/fonts/font-awesome.min.css"
 import "../styles/assets/fonts/fontawesome-all.min.css"
@@ -135,6 +135,7 @@ export default function BrewNew() {
       const value = "";
       return value;
     };
+
     const { t, i18 } = useTranslation()
     
     function clearProcessModal() {
@@ -235,6 +236,7 @@ export default function BrewNew() {
           return newprocess
           }))
         let data ={
+          key:String(Date.now()),
           brewer:nameList[mainEquipment],
           name:name,
           coffee_weight:coffee,
@@ -257,13 +259,21 @@ export default function BrewNew() {
           }
           else{
             let user = JSON.parse(atob(localStorage.getItem('token').split('.')[1]))['username']
-            data = {...data, key:String(Date.now()), description:"", public:false, owner:user}
+            let olddata = data
+            data = {...data, key:String(Date.now()), description:"", public:false, owner:user, is_favorite:false}
             let list_recipe = JSON.parse(localStorage.getItem('brew-recipe'))
             let numcount = list_recipe['count']
             list_recipe = [...list_recipe['items'], data]
             let newitem = {count:numcount+1, items:list_recipe}
             localStorage.setItem('brew-recipe', JSON.stringify(newitem))
             console.log(newitem)
+            let off_record = {method:"new", data:data}
+            
+            try{
+              updateLocalList('update', off_record)
+            }catch{
+                
+            }
             navigate(`/`)
           }
         }catch(error){

@@ -145,3 +145,42 @@ let result = fetch("https://q27z6n.deta.dev/recipes/users", {
   "temp": 96,
   "roast_level": "Light"
 }
+
+
+
+[Unit]
+Description=gunicorn daemon
+Requires=gunicorn.socket
+After=network.target
+
+[Service]
+User=djangoadmin
+Group=www-data
+WorkingDirectory=/home/djangoadmin/devhub
+ExecStart=/home/djangoadmin/devhub/venv/bin/gunicorn \
+          --access-logfile - \
+          --workers 3 \
+          --bind unix:/run/gunicorn.sock \
+          mysite.wsgi:application
+
+[Install]
+WantedBy=multi-user.target
+
+server {
+    listen 80;
+    server_name 203.154.91.137;
+
+    location = /favicon.ico { access_log off; log_not_found off; }
+    location /static/ {
+        root /home/djangoadmin/devhub;
+    }
+    
+    location /media/ {
+        root /home/djangoadmin/devhub;    
+    }
+
+    location / {
+        include proxy_params;
+        proxy_pass http://unix:/run/gunicorn.sock;
+    }
+}
