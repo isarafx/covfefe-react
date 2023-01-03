@@ -23,7 +23,7 @@ precacheAndRoute([...self.__WB_MANIFEST,
   {url: '/manifest.json', revision: '383681'}, 
   {url: '/pwaicon192.png', revision: '383682'}, 
   {url: '/pwaicon512.png', revision: '383683'},
-  {url: '/maskable_pwaicon192.png', revision: '383684'}
+  {url: '/maskable_pwaicon192.png', revision: '383684'},
   {url: '/appletouch_icon.png', revision: '383686'}]);
 
 // Set up App Shell-style routing, so that all navigation requests

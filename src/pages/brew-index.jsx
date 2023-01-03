@@ -39,6 +39,7 @@ export default function BrewIndex() {
       if(online){
         postAll()
       }
+      document.title = t("Covfefe")
   }, [])
   return (
     <div>
