@@ -29,7 +29,7 @@ export default function BrewFav() {
   const token = localStorage.getItem('token')
   const navigate = useNavigate();
 
-  const setOnline = () => { isOnline(true);postAll() };
+  const setOnline = () => { isOnline(true); postAll() };
   const setOffline = () => { console.log('We are offline!'); isOnline(false); };
   useEffect(() => { window.addEventListener('offline', setOffline); window.addEventListener('online', setOnline); return () => { window.removeEventListener('offline', setOffline); window.removeEventListener('online', setOnline); } }, []);
   const [refresh, setRefresh] = useState(false)
@@ -37,97 +37,97 @@ export default function BrewFav() {
 
 
   useEffect(() => {
-      
-    const fetchData  = async () => { 
 
-        try{
-          
-            const result = await axios.get("https://q27z6n.deta.dev/favorite", { headers: { 'accept': 'application/json', 'x-token':token } });
-            // setResult(result.data['items']);
-            // console.log(result.data['items'])
-            localStorage.setItem('favorite', JSON.stringify(result.data))
-            setResult(result.data['items'])
-            setDisplayList(result.data['items'])
-        }catch(error){
-          if(error.response.status == 404){
-            localStorage.setItem('favorite', JSON.stringify({items:[]}))
-            setResult([])
-          }
-            console.log(error)
+    const fetchData = async () => {
+
+      try {
+
+        const result = await axios.get("https://q27z6n.deta.dev/favorite", { headers: { 'accept': 'application/json', 'x-token': token } });
+        // setResult(result.data['items']);
+        // console.log(result.data['items'])
+        localStorage.setItem('favorite', JSON.stringify(result.data))
+        setResult(result.data['items'])
+        setDisplayList(result.data['items'])
+      } catch (error) {
+        if (error.response.status == 404) {
+          localStorage.setItem('favorite', JSON.stringify({ items: [] }))
+          setResult([])
         }
-  };
-    if(online){
-        fetchData();
-    }else{
-        // console.log('test')
-        // console.log(JSON.parse(localStorage.getItem('favorite'))['items'])
-        // console.log('here')
-        try{
-            setResult(JSON.parse(localStorage.getItem('favorite'))['items'])
-            setDisplayList(JSON.parse(localStorage.getItem('favorite'))['items'])
-        }catch(error){
-            setResult([])
-            setDisplayList([])
-        }
+        console.log(error)
+      }
+    };
+    if (online) {
+      fetchData();
+    } else {
+      // console.log('test')
+      // console.log(JSON.parse(localStorage.getItem('favorite'))['items'])
+      // console.log('here')
+      try {
+        setResult(JSON.parse(localStorage.getItem('favorite'))['items'])
+        setDisplayList(JSON.parse(localStorage.getItem('favorite'))['items'])
+      } catch (error) {
+        setResult([])
+        setDisplayList([])
+      }
     }
     document.title = t("Btext02")
   }, [refresh]);
 
-      useEffect(()=>{ // temporaly fix unload offline
-        if(true){
-          let timer1 = setTimeout(() => setRefresh(!refresh), 1000);
-          return () => {
-            clearTimeout(timer1);
-          };
-        }
-        if(online){
-          postAll()
-        }
-      }, [])
-      const unfavorite  = async (key) => { 
-        try{
-            if(online){
-                setDisplayList([...displayList].filter((item)=>item.key!=key))
-                // console.log(`https://q27z6n.deta.dev/users/favorite/${id2}`)
-                const result = await axios.delete(`https://q27z6n.deta.dev/users/favorite/${key}`, { headers: {'x-token':token}})
-                console.log('data here')
-                console.log(result.data)
-                setRefresh(!refresh)
-                // setTrigger(!trigger)
-            }else{
-                let newlist = JSON.parse(localStorage.getItem('favorite'))['items'].filter(item=>item.key!=key)
-                setDisplayList([...displayList].filter((item)=>item.key!=key))
-                localStorage.setItem('favorite', JSON.stringify({count:99 , items:[...result].filter((item)=>item.key!=key)}))
-                let allitem = JSON.parse(localStorage.getItem('brew-recipe'))['items'].filter(item=>item.key!=key)
-                let item = JSON.parse(localStorage.getItem('brew-recipe'))['items'].filter(item=>item.key===key)[0]
-                item = {...item, is_favorite:false}
-                item = [...allitem, item]
-                localStorage.setItem('brew-recipe', JSON.stringify({count:99, items:item}))
-                let off_record = {method:"unfav", key:key}
-                
-                try{
-                  updateLocalList('update', off_record)
-                }catch{
-                
-                }
-            }
-      } catch(error){
-        console.log(error.response)
-      }
-    };
+  useEffect(() => { // temporaly fix unload offline
+    if (true) {
+      let timer1 = setTimeout(() => setRefresh(!refresh), 1000);
+      return () => {
+        clearTimeout(timer1);
+      };
+    }
+    if (online) {
+      postAll()
+    }
+  }, [])
+  const unfavorite = async (key) => {
+    try {
+      if (online) {
+        setDisplayList([...displayList].filter((item) => item.key != key))
+        // console.log(`https://q27z6n.deta.dev/users/favorite/${id2}`)
+        const result = await axios.delete(`https://q27z6n.deta.dev/users/favorite/${key}`, { headers: { 'x-token': token } })
+        console.log('data here')
+        console.log(result.data)
+        setRefresh(!refresh)
+        // setTrigger(!trigger)
+      } else {
+        let newlist = JSON.parse(localStorage.getItem('favorite'))['items'].filter(item => item.key != key)
+        setDisplayList([...displayList].filter((item) => item.key != key))
+        localStorage.setItem('favorite', JSON.stringify({ count: 99, items: [...result].filter((item) => item.key != key) }))
+        let allitem = JSON.parse(localStorage.getItem('brew-recipe'))['items'].filter(item => item.key != key)
+        let item = JSON.parse(localStorage.getItem('brew-recipe'))['items'].filter(item => item.key === key)[0]
+        item = { ...item, is_favorite: false }
+        item = [...allitem, item]
+        localStorage.setItem('brew-recipe', JSON.stringify({ count: 99, items: item }))
+        let off_record = { method: "unfav", key: key }
 
-      const [searchText, setSearchText] = useState("")
-      const [displayList, setDisplayList] = useState(result);
-      useEffect(()=>{
-        let temp = []
-        for (let i = 0; i < result.length; i++) {
-          if (result[i]['name'].toLowerCase().includes(searchText.toLowerCase())) {
-              // result.push(data[i]);
-              temp.push(result[i]);
-          }
+        try {
+          updateLocalList('update', off_record)
+        } catch {
+
         }
-        setDisplayList(temp)
-      }, [searchText]);
+      }
+    } catch (error) {
+      console.log(error.response)
+    }
+  };
+
+  const [searchText, setSearchText] = useState("")
+  const [displayList, setDisplayList] = useState(result);
+  useEffect(() => {
+    let temp = []
+    for (let i = 0; i < result.length; i++) {
+      if (result[i]['name'].toLowerCase().includes(searchText.toLowerCase())) {
+        // result.push(data[i]);
+        temp.push(result[i]);
+      }
+    }
+    setDisplayList(temp)
+  }, [searchText]);
 
   return (
     <div>
@@ -139,20 +139,20 @@ export default function BrewFav() {
       <div id="main_template">
         <div className="container" id="search_contrainer">
           <div className="input-group">
-            <input className="form-control" type="search" id="search_input" value={searchText} onChange={(e)=>{setSearchText(e.target.value)}}/>
-          <span className="input-group-text" id="search_button">
-            <i className="fa fa-search" id="Tool_icon" style={{ color: '#ffffff' }} /></span></div>
+            <input className="form-control" type="search" id="search_input" value={searchText} onChange={(e) => { setSearchText(e.target.value) }} />
+            <span className="input-group-text" id="search_button">
+              <i className="fa fa-search" id="Tool_icon" style={{ color: '#ffffff' }} /></span></div>
         </div>
         <div className="container" id="recipelist_container" style={{ marginTop: '-70px' }}>
-        
-          {displayList?
-              displayList.map((item)=>{
+
+          {displayList ?
+            displayList.map((item) => {
               return (<FavCard key={`fav${item.key}`} link={item.key} name={item.name} brewer={item.brewer} func={unfavorite}></FavCard>)
             })
-          :null}
+            : null}
           {/* {JSON.stringify(result)} */}
 
-        <div style={{height: '50px'}}></div>
+          <div style={{ height: '50px' }}></div>
         </div>
 
       </div>
@@ -160,7 +160,7 @@ export default function BrewFav() {
         <p id="header_paragraph">{t("Btext02")}</p>
       </div>
       <div className="d-flex" id="Footer">
-        <Link to="/"className="btn btn-primary" role="button" data-bss-hover-animate="pulse" id="fbrew_button">
+        <Link to="/" className="btn btn-primary" role="button" data-bss-hover-animate="pulse" id="fbrew_button">
           <img src={imgcup} style={{ width: '50px', marginTop: '-17px' }} /></Link>
         <button className="btn btn-primary disabled d-flex" data-bss-hover-animate="pulse" id="ffav_button" type="button" disabled>
           <img src={imgfav} style={{ width: '42px' }} /></button></div>

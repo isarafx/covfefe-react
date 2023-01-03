@@ -14,7 +14,7 @@ import { useAuth } from '..'
 import { useEffect } from 'react'
 import axios from 'axios'
 import { LoginCheck } from '../method/mmss'
-import defaultpic from"../assets/img/AvatarIcon.jpg"
+import defaultpic from "../assets/img/AvatarIcon.jpg"
 export default function Profile() {
   const { t, i18n } = useTranslation()
   const [isLogged, setIslogged] = useState(Boolean(localStorage.getItem('token')))
@@ -73,36 +73,36 @@ export default function Profile() {
         // console.log(user)
         // alert(token)
         if (LoginCheck()) {
-            if(online){
-                console.log('reach here')
-                let token = localStorage.getItem('token')
-                let user = JSON.parse(atob(localStorage.getItem('token').split('.')[1]))['username']
-                console.log(user)
-                const result = await axios.get('https://q27z6n.deta.dev/recipes/users', { headers: { 'x-token': token } })
-                const picture = await axios.get(`https://q27z6n.deta.dev/users/${user}`, { headers: { 'x-token': token } })
-                let count = result.data['items'].filter((item) => { return item.owner == user }).length
-                setTotalRecipe(count)
-                console.log('https://q27z6n.deta.dev'.concat(picture.data['image']))
-                // let a = ('https://q27z6n.deta.dev'.concat(picture.data['image']))
-                // setProfile(''JSON.stringify(picture.data['image']))
-                // console.log(typeof profile)
-                // console.log(typeof 'https://play-lh.googleusercontent.com/A26UUWOc_l_aPp2GRurp3sG0kaxjm8ArbFHtX5GQZ9x9QztmE_noNmHBE2fbTa855sZu')
-                setProfile(['https://q27z6n.deta.dev'.concat(picture.data['image'])])
-                if (Boolean(picture.data['brewed'])) {
-                  setBrewCount(picture.data['brewed'])
-                } else {
-                  setBrewCount(0)
-                }
-                if (picture.data['image'] == undefined) { setProfile(defaultpic) }
-                // console.log(a)
-                localStorage.setItem('totalrecipe', count)
-                localStorage.setItem('profileImage', 'https://q27z6n.deta.dev'.concat(picture.data['image']))
-            }else{
-                setProfile([defaultpic])
-                setBrewCount(0)
-                setTotalRecipe(0)
+          if (online) {
+            console.log('reach here')
+            let token = localStorage.getItem('token')
+            let user = JSON.parse(atob(localStorage.getItem('token').split('.')[1]))['username']
+            console.log(user)
+            const result = await axios.get('https://q27z6n.deta.dev/recipes/users', { headers: { 'x-token': token } })
+            const picture = await axios.get(`https://q27z6n.deta.dev/users/${user}`, { headers: { 'x-token': token } })
+            let count = result.data['items'].filter((item) => { return item.owner == user }).length
+            setTotalRecipe(count)
+            console.log('https://q27z6n.deta.dev'.concat(picture.data['image']))
+            // let a = ('https://q27z6n.deta.dev'.concat(picture.data['image']))
+            // setProfile(''JSON.stringify(picture.data['image']))
+            // console.log(typeof profile)
+            // console.log(typeof 'https://play-lh.googleusercontent.com/A26UUWOc_l_aPp2GRurp3sG0kaxjm8ArbFHtX5GQZ9x9QztmE_noNmHBE2fbTa855sZu')
+            setProfile(['https://q27z6n.deta.dev'.concat(picture.data['image'])])
+            if (Boolean(picture.data['brewed'])) {
+              setBrewCount(picture.data['brewed'])
+            } else {
+              setBrewCount(0)
             }
-              // console.log(picture.data['image'])
+            if (picture.data['image'] == undefined) { setProfile(defaultpic) }
+            // console.log(a)
+            localStorage.setItem('totalrecipe', count)
+            localStorage.setItem('profileImage', 'https://q27z6n.deta.dev'.concat(picture.data['image']))
+          } else {
+            setProfile([defaultpic])
+            setBrewCount(0)
+            setTotalRecipe(0)
+          }
+          // console.log(picture.data['image'])
         }
         // console.log(result.data['items'].filter((item)=>{return item.owner == user['username']}).length)
 
@@ -139,10 +139,10 @@ export default function Profile() {
                     <div className="col">
                       <div className='d-inline-flex'>
                         <p id="avatar_name">{isLogged ? JSON.parse(atob(localStorage.getItem('token').split('.')[1]))['username'] : 'Guest'}</p>
-                        { online?
-                        <Link to="/profile-edit"><i className="fa fa-edit" style={{ color: '#515151', paddingLeft: '10px' }} /></Link>
-                        :
-                        <Link to="/profile-edit"><i className="fa fa-edit" style={{ color: '#515151', paddingLeft: '10px' }} /></Link>
+                        {online ?
+                          <Link to="/profile-edit"><i className="fa fa-edit" style={{ color: '#515151', paddingLeft: '10px' }} /></Link>
+                          :
+                          <Link to="/profile-edit"><i className="fa fa-edit" style={{ color: '#515151', paddingLeft: '10px' }} /></Link>
                         }
                       </div>
                     </div>

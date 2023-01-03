@@ -13,20 +13,20 @@ export default function Error() {
   const { t, i18n } = useTranslation();
   return (
     <div>
-  <div id="main_template">
-    <div className="container" id="recipelist_container">
-      <div style={{textAlign: 'center'}}>
-        <div className="d-flex justify-content-center">
-          <div className="Error_div"><img className="img-fluid" src={errorpic} /></div>
+      <div id="main_template">
+        <div className="container" id="recipelist_container">
+          <div style={{ textAlign: 'center' }}>
+            <div className="d-flex justify-content-center">
+              <div className="Error_div"><img className="img-fluid" src={errorpic} /></div>
+            </div>
+            <p className="Errormain">{t("Error04")}</p>
+            <p className="Errorsub">{t("Error05")}</p><Link className="btn btn-primary" role="button" id="back_main_btn" to="/">{t("Error06")}</Link>
+          </div>
         </div>
-        <p className="Errormain">{t("Error04")}</p>
-        <p className="Errorsub">{t("Error05")}</p><Link className="btn btn-primary" role="button" id="back_main_btn" to="/">{t("Error06")}</Link>
       </div>
+      <div className="d-flex" id="Header" />
+      <div className="d-flex" id="Footer" />
     </div>
-  </div>
-  <div className="d-flex" id="Header" />
-  <div className="d-flex" id="Footer" />
-</div>
 
 
   )

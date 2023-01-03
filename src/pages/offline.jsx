@@ -15,21 +15,21 @@ export default function Offline() {
   let navigate = useNavigate();
   return (
     <div>
-  <div id="main_template">
-    <div className="container" id="recipelist_container">
-      <div style={{textAlign: 'center'}}>
-        <div className="d-flex justify-content-center">
-          <div className="Error_div"><img className="img-fluid" src={error} /></div>
+      <div id="main_template">
+        <div className="container" id="recipelist_container">
+          <div style={{ textAlign: 'center' }}>
+            <div className="d-flex justify-content-center">
+              <div className="Error_div"><img className="img-fluid" src={error} /></div>
+            </div>
+            <p className="Errormain">{t("Error01")}</p>
+            <p className="Errorsub">{t("Error02")}</p>
+            <button onClick={() => { navigate('/') }} className="btn btn-primary" id="back_main_btn" type="button">{t("Error06")}</button>
+          </div>
         </div>
-        <p className="Errormain">{t("Error01")}</p>
-        <p className="Errorsub">{t("Error02")}</p>
-        <button onClick={()=>{navigate('/')}} className="btn btn-primary" id="back_main_btn" type="button">{t("Error06")}</button>
       </div>
+      <div className="d-flex" id="Header" />
+      <div className="d-flex" id="Footer" />
     </div>
-  </div>
-  <div className="d-flex" id="Header" />
-  <div className="d-flex" id="Footer" />
-</div>
 
 
   )

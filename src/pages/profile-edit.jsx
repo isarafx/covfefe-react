@@ -28,9 +28,9 @@ export default function ProfileEdit() {
   }
   const handleSubmit = (event) => {
     event.preventDefault();
-  
+
     const formData = new FormData();
-    
+
     formData.append('file', file);
     formData.append('token', token)
     axios.post('https://q27z6n.deta.dev/users/images', formData, {
@@ -45,8 +45,8 @@ export default function ProfileEdit() {
       .catch((error) => {
         console.log(error);
       });
-    
-    
+
+
   }
 
 
@@ -58,16 +58,16 @@ export default function ProfileEdit() {
           <form id="Eprofile_card" onSubmit={handleSubmit}>
             <div className="row" style={{ textAlign: 'center', marginBottom: '20px' }}>
               <div className="col d-flex justify-content-center">
-                <div className="Eavarta_icon_border"><img id="Eavarta_icon" src={imgurl?imgurl:defaultPic} /></div>
+                <div className="Eavarta_icon_border"><img id="Eavarta_icon" src={imgurl ? imgurl : defaultPic} /></div>
               </div>
             </div>
             <div className="row" style={{ marginBottom: '10px' }}>
               <div className="col">
                 <div className="Ecard" style={{ height: '92px' }}>
-                  <div className="d-inline-flex" style={{ width: '100%', marginTop: '5px' }}><img className="ae_legend" src="assets/img/legend_picture.png"  />
+                  <div className="d-inline-flex" style={{ width: '100%', marginTop: '5px' }}><img className="ae_legend" src="assets/img/legend_picture.png" />
                     <p id="Etitle">{t("PEtext01")}</p>
                   </div>
-                    <input className="form-control pAvarta_input" type="file" name="file" accept="image/png, image/jpeg" onChange={handleChange} />
+                  <input className="form-control pAvarta_input" type="file" name="file" accept="image/png, image/jpeg" onChange={handleChange} />
                 </div>
               </div>
             </div>

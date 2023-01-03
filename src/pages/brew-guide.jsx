@@ -46,7 +46,7 @@ export default function BrewGuide() {
   const [recipe, setRecipe] = useState(JSON.parse(localStorage.getItem('brew-recipe'))['items'].filter((item) => { return item.key === id })[0])
   const [isOwner, setOwner] = useState(false)
   const [Public, setPublic] = useState(false)
-  
+
   //offline detection
   const setOnline = () => { isOnline(true); };
   const setOffline = () => { isOnline(false); };
@@ -85,7 +85,7 @@ export default function BrewGuide() {
       try {
         const result = await axios.get(`https://q27z6n.deta.dev/recipes/${id}`);
         setRecipe(result.data);
-        
+
         setCommentList(result.data.comments)
         setPublic(Boolean(result.data.public && Boolean(result.data.owner !== 'admin')))
         console.log(result)
@@ -96,12 +96,12 @@ export default function BrewGuide() {
         console.log(error)
       }
     }
-    if(searchParams.get('community') == 1){
-        setPath('/community')
-        editpath = `/`
-    }else if(searchParams.get('favorite') == 1){
-        setPath('/favorite')
-        editpath = `/`
+    if (searchParams.get('community') == 1) {
+      setPath('/community')
+      editpath = `/`
+    } else if (searchParams.get('favorite') == 1) {
+      setPath('/favorite')
+      editpath = `/`
     }
     if (online) {
       fetchData()
@@ -110,7 +110,7 @@ export default function BrewGuide() {
       setRecipe(JSON.parse(localStorage.getItem('brew-recipe'))['items'].filter((item) => { return item.key === id })[0]);
       setCommentList(JSON.parse(localStorage.getItem('brew-recipe'))['items'].filter((item) => { return item.key === id })[0].comments)
       setPublic(Boolean(JSON.parse(localStorage.getItem('brew-recipe'))['items'].filter((item) => { return item.key === id })[0].public && Boolean(JSON.parse(localStorage.getItem('brew-recipe'))['items'].filter((item) => { return item.key === id })[0].owner !== 'admin')))
-      if(isLogged){
+      if (isLogged) {
         let user = JSON.parse(atob(localStorage.getItem('token').split('.')[1]))
         if (user.username === JSON.parse(localStorage.getItem('brew-recipe'))['items'].filter((item) => { return item.key === id })[0].owner) { setOwner(true) }
       }
@@ -211,16 +211,16 @@ export default function BrewGuide() {
                     return (<BrewGuideProcessCard name={item.custom_name ? item.custom_name : item.name} description={item.description} comment={item.comment} time={item.time} water={item.water * cup} />)
                   }) : null}
                 </div>
-                <div style={{ textAlign: 'center' }}><Link to={`/brew-recipe/${brewer}/timer/${id}?cup=${cup}&owner=${recipe?recipe.owner:null}`}><a className="btn btn-primary" role="button" id="process_timer_start" href="">{t("Modaltext36")}</a></Link></div>
+                <div style={{ textAlign: 'center' }}><Link to={`/brew-recipe/${brewer}/timer/${id}?cup=${cup}&owner=${recipe ? recipe.owner : null}`}><a className="btn btn-primary" role="button" id="process_timer_start" href="">{t("Modaltext36")}</a></Link></div>
               </div>
             </div>
 
-            { isOwner || AdminCheck()  ? <div className="col" style={{ height: '415px' }}>
+            {isOwner || AdminCheck() ? <div className="col" style={{ height: '415px' }}>
               <div id="guide_container1" style={{ height: '407px' }}>
-                <p id="guide_con_title">{t("Modaltext38")}</p><textarea id="comment_guide_box" rows={9} readOnly value={recipe?recipe.note:null} />
+                <p id="guide_con_title">{t("Modaltext38")}</p><textarea id="comment_guide_box" rows={9} readOnly value={recipe ? recipe.note : null} />
                 <p id="guide_con_title">{t("Btext19")}</p>
                 <div className="d-inline-flex" style={{ minWidth: '100%' }}><i className="fa fa-star" id="comment_rating" style={{ width: '10%', fontSize: '30px', color: 'rgb(255,184,0)', marginLeft: '10px', marginTop: '-5px' }} />
-                  <input className="form-range" type="range" id="ratingbar" min={1} max={10} step={1} value={recipe?recipe.rate:null} style={{ width: '70%' }} disabled /><span id="score" style={{ paddingLeft: '10px' }} /><span>{recipe?recipe.rate:8}/10</span>
+                  <input className="form-range" type="range" id="ratingbar" min={1} max={10} step={1} value={recipe ? recipe.rate : null} style={{ width: '70%' }} disabled /><span id="score" style={{ paddingLeft: '10px' }} /><span>{recipe ? recipe.rate : 8}/10</span>
                 </div>
               </div>
               <div className="col" style={{ width: '100%', overflow: 'auto' }}>
@@ -230,9 +230,9 @@ export default function BrewGuide() {
             {Public && online ? <div className="col" style={{ width: '100%', overflow: 'auto' }}>
               <div id="guide_container2">
                 <p id="guide_con_title">{t("Ctext14")}</p>
-                <textarea id="comment_guide_box" rows={9} readOnly value={recipe?recipe.description:null} />
+                <textarea id="comment_guide_box" rows={9} readOnly value={recipe ? recipe.description : null} />
                 <div className="d-inline-flex justify-content-end" style={{ minWidth: '100%', height: '50px' }}><img className="creator_avatar_icon" src={imgavatar} />
-                  <p className="creator_avatar_name">{recipe?recipe.owner:null}</p>
+                  <p className="creator_avatar_name">{recipe ? recipe.owner : null}</p>
                 </div>
                 <hr style={{ marginTop: '0px', background: '#ff9900', height: '2px' }} />
                 <div id="Comment_container_div">

@@ -84,37 +84,64 @@ export async function postAll(){
         const promises = [];
         const token = localStorage.getItem('token')
         let errorindex = [];
-        for (var i=0; i<fetchList.length; i++) {
-            try{
+        // for (var i=0; i<fetchList.length; i++) {
+        //     try{
+        //         if(fetchList[i]['method'] == "new"){
+        //             console.log(`${JSON.stringify(fetchList[i])}`)
+        //             const result = axios.post(`https://q27z6n.deta.dev/recipes`, fetchList[i]['data'], { headers: { 'x-token': token } });
+        //             promises.push(result);
+        //         }else if(fetchList[i]['method'] == "edit"){
+        //             console.log(`${console.log(fetchList[i]['key'])}`)
+        //             const result = axios.patch(`https://q27z6n.deta.dev/recipes/${fetchList[i]['key']}`, fetchList[i]['data'], { headers: { 'x-token': token } });
+        //             promises.push(result);
+        //         }else if(fetchList[i]['method'] == "unfav"){
+        //             console.log(`${console.log(fetchList[i]['key'])}`)
+        //             const result = axios.delete(`https://q27z6n.deta.dev/users/favorite/${fetchList[i]['key']}`, { headers: {'x-token':token}})
+        //             promises.push(result);
+        //         }else if(fetchList[i]['method'] == "fav"){
+        //             console.log(`${console.log(fetchList[i]['key'])}`)
+        //             const result = axios.post(`https://q27z6n.deta.dev/users/favorite/${fetchList[i]['key']}`, '', { headers: {'x-token':token}})
+        //             promises.push(result);
+        //         }
+        //       }catch(error){
+        //           errorindex.push(i)
+        //       }
+        //       localStorage.setItem('update', '[]')
+        // }
+        // try{
+        //     console.log(localStorage.getItem('update'))
+        //     const results = await Promise.all(promises);
+            
+        //     console.log(results)
+        // }catch(error){
+        // }
+        const responses = [];
+        for (let i = 0; i < fetchList.length; i++) {
+            try {
+                // const response = await axios.get(`http://www.example.com/api/endpoint/${i}`);
+                // responses.push(response.data);
                 if(fetchList[i]['method'] == "new"){
                     console.log(`${JSON.stringify(fetchList[i])}`)
                     const result = axios.post(`https://q27z6n.deta.dev/recipes`, fetchList[i]['data'], { headers: { 'x-token': token } });
-                    promises.push(result);
+                    responses.push(result.data);
                 }else if(fetchList[i]['method'] == "edit"){
                     console.log(`${console.log(fetchList[i]['key'])}`)
                     const result = axios.patch(`https://q27z6n.deta.dev/recipes/${fetchList[i]['key']}`, fetchList[i]['data'], { headers: { 'x-token': token } });
-                    promises.push(result);
+                    responses.push(result.data);
                 }else if(fetchList[i]['method'] == "unfav"){
                     console.log(`${console.log(fetchList[i]['key'])}`)
                     const result = axios.delete(`https://q27z6n.deta.dev/users/favorite/${fetchList[i]['key']}`, { headers: {'x-token':token}})
-                    promises.push(result);
+                    responses.push(result.data);
                 }else if(fetchList[i]['method'] == "fav"){
                     console.log(`${console.log(fetchList[i]['key'])}`)
                     const result = axios.post(`https://q27z6n.deta.dev/users/favorite/${fetchList[i]['key']}`, '', { headers: {'x-token':token}})
-                    promises.push(result);
+                    responses.push(result.data);
                 }
-              }catch(error){
-                  errorindex.push(i)
-              }
-              localStorage.setItem('update', '[]')
+            } catch (error) {
+            console.error(error);
+            }
         }
-        try{
-            console.log(localStorage.getItem('update'))
-            const results = await Promise.all(promises);
-            
-            console.log(results)
-        }catch(error){
-        }
+        return responses;
         
 
       
