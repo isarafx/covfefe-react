@@ -109,6 +109,7 @@ export async function postAll(){
               localStorage.setItem('update', '[]')
         }
         try{
+            console.log(localStorage.getItem('update'))
             const results = await Promise.all(promises);
             
             console.log(results)
