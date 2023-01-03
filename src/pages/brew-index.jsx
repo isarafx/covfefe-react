@@ -32,8 +32,8 @@ export default function BrewIndex() {
        i18n.changeLanguage("th")
      }
   let [online, isOnline] = useState(navigator.onLine);
-  const setOnline = () => { isOnline(true); };
-  const setOffline = () => { console.log('We are offline!'); isOnline(false); };
+  const setOnline = () => { isOnline(true); postAll() };
+  const setOffline = () => { isOnline(false); };
   useEffect(() => { window.addEventListener('offline', setOffline); window.addEventListener('online', setOnline); return () => { window.removeEventListener('offline', setOffline); window.removeEventListener('online', setOnline); } }, []);
   useEffect(()=>{
       if(online){

@@ -73,6 +73,7 @@ export default function BrewRecipe() {
       document.title = t("Btext05")
       if(online){
           fetchData();
+          postAll();
       }else{
           setResult(JSON.parse(localStorage.getItem('brew-recipe'))['items']);
       }

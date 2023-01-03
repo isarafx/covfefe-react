@@ -1,5 +1,5 @@
 import React from 'react'
-import { AdminCheck } from '../method/mmss'
+import { AdminCheck, postAll } from '../method/mmss'
 import "../styles/Multiple-Input-Select-Pills.css"
 import "../styles/Profile_page.css"
 import "../styles/Round_switch.css"
@@ -105,6 +105,7 @@ export default function BrewGuide() {
     }
     if (online) {
       fetchData()
+      postAll()
     } else {
       setRecipe(JSON.parse(localStorage.getItem('brew-recipe'))['items'].filter((item) => { return item.key === id })[0]);
       setCommentList(JSON.parse(localStorage.getItem('brew-recipe'))['items'].filter((item) => { return item.key === id })[0].comments)

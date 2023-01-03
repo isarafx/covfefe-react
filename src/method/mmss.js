@@ -70,6 +70,10 @@ export function updateLocalList(path, item){
         
 }
 
+export function testloop(){
+    console.log('enter testloop');
+    return ;
+}
 export async function postAll(){
     if(localStorage.getItem('update') == null){
         return ;
@@ -103,8 +107,9 @@ export async function postAll(){
                   errorindex.push(i)
               }
         }
-        const results = await Promise.all(promises.map(p => p.catch(e => e)));
-        console.log(`error at index:${JSON.stringify(errorindex)}`)
+        const results = await Promise.all(promises);
+        localStorage.setItem('update', '[]')
+        console.log(results)
 
       
       // for (var i=0; i<results.length; i++) {
