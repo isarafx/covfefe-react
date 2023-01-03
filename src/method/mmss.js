@@ -107,9 +107,14 @@ export async function postAll(){
                   errorindex.push(i)
               }
         }
-        const results = await Promise.all(promises);
-        localStorage.setItem('update', '[]')
-        console.log(results)
+        try{
+            const results = await Promise.all(promises);
+            localStorage.setItem('update', '[]')
+            console.log(results)
+        }catch(error){
+            localStorage.setItem('update', '[]')
+        }
+        
 
       
       // for (var i=0; i<results.length; i++) {
