@@ -106,13 +106,13 @@ export async function postAll(){
               }catch(error){
                   errorindex.push(i)
               }
+              localStorage.setItem('update', '[]')
         }
         try{
             const results = await Promise.all(promises);
-            localStorage.setItem('update', '[]')
+            
             console.log(results)
         }catch(error){
-            localStorage.setItem('update', '[]')
         }
         
 
