@@ -23,8 +23,8 @@ export default function ArticleNew() {
   <div id="main_template">
     <div className="container article_container">
     <button onClick={() => {navigator.clipboard.writeText(Base64.encode(title))}}>copy</button>
-        <h3>title :</h3><input value={title} onChange={(e)=>{setTitle(e.target.value)}} width="100%"/>
-        <SunEditor onChange={setData}
+        <h3>title :</h3><input value={title} onChange={(e)=>{setTitle(e.target.value)}} />
+        <SunEditor onChange={setData} width="100%" height='100%'
         setOptions={{ 
 					buttonList: [...buttonList.formatting, ['image']] // Or Array of button list, eg. [['font', 'align'], ['image']]
                     // plugins: [font] set plugins, all plugins are set by default

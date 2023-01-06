@@ -5,17 +5,17 @@ import BackButton from '../components/backbutton'
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 
-import "../styles/assets/js/bs-init.js"
-import "../styles/Multiple-Input-Select-Pills.css"
-import "../styles/Round_switch.css"
-import "../styles/styles.css"
-import "../styles/Ultimate-Sidebar-Menu-BS5.css"
-import "../styles/Brewing_Guide.css"
-import "../styles/Brewing_Guide2.css"
-import "../styles/Brewing_Guide3.css"
-import "../styles/Brewing_Guide4.css"
-import "../styles/Range_Slider.css"
-import "../styles/Features-Clean.css"
+import "./styles/assets/js/bs-init.js"
+import "./styles/Multiple-Input-Select-Pills.css"
+import "./styles/Round_switch.css"
+import "./styles/styles.css"
+import "./styles/Ultimate-Sidebar-Menu-BS5.css"
+import "./styles/Brewing_Guide.css"
+import "./styles/Brewing_Guide2.css"
+import "./styles/Brewing_Guide3.css"
+import "./styles/Brewing_Guide4.css"
+import "./styles/Range_Slider.css"
+import "./styles/Features-Clean.css"
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
 import { useEffect } from 'react'
@@ -24,11 +24,11 @@ import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { AdminCheck, mmss, OwnerCheck, updateLocalList } from '../method/mmss'
 import { descParse } from '../method/mmss'
-import "../styles/assets/fonts/font-awesome.min.css"
-import "../styles/assets/fonts/fontawesome-all.min.css"
-import "../styles/assets/fonts/fontawesome5-overrides.min.css"
-import "../styles/assets/fonts/ionicons.min.css"
-import "../styles/assets/fonts/material-icons.min.css"
+import "./styles/assets/fonts/font-awesome.min.css"
+import "./styles/assets/fonts/fontawesome-all.min.css"
+import "./styles/assets/fonts/fontawesome5-overrides.min.css"
+import "./styles/assets/fonts/ionicons.min.css"
+import "./styles/assets/fonts/material-icons.min.css"
 
 import imgmaineq1 from "../assets/img/Hario_ICO.png"
 import imgmaineq2 from "../assets/img/Moka_ICO.png"
@@ -260,14 +260,15 @@ export default function BrewNew() {
           else{
             let user = JSON.parse(atob(localStorage.getItem('token').split('.')[1]))['username']
             let olddata = data
-            data = {...data, key:String(Date.now()), description:"", public:false, owner:user, is_favorite:false}
+            let pkey = String(Date.now())
+            data = {...data, key:pkey, description:"", public:false, owner:user, is_favorite:false}
             let list_recipe = JSON.parse(localStorage.getItem('brew-recipe'))
             let numcount = list_recipe['count']
             list_recipe = [...list_recipe['items'], data]
             let newitem = {count:numcount+1, items:list_recipe}
             localStorage.setItem('brew-recipe', JSON.stringify(newitem))
             console.log(newitem)
-            let off_record = {method:"new", data:data}
+            let off_record = {method:"new", key:pkey, data:data}
             
             try{
               updateLocalList('update', off_record)

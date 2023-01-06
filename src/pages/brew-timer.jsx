@@ -1,15 +1,15 @@
 import React from 'react'
 import soundSRC from "../assets/Untitled Project.wav"
-import "../styles/Multiple-Input-Select-Pills.css"
-import "../styles/Profile_page.css"
-import "../styles/Round_switch.css"
-import "../styles/styles.css"
-import "../styles/Ultimate-Sidebar-Menu-BS5.css"
-import "../styles/Brewing_Guide.css"
-import "../styles/Brewing_Guide2.css"
-import "../styles/Brewing_Guide3.css"
-import "../styles/Brewing_Guide4.css"
-import "../styles/Features-Clean.css"
+import "./styles/Multiple-Input-Select-Pills.css"
+import "./styles/Profile_page.css"
+import "./styles/Round_switch.css"
+import "./styles/styles.css"
+import "./styles/Ultimate-Sidebar-Menu-BS5.css"
+import "./styles/Brewing_Guide.css"
+import "./styles/Brewing_Guide2.css"
+import "./styles/Brewing_Guide3.css"
+import "./styles/Brewing_Guide4.css"
+import "./styles/Features-Clean.css"
 import { useState } from 'react'
 import BackButton from '../components/backbutton'
 import { useEffect } from 'react'

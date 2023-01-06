@@ -4,22 +4,22 @@ import BackButton from '../components/backbutton'
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
-import "../styles/assets/fonts/font-awesome.min.css"
-import "../styles/assets/fonts/fontawesome-all.min.css"
-import "../styles/assets/fonts/fontawesome5-overrides.min.css"
-import "../styles/assets/fonts/ionicons.min.css"
-import "../styles/assets/fonts/material-icons.min.css"
-import "../styles/assets/js/bs-init.js"
-import "../styles/Multiple-Input-Select-Pills.css"
-import "../styles/Round_switch.css"
-import "../styles/styles.css"
-import "../styles/Ultimate-Sidebar-Menu-BS5.css"
-import "../styles/Brewing_Guide.css"
-import "../styles/Brewing_Guide2.css"
-import "../styles/Brewing_Guide3.css"
-import "../styles/Brewing_Guide4.css"
-import "../styles/Range_Slider.css"
-import "../styles/Features-Clean.css"
+import "./styles/assets/fonts/font-awesome.min.css"
+import "./styles/assets/fonts/fontawesome-all.min.css"
+import "./styles/assets/fonts/fontawesome5-overrides.min.css"
+import "./styles/assets/fonts/ionicons.min.css"
+import "./styles/assets/fonts/material-icons.min.css"
+import "./styles/assets/js/bs-init.js"
+import "./styles/Multiple-Input-Select-Pills.css"
+import "./styles/Round_switch.css"
+import "./styles/styles.css"
+import "./styles/Ultimate-Sidebar-Menu-BS5.css"
+import "./styles/Brewing_Guide.css"
+import "./styles/Brewing_Guide2.css"
+import "./styles/Brewing_Guide3.css"
+import "./styles/Brewing_Guide4.css"
+import "./styles/Range_Slider.css"
+import "./styles/Features-Clean.css"
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
 import { useEffect } from 'react'
@@ -242,7 +242,7 @@ export default function BrewEdit() {
         let newitem = { count: numcount, items: list_recipe }
         localStorage.setItem('brew-recipe', JSON.stringify(newitem))
         console.log(newitem)
-        let off_record = { method: "edit", data: data }
+        let off_record = { method: "edit", key: recipe.key, data: data }
 
         try {
           updateLocalList('update', off_record)

@@ -1,5 +1,8 @@
 import { useNavigate } from "react-router-dom"
 import axios from "axios"
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+
 export function mmss(second) {
     return (
         new Date(parseInt(second) * 1000).toISOString().substring(14, 19)
@@ -67,87 +70,172 @@ export function updateLocalList(path, item){
         }else if(JSON.parse(localStorage.getItem(path))){
             localStorage.setItem(path, JSON.stringify([...JSON.parse(localStorage.getItem(path)), item]))
         }
-        
 }
 
-export function testloop(){
-    console.log('enter testloop');
-    return ;
+export function addEdit(item){
+    let olditem = localStorage.getItem('update')
+    if(item === null){
+        localStorage.setItem('update', JSON.stringify([{favorite:item}]))
+    }else if(item === '[]'){
+        localStorage.setItem('update', JSON.stringify([{favorite:item}]))
+    }
+    try{
+        olditem = JSON.parse(olditem)
+        olditem.forEach((listItem)=>{
+            if(listItem.key === item.key){
+                if(listItem.method === "new"){
+                    //edit in new
+                }else if(listItem.method === "edit"){
+                    //edit replace edit
+                }
+            }
+        })
+
+
+    }catch(error){
+        console.error('unsupported type')
+    }
 }
-export async function postAll(){
+export function addFav(item){
+    let olditem = localStorage.getItem('update')
+    if(item === null){
+        localStorage.setItem('update', JSON.stringify([{favorite:item}]))
+    }else if(item === '[]'){
+        localStorage.setItem('update', JSON.stringify([{favorite:item}]))
+    }
+    try{
+        olditem = JSON.parse(olditem)
+        olditem = olditem.filter(listItem=>listItem.key===item.key) // check if item with same key exist
+        if(olditem === []){
+            //append to list
+        }else{
+        }
+    }catch(error){
+        console.error('unsupported type')
+    }
+}
+export function addUnFav(item){
+    let olditem = localStorage.getItem('update')
+    if(item === null){
+        localStorage.setItem('update', JSON.stringify([{favorite:item}]))
+    }else if(item === '[]'){
+        localStorage.setItem('update', JSON.stringify([{favorite:item}]))
+    }
+    try{
+        olditem = JSON.parse(olditem)
+        olditem.forEach((listItem)=>{
+            if(listItem.key === item.key){
+                if(listItem.method === "favorite"){
+
+                }else if(listItem.method === "unfav"){
+
+                }
+            }
+        })
+    }catch(error){
+        console.error('unsupported type')
+    }
+}
+export function addDel(item){
+    let olditem = localStorage.getItem('update')
+    if(item === null){
+        localStorage.setItem('delete', JSON.stringify([item]))
+    }else if(item === '[]'){
+        localStorage.setItem('delete', JSON.stringify([item]))
+    }
+    try{
+        olditem = JSON.parse(olditem)
+        olditem = olditem.filter(listItem=>listItem.key!=item.key)
+        olditem.push(item)
+        //set olditem to update_localstorage
+    }catch(error){
+        console.error('unsupported type')
+    }
+}
+export const postAll = async _ =>{
+    
     if(localStorage.getItem('update') == null){
         return ;
     }else if(localStorage.getItem('update') == "[]"){
         return ;
     }else if(JSON.parse(localStorage.getItem('update'))){
         var fetchList = JSON.parse(localStorage.getItem('update'))
-        const promises = [];
         const token = localStorage.getItem('token')
-        let errorindex = [];
-        // for (var i=0; i<fetchList.length; i++) {
-        //     try{
-        //         if(fetchList[i]['method'] == "new"){
-        //             console.log(`${JSON.stringify(fetchList[i])}`)
-        //             const result = axios.post(`https://q27z6n.deta.dev/recipes`, fetchList[i]['data'], { headers: { 'x-token': token } });
-        //             promises.push(result);
-        //         }else if(fetchList[i]['method'] == "edit"){
-        //             console.log(`${console.log(fetchList[i]['key'])}`)
-        //             const result = axios.patch(`https://q27z6n.deta.dev/recipes/${fetchList[i]['key']}`, fetchList[i]['data'], { headers: { 'x-token': token } });
-        //             promises.push(result);
-        //         }else if(fetchList[i]['method'] == "unfav"){
-        //             console.log(`${console.log(fetchList[i]['key'])}`)
-        //             const result = axios.delete(`https://q27z6n.deta.dev/users/favorite/${fetchList[i]['key']}`, { headers: {'x-token':token}})
-        //             promises.push(result);
-        //         }else if(fetchList[i]['method'] == "fav"){
-        //             console.log(`${console.log(fetchList[i]['key'])}`)
-        //             const result = axios.post(`https://q27z6n.deta.dev/users/favorite/${fetchList[i]['key']}`, '', { headers: {'x-token':token}})
-        //             promises.push(result);
-        //         }
-        //       }catch(error){
-        //           errorindex.push(i)
-        //       }
-        //       localStorage.setItem('update', '[]')
-        // }
-        // try{
-        //     console.log(localStorage.getItem('update'))
-        //     const results = await Promise.all(promises);
-            
-        //     console.log(results)
-        // }catch(error){
-        // }
         const responses = [];
+        let timerInterval
+        const MySwal = withReactContent(Swal)
+        MySwal.fire({
+            icon: 'info',
+            title: 'Syncing',
+            text: 'Fetching Data',
+            allowEscapeKey: false,
+            allowOutsideClick: false,
+        })
         for (let i = 0; i < fetchList.length; i++) {
             try {
-                // const response = await axios.get(`http://www.example.com/api/endpoint/${i}`);
-                // responses.push(response.data);
+                console.log(`run ${fetchList[i]['key']} met:${fetchList[i]['method']} -at ${String(Date.now())}`)
                 if(fetchList[i]['method'] == "new"){
-                    console.log(`${JSON.stringify(fetchList[i])}`)
-                    const result = axios.post(`https://q27z6n.deta.dev/recipes`, fetchList[i]['data'], { headers: { 'x-token': token } });
-                    responses.push(result.data);
+                    try{    
+                    const res = await axios.post(`https://q27z6n.deta.dev/recipes`, fetchList[i]['data'], { headers: { 'x-token': token } })
+                    console.log(res.data)
+                    responses.push(res)
+                    }catch(error){
+                        console.log(error)
+                    }finally{
+                        
+                    }
                 }else if(fetchList[i]['method'] == "edit"){
-                    console.log(`${console.log(fetchList[i]['key'])}`)
-                    const result = axios.patch(`https://q27z6n.deta.dev/recipes/${fetchList[i]['key']}`, fetchList[i]['data'], { headers: { 'x-token': token } });
-                    responses.push(result.data);
-                }else if(fetchList[i]['method'] == "unfav"){
-                    console.log(`${console.log(fetchList[i]['key'])}`)
-                    const result = axios.delete(`https://q27z6n.deta.dev/users/favorite/${fetchList[i]['key']}`, { headers: {'x-token':token}})
-                    responses.push(result.data);
-                }else if(fetchList[i]['method'] == "fav"){
-                    console.log(`${console.log(fetchList[i]['key'])}`)
-                    const result = axios.post(`https://q27z6n.deta.dev/users/favorite/${fetchList[i]['key']}`, '', { headers: {'x-token':token}})
-                    responses.push(result.data);
-                }
-            } catch (error) {
-            console.error(error);
-            }
-        }
-        return responses;
-        
+                    try{
+                    const res = await axios.patch(`https://q27z6n.deta.dev/recipes/${fetchList[i]['key']}`, fetchList[i]['data'], { headers: { 'x-token': token } })
+                    console.log(res.data)
+                    responses.push(res)
+                    }catch(error){
+                        console.log(error)
+                    }finally{
 
-      
-      // for (var i=0; i<results.length; i++) {
-      //     console.log(results[i].status)  
-      // }
+                    }
+                }else if(fetchList[i]['method'] == "unfav"){
+                    try{
+                    const res = await axios.delete(`https://q27z6n.deta.dev/users/favorite/${fetchList[i]['key']}`, { headers: {'x-token':token}})
+                    console.log(res.data)
+                    responses.push(res)
+                    }catch(error){
+                        console.log(error)
+                    }finally{
+
+                    }
+                }else if(fetchList[i]['method'] == "fav"){
+                    try{
+                     const res = await axios.post(`https://q27z6n.deta.dev/users/favorite/${fetchList[i]['key']}`, '', { headers: {'x-token':token}})
+                     console.log(res.data)
+                     responses.push(res)
+                    }catch(error){
+                        console.log(error)
+                    }finally{
+
+                    }
+                    }
+                else if(fetchList[i]['method'] == "del"){
+                    try{
+                    const res = await axios.delete(`https://q27z6n.deta.dev/recipes/${fetchList[i]['key']}`, {headers: {'Content-Type':'application/json','x-token':token}});
+                    console.log(res.data)
+                    }catch(error){
+                        console.log(error)
+                    }finally{
+
+                    }
+                }
+            }catch (error) {
+                console.error(error);
+            }finally{
+            }
+            
+        }
+        console.log('finish')
+        MySwal.close()
+        localStorage.setItem('update', '[]')
+        // console.log(responses)
+        return ;
     }
 }
 

@@ -4,16 +4,16 @@ import NavBar from '../components/navbar'
 import NewBrewButton from '../components/newbrewbutton'
 
 import { useState } from 'react'
-import "../styles/Multiple-Input-Select-Pills.css"
-import "../styles/Profile_page.css"
-import "../styles/Round_switch.css"
-import "../styles/styles.css"
-import "../styles/Ultimate-Sidebar-Menu-BS5.css"
-import "../styles/Brewing_Guide.css"
-import "../styles/Brewing_Guide2.css"
-import "../styles/Brewing_Guide3.css"
-import "../styles/Brewing_Guide4.css"
-import "../styles/Features-Clean.css"
+import "./styles/Multiple-Input-Select-Pills.css"
+import "./styles/Profile_page.css"
+import "./styles/Round_switch.css"
+import "./styles/styles.css"
+import "./styles/Ultimate-Sidebar-Menu-BS5.css"
+import "./styles/Brewing_Guide.css"
+import "./styles/Brewing_Guide2.css"
+import "./styles/Brewing_Guide3.css"
+import "./styles/Brewing_Guide4.css"
+import "./styles/Features-Clean.css"
 import imgcup from "../assets/img/Cup Icon.png"
 import imgfav from "../assets/img/Favorite Icon.png"
 import imghar from "../assets/img/Hario V60.png"
@@ -24,20 +24,26 @@ import imgche from "../assets/img/Chemex.png"
 import { useTranslation } from 'react-i18next'
 import { useEffect } from 'react'
 import { postAll } from '../method/mmss'
+import { useContext } from 'react'
+import { StateContext } from '..'
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+
 export default function BrewIndex() {
   const { t, i18n } = useTranslation();
-
   const changeLanguageHandler = (lang) => {
     i18n.changeLanguage("th")
   }
   let [online, isOnline] = useState(navigator.onLine);
-  const setOnline = () => { isOnline(true); postAll() };
+  const setOnline = () => { isOnline(true); };
   const setOffline = () => { isOnline(false); };
   useEffect(() => { window.addEventListener('offline', setOffline); window.addEventListener('online', setOnline); return () => { window.removeEventListener('offline', setOffline); window.removeEventListener('online', setOnline); } }, []);
   useEffect(() => {
-    // if (online) {
-    //   postAll()
-    // }
+    if (online) {
+      
+      
+      postAll()
+    }
     document.title = t("Covfefe")
   }, [])
   return (

@@ -1,5 +1,5 @@
 {
-  "name": "my-app", 
+  "name": "my-app",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -18,6 +18,8 @@
     "react-router-hash-link": "^2.4.3",
     "suneditor": "^2.44.3",
     "suneditor-react": "^3.4.1",
+    "sweetalert2": "^11.6.16",
+    "sweetalert2-react-content": "^5.0.7",
     "web-vitals": "^2.1.4",
     "workbox-background-sync": "^6.5.4",
     "workbox-broadcast-update": "^6.5.4",

@@ -1,14 +1,14 @@
 import React from 'react'
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
-import "../styles/Coffee_Article.css"
-import "../styles/Multiple-Input-Select-Pills.css"
-import "../styles/Profile_page.css"
-import "../styles/Round_switch.css"
-import "../styles/styles.css"
-import "../styles/Ultimate-Sidebar-Menu-BS5.css"
-import "../styles/Features-Clean.css"
-import "../styles/content-styles.css"
+import "./styles/Coffee_Article.css"
+import "./styles/Multiple-Input-Select-Pills.css"
+import "./styles/Profile_page.css"
+import "./styles/Round_switch.css"
+import "./styles/styles.css"
+import "./styles/Ultimate-Sidebar-Menu-BS5.css"
+import "./styles/Features-Clean.css"
+import "./styles/content-styles.css"
 import SunEditor, { buttonList } from "suneditor-react";
 import 'suneditor/dist/css/suneditor.min.css'; // Import Sun Editor's CSS File
 import BackButton from '../components/backbutton';

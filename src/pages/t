@@ -146,7 +146,61 @@ let result = fetch("https://q27z6n.deta.dev/recipes/users", {
   "roast_level": "Light"
 }
 
-
+        // for (var i=0; i<fetchList.length; i++) {
+        //     try{
+        //         if(fetchList[i]['method'] == "new"){
+        //             console.log(`${JSON.stringify(fetchList[i])}`)
+        //             const result = axios.post(`https://q27z6n.deta.dev/recipes`, fetchList[i]['data'], { headers: { 'x-token': token } });
+        //             promises.push(result);
+        //         }else if(fetchList[i]['method'] == "edit"){
+        //             console.log(`${console.log(fetchList[i]['key'])}`)
+        //             const result = axios.patch(`https://q27z6n.deta.dev/recipes/${fetchList[i]['key']}`, fetchList[i]['data'], { headers: { 'x-token': token } });
+        //             promises.push(result);
+        //         }else if(fetchList[i]['method'] == "unfav"){
+        //             console.log(`${console.log(fetchList[i]['key'])}`)
+        //             const result = axios.delete(`https://q27z6n.deta.dev/users/favorite/${fetchList[i]['key']}`, { headers: {'x-token':token}})
+        //             promises.push(result);
+        //         }else if(fetchList[i]['method'] == "fav"){
+        //             console.log(`${console.log(fetchList[i]['key'])}`)
+        //             const result = axios.post(`https://q27z6n.deta.dev/users/favorite/${fetchList[i]['key']}`, '', { headers: {'x-token':token}})
+        //             promises.push(result);
+        //         }
+        //       }catch(error){
+        //           errorindex.push(i)
+        //       }
+        //       localStorage.setItem('update', '[]')
+        // }
+        // try{
+        //     console.log(localStorage.getItem('update'))
+        //     const results = await Promise.all(promises);
+            
+        //     console.log(results)
+        // }catch(error){
+        // }
+        ------------------------------------
+        // try {
+        //     // const response = await axios.get(`http://www.example.com/api/endpoint/${i}`);
+        //     // responses.push(response.data);
+        //     if(fetchList[i]['method'] == "new"){
+        //         console.log(`${JSON.stringify(fetchList[i])}`)
+        //         const result = axios.post(`https://q27z6n.deta.dev/recipes`, fetchList[i]['data'], { headers: { 'x-token': token } });
+        //         responses.push(result.data);
+        //     }else if(fetchList[i]['method'] == "edit"){
+        //         console.log(`${console.log(fetchList[i]['key'])}`)
+        //         const result = axios.patch(`https://q27z6n.deta.dev/recipes/${fetchList[i]['key']}`, fetchList[i]['data'], { headers: { 'x-token': token } });
+        //         responses.push(result.data);
+        //     }else if(fetchList[i]['method'] == "unfav"){
+        //         console.log(`${console.log(fetchList[i]['key'])}`)
+        //         const result = axios.delete(`https://q27z6n.deta.dev/users/favorite/${fetchList[i]['key']}`, { headers: {'x-token':token}})
+        //         responses.push(result.data);
+        //     }else if(fetchList[i]['method'] == "fav"){
+        //         console.log(`${console.log(fetchList[i]['key'])}`)
+        //         const result = axios.post(`https://q27z6n.deta.dev/users/favorite/${fetchList[i]['key']}`, '', { headers: {'x-token':token}})
+        //         responses.push(result.data);
+        //     }
+        // } catch (error) {
+        // console.error(error);
+        // }
 
 [Unit]
 Description=gunicorn daemon
@@ -184,3 +238,30 @@ server {
         proxy_pass http://unix:/run/gunicorn.sock;
     }
 }
+
+
+like all hario
+aeropress -> like all del all del
+fren press -> like del like del like del like
+
+res -> hario, crema(fren press)
+[{"method":"fav","key":"8ndissykxdh6"},
+{"method":"fav","key":"9bika4rvlo44"},
+{"method":"fav","key":"c0fyyp887u9n"},
+{"method":"fav","key":"wm7col878nwg"},
+
+{"method":"fav","key":"2wtzutj42twp"},
+{"method":"fav","key":"hawtedx6gcem"},
+{"method":"fav","key":"v77o1a1zxc4b"},
+{"method":"unfav","key":"2wtzutj42twp"},
+{"method":"unfav","key":"hawtedx6gcem"},
+{"method":"unfav","key":"v77o1a1zxc4b"},
+
+{"method":"fav","key":"ah7prm85fwjq"},
+{"method":"unfav","key":"ah7prm85fwjq"},
+{"method":"fav","key":"ah7prm85fwjq"}]
+
+[{"method":"new","data":{"key":"1672728630582","brewer":"Hario","name":"new test","coffee_weight":20,"water":300,"ratio":15,"equipment":[{"name":"Coffee","description":"Coffee"}],"note":"new test","process":[{"name":"Wait","time":23,"comment":""}],"grind_size":"Coarse","temp":90,"roast_level":"Dark","rate":8,"description":"","public":false,"owner":"isarawn","is_favorite":false}},
+{"method":"fav","key":"1672728630582"}]
+[{"method":"unfav","key":"9bika4rvlo44"},{"method":"unfav","key":"wm7col878nwg"},{"method":"unfav","key":"c0fyyp887u9n"},{"method":"unfav","key":"2wtzutj42twp"},{"method":"unfav","key":"hawtedx6gcem"},{"method":"unfav","key":"v77o1a1zxc4b"},{"method":"unfav","key":"1672817756575"},{"method":"unfav","key":"ah7prm85fwjq"},{"method":"unfav","key":"qww4tbqdsixb"},{"method":"unfav","key":"z6ir98hivied"},{"method":"unfav","key":"6ryznih25jqk"},{"method":"unfav","key":"evkb6ttx129w"},{"method":"unfav","key":"75qzjn2cqyyp"},{"method":"unfav","key":"bt2m09rzyhwk"},{"method":"unfav","key":"gjazk27gn85b"}]
+[{"method":"unfav","key":"hawtedx6gcem"},{"method":"unfav","key":"9bika4rvlo44"},{"method":"unfav","key":"ah7prm85fwjq"},{"method":"unfav","key":"c0fyyp887u9n"},{"method":"unfav","key":"wm7col878nwg"},{"method":"unfav","key":"2wtzutj42twp"},{"method":"unfav","key":"z6ir98hivied"},{"method":"unfav","key":"qww4tbqdsixb"},{"method":"unfav","key":"v77o1a1zxc4b"},{"method":"unfav","key":"75qzjn2cqyyp"},{"method":"unfav","key":"6ryznih25jqk"},{"method":"unfav","key":"evkb6ttx129w"},{"method":"unfav","key":"gjazk27gn85b"},{"method":"unfav","key":"bt2m09rzyhwk"},{"method":"unfav","key":"hawtedx6gcem"},{"method":"unfav","key":"9bika4rvlo44"},{"method":"unfav","key":"ah7prm85fwjq"},{"method":"unfav","key":"c0fyyp887u9n"},{"method":"unfav","key":"wm7col878nwg"},{"method":"unfav","key":"2wtzutj42twp"},{"method":"unfav","key":"z6ir98hivied"},{"method":"unfav","key":"qww4tbqdsixb"},{"method":"unfav","key":"v77o1a1zxc4b"},{"method":"unfav","key":"75qzjn2cqyyp"},{"method":"unfav","key":"6ryznih25jqk"},{"method":"unfav","key":"evkb6ttx129w"},{"method":"unfav","key":"gjazk27gn85b"},{"method":"unfav","key":"bt2m09rzyhwk"}]

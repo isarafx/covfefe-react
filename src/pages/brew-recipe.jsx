@@ -2,16 +2,16 @@ import React from 'react'
 import { useState } from 'react'
 import RecipeCard from '../components/recipecard'
 import { Navigate, useNavigate, useParams } from 'react-router-dom'
-import "../styles/Multiple-Input-Select-Pills.css"
-import "../styles/Profile_page.css"
-import "../styles/Round_switch.css"
-import "../styles/styles.css"
-import "../styles/Ultimate-Sidebar-Menu-BS5.css"
-import "../styles/Brewing_Guide.css"
-import "../styles/Brewing_Guide2.css"
-import "../styles/Brewing_Guide3.css"
-import "../styles/Brewing_Guide4.css"
-import "../styles/Features-Clean.css"
+import "./styles/Multiple-Input-Select-Pills.css"
+import "./styles/Profile_page.css"
+import "./styles/Round_switch.css"
+import "./styles/styles.css"
+import "./styles/Ultimate-Sidebar-Menu-BS5.css"
+import "./styles/Brewing_Guide.css"
+import "./styles/Brewing_Guide2.css"
+import "./styles/Brewing_Guide3.css"
+import "./styles/Brewing_Guide4.css"
+import "./styles/Features-Clean.css"
 import BackButton from '../components/backbutton'
 import { useTranslation } from 'react-i18next'
 import { useEffect } from 'react'
@@ -96,7 +96,11 @@ export default function BrewRecipe() {
                   localStorage.setItem('brew-recipe', JSON.stringify(newitem))
                   // console.log(newitem)
                   setRefresh(!refresh)
-                  // storageAppendList('update_list',{'delete':key})
+                  try{
+                    let off_record = {method:"del", key:key}
+                    updateLocalList('update',off_record)
+                  }catch{
+                  }
                 }
             }
         }catch(error){
@@ -124,7 +128,6 @@ export default function BrewRecipe() {
                 try{
                   updateLocalList('update', off_record)
                 }catch{
-                
                 }
             }
         }catch(error){

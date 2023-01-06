@@ -10,7 +10,7 @@
 
 # production
 /build
-
+/fastapi
 # misc
 .DS_Store
 .env.local

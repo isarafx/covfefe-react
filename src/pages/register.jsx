@@ -1,12 +1,12 @@
 import React from 'react'
 
-import "../styles/Multiple-Input-Select-Pills.css"
-import "../styles/Profile_page.css"
-import "../styles/Round_switch.css"
-import "../styles/styles.css"
-import "../styles/Ultimate-Sidebar-Menu-BS5.css"
-import "../styles/Features-Clean.css"
-import "../styles/Login_Register.css"
+import "./styles/Multiple-Input-Select-Pills.css"
+import "./styles/Profile_page.css"
+import "./styles/Round_switch.css"
+import "./styles/styles.css"
+import "./styles/Ultimate-Sidebar-Menu-BS5.css"
+import "./styles/Features-Clean.css"
+import "./styles/Login_Register.css"
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
@@ -15,6 +15,9 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import pic1 from "../assets/img/Picture1.png"
 import pic3 from "../assets/img/CoffeeCactus.png"
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+
 export default function Register() {
   const { t, i18n } = useTranslation();
 
@@ -26,7 +29,7 @@ export default function Register() {
 
   const [trigger, setTrigger] = useState(false)
   const navigate = useNavigate();
-
+  const MySwal = withReactContent(Swal)
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -43,6 +46,14 @@ export default function Register() {
           }
           if (password === confirmPassword) {
           } else {
+            MySwal.fire({
+              icon: 'error',
+              title: 'Register Failed',
+              text: 'Register Failed',
+              allowEscapeKey: false,
+              allowOutsideClick: false,
+              showConfirmButton:false,
+            })
             return;
           }
           const result = await axios.post('https://q27z6n.deta.dev/users', body, header)

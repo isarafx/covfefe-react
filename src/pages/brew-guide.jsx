@@ -1,15 +1,15 @@
 import React from 'react'
 import { AdminCheck, postAll } from '../method/mmss'
-import "../styles/Multiple-Input-Select-Pills.css"
-import "../styles/Profile_page.css"
-import "../styles/Round_switch.css"
-import "../styles/styles.css"
-import "../styles/Ultimate-Sidebar-Menu-BS5.css"
-import "../styles/Brewing_Guide.css"
-import "../styles/Brewing_Guide2.css"
-import "../styles/Brewing_Guide3.css"
-import "../styles/Brewing_Guide4.css"
-import "../styles/Features-Clean.css"
+import "./styles/Multiple-Input-Select-Pills.css"
+import "./styles/Profile_page.css"
+import "./styles/Round_switch.css"
+import "./styles/styles.css"
+import "./styles/Ultimate-Sidebar-Menu-BS5.css"
+import "./styles/Brewing_Guide.css"
+import "./styles/Brewing_Guide2.css"
+import "./styles/Brewing_Guide3.css"
+import "./styles/Brewing_Guide4.css"
+import "./styles/Features-Clean.css"
 import BrewGuideProcessCard from '../components/brewguideprocesscard'
 import BrewGuideEQCard from '../components/brewguideeqcard'
 import BackButton from '../components/backbutton'
@@ -105,7 +105,7 @@ export default function BrewGuide() {
     }
     if (online) {
       fetchData()
-      postAll()
+      // postAll()
     } else {
       setRecipe(JSON.parse(localStorage.getItem('brew-recipe'))['items'].filter((item) => { return item.key === id })[0]);
       setCommentList(JSON.parse(localStorage.getItem('brew-recipe'))['items'].filter((item) => { return item.key === id })[0].comments)

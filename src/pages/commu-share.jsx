@@ -1,13 +1,13 @@
 //update share to localstorage
 import React, { useState } from 'react'
 
-import "../styles/Community.css"
-import "../styles/Multiple-Input-Select-Pills.css"
-import "../styles/Profile_page.css"
-import "../styles/Round_switch.css"
-import "../styles/styles.css"
-import "../styles/Ultimate-Sidebar-Menu-BS5.css"
-import "../styles/Features-Clean.css"
+import "./styles/Community.css"
+import "./styles/Multiple-Input-Select-Pills.css"
+import "./styles/Profile_page.css"
+import "./styles/Round_switch.css"
+import "./styles/styles.css"
+import "./styles/Ultimate-Sidebar-Menu-BS5.css"
+import "./styles/Features-Clean.css"
 
 import { useSSR, useTranslation } from 'react-i18next';
 import { Link, useParams } from 'react-router-dom'

@@ -1,11 +1,11 @@
 import React from 'react'
-import "../styles/Error.css"
-import "../styles/Multiple-Input-Select-Pills.css"
-import "../styles/Profile_page.css"
-import "../styles/Round_switch.css"
-import "../styles/styles.css"
-import "../styles/Ultimate-Sidebar-Menu-BS5.css"
-import "../styles/Features-Clean.css"
+import "./styles/Error.css"
+import "./styles/Multiple-Input-Select-Pills.css"
+import "./styles/Profile_page.css"
+import "./styles/Round_switch.css"
+import "./styles/styles.css"
+import "./styles/Ultimate-Sidebar-Menu-BS5.css"
+import "./styles/Features-Clean.css"
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next';
 import errorpic from "../assets/img/Error1.png";

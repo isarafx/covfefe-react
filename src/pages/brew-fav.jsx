@@ -1,15 +1,15 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import "../styles/Multiple-Input-Select-Pills.css"
-import "../styles/Profile_page.css"
-import "../styles/Round_switch.css"
-import "../styles/styles.css"
-import "../styles/Ultimate-Sidebar-Menu-BS5.css"
-import "../styles/Brewing_Guide.css"
-import "../styles/Brewing_Guide2.css"
-import "../styles/Brewing_Guide3.css"
-import "../styles/Brewing_Guide4.css"
-import "../styles/Features-Clean.css"
+import "./styles/Multiple-Input-Select-Pills.css"
+import "./styles/Profile_page.css"
+import "./styles/Round_switch.css"
+import "./styles/styles.css"
+import "./styles/Ultimate-Sidebar-Menu-BS5.css"
+import "./styles/Brewing_Guide.css"
+import "./styles/Brewing_Guide2.css"
+import "./styles/Brewing_Guide3.css"
+import "./styles/Brewing_Guide4.css"
+import "./styles/Features-Clean.css"
 import NavBar from '../components/navbar'
 import { useEffect } from 'react'
 import axios from 'axios'
@@ -29,7 +29,7 @@ export default function BrewFav() {
   const token = localStorage.getItem('token')
   const navigate = useNavigate();
 
-  const setOnline = () => { isOnline(true); postAll() };
+  const setOnline = () => { isOnline(true) };
   const setOffline = () => { console.log('We are offline!'); isOnline(false); };
   useEffect(() => { window.addEventListener('offline', setOffline); window.addEventListener('online', setOnline); return () => { window.removeEventListener('offline', setOffline); window.removeEventListener('online', setOnline); } }, []);
   const [refresh, setRefresh] = useState(false)
@@ -80,9 +80,9 @@ export default function BrewFav() {
         clearTimeout(timer1);
       };
     }
-    if (online) {
-      postAll()
-    }
+    // if (online) {
+    //   postAll()
+    // }
   }, [])
   const unfavorite = async (key) => {
     try {

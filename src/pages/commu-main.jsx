@@ -1,13 +1,13 @@
 import React from 'react'
 import NavBar from '../components/navbar'
 import CommuCard from '../components/commucard'
-import "../styles/Community.css"
-import "../styles/Multiple-Input-Select-Pills.css"
-import "../styles/Profile_page.css"
-import "../styles/Round_switch.css"
-import "../styles/styles.css"
-import "../styles/Ultimate-Sidebar-Menu-BS5.css"
-import "../styles/Features-Clean.css"
+import "./styles/Community.css"
+import "./styles/Multiple-Input-Select-Pills.css"
+import "./styles/Profile_page.css"
+import "./styles/Round_switch.css"
+import "./styles/styles.css"
+import "./styles/Ultimate-Sidebar-Menu-BS5.css"
+import "./styles/Features-Clean.css"
 import { Link } from 'react-router-dom'
 import { useState } from 'react'
 import axios from 'axios'
