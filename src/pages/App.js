@@ -42,6 +42,7 @@ import {
 import Test from './test';
 import ProfileEdit from './profile-edit';
 import BrewFinish from './brew-finish';
+import Phichet from "./phichet";
 
 const StateContext = createContext(false);
 
@@ -189,7 +190,7 @@ function App() {
         },
         {
           path: "*",
-          element: <Error />,
+          element: <Phichet />,
           //errorElement:<Error />,
         },
       ]);

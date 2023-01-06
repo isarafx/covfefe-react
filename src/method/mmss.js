@@ -170,6 +170,7 @@ export const postAll = async _ =>{
             text: 'Fetching Data',
             allowEscapeKey: false,
             allowOutsideClick: false,
+            showConfirmButton: false,
         })
         for (let i = 0; i < fetchList.length; i++) {
             try {

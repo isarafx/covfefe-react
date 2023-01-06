@@ -14,13 +14,16 @@ import { useTranslation } from 'react-i18next';
 import BackButton from '../components/backbutton'
 import { useNavigate } from 'react-router-dom'
 import defaultPic from "../assets/img/AvatarIcon.jpg"
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+
 export default function ProfileEdit() {
   const { t, i18n } = useTranslation();
   const token = localStorage.getItem('token')
   const [file, setFile] = useState(null);
   const navigate = useNavigate()
   const [imgurl, setimgurl] = useState()
-
+  const MySwal = withReactContent(Swal)
 
   const handleChange = (event) => {
     setFile(event.target.files[0]);
@@ -33,6 +36,7 @@ export default function ProfileEdit() {
 
     formData.append('file', file);
     formData.append('token', token)
+    MySwal.fire({ icon: 'info', title: 'Uploading', text: 'Uploading', allowEscapeKey: false, allowOutsideClick: false , showConfirmButton: false, timer: 2000})
     axios.post('https://q27z6n.deta.dev/users/images', formData, {
       headers: {
         'Content-Type': 'multipart/form-data'
@@ -40,15 +44,34 @@ export default function ProfileEdit() {
     })
       .then((response) => {
         console.log(response.data);
+        
         navigate('/profile')
+        MySwal.fire({ icon: 'success', title: 'Upload Successfully', text: 'Upload Successfully', allowEscapeKey: false, allowOutsideClick: false , showConfirmButton: false, timer: 700})
       })
       .catch((error) => {
+        MySwal.fire({ icon: 'error', title: 'Upload Failed', text: 'Upload Failed', allowEscapeKey: false, allowOutsideClick: false })
         console.log(error);
       });
 
 
   }
-
+  const handleCancle = (event) => {
+      event.preventDefault()
+      if(file){
+          Swal.fire({ title: 'Are you sure?', text: "Your current profile would be loss", icon: 'warning', showCancelButton: true, confirmButtonColor: '#3085d6', cancelButtonColor: '#d33', confirmButtonText: 'Yep' })
+          .then((result) => {
+                if (result.isConfirmed) {
+                    navigate('/profile')
+                }
+                else{
+                    return ;
+                }
+          })
+      }else{
+          navigate('/profile')
+      }
+      
+  }
 
   return (
     <div>
@@ -73,7 +96,7 @@ export default function ProfileEdit() {
             </div>
             <div className="row">
               <div className="col" style={{ textAlign: 'center', marginTop: '30px' }}>
-                <Link className="btn btn-primary" role="button" id="Ecancel" to="/profile">{t("Cancel99")}</Link>
+                <button onClick={handleCancle} className="btn btn-primary" role="button" id="Ecancel" >{t("Cancel99")}</button>
                 <button className="btn btn-primary" id="Esubmit" type="submit">{t("Confirm99")}</button></div>
             </div>
           </form>

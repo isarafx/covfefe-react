@@ -15,13 +15,16 @@ import { useEffect } from 'react'
 import axios from 'axios'
 import { LoginCheck } from '../method/mmss'
 import defaultpic from "../assets/img/AvatarIcon.jpg"
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+
 export default function Profile() {
   const { t, i18n } = useTranslation()
   const [isLogged, setIslogged] = useState(Boolean(localStorage.getItem('token')))
   const [sound, setSound] = useState(Boolean(localStorage.getItem('sound')) && localStorage.getItem('sound') !== '0' ? true : false);
-  const [totalRecipe, setTotalRecipe] = useState(0)
+  const [totalRecipe, setTotalRecipe] = useState(Boolean(localStorage.getItem('totalrecipe')) ? parseInt(localStorage.getItem('totalrecipe')): 0)
   const [brewCount, setBrewCount] = useState(0)
-
+  const MySwal = withReactContent(Swal)
 
   function changeLanguage() {
     if (i18n.language === "en") {
@@ -41,37 +44,46 @@ export default function Profile() {
   }
   const lang = localStorage.getItem('i18nextLng')
   const [checker, setChecker] = useState(lang === 'en' ? true : false);
-  const [profile, setProfile] = useState([defaultpic])
+  const [profile, setProfile] = useState(Boolean(localStorage.getItem('profileImage')) ? [localStorage.getItem('profileImage')]:[defaultpic] );
 
   // const { value } = useAuth()
 
 
   let [online, isOnline] = useState(navigator.onLine);
+  const setOnline = () => { console.log('We are online!'); isOnline(true); };
+  const setOffline = () => { console.log('We are offline!'); isOnline(false); };
+  useEffect(() => { window.addEventListener('offline', setOffline); window.addEventListener('online', setOnline); return () => { window.removeEventListener('offline', setOffline); window.removeEventListener('online', setOnline); } }, []);
 
-  const setOnline = () => {
-    console.log('We are online!');
-    isOnline(true);
-  };
-  const setOffline = () => {
-    console.log('We are offline!');
-    isOnline(false);
-  };
+  const resetLocal = () => {
+    setIslogged(false);
+    localStorage.removeItem('token');
+    localStorage.removeItem('profileImage');
+    localStorage.removeItem('totalrecipe');
+    localStorage.removeItem('brewcount');
+    localStorage.removeItem('update');
+    setBrewCount(0); 
+    setTotalRecipe(0);
+    setProfile([defaultpic]);
+  }
+  const handleLogout = () => {
+      if(online){
+        resetLocal()
+      }else{
+          Swal.fire({ title: 'Are you sure?', text: "Offline edited data wont be saved!", icon: 'warning', showCancelButton: true, confirmButtonColor: '#3085d6', cancelButtonColor: '#d33', confirmButtonText: 'Yes, Sign out' })
+          .then((result) => {
+            if (result.isConfirmed) {
+              resetLocal()
+            }
+            else{
+              return ;
+            }
+          })
+      }
 
-  useEffect(() => {
-    window.addEventListener('offline', setOffline);
-    window.addEventListener('online', setOnline);
-
-    return () => {
-      window.removeEventListener('offline', setOffline);
-      window.removeEventListener('online', setOnline);
-    }
-  }, []);
-
+  }
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // console.log(user)
-        // alert(token)
         if (LoginCheck()) {
           if (online) {
             console.log('reach here')
@@ -90,7 +102,7 @@ export default function Profile() {
               setBrewCount(0)
             }
             if (picture.data['image'] == undefined) { 
-              setProfile(defaultpic) 
+              setProfile([defaultpic]) 
               
             }else{
                 localStorage.setItem('profileImage', 'https://q27z6n.deta.dev'.concat(picture.data['image']))
@@ -143,7 +155,7 @@ export default function Profile() {
                         {online ?
                           <Link to="/profile-edit"><i className="fa fa-edit" style={{ color: '#515151', paddingLeft: '10px' }} /></Link>
                           :
-                          <Link to="/profile-edit"><i className="fa fa-edit" style={{ color: '#515151', paddingLeft: '10px' }} /></Link>
+                          <Link to="/offline"><i className="fa fa-edit" style={{ color: '#515151', paddingLeft: '10px' }} /></Link>
                         }
                       </div>
                     </div>
@@ -152,7 +164,7 @@ export default function Profile() {
               </div>
               <div className="row prow" data-bss-hover-animate="pulse">
                 {isLogged ?
-                  <div className="col"><Link onClick={() => { setIslogged(false); localStorage.setItem('token', ''); setBrewCount(0); setTotalRecipe(0); setProfile(defaultpic) }} className="btn btn-primary" role="button" style={{ background: '#d35151' }} >{t("Ltext10")}</Link></div>
+                  <div className="col"><Link onClick={handleLogout} className="btn btn-primary" role="button" style={{ background: '#d35151' }} >{t("Ltext10")}</Link></div>
                   :
                   <div className="col"><Link to="/login" className="btn btn-primary" role="button" style={{ background: '#d35151' }}>{t("Ltext01")}</Link></div>}
 
