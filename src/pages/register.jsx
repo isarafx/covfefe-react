@@ -25,50 +25,61 @@ export default function Register() {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [confirmPassword, setConfirmPassword] = useState();
-
-
-  const [trigger, setTrigger] = useState(false)
   const navigate = useNavigate();
   const MySwal = withReactContent(Swal)
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        if (trigger) {
-          let body = {
-            'username': username,
-            'email': email,
-            'password': password
-          }
-          let header = {
-            headers: {
-              'Content-Type': 'application/json',
-            }
-          }
-          if (password === confirmPassword) {
-          } else {
-            MySwal.fire({
-              icon: 'error',
-              title: 'Register Failed',
-              text: 'Register Failed',
-              allowEscapeKey: false,
-              allowOutsideClick: false,
-              showConfirmButton:false,
-            })
-            return;
-          }
-          const result = await axios.post('https://q27z6n.deta.dev/users', body, header)
-          setTrigger(false)
-          // console.log(JSON.stringify(result.data))
-          alert('register success')
-          navigate('/login')
+  function validatePassword (pw1, pw2){
+    if (pw1 === pw2) {
+      return true;
+    } else {
+      MySwal.fire({ icon: 'error', title: 'Password Not Matched', text: 'Password Not Matched', allowEscapeKey: false, allowOutsideClick: false, })
+      return false;
+    }
+  }
+  function validateEmail (mail){
+    var validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    if(mail.match(validRegex)){
+        return true
+    }else{
+        MySwal.fire({ icon: 'error', title: 'Email Invalid', text: 'Email Invalid', allowEscapeKey: false, allowOutsideClick: false, })
+        return false
+    }
+  }
+  function validateEmpty(){
+    if(username && email && password && confirmPassword){
+        return true;
+    }else{
+        MySwal.fire({ icon: 'error', title: 'Invalid Format', text: 'Please enter all field', allowEscapeKey: false, allowOutsideClick: false, })
+        return false;
+    }
+  }
+  const Register = async () => {
+    try {
+        let body = {
+          'username': username,
+          'email': email,
+          'password': password
         }
-      } catch (error) {
-        // alert(error.response.status)
-        alert("register failed")
-      }
-    };
-    fetchData()
-  }, [trigger]);
+        let header = {
+          headers: {
+            'Content-Type': 'application/json',
+          }
+        }
+        if(validateEmpty()){}else{ return ; }
+        if(validateEmail(email)){}else{ return ; }
+        if(validatePassword(password, confirmPassword)){}else{ return ; }
+        MySwal.fire({ icon: 'info', title: 'Registering', text: 'Registering', allowEscapeKey: false, allowOutsideClick: false , showConfirmButton: false, timer: 2000})
+        MySwal.showLoading()
+        const result = await axios.post('https://q27z6n.deta.dev/users', body, header)
+        // console.log(JSON.stringify(result.data))
+        // alert('register success')
+        MySwal.fire({ icon: 'success', title: 'Register Successfully', text: 'Register Successfully', allowEscapeKey: false, allowOutsideClick: false , showConfirmButton: false, timer: 2000})
+        navigate('/login')
+    } catch (error) {
+      console.log(error)
+      MySwal.fire({ icon: 'error', title: 'Register Failed', text: 'Register Failed', allowEscapeKey: false, allowOutsideClick: false, })
+    }
+  };
+
 
   return (<body className="LoginBG">
     <div className="d-flex align-items-center logdiv">
@@ -101,7 +112,7 @@ export default function Register() {
               <div className="d-flex InputDiv2"><i className="fa fa-lock icon" />
                 <input className="form-control Inputform" value={confirmPassword} onChange={(e) => { setConfirmPassword(e.target.value) }} type="password" required /></div>
               <div className="d-flex SkipDiv2">
-                <button className="btn btn-primary d-flex" data-bss-hover-animate="pulse" id="Confirm_Button" onClick={(e) => { e.preventDefault(); setTrigger(!trigger) }} type="submit">{t("Ltext07")}</button>
+                <button className="btn btn-primary d-flex" data-bss-hover-animate="pulse" id="Confirm_Button" onClick={(e) => { e.preventDefault(); Register()  }} type="submit">{t("Ltext07")}</button>
                 <Link className="skiplog" to="/">{t("Ltext04")}</Link></div>
             </form>
             <div style={{ textAlign: 'center' }}><img className="pic3" src={pic3} /></div>

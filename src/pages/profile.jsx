@@ -83,20 +83,21 @@ export default function Profile() {
             let count = result.data['items'].filter((item) => { return item.owner == user }).length
             setTotalRecipe(count)
             console.log('https://q27z6n.deta.dev'.concat(picture.data['image']))
-            // let a = ('https://q27z6n.deta.dev'.concat(picture.data['image']))
-            // setProfile(''JSON.stringify(picture.data['image']))
-            // console.log(typeof profile)
-            // console.log(typeof 'https://play-lh.googleusercontent.com/A26UUWOc_l_aPp2GRurp3sG0kaxjm8ArbFHtX5GQZ9x9QztmE_noNmHBE2fbTa855sZu')
-            setProfile(['https://q27z6n.deta.dev'.concat(picture.data['image'])])
+            
             if (Boolean(picture.data['brewed'])) {
               setBrewCount(picture.data['brewed'])
             } else {
               setBrewCount(0)
             }
-            if (picture.data['image'] == undefined) { setProfile(defaultpic) }
-            // console.log(a)
+            if (picture.data['image'] == undefined) { 
+              setProfile(defaultpic) 
+              
+            }else{
+                localStorage.setItem('profileImage', 'https://q27z6n.deta.dev'.concat(picture.data['image']))
+                setProfile(['https://q27z6n.deta.dev'.concat(picture.data['image'])])
+            }
             localStorage.setItem('totalrecipe', count)
-            localStorage.setItem('profileImage', 'https://q27z6n.deta.dev'.concat(picture.data['image']))
+            
           } else {
             setProfile([defaultpic])
             setBrewCount(0)

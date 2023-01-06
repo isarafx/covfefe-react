@@ -19,6 +19,8 @@ import { useAuth } from '..'
 
 import pic1 from "../assets/img/Picture1.png"
 import pic3 from "../assets/img/CoffeeCactus.png"
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
 
 export default function Login() {
   const [test, setTest] = useState("t")
@@ -27,32 +29,34 @@ export default function Login() {
   const [password, setPassword] = useState("")
   const [header, setHeader] = useState("")
   const [isLogged, setIsLogged] = useState(Boolean(localStorage.getItem('token')))
-  const [trigger, setTrigger] = useState(false)
   const navigate = useNavigate();
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        if (trigger) {
-          let header = btoa(`${username}:${password}`)
-          setHeader(`Basic ${header}`)
-          header = {
-            headers: {
-              'Authorization': `Basic ${header}`
-            }
-          }
+  const MySwal = withReactContent(Swal)
 
-          const result = await axios.post('https://q27z6n.deta.dev/token', {}, header)
-          setTrigger(false)
-          localStorage.setItem('token', result.data)
-          navigate('/')
+  const validateEmpty = () =>{
+    if(username && password){ return true; }
+    else if(username){MySwal.fire({ icon: 'error', title: 'Invalid Input', text: 'Please enter Password', allowEscapeKey: false, allowOutsideClick: false, })}
+    else if(password){MySwal.fire({ icon: 'error', title: 'Invalid Input', text: 'Please enter Username', allowEscapeKey: false, allowOutsideClick: false, })}
+    else{ MySwal.fire({ icon: 'error', title: 'Invalid Input', text: 'Please enter all field', allowEscapeKey: false, allowOutsideClick: false, }); return false; }
+  }
+  const LoggingIn = async () => {
+    try {
+        let header = btoa(`${username}:${password}`)
+        setHeader(`Basic ${header}`)
+        header = {
+          headers: {
+            'Authorization': `Basic ${header}`
+          }
         }
-      } catch (error) {
-        alert('login not successful')
-        console.log(error.response.status)
-      }
-    };
-    fetchData()
-  }, [trigger]);
+        if(validateEmpty()){ }else{ return ; }
+        MySwal.fire({ icon: 'info', title: 'Logging In', text: 'Logging In', allowEscapeKey: false, allowOutsideClick: false , showConfirmButton: false, timer: 2000})
+        const result = await axios.post('https://q27z6n.deta.dev/token', {}, header)
+        localStorage.setItem('token', result.data)
+        navigate('/')
+    } catch (error) {
+      MySwal.fire({ icon: 'error', title: 'Login Failed', text: 'Login Failed', allowEscapeKey: false, allowOutsideClick: false })
+      console.log(error.response.status)
+    }
+  };
 
   return (
     <body className='LoginBG'>
@@ -78,7 +82,7 @@ export default function Login() {
                 {/* <div style={{textAlign: 'center'}}><a href="https://www.google.com"><img className="pic2" src="assets/img/Picture3.png" /></a></div> */}
                 <div className="d-flex SkipDiv">
 
-                  <button onClick={(e) => { e.preventDefault(); setTrigger(!trigger); }} className="btn btn-primary d-flex" data-bss-hover-animate="pulse" id="Confirm_Button" type="submit">{t("Ltext01")}</button>
+                  <button onClick={(e) => { e.preventDefault(); LoggingIn(); }} className="btn btn-primary d-flex" data-bss-hover-animate="pulse" id="Confirm_Button" type="submit">{t("Ltext01")}</button>
 
                   <Link className="skiplog" to="/">{t("Ltext04")}</Link>
                 </div>
