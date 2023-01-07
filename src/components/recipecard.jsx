@@ -8,15 +8,25 @@ import imgaeropress from "../assets/img/Aeropress_ICO.png"
 import imgfrenchpress from "../assets/img/Frenchpress_ICO.png"
 import imgmokapot from "../assets/img/Moka_ICO.png"
 import imgchemex from "../assets/img/Chemex_ICO.png"
-export default function RecipeCard({key, owner, editable, delfunc, favfunc, unfavfunc, name="Recipe Name", link="/", disabled=false, shared=0, favorite=0}) {
+export default function RecipeCard({key, owner, online, editable, delfunc, favfunc, unfavfunc, name="Recipe Name", link="/", disabled=false, shared=0, favorite=0}) {
     // disabled=false 
     const { brewer } = useParams();
     let tempfav = Boolean(favorite)
-    if(shared){shared="Tool_Shared"}else{shared="Tool_icon"}
-    
+    // if(shared){shared="Tool_Shared"}else{shared="Tool_icon"}
+    let shareButton;
+    //shared-user-admin
+    if(shared && owner != "admin"){
+      shareButton = <Link className="btn btn-primary" role="button" data-bss-hover-animate="jello" id="Tool_color" > <i className="fas fa-share" id="Tool_Shared" /></Link>
+    }else if(!shared && owner != "admin"){
+        shareButton = <Link to={`/brew-recipe/${brewer}/share/${link}`} className="btn btn-primary" role="button" data-bss-hover-animate="jello" id="Tool_color" > <i className="fas fa-share" id="Tool_icon" /></Link>
+    }else if(owner === "admin" || online===false ){
+        shareButton = <Link to={`/brew-recipe/${brewer}/share/${link}`} className="btn btn-primary disabled" role="button" data-bss-hover-animate="jello" id="Tool_color" > <i className="fas fa-share" id="Tool_icon" /></Link>
+    }
+    // if(){}else{}
     const token = localStorage.getItem('token')
     const [isOwner, setIsOwner] = useState(editable === owner)
     const [favid, setFavorite] = useState(favorite?"Tool_Faved":"Tool_icon")
+    const [shareable, setShareable] = useState(Boolean())
     const tool = {
       "hario":imghario,
       "aeropress":imgaeropress,
@@ -57,15 +67,11 @@ export default function RecipeCard({key, owner, editable, delfunc, favfunc, unfa
                     </Link>
                     }
 
-                    { isOwner ?
-                    <Link to={`/brew-recipe/${brewer}/share/${link}`} className="btn btn-primary"  role="button" data-bss-hover-animate="jello" id="Tool_color" >
+                   
+                    {/* <Link to={`/brew-recipe/${brewer}/share/${link}`} className="btn btn-primary disabled" role="button" data-bss-hover-animate="jello" id="Tool_color" >
                     <i className="fas fa-share" id={shared} />
-                    </Link>
-                    :
-                    <Link to={`/brew-recipe/${brewer}/share/${link}`} className="btn btn-primary disabled" role="button" data-bss-hover-animate="jello" id="Tool_color" >
-                    <i className="fas fa-share" id={shared} />
-                    </Link>
-                    }
+                    </Link> */}
+                    {shareButton}
                     
                     { tempfav ?
                     <button onClick={()=>{setFavorite("Tool_icon");unfavfunc(link)}} className="btn btn-primary" data-bss-hover-animate="jello" id="Tool_color" type="button">

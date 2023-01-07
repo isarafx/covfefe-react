@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState } from 'react'
 import BackButton from '../components/backbutton'
-
+import { parseNum } from '../method/mmss';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 
@@ -236,17 +236,18 @@ export default function BrewNew() {
           return newprocess
           }))
         let data ={
+          
           key:String(Date.now()),
           brewer:nameList[mainEquipment],
           name:name,
-          coffee_weight:coffee,
-          water:water,
-          ratio:ratio,
+          coffee_weight:parseNum(coffee),
+          water:parseNum(water),
+          ratio:parseNum(ratio),
           equipment: tempeq,
           note: note,
           process:tempProcess,
           grind_size:refine,
-          temp:heat,
+          temp:parseNum(heat),
           roast_level:roast,
           rate:score
         }
@@ -289,23 +290,29 @@ export default function BrewNew() {
             let multiplier = 1
             let total_process_water
             if (type === "ratio") {
-              setWater(value * coffee)
-              multiplier =(value * coffee)/water2
-              total_process_water = value * coffee
+              value = parseNum(value)
+              setRatio(value)
+              setWater(parseInt(value * coffee))
+              multiplier =parseInt(value * coffee)/water2
+              total_process_water = parseInt(value * coffee)
             } else if (type === "coffee") {
-              setWater(value * ratio)
-              multiplier = (value * ratio)/water2
-              total_process_water = value * ratio
+              value = parseNum(value)
+              setCoffee(value)
+              setWater(parseInt(value * ratio))
+              multiplier = parseInt(value * ratio)/water2
+              total_process_water = parseInt(value * ratio)
             } else if (type === "water") {
-              setCoffee(value / ratio)
-              multiplier = water/water2
-              total_process_water = value
+              value = parseInt(value)
+              setWater(value)
+              setCoffee(parseNum(value / ratio))
+              multiplier = parseNum(water/water2)
+              total_process_water = parseInt(value)
             }
-            console.log(`type-${type}rat${ratio}cof-${coffee}wat-${water}mul-${multiplier}wat2-${water2}rem-${remainWater}`)
+            // console.log(`type-${type}rat${ratio}cof-${coffee}wat-${water}mul-${multiplier}wat2-${water2}rem-${remainWater}`)
             setProcess([...process].map((item, index)=> {
               if(item.water){
                 total_process_water = total_process_water - parseInt(item.water*multiplier)
-                return {...item, water:item.water*multiplier}
+                return {...item, water:parseInt(item.water*multiplier)}
               }
               return item
             }))

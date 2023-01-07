@@ -184,10 +184,9 @@ export default function BrewRecipe() {
       {
         result?result.map((item)=>{
 
-        let shared = (item.public ? item.owner!=="admin":false)
         let edit = LoginCheck()
         if(item.brewer === tool[brewer]){
-          return(<RecipeCard key={item.key} brewer={item.brewer} editable={edit} owner={item.owner} name={item.name} favorite={item.is_favorite} shared={shared} link={item.key} disabled={false} delfunc={deleteData} favfunc={Favorite} unfavfunc={UnFavorite}/>)}
+          return(<RecipeCard key={item.key} online={online} brewer={item.brewer} editable={edit} owner={item.owner} name={item.name} favorite={item.is_favorite} shared={item.public} link={item.key} disabled={false} delfunc={deleteData} favfunc={Favorite} unfavfunc={UnFavorite}/>)}
           // return(<RecipeAdminCard name={item.name} favorite={item.favorite} shared={item.public} link={item.key} />)
         
       })

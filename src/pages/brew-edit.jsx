@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState } from 'react'
 import BackButton from '../components/backbutton'
-
+import { parseNum } from '../method/mmss';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 import "./styles/assets/fonts/font-awesome.min.css"
@@ -70,7 +70,7 @@ export default function BrewEdit() {
   const recipe = (JSON.parse(localStorage.getItem('brew-recipe'))['items']).filter((item) => item.key === id)[0]
   const [name, setName] = useState(recipe.name)
   const [note, setNote] = useState(recipe.note)
-  const [score, setScore] = useState(recipe.score)
+  const [score, setScore] = useState(recipe.rate)
   const [coffee, setCoffee] = useState(recipe.coffee_weight)
   const [water, setWater] = useState(recipe.water)
   const [ratio, setRatio] = useState(recipe.ratio)
@@ -260,42 +260,49 @@ export default function BrewEdit() {
   }
 
   function changeRatio(type, value) {
-    if (value > 0 && !(Number.isNaN(value))) {
-      let multiplier = 1
-      let total_process_water
-      if (type === "ratio") {
-        setWater(value * coffee)
-        multiplier = (value * coffee) / water2
-        total_process_water = value * coffee
-      } else if (type === "coffee") {
-        setWater(value * ratio)
-        multiplier = (value * ratio) / water2
-        total_process_water = value * ratio
-      } else if (type === "water") {
-        setCoffee(value / ratio)
-        multiplier = water / water2
-        total_process_water = value
-      }
-
-      setProcess([...process].map((item, index) => {
-        if (item.water) {
-          total_process_water = total_process_water - parseInt(item.water * multiplier)
-          return { ...item, water: item.water * multiplier }
+        
+    if(value>0 && !(Number.isNaN(value))){
+        let multiplier = 1
+        let total_process_water
+        if (type === "ratio") {
+          value = parseNum(value)
+          setRatio(value)
+          setWater(parseInt(value * coffee))
+          multiplier =parseInt(value * coffee)/water2
+          total_process_water = parseInt(value * coffee)
+        } else if (type === "coffee") {
+          value = parseNum(value)
+          setCoffee(value)
+          setWater(parseInt(value * ratio))
+          multiplier = parseInt(value * ratio)/water2
+          total_process_water = parseInt(value * ratio)
+        } else if (type === "water") {
+          value = parseInt(value)
+          setWater(value)
+          setCoffee(parseNum(value / ratio))
+          multiplier = parseNum(water/water2)
+          total_process_water = parseInt(value)
         }
-        return item
-      }))
-      setRemainWater(total_process_water)
+        // console.log(`type-${type}rat${ratio}cof-${coffee}wat-${water}mul-${multiplier}wat2-${water2}rem-${remainWater}`)
+        setProcess([...process].map((item, index)=> {
+          if(item.water){
+            total_process_water = total_process_water - parseInt(item.water*multiplier)
+            return {...item, water:parseInt(item.water*multiplier)}
+          }
+          return item
+        }))
+        setRemainWater(total_process_water)
 
-    } else {
-      if (type === "ratio") {
-        setRatio(ratio2)
-      } else if (type === "coffee") {
-        setCoffee(coffee2)
-      } else if (type === "water") {
-        setWater(water2)
-      }
+    }else{
+        if (type === "ratio") {
+          setRatio(ratio2)
+        } else if (type === "coffee") {
+          setCoffee(coffee2)
+        } else if (type === "water") {
+          setWater(water2)
+        }
     }
-  }
+}
   let [online, isOnline] = useState(navigator.onLine);
   const setOnline = () => { console.log('We are online!'); isOnline(true); };
   const setOffline = () => { console.log('We are offline!'); isOnline(false); };

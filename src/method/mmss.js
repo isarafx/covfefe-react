@@ -239,9 +239,13 @@ export const postAll = async _ =>{
         return ;
     }
 }
-
-// post new const result = await axios.post(`https://q27z6n.deta.dev/recipes`, data, { headers: { 'x-token': token } });
-//  const result = await axios.patch(`https://q27z6n.deta.dev/recipes/${id}`, data, { headers: { 'x-token': token } });
-// fav const result = await axios.delete(`https://q27z6n.deta.dev/users/favorite/${key}`, { headers: {'x-token':token}})
-// const result = await axios.post(`https://q27z6n.deta.dev/users/favorite/${key}`, '', { headers: {'x-token':token}})
-// update	[{"method":"new","data":{"key":"1672312765283","brewer":"Chemex","name":"test","coffee_weight":20,"water":300,"ratio":15,"equipment":[{"name":"Coffee","description":"Coffee"}],"note":"test","process":[{"name":"Wait","time":23,"comment":""},{"name":"Stir","time":35,"comment":""}],"grind_size":"Coarse","temp":90,"roast_level":"Dark","rate":"8","description":"","public":false,"owner":"Phichet123","is_favorite":false}}]
+// input: number only - output: int or 2 digit float
+export function parseNum(num){
+    num = parseFloat(num)
+    if(num %1 === 0){
+        return parseInt(num)
+    }else{
+        return parseFloat(num.toFixed(2))
+    }
+    return null;
+}

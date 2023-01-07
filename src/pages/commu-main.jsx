@@ -33,26 +33,10 @@ export default function CommuMain() {
   //"Tool_Faved":"Tool_icon" Interaction_star_checked:Interaction_icon
 
   const navigate = useNavigate()
-  const setOnline = () => {
-    console.log('We are online!');
-    isOnline(true);
-  };
-  const setOffline = () => {
-    console.log('We are offline!');
-    isOnline(false);
-  };
+  const setOnline = () => { console.log('We are online!'); isOnline(true); };
+  const setOffline = () => { console.log('We are offline!'); isOnline(false); };
 
-  // Register the event listeners
-  useEffect(() => {
-    window.addEventListener('offline', setOffline);
-    window.addEventListener('online', setOnline);
-
-    // cleanup if we unmount
-    return () => {
-      window.removeEventListener('offline', setOffline);
-      window.removeEventListener('online', setOnline);
-    }
-  }, []);
+  useEffect(() => { window.addEventListener('offline', setOffline); window.addEventListener('online', setOnline); return () => { window.removeEventListener('offline', setOffline); window.removeEventListener('online', setOnline); } }, []);
 
   useEffect(() => {
 
@@ -254,7 +238,7 @@ export default function CommuMain() {
                               }} className="btn btn-primary" id="Interaction_button" type="button">
                                 <small style={{ color: 'rgb(255,214,0)', paddingRight: '5px' }}>{item.star ? item.star.length : 0}</small>
                                 <i className="fa fa-star" id={is_star ? "Interaction_star_checked" : "Interaction_icon"} /></button>
-                              <HashLink smooth to={`/brew-recipe/${item.brewer}/${item.key}#Post_comment_box`} className="btn btn-primary" role="button" id="Interaction_button" >
+                              <HashLink smooth to={`/brew-recipe/${toolpath[item.brewer]}/${item.key}?community=1#Post_comment_box`} className="btn btn-primary" role="button" id="Interaction_button" >
                                 <small style={{ color: 'rgb(255,214,0)', paddingRight: '5px' }}>{item.comments ? item.comments.length : 0}</small>
                                 <i className="fa fa-comment" id="Interaction_icon" /></HashLink>
                             </div>

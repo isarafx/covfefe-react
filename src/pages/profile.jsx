@@ -61,6 +61,9 @@ export default function Profile() {
     localStorage.removeItem('totalrecipe');
     localStorage.removeItem('brewcount');
     localStorage.removeItem('update');
+    localStorage.removeItem('favorite');
+    localStorage.removeItem('community');
+    localStorage.removeItem('brew-recipe');
     setBrewCount(0); 
     setTotalRecipe(0);
     setProfile([defaultpic]);
