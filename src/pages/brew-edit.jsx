@@ -215,14 +215,14 @@ export default function BrewEdit() {
       let data = {
         brewer: recipe.brewer,
         name: name,
-        coffee_weight: coffee,
-        water: water,
-        ratio: ratio,
+        coffee_weight: parseNum(coffee),
+        water: parseNum(water),
+        ratio: parseNum(ratio),
         equipment: tempeq,
         note: note,
         process: tempProcess,
         grind_size: refine,
-        temp: heat,
+        temp: parseNum(heat),
         roast_level: roast,
         rate: score
       }
