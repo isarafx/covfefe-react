@@ -12,13 +12,18 @@ import "./styles/Brewing_Guide2.css"
 import "./styles/Brewing_Guide3.css"
 import "./styles/Brewing_Guide4.css"
 import "./styles/Features-Clean.css"
+import imghario from "../assets/img/Hario_ICO.png"
+import imgaeropress from "../assets/img/Aeropress_ICO.png"
+import imgfrenchpress from "../assets/img/Frenchpress_ICO.png"
+import imgmokapot from "../assets/img/Moka_ICO.png"
+import imgchemex from "../assets/img/Chemex_ICO.png"
 import BackButton from '../components/backbutton'
 import { useTranslation } from 'react-i18next'
 import { useEffect } from 'react'
 import { Fetching } from '../method/fetchScripts'
 import axios from 'axios';
 import RecipeAdminCard from '../components/recipecard_admin'
-import { LoginCheck, postAll, updateLocalList } from '../method/mmss'
+import { LoginCheck, OwnerCheck, postAll, updateLocalList } from '../method/mmss'
 import { Link } from 'react-router-dom'
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
@@ -33,6 +38,13 @@ export default function BrewRecipe() {
     const [recipe, setRecipe] = useState([])
     
     const tool = { "hario":"Hario", "aeropress":"AeroPress", "frenchpress":"French Press", "mokapot":"Moka Pot", "chemex":"Chemex" }
+    const toolPic = {
+      "hario":imghario,
+      "aeropress":imgaeropress,
+      "frenchpress":imgfrenchpress,
+      "mokapot":imgmokapot,
+      "chemex":imgchemex,
+    }
     // let [display, setDisplay] = useState(JSON.parse(localStorage.getItem('brew-recipe'))['items'])
     let [online, isOnline] = useState(navigator.onLine);
     let [result, setResult] = useState([]);
@@ -105,14 +117,35 @@ export default function BrewRecipe() {
           console.log(error)
         }
     };
-    const Favorite  = async (key) => { 
+    const Favorite  = async (key, fav) => { 
         if(LoginCheck()){}else{navigate('/login')}
         try{
             if(online){
-                console.log('reach unfavorite')
-                const res = await axios.post(`https://q27z6n.deta.dev/users/favorite/${key}`, '', { headers: {'x-token':token}})
-                console.log(res.data)
-                // setRefresh(!refresh)
+                
+                if(!fav){
+                    console.log('reach favorite')
+                    setResult([...result].map((item)=>{
+                        if(item.key === key){
+                            return {...item, is_favorite:true}
+                        }else{
+                            return {...item}
+                        }
+                    }))
+                    const res = await axios.post(`https://q27z6n.deta.dev/users/favorite/${key}`, '', { headers: {'x-token':token}})
+                    console.log(res.data)
+                }else{
+                    console.log('reach unfavorite')
+                    setResult([...result].map((item)=>{
+                        if(item.key === key){
+                            return {...item, is_favorite:false}
+                        }else{
+                            return {...item}
+                        }
+                    }))
+                    const res = await axios.delete(`https://q27z6n.deta.dev/users/favorite/${key}`, { headers: {'x-token':token}})
+                    console.log(res.data)
+                }
+                
             }else{
                 console.warn('fav')
                 let allitem = JSON.parse(localStorage.getItem('brew-recipe'))['items'].filter(item=>item.key!=key)
@@ -180,15 +213,72 @@ export default function BrewRecipe() {
   <div id="main_template">
     <div className="container" id="recipelist_container">
       {
-        result?result.map((item)=>{
+        result?
+        result.map((item)=>{
+          let path
+          let share_id
+          let disable
+          let heart
+          if(OwnerCheck(item.owner)){
+              disable = "btn btn-primary"
+          }else{
+              disable = "btn btn-primary disabled"
+          }
+          if(item.public){
+            path = ""
+            share_id = "Tool_Shared"
+          }else{
+              path = `/brew-recipe/${brewer}/share/${item.key}`
+              share_id = "Tool_icon"
+          }
+          if(item.is_favorite){
+              heart = "Tool_Faved"
 
-        let edit = LoginCheck()
-        if(item.brewer === tool[brewer]){
-          return(<RecipeCard key={item.key} online={online} brewer={item.brewer} editable={edit} owner={item.owner} name={item.name} favorite={item.is_favorite} shared={item.public} link={item.key} disabled={false} delfunc={deleteData} favfunc={Favorite} unfavfunc={UnFavorite}/>)}
-          // return(<RecipeAdminCard name={item.name} favorite={item.favorite} shared={item.public} link={item.key} />)
-        
-      })
-      :null}
+          }else{
+              heart = "Tool_icon"
+          }
+          let edit_button = <Link to={`/brew-recipe/${brewer}/edit/${item.key}?recipe=1`} className={disable} role="button" data-bss-hover-animate="jello" id="Tool_color" ><i className="fa fa-pencil" id="Tool_icon"  /></Link>
+          let share_button = <Link to={path} className={disable} role="button" data-bss-hover-animate="jello" id="Tool_color" > <i className="fas fa-share" id={share_id} /></Link>
+          let fav_button = <button onClick={()=>{Favorite(item.key, item.is_favorite)}} className="btn btn-primary" data-bss-hover-animate="jello" id="Tool_color" type="button"><i className="fas fa-heart" id={heart} /></button>
+          let del_button = <button onClick={()=>{deleteData(item.key)}} className={disable} data-bss-hover-animate="jello" id="Tool_color" type="button"><i className="fas fa-trash" id="Tool_icon" /></button>
+          if (item.brewer === tool[brewer]){
+            return(
+            <>
+              <div id="method_result_card" >
+                  <div className="row">
+                    <div className="col"><Link to={`/brew-recipe/${brewer}/${item.key}`}>
+                        <div className="card" style={{height: '65px', background: 'rgba(255,255,255,0)', borderStyle: 'none'}}>
+                          <div className="card-body fcard_body">
+                            <div className="row">
+                              <div className="col d-flex justify-content-center method_result_col">
+                                <div className="method_result_ico_border">
+                                  <img className="method_result_ico" src={toolPic[brewer]} /></div>
+                              </div>
+                              <div className="col d-flex align-items-center" style={{maxWidth: '550px', minWidth: '200px'}}>
+                                <p className="recipe_title2">{item.name}&nbsp;</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </Link></div>
+            </div>
+                  <div className="row">
+                    <div className="col">
+                      <div className="btn-group d-flex" role="group" style={{width: '100%'}}>
+                        {edit_button}
+                        {share_button}
+                        {fav_button}
+                        {del_button}
+                    </div>
+                  </div>
+              </div>
+            </div>
+            </>
+            )}
+          })
+          
+      :null
+      }
            
       <div style={{height: '50px'}}></div>
     </div>

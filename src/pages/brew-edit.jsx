@@ -22,6 +22,7 @@ import "./styles/Range_Slider.css"
 import "./styles/Features-Clean.css"
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
+import { useSearchParams } from 'react-router-dom'
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
@@ -59,6 +60,7 @@ import imgmodal4 from "../assets/img/legend_time.png"
 import imgmodal5 from "../assets/img/legend_note.png"
 
 export default function BrewEdit() {
+  const [searchParams] = useSearchParams();
   const methodList = {
     "hario": ["Pour Water", "Add Coffee", "Stir", "Bloom", "Wait", "Swirl", "Rinse Filter", "Custom"],
     "mokapot": ["Pour Water", "Add Coffee", "Brew", "Custom"],
@@ -104,6 +106,7 @@ export default function BrewEdit() {
   const [focus, setFocus] = useState(false)
   const token = localStorage.getItem('token')
   const user = JSON.parse(atob(localStorage.getItem('token').split('.')[1]))['username']
+  const [path, setPath] = useState('/')
   const { t, i18 } = useTranslation()
   const PicEQ = {   //assets/img/${PicEQ[item.name]}.png
     "Coffee": imgeq1,
@@ -372,6 +375,11 @@ export default function BrewEdit() {
         console.log(error)
       }
     };
+    if (searchParams.get('recipe') == 1) {
+      setPath(`/brew-recipe/${brewer}`)
+    } else{
+      setPath(`/brew-recipe/${brewer}/${id}`)
+    }
     if (online) {
       fetchData();
     } else {
@@ -383,7 +391,7 @@ export default function BrewEdit() {
 
   return (
     <div>
-      <div className="div_back"><Link to={`/brew-recipe/${brewer}/${id}`} ><i className="icon ion-android-arrow-back" id="Back_icon" /></Link></div>
+      <div className="div_back"><Link to={path} ><i className="icon ion-android-arrow-back" id="Back_icon" /></Link></div>
       <div className="d-flex div_a" style={{ width: '80%', marginLeft: '20%' }}>
         <button onClick={() => { Record() }} className="btn" id="brew_save_btn" type="button"><i className="fas fa-save Add_icon" style={{ fontSize: '25px' }} /></button></div>
       <div id="main_template">

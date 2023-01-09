@@ -84,11 +84,11 @@ export default function RecipeCard({key, owner, online, editable, delfunc, favfu
                     {shareButton}
                     
                     { tempfav ?
-                    <button onClick={()=>{setFavorite("Tool_icon");postFav(link)}} className="btn btn-primary" data-bss-hover-animate="jello" id="Tool_color" type="button">
+                    <button onClick={()=>{postFav(link);setFavorite("Tool_icon")}} className="btn btn-primary" data-bss-hover-animate="jello" id="Tool_color" type="button">
                     <i className="fas fa-heart" id={favid} />
                     </button>
                     :
-                    <button onClick={()=>{setFavorite("Tool_Faved");postFav(link)}} className="btn btn-primary" data-bss-hover-animate="jello" id="Tool_color" type="button">
+                    <button onClick={()=>{postFav(link);setFavorite("Tool_Faved")}} className="btn btn-primary" data-bss-hover-animate="jello" id="Tool_color" type="button">
                     <i className="fas fa-heart" id={favid} />
                     </button>
                     }
