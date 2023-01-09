@@ -47,19 +47,19 @@ export default function BrewRecipe() {
             let url = "";
             if(!Boolean(token)){ // public
                 console.log('public user')
-                const result = await axios.get("https://q27z6n.deta.dev/recipes/public", { headers: { } });
+                const res = await axios.get("https://q27z6n.deta.dev/recipes/public", { headers: { } });
                 MySwal.close()  
-                setResult(result.data['items']);
-                // console.log(result)
-                localStorage.setItem('brew-recipe', JSON.stringify(result.data))
+                setResult(res.data['items']);
+                // console.log(res)
+                localStorage.setItem('brew-recipe', JSON.stringify(res.data))
             }else{
               console.log('logged in user')
               let user = (JSON.parse(atob(token.split('.')[1])));
-              const result = await axios.get("https://q27z6n.deta.dev/recipes/users", { headers: { 'x-token':token } });
+              const res = await axios.get("https://q27z6n.deta.dev/recipes/users", { headers: { 'x-token':token } });
                 MySwal.close()  
-                setResult(result.data['items']);
+                setResult(res.data['items']);
                 // console.log(result)
-                localStorage.setItem('brew-recipe', JSON.stringify(result.data))
+                localStorage.setItem('brew-recipe', JSON.stringify(res.data))
             }
           
         }catch(error){
@@ -83,9 +83,9 @@ export default function BrewRecipe() {
             // alert(key)
             if(token){
                 if(online){
-                  // setResult([...result]);
-                  const result = await axios.delete(`https://q27z6n.deta.dev/recipes/${key}`, {headers: {'Content-Type':'application/json','x-token':token}});
-                  setRefresh(!refresh)
+                  setResult([...result].filter(item=>item.key!=key))
+                  const res = await axios.delete(`https://q27z6n.deta.dev/recipes/${key}`, {headers: {'Content-Type':'application/json','x-token':token}});
+                  // setRefresh(!refresh)
                 }else{
                   let newlist = JSON.parse(localStorage.getItem('brew-recipe'))['items'].filter((item)=>item.key != key)
                   let list_recipe = JSON.parse(localStorage.getItem('brew-recipe'))
@@ -110,9 +110,9 @@ export default function BrewRecipe() {
         try{
             if(online){
                 console.log('reach unfavorite')
-                const result = await axios.post(`https://q27z6n.deta.dev/users/favorite/${key}`, '', { headers: {'x-token':token}})
-                console.log(result.data)
-                setRefresh(!refresh)
+                const res = await axios.post(`https://q27z6n.deta.dev/users/favorite/${key}`, '', { headers: {'x-token':token}})
+                console.log(res.data)
+                // setRefresh(!refresh)
             }else{
                 console.warn('fav')
                 let allitem = JSON.parse(localStorage.getItem('brew-recipe'))['items'].filter(item=>item.key!=key)
@@ -137,9 +137,9 @@ export default function BrewRecipe() {
         try{
             if(online){
                 console.log('reach unfavorite')
-                const result = await axios.delete(`https://q27z6n.deta.dev/users/favorite/${key}`, { headers: {'x-token':token}})
-                console.log(result.data)
-                setRefresh(!refresh)
+                const res = await axios.delete(`https://q27z6n.deta.dev/users/favorite/${key}`, { headers: {'x-token':token}})
+                console.log(res.data)
+                // setRefresh(!refresh)
             }else{
                 console.warn('unfav')
                 let allitem = JSON.parse(localStorage.getItem('brew-recipe'))['items'].filter(item=>item.key!=key)
@@ -165,7 +165,7 @@ export default function BrewRecipe() {
         try{
             if(token){
                 if(online){
-                    const result = await axios.delete(`https://q27z6n.deta.dev/recipes/${key}`, {headers: {'accept': '*/*','x-token':token}});
+                    const res = await axios.delete(`https://q27z6n.deta.dev/recipes/${key}`, {headers: {'accept': '*/*','x-token':token}});
                 }else{
                     // storageAppendList('update_list',{'delete':key})
                   }

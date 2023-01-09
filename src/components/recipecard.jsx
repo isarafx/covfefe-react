@@ -34,6 +34,16 @@ export default function RecipeCard({key, owner, online, editable, delfunc, favfu
       "mokapot":imgmokapot,
       "chemex":imgchemex,
     }
+
+    const postFav = (link) => {
+        if(favid === "Tool_icon"){
+            favfunc(link)
+        }else if(favid === "Tool_Faved"){
+            unfavfunc(link)
+        }
+
+    }
+
   return (
     <div id="method_result_card" key={`${key}${favorite}`}>
         <div className="row">
@@ -74,11 +84,11 @@ export default function RecipeCard({key, owner, online, editable, delfunc, favfu
                     {shareButton}
                     
                     { tempfav ?
-                    <button onClick={()=>{setFavorite("Tool_icon");unfavfunc(link)}} className="btn btn-primary" data-bss-hover-animate="jello" id="Tool_color" type="button">
+                    <button onClick={()=>{setFavorite("Tool_icon");postFav(link)}} className="btn btn-primary" data-bss-hover-animate="jello" id="Tool_color" type="button">
                     <i className="fas fa-heart" id={favid} />
                     </button>
                     :
-                    <button onClick={()=>{setFavorite("Tool_Faved");favfunc(link)}} className="btn btn-primary" data-bss-hover-animate="jello" id="Tool_color" type="button">
+                    <button onClick={()=>{setFavorite("Tool_Faved");postFav(link)}} className="btn btn-primary" data-bss-hover-animate="jello" id="Tool_color" type="button">
                     <i className="fas fa-heart" id={favid} />
                     </button>
                     }

@@ -14,24 +14,12 @@ export default function Test() {
     postAll()
   }
   function indexPage(){
-    let timerInterval
     MySwal.fire({
-      icon: 'error',
-      title: 'Oops...',
-      text: 'Something went wrong!',
-      allowEscapeKey: false,
-      allowOutsideClick: false,
-      timer: 5000,
-  didOpen: () => {
-    Swal.showLoading()
-    const b = Swal.getHtmlContainer().querySelector('b')
-    timerInterval = setInterval(() => {
-      b.textContent = Swal.getTimerLeft()
-    }, 100)
-  },
-  willClose: () => {
-    clearInterval(timerInterval)
-  }
+      position: 'bottom-end',
+      icon: 'success',
+      title: 'Your work has been saved',
+      showConfirmButton: false,
+      timer: 1500
     })
   }
   return (
