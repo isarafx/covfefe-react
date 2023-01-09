@@ -111,6 +111,11 @@
     "Error06": "กลับไปที่หน้าหลัก",
     "Error07": "ไม่พบผลการค้นหา",
     "Error08": "กรุณาลองใหม่อีกครั้ง",
-    "Timer01": "ตัวคุมเวลา"
+    "Timer01": "ตัวคุมเวลา",
+    "Eqmain01": "Hario V60",
+    "Eqmain02": "Chemex",
+    "Eqmain03": "Moka Pot",
+    "Eqmain04": "AeroPress",
+    "Eqmain05": "French Press"
 }
 }

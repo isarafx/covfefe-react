@@ -158,7 +158,49 @@ export default function CommuMain() {
       console.log(error)
     }
   };
-
+  let commuList = displayList.map((item) => {
+    let is_star = null
+    if (Boolean(item.star)) {
+      if (item.star.includes(user)) { is_star = 1 }
+    }
+    return (
+      <div className="col">
+        <div className="card Recipe_card">
+          <div className="card-body">
+            <div><Link to={`/brew-recipe/${toolpath[item.brewer]}/${item.key}?community=1`}>
+              <div className="row" style={{ textAlign: 'center' }}>
+                <div className="col"><img id="Result_mpic" src="assets/img/Sample.png" /></div>
+              </div>
+              <div className="row" id="Result_main">
+                <div className="col">
+                  <h4 id="Result_title">{item.name}</h4>
+                  <hr style={{ marginTop: '5px', marginBottom: '10px' }} />
+                  <p className="Result_description">{item.description}</p>
+                </div>
+              </div>
+            </Link></div>
+            <div className="row" id="Result_interaction">
+              <div className="col" style={{ height: '40px' }}>
+                <div className="btn-group" role="group">
+                  <button onClick={() => {
+                    if (item.is_favorite) { Unfav(item.key) } else { Fav(item.key) }
+                  }} className="btn btn-primary" id="Interaction_button" type="button">
+                    <i className="fa fa-heart" id={item.is_favorite ? "Interaction_like_checked" : "Interaction_icon"} style={{ paddingTop: '2px' }} />
+                  </button><button onClick={() => {
+                    if (is_star) { UnStar(item.key) } else { Star(item.key) }
+                  }} className="btn btn-primary" id="Interaction_button" type="button">
+                    <small style={{ color: 'rgb(255,214,0)', paddingRight: '5px' }}>{item.star ? item.star.length : 0}</small>
+                    <i className="fa fa-star" id={is_star ? "Interaction_star_checked" : "Interaction_icon"} /></button>
+                  <HashLink smooth to={`/brew-recipe/${toolpath[item.brewer]}/${item.key}?community=1#Post_comment_box`} className="btn btn-primary" role="button" id="Interaction_button" >
+                    <small style={{ color: 'rgb(255,214,0)', paddingRight: '5px' }}>{item.comments ? item.comments.length : 0}</small>
+                    <i className="fa fa-comment" id="Interaction_icon" /></HashLink>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>)
+  })
 
   return (
     <div>
@@ -203,51 +245,8 @@ export default function CommuMain() {
         </div>
         <div className="container" id="results_container">
           <div className="row row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-2 row-cols-xl-2 row-cols-xxl-2" style={{ marginBottom: '10px' }}>
-            {/* {JSON.stringify(data)} //"Interaction_like_checked:"Interaction_icon" Interaction_star_checked:Interaction_icon */}
             {
-              Boolean(displayList) ? displayList.map((item) => {
-                let is_star = null
-                if (Boolean(item.star)) {
-                  if (item.star.includes(user)) { is_star = 1 }
-                }
-                return (
-                  <div className="col">
-                    <div className="card Recipe_card">
-                      <div className="card-body">
-                        <div><Link to={`/brew-recipe/${toolpath[item.brewer]}/${item.key}?community=1`}>
-                          <div className="row" style={{ textAlign: 'center' }}>
-                            <div className="col"><img id="Result_mpic" src="assets/img/Sample.png" /></div>
-                          </div>
-                          <div className="row" id="Result_main">
-                            <div className="col">
-                              <h4 id="Result_title">{item.name}</h4>
-                              <hr style={{ marginTop: '5px', marginBottom: '10px' }} />
-                              <p className="Result_description">{item.description}</p>
-                            </div>
-                          </div>
-                        </Link></div>
-                        <div className="row" id="Result_interaction">
-                          <div className="col" style={{ height: '40px' }}>
-                            <div className="btn-group" role="group">
-                              <button onClick={() => {
-                                if (item.is_favorite) { Unfav(item.key) } else { Fav(item.key) }
-                              }} className="btn btn-primary" id="Interaction_button" type="button">
-                                <i className="fa fa-heart" id={item.is_favorite ? "Interaction_like_checked" : "Interaction_icon"} style={{ paddingTop: '2px' }} />
-                              </button><button onClick={() => {
-                                if (is_star) { UnStar(item.key) } else { Star(item.key) }
-                              }} className="btn btn-primary" id="Interaction_button" type="button">
-                                <small style={{ color: 'rgb(255,214,0)', paddingRight: '5px' }}>{item.star ? item.star.length : 0}</small>
-                                <i className="fa fa-star" id={is_star ? "Interaction_star_checked" : "Interaction_icon"} /></button>
-                              <HashLink smooth to={`/brew-recipe/${toolpath[item.brewer]}/${item.key}?community=1#Post_comment_box`} className="btn btn-primary" role="button" id="Interaction_button" >
-                                <small style={{ color: 'rgb(255,214,0)', paddingRight: '5px' }}>{item.comments ? item.comments.length : 0}</small>
-                                <i className="fa fa-comment" id="Interaction_icon" /></HashLink>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>)
-              }) : null
+              displayList ? {commuList} : null
             }
 
           </div>
@@ -260,7 +259,5 @@ export default function CommuMain() {
 
       </div>
     </div>
-
-
   )
 }

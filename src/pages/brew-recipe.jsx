@@ -20,11 +20,14 @@ import axios from 'axios';
 import RecipeAdminCard from '../components/recipecard_admin'
 import { LoginCheck, postAll, updateLocalList } from '../method/mmss'
 import { Link } from 'react-router-dom'
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+
 export default function BrewRecipe() {
     const { brewer } = useParams();
     const { t } = useTranslation();
     const token = localStorage.getItem('token')
-    
+    const MySwal = withReactContent(Swal)
 
     const [refresh, setRefresh] = useState(false)
     const [recipe, setRecipe] = useState([])
@@ -43,24 +46,17 @@ export default function BrewRecipe() {
         try{
             let url = "";
             if(!Boolean(token)){ // public
-              console.log('public user')
-              const result = await axios.get("https://q27z6n.deta.dev/recipes/public", {
-                headers: {
-                }
-                
-            });
+                console.log('public user')
+                const result = await axios.get("https://q27z6n.deta.dev/recipes/public", { headers: { } });
+                MySwal.close()  
                 setResult(result.data['items']);
                 // console.log(result)
                 localStorage.setItem('brew-recipe', JSON.stringify(result.data))
             }else{
               console.log('logged in user')
               let user = (JSON.parse(atob(token.split('.')[1])));
-              const result = await axios.get("https://q27z6n.deta.dev/recipes/users", {
-                headers: {
-                    'x-token':token
-                }
-            });
-                
+              const result = await axios.get("https://q27z6n.deta.dev/recipes/users", { headers: { 'x-token':token } });
+                MySwal.close()  
                 setResult(result.data['items']);
                 // console.log(result)
                 localStorage.setItem('brew-recipe', JSON.stringify(result.data))
@@ -72,7 +68,9 @@ export default function BrewRecipe() {
     };
       document.title = t("Btext05")
       if(online){
+          MySwal.fire({ icon: 'info', title: 'Fetching', text: 'Load data', allowEscapeKey: false, allowOutsideClick: false , showConfirmButton: false})
           fetchData();
+          
           postAll();
       }else{
           setResult(JSON.parse(localStorage.getItem('brew-recipe'))['items']);

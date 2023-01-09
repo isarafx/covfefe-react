@@ -39,7 +39,22 @@ export default function BrewTimer() {
   const [searchParams] = useSearchParams();
   const [cup, setCup] = useState(1)
 
-
+  const TextProcess = {
+    "Pour Water":t("Modaltext14"),
+    "Add Coffee":t("Modaltext15"),
+    "Stir":t("Modaltext16"),
+    "Bloom":t("Modaltext17"),
+    "Wait":t("Modaltext18"),
+    "Swirl":t("Modaltext19"),
+    "Rinse Filter":t("Modaltext20"),
+    "Brew":t("Modaltext21"),
+    "Press Plunger":t("Modaltext22"),
+    "Place Plunger":t("Modaltext23"),
+    "Remove Plunger":t("Modaltext24"),
+    "Invert":t("Modaltext25"),
+    "Put the Lid on":t("Modaltext26"),
+    "Custom":t("Modaltext27")
+  }
   // const processList = JSON.parse(localStorage.getItem('recipe'))['item'].filter((item)=>{return item.Lid===id})[0]['process']
   // const name = JSON.parse(localStorage.getItem('brew-recipe'))['items'].filter((item)=>{return item.key===id})[0]['name']
   // const processList = JSON.parse(localStorage.getItem('brew-recipe'))['items'].filter((item)=>{return item.key===id})[0]['process']
@@ -155,7 +170,7 @@ export default function BrewTimer() {
       if(processList[index-1].custom_name){
         return processList[index-1].custom_name
       }else{
-        return processList[index-1].name
+        return TextProcess[processList[index-1].name]
       }
       }catch(error){
         return error
@@ -265,7 +280,7 @@ export default function BrewTimer() {
               return(<div id="process_card3">
               <div className="d-inline-flex" style={{minWidth: '100%'}}>
                 <div style={{minWidth: '15%'}}><img id="process_pic" src={processdummy} /></div>
-                <p id="process_title" style={{color: 'rgb(80,80,80)'}}>{item.custom_name?item.custom_name:item.name}</p>
+                <p id="process_title" style={{color: 'rgb(80,80,80)'}}>{item.custom_name?item.custom_name:TextProcess[item.name]}</p>
                 <p className="text-end" style={{minWidth: '15%'}}>{mmss(parseInt(item.time))}</p>
               </div>
               <div>

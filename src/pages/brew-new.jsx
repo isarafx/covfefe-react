@@ -100,6 +100,7 @@ export default function BrewNew() {
       "Filter":imgeq10,
       "Other":imgeq11
       }
+
     const [focus, setFocus] = useState(false)
     const [mainEquipment, setMainEquipment] = useState("Hario")
     const [name, setName] = useState("")
@@ -138,6 +139,35 @@ export default function BrewNew() {
 
     const { t, i18 } = useTranslation()
     
+    const TextEQ = {   //assets/img/${PicEQ[item.name]}.png
+      "Coffee":t('Modaltext02'),
+      "Hario V60":t('Eqmain01'),
+      "Chemex":t('Eqmain02'),
+      "Moka Pot":t('Eqmain03'),
+      "AeroPress":t('Eqmain04'),
+      "French Press":t('Eqmain05'),
+      "Kettle":t('Modaltext03'),
+      "Scale":t('Modaltext04'),
+      "Grinder":t('Modaltext05'),
+      "Filter":t('Modaltext06'),
+      "Other":t('Modaltext07'),
+      }
+      const TextProcess = {
+        "Pour Water":t("Modaltext14"),
+        "Add Coffee":t("Modaltext15"),
+        "Stir":t("Modaltext16"),
+        "Bloom":t("Modaltext17"),
+        "Wait":t("Modaltext18"),
+        "Swirl":t("Modaltext19"),
+        "Rinse Filter":t("Modaltext20"),
+        "Brew":t("Modaltext21"),
+        "Press Plunger":t("Modaltext22"),
+        "Place Plunger":t("Modaltext23"),
+        "Remove Plunger":t("Modaltext24"),
+        "Invert":t("Modaltext25"),
+        "Put the Lid on":t("Modaltext26"),
+        "Custom":t("Modaltext27")
+      }
     function clearProcessModal() {
       setprocessModalCustomName("")
       setProcessModalTime("")
@@ -158,12 +188,7 @@ export default function BrewNew() {
     }
     function submitEQ(e){
       e.preventDefault()
-      if(!Boolean(eqmodaldetail)){
-          setEquipment([...equipment, {id:`${eqmodalname}-${eqmodaldetail}` ,name:eqmodalname, description:eqmodalname}])
-      }else{
-          setEquipment([...equipment, {id:`${eqmodalname}-${eqmodaldetail}` ,name:eqmodalname, description:eqmodaldetail}])
-      }
-      setEqmodalname('Hario V60')
+      setEquipment([...equipment, {id:`${String(Date.now())}` ,name:eqmodalname, description:eqmodaldetail}])
       setEqmodaldetail('')
     }
     const submitProcess = () => {
@@ -404,7 +429,7 @@ export default function BrewNew() {
                         <div className="guide_tool_border"><img id="guide_tool_icon" src={PicEQ[item.name]} /></div>
                       </div>
                       <div className="col guide_toolc2_edit">
-                        <p className="fw-normal" id="gtext">{item.description}</p>
+                        <p className="fw-normal" id="gtext">{item.description?item.description:TextEQ[item.name]}</p>
                       </div>
                       <div className="col d-flex justify-content-center align-items-center guide_toolc3_edit">
                         <button onClick={() => { deleteEquipment(item.id) }} className="btn btn-primary" id="guide_tool_delete" type="button"><i className="fa fa-minus-square-o" /></button></div>
@@ -491,7 +516,7 @@ export default function BrewNew() {
                     <div className="process_card2">
                       <div className="d-inline-flex" style={{ minWidth: '100%' }}>
                         <div style={{ minWidth: '15%' }}><img id="process_pic" src={imgdummy} /></div>
-                        <p id="process_title">{item.custom_name ? item.custom_name : item.name}</p>
+                        <p id="process_title">{item.custom_name ? item.custom_name : TextProcess[item.name]}</p>
                         <p className="text-end" style={{ minWidth: '15%' }}>{mmss(item.time)}</p>
                       </div>
                       <div>
@@ -542,11 +567,11 @@ export default function BrewNew() {
                             <img id="t_preview" className="tools_image" src={PicEQ[eqmodalname]} />
                             <select className="form-select tools_switch" onChange={(e) => { setEqmodalname(e.target.value) }} >
                               <option value="Coffee" selected>{t("Modaltext02")}</option>
-                              <option value="Hario V60">Hario V60</option>
-                              <option value="Chemex">Chemex</option>
-                              <option value="Moka Pot">Moka Pot</option>
-                              <option value="AeroPress">Aeropress</option>
-                              <option value="French Press">French Press</option>
+                              <option value="Hario V60">{t("Eqmain01")}</option>
+                              <option value="Chemex">{t("Eqmain02")}</option>
+                              <option value="Moka Pot">{t("Eqmain03")}</option>
+                              <option value="AeroPress">{t("Eqmain04")}</option>
+                              <option value="French Press">{t("Eqmain05")}</option>
                               <option value="Kettle">{t("Modaltext03")}</option>
                               <option value="Scale">{t("Modaltext04")}</option>
                               <option value="Grinder">{t("Modaltext05")}</option>
@@ -585,7 +610,7 @@ export default function BrewNew() {
                           <p id="Etitle">{t("Modaltext09")}</p>
                         </div>
                         <select value={processStep} className="form-select tools_switch" style={{ marginLeft: '0px', marginTop: '0px' }} onChange={(e) => { setProcessStep(e.target.value);handleProcess(e.target.value) }}>
-                          {processMethod.map((item, index) => (<option key={item} value={item}>{item}</option>))}
+                          {processMethod.map((item, index) => (<option key={item} value={item}>{TextProcess[item]}</option>))}
                         </select>
                       </div>
                     </div>

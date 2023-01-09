@@ -1,5 +1,5 @@
 import React from 'react'
-import { AdminCheck, postAll } from '../method/mmss'
+import { AdminCheck, descParse, postAll } from '../method/mmss'
 import "./styles/Multiple-Input-Select-Pills.css"
 import "./styles/Profile_page.css"
 import "./styles/Round_switch.css"
@@ -41,17 +41,45 @@ export default function BrewGuide() {
   const [path, setPath] = useState(`/brew-recipe/${brewer}`)
   let editpath = `/brew-recipe/${brewer}/edit/${id}`
   const [comment, setComment] = useState('')
-
+  const TextEQ = {   //assets/img/${PicEQ[item.name]}.png
+    "Coffee":t('Modaltext02'),
+    "Hario V60":t('Eqmain01'),
+    "Chemex":t('Eqmain02'),
+    "Moka Pot":t('Eqmain03'),
+    "AeroPress":t('Eqmain04'),
+    "French Press":t('Eqmain05'),
+    "Kettle":t('Modaltext03'),
+    "Scale":t('Modaltext04'),
+    "Grinder":t('Modaltext05'),
+    "Filter":t('Modaltext06'),
+    "Other":t('Modaltext07'),
+    }
+  const TextProcess = {
+    "Pour Water":t("Modaltext14"),
+    "Add Coffee":t("Modaltext15"),
+    "Stir":t("Modaltext16"),
+    "Bloom":t("Modaltext17"),
+    "Wait":t("Modaltext18"),
+    "Swirl":t("Modaltext19"),
+    "Rinse Filter":t("Modaltext20"),
+    "Brew":t("Modaltext21"),
+    "Press Plunger":t("Modaltext22"),
+    "Place Plunger":t("Modaltext23"),
+    "Remove Plunger":t("Modaltext24"),
+    "Invert":t("Modaltext25"),
+    "Put the Lid on":t("Modaltext26"),
+    "Custom":t("Modaltext27")
+  }
   let [online, isOnline] = useState(navigator.onLine);
   const [recipe, setRecipe] = useState(JSON.parse(localStorage.getItem('brew-recipe'))['items'].filter((item) => { return item.key === id })[0])
   const [isOwner, setOwner] = useState(false)
   const [Public, setPublic] = useState(false)
-
   //offline detection
   const setOnline = () => { isOnline(true); };
   const setOffline = () => { isOnline(false); };
   useEffect(() => { window.addEventListener('offline', setOffline); window.addEventListener('online', setOnline); return () => { window.removeEventListener('offline', setOffline); window.removeEventListener('online', setOnline); } }, []);
 
+  const [equipmentList, setEquipmentList] = useState(recipe && recipe.equipment != [] ? recipe.comments : null)
   const [commentList, setCommentList] = useState(recipe && recipe.comments != [] ? recipe.comments : null)
   // [
   //   {username:"Admin1", message:"This is so Good1!", created_date:"2022-12-13T08:06:38+00:00"},
@@ -85,7 +113,7 @@ export default function BrewGuide() {
       try {
         const result = await axios.get(`https://q27z6n.deta.dev/recipes/${id}`);
         setRecipe(result.data);
-
+        setEquipmentList(result.data.equipment)
         setCommentList(result.data.comments)
         setPublic(Boolean(result.data.public && Boolean(result.data.owner !== 'admin')))
         console.log(result)
@@ -132,7 +160,11 @@ export default function BrewGuide() {
                 <p id="guide_con_title">{t("Btext07")}</p>
                 <div className="d-inline-flex" id="guide_tool_bar">
 
-                  {recipe ? recipe.equipment.map((item) => { return (<BrewGuideEQCard pic={item.name} detail={item.description} />) }) : null}
+                  {equipmentList ? 
+                  equipmentList.map((item) => { return (<BrewGuideEQCard pic={item.name} detail={item.description?item.description:TextEQ[item.name]} />) }) 
+                  : 
+                  <p className="d-flex justify-content-center align-items-center notool_exception" style={{textAlign: 'center'}}>ไม่มีอุปกรณ์ สำหรับสูตรการชง ณ ขณะนี้</p>
+                  }
                 </div>
                 <div className="row row-cols-3" id="guide_row">
                   <div className="col d-flex justify-content-center" style={{ paddingLeft: '5px', paddingRight: '5px' }}>
@@ -192,7 +224,7 @@ export default function BrewGuide() {
                   <div className="col" style={{ width: '100%' }}>
                     <div className="d-inline-flex" style={{ width: '100%' }}>
                       <div id="cup_number_div"><img id="cup_number_icon" src={imgcup} /></div>
-                      <input className="form-range" type="range" id="myRange" min={1} max={10} step={1} value={cup} onChange={(e) => { setCup(e.target.value) }} />{cup}<span id="demo" style={{ marginTop: '18px', paddingLeft: '10px' }} />
+                      <input className="form-range" type="range" id="myRange" min={1} max={10} step={1} value={cup} onChange={(e) => { setCup(e.target.value) }} /><span id="demo" style={{ marginTop: '18px', paddingLeft: '10px' }}>{cup}</span>
                     </div>
                   </div>
                 </div>
@@ -208,7 +240,7 @@ export default function BrewGuide() {
                 <div id="process_container">
 
                   {recipe ? recipe.process.map((item) => {
-                    return (<BrewGuideProcessCard name={item.custom_name ? item.custom_name : item.name} description={item.description} comment={item.comment} time={item.time} water={item.water * cup} />)
+                    return (<BrewGuideProcessCard name={item.custom_name ? item.custom_name : TextProcess[item.name]} description={descParse(item.name,item.water)} comment={item.comment} time={item.time} water={item.water * cup} />)
                   }) : null}
                 </div>
                 <div style={{ textAlign: 'center' }}><Link to={`/brew-recipe/${brewer}/timer/${id}?cup=${cup}&owner=${recipe ? recipe.owner : null}`}><a className="btn btn-primary" role="button" id="process_timer_start" href="">{t("Modaltext36")}</a></Link></div>
@@ -238,7 +270,15 @@ export default function BrewGuide() {
                 <div id="Comment_container_div">
                   {commentList ? commentList.map((item) => {
                     return (<Comment name={item.username} message={item.message} />)
-                  }) : null}
+                  }) 
+                  : 
+                  <div id="Comment_container_div">
+                      <div className="nocomment_exception">
+                          <p className="nocomment_e1">No Review yet.</p>
+                          <p className="nocomment_e2">Be the first to review!<br /></p>
+                      </div>
+                  </div>
+                  }
                 </div>
                 <p style={{ color: '#cb0c00', marginBottom: '10px', marginTop: '5px' }}>{t("Ctext10")}</p>
                 <form onSubmit={postComment}>

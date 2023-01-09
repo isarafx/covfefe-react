@@ -15,9 +15,19 @@ export function descParse(name, water=0,cup=1, brewer="coffee"){
   
     if(name === "Pour Water" || name === "Bloom"){
         if(brewer==="mokapot"){
-            return `Pour ${waterdisplay} ml water`
+            if(localStorage.getItem('i18nextLng') === "en"){
+                return `Pour ${waterdisplay} ml water`
+            }else if(localStorage.getItem('i18nextLng') === "th"){
+                return `เทน้ำ ${waterdisplay} มิลลิลิตร`
+            }
         }
-    else{return `Pour ${waterdisplay} ml water slowly`}
+    else{
+        if(localStorage.getItem('i18nextLng') === "en"){
+            return `Pour ${waterdisplay} ml water slowly`
+        }else if(localStorage.getItem('i18nextLng') === "th"){
+            return `เทน้ำอย่างช้าๆ  ${waterdisplay} มิลลิลิตร`
+        }
+    }
   }
 }
 
@@ -249,3 +259,4 @@ export function parseNum(num){
     }
     return null;
 }
+

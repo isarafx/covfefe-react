@@ -111,6 +111,11 @@
     "Error06": "Back to Main Page",
     "Error07": "No results found",
     "Error08": "Please try again",
-    "Timer01": "Brew Timer"
+    "Timer01": "Brew Timer",
+    "Eqmain01": "Hario V60",
+    "Eqmain02": "Chemex",
+    "Eqmain03": "Moka Pot",
+    "Eqmain04": "AeroPress",
+    "Eqmain05": "French Press"
 }
 }

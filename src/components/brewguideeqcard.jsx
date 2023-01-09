@@ -11,7 +11,7 @@ import tool8 from "../assets/img/Tools_8.png"
 import tool9 from "../assets/img/Tools_9.png"
 import tool10 from "../assets/img/Tools_10.png"
 import tool11 from "../assets/img/Tools_11.png"
-export default function BrewGuideEQCard({name, pic=tool1, detail="lorem"}) {
+export default function BrewGuideEQCard({pic=tool1, detail="lorem"}) {
   const PicEQ = {
     "Coffee":tool1,
     "Hario V60":tool2,
@@ -25,9 +25,6 @@ export default function BrewGuideEQCard({name, pic=tool1, detail="lorem"}) {
     "Filter":tool10,
     "Other":tool11,
   }
-  useEffect(()=>{
-    console.log(name)
-  }, [])
   return (
     <div className="d-flex align-items-center guide_toolbox">
                 <div className="row g-0 row-cols-3 d-flex guide_toolr">

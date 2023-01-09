@@ -128,7 +128,7 @@ export default function BrewFav() {
     }
     setDisplayList(temp)
   }, [searchText]);
-
+    let favlist = displayList.map((item) => { return (<FavCard key={`fav${item.key}`} link={item.key} name={item.name} brewer={item.brewer} func={unfavorite}></FavCard>); })
   return (
     <div>
       <NavBar />
@@ -143,17 +143,23 @@ export default function BrewFav() {
             <span className="input-group-text" id="search_button">
               <i className="fa fa-search" id="Tool_icon" style={{ color: '#ffffff' }} /></span></div>
         </div>
-        <div className="container" id="recipelist_container" style={{ marginTop: '-70px' }}>
+        
 
-          {displayList ?
-            displayList.map((item) => {
-              return (<FavCard key={`fav${item.key}`} link={item.key} name={item.name} brewer={item.brewer} func={unfavorite}></FavCard>)
-            })
-            : null}
+
+          { displayList.length > 0 ?
+            <div className="container" id="recipelist_container" style={{ marginTop: '-70px' }}>
+                {favlist}
+                <div style={{ height: '50px' }}></div>
+            </div>
+            : 
+            <div style={{ marginTop: "20%"}}>
+                <p className="nocomment_e1">No Favorite Recipe.</p>
+                <p className="nocomment_e2">Heart a recipe to see it here!<br /></p>
+            </div>
+          }
           {/* {JSON.stringify(result)} */}
 
-          <div style={{ height: '50px' }}></div>
-        </div>
+          
 
       </div>
       <div className="d-flex" id="Header">

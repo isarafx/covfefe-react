@@ -15,7 +15,7 @@ export default function BrewGuideProcessCard({name="process_dummy", description=
                   <p className="text-end" style={{minWidth: '15%'}}>{mmss(time)}</p>
                 </div>
                 <div>
-                  <p id="process_des">{descParse(name, water)}</p>
+                  <p id="process_des">{description}</p>
                 </div>
                 <div>
                   <p id="process_comment">{comment}</p>
