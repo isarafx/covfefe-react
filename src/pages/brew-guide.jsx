@@ -71,7 +71,7 @@ export default function BrewGuide() {
     "Custom":t("Modaltext27")
   }
   let [online, isOnline] = useState(navigator.onLine);
-  const [recipe, setRecipe] = useState(JSON.parse(localStorage.getItem('brew-recipe'))['items'].filter((item) => { return item.key === id })[0])
+  const [recipe, setRecipe] = useState()
   const [isOwner, setOwner] = useState(false)
   const [Public, setPublic] = useState(false)
   //offline detection
