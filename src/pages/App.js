@@ -10,6 +10,7 @@ import { useEffect } from 'react';
 import "./styles/assets/js/bs-init.js"
 import ArticleMain from './article';
 import ArticleRead from './article-read-1';
+import ArticleEdit from './article-edit';
 import BrewFav from './brew-fav';
 import BrewGuide from './brew-guide';
 import BrewIndex from './brew-index';
@@ -106,6 +107,11 @@ function App() {
         {
           path: "/article-new",
           element: <ProtectedRoute><ArticleNew /></ProtectedRoute>,
+          //errorElement:<Error />,
+        },
+        {
+          path: "/article-edit/:id",
+          element: <ProtectedRoute><ArticleEdit /></ProtectedRoute>,
           //errorElement:<Error />,
         },
         {

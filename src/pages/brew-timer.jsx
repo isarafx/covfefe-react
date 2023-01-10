@@ -163,7 +163,7 @@ export default function BrewTimer() {
   };
     setCup(parseInt(searchParams.get('cup')))
     getBrewed()
-    document.title = t('Timer01')
+    document.title = t("Modaltext35")
   },[])
   const getname = () => {
     try{
@@ -297,7 +297,7 @@ export default function BrewTimer() {
     </div>
   </div>
   <div className="d-flex" id="Header">
-    <p id="header_paragraph">{t('Timer01')}</p>
+    <p id="header_paragraph">{t("Modaltext35")}</p>
   </div>
   <div className="d-flex" id="Footer" />
 </div>

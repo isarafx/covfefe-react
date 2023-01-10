@@ -14,6 +14,7 @@ import { useTranslation } from 'react-i18next';
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { AdminCheck } from '../method/mmss'
+import { useNavigate } from 'react-router-dom'
 export default function ArticleMain() {
   const { t, i18n } = useTranslation();
   const [isAdmin, setAdmin] = useState(false)
@@ -26,6 +27,7 @@ export default function ArticleMain() {
   const [article, setArticle] = useState([]);
 
   let [online, isOnline] = useState(navigator.onLine);
+  const navigate = useNavigate();
   const setOnline = () => { isOnline(true); };
   const setOffline = () => { console.log('We are offline!'); isOnline(false); };
   useEffect(() => { window.addEventListener('offline', setOffline); window.addEventListener('online', setOnline); return () => { window.removeEventListener('offline', setOffline); window.removeEventListener('online', setOnline); } }, []);
@@ -69,7 +71,7 @@ export default function ArticleMain() {
       <NavBar />
 
       {isAdmin?<div className="d-flex div_a">
-        <Link to="/">
+        <Link to="/article-new">
           <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" className="bi bi-plus-circle Add_icon">
         <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
         <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
@@ -89,7 +91,7 @@ export default function ArticleMain() {
                                 <h4 className="article_title">{item.title}</h4>
                               </Link></div>
                             <div id="AdminManage_btn" className="btn-group" role="group" style={{width: '100%', marginBottom: '15px'}}>
-                              <button id="article_admin_edit" className="btn btn-primary" type="button"><i id="Tool_icon" className="fas fa-pencil-alt" /></button>
+                              <button onClick={()=>{navigate(`/article-edit/${item.key}`)}} id="article_admin_edit" className="btn btn-primary" type="button"><i id="Tool_icon" className="fas fa-pencil-alt" /></button>
                               <button onClick={()=>{DeleteData(item.key)}} id="article_admin_del" className="btn btn-primary" type="button"><i id="Tool_icon" className="fas fa-trash" /></button>
                             </div>
                           </div>
