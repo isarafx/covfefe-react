@@ -35,7 +35,10 @@ export default function ArticleMain() {
           setAdmin(true)
       }
       if(online){
-          const result = await axios.delete(`https://q27z6n.deta.dev/${key}`);
+          let token = localStorage.getItem('token')
+          setArticle([...article].filter(item=>item.key!=key))
+          const result = await axios.delete(`https://q27z6n.deta.dev/articles/${key}`, { headers: { 'x-token': token } });
+
           // setArticle(result.data['items'])
           // localStorage.setItem('article', JSON.stringify(result.data['items']))
       }
@@ -79,23 +82,23 @@ export default function ArticleMain() {
             {article?article.map((item) => {
               return (
                 <div className="col-md-4 article_column">
-            <Link to={`/article/${item.key}`}>
-              <div className="d-flex justify-content-center align-items-center">
-                <div className="card" id="a_card">
-                  <div className="card-body" data-bss-hover-animate="pulse">
-                    <div className="d-flex justify-content-center"><img width={"200px"} height={'125px'} className="d-flex article_picture" src={item.image} /></div>
-                    <h4 className="card-title article_title">{item.title}</h4>
-                    {isAdmin?<div className="btn-group" role="group" id="AdminManage_btn" style={{ width: '100%' }}>
-                      <button className="btn btn-primary" id="article_admin_edit" type="button"><i className="fas fa-pencil-alt" id="Tool_icon"  /></button>
-                    <button onClick={()=>{DeleteData(item.key)}} className="btn btn-primary" id="article_admin_del" type="button"><i className="fas fa-trash" id="Tool_icon"  /></button></div>:null}
-                  </div>
+                    <div className="d-flex justify-content-center align-items-center">
+                        <div id="a_card" className="card">
+                            <div className="card-body"><Link to={`/article/${item.key}`}>
+                                <div className="d-flex justify-content-center"><img className="d-flex article_picture" src={item.image} /></div>
+                                <h4 className="article_title">{item.title}</h4>
+                              </Link></div>
+                            <div id="AdminManage_btn" className="btn-group" role="group" style={{width: '100%', marginBottom: '15px'}}>
+                              <button id="article_admin_edit" className="btn btn-primary" type="button"><i id="Tool_icon" className="fas fa-pencil-alt" /></button>
+                              <button onClick={()=>{DeleteData(item.key)}} id="article_admin_del" className="btn btn-primary" type="button"><i id="Tool_icon" className="fas fa-trash" /></button>
+                            </div>
+                          </div>
+                    </div>
                 </div>
-              </div>
-            </Link>
-          </div>
               )
             }):null}
           </div>
+          
           
 
 
