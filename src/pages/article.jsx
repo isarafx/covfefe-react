@@ -30,6 +30,17 @@ export default function ArticleMain() {
   const setOffline = () => { console.log('We are offline!'); isOnline(false); };
   useEffect(() => { window.addEventListener('offline', setOffline); window.addEventListener('online', setOnline); return () => { window.removeEventListener('offline', setOffline); window.removeEventListener('online', setOnline); } }, []);
   
+  const DeleteData = async (key) => {
+      if(AdminCheck()){
+          setAdmin(true)
+      }
+      if(online){
+          const result = await axios.delete(`https://q27z6n.deta.dev/${key}`);
+          // setArticle(result.data['items'])
+          // localStorage.setItem('article', JSON.stringify(result.data['items']))
+      }
+  }
+
   useEffect(()=>{
       const FetchData = async() => {
           if(AdminCheck()){
@@ -74,10 +85,9 @@ export default function ArticleMain() {
                   <div className="card-body" data-bss-hover-animate="pulse">
                     <div className="d-flex justify-content-center"><img width={"200px"} height={'125px'} className="d-flex article_picture" src={item.image} /></div>
                     <h4 className="card-title article_title">{item.title}</h4>
-                    {/* <p className="card-text article_description">====เนื้อหา====<br /></p> */}
                     {isAdmin?<div className="btn-group" role="group" id="AdminManage_btn" style={{ width: '100%' }}>
                       <button className="btn btn-primary" id="article_admin_edit" type="button"><i className="fas fa-pencil-alt" id="Tool_icon"  /></button>
-                    <button className="btn btn-primary" id="article_admin_del" type="button"><i className="fas fa-trash" id="Tool_icon"  /></button></div>:null}
+                    <button onClick={()=>{DeleteData(item.key)}} className="btn btn-primary" id="article_admin_del" type="button"><i className="fas fa-trash" id="Tool_icon"  /></button></div>:null}
                   </div>
                 </div>
               </div>
